@@ -140,6 +140,12 @@ public final class Constants {
         public static final Rotation3d CAMERA_ROTATION = new Rotation3d(0, 0, 0); // FIXME
     }
 
+    public static final class TankConstants {
+        public static final int FRONT_LEFT_MOTOR = 0;
+        public static final int FRONT_RIGHT_MOTOR = 0;
+        public static final int BACK_LEFT_MOTOR = 0;
+        public static final int BACK_RIGHT_MOTOR = 0;
+    }
     // DEBUG VARS (Remove before comp if robot is stable)
     public static final boolean FIELD_RELATIVE_SWITCHABLE = true;
     public static final boolean FIELD_RELATIVE_ON_START = false;

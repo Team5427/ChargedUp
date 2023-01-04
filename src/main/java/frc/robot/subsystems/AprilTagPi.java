@@ -14,6 +14,7 @@ import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 
 public class AprilTagPi extends SubsystemBase {
 
@@ -28,6 +29,7 @@ public class AprilTagPi extends SubsystemBase {
     public void periodic() {
         if (cam.getLatestResult().hasTargets()) {
             target = cam.getLatestResult().getBestTarget();
+            RobotContainer.getSwerve().resetOdometry(getVisionBasedRobotPose());
         } else {
             //no target handler
             List<TargetCorner> fakeCorners = List.of(new TargetCorner(0, 0), new TargetCorner(0, 0), new TargetCorner(0, 0), new TargetCorner(0, 0));

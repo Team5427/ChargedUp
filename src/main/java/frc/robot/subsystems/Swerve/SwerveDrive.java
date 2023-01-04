@@ -44,15 +44,13 @@ public class SwerveDrive extends SubsystemBase {
     private SwerveDriveOdometry odometer;
     private Field2d field;
     private boolean usingOdometryTargeting = false;
-    // private AprilTagPi aprilTagPi;
 
-    public SwerveDrive (AHRS m_gyro, AprilTagPi pi) {
+    public SwerveDrive (AHRS m_gyro) {
         this.frontLeft = new SwerveModule(Constants.SwerveConstants.SwerveModuleType.FRONT_LEFT);
         this.frontRight = new SwerveModule(Constants.SwerveConstants.SwerveModuleType.FRONT_RIGHT);
         this.backLeft = new SwerveModule(Constants.SwerveConstants.SwerveModuleType.BACK_LEFT);
         this.backRight = new SwerveModule(Constants.SwerveConstants.SwerveModuleType.BACK_RIGHT);
         this.gyro = m_gyro;
-        // this.aprilTagPi = pi;
         isFieldRelative = Constants.FIELD_RELATIVE_ON_START;
         dampener = 1;
         xRateLimiter = new SlewRateLimiter(Constants.SwerveConstants.MAX_ACCEL_TELEOP_PERCENT_PER_S);

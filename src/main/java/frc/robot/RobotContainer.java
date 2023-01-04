@@ -43,7 +43,7 @@ public class RobotContainer {
     limelight = new Limelight(NetworkTableInstance.getDefault().getTable("limelight-scrappy"));
     pi = new AprilTagPi("scrappyvision");
 
-    swerveDrive = new SwerveDrive(ahrs, pi);
+    swerveDrive = new SwerveDrive(ahrs);
     swerveDrive.setDefaultCommand(new JoystickSwerve());
 
     odom = new OdometryMath2022();
@@ -79,6 +79,6 @@ public class RobotContainer {
   public static AHRS getAHRS() {return ahrs;}
   public static XboxController getController() {return joy;}
   public static AprilTagPi getPi() {return pi;}
-  // public static Limelight getLimelight() {return limelight;}
+  public static Limelight getLimelight() {return limelight;}
   public static OdometryMath2022 getOdomInstance() {return odom;}
 }
