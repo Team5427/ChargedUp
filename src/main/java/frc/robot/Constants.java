@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
@@ -145,6 +146,25 @@ public final class Constants {
         public static final int FRONT_RIGHT_MOTOR = 0;
         public static final int BACK_LEFT_MOTOR = 0;
         public static final int BACK_RIGHT_MOTOR = 0;
+
+        public static final double DRIVE_P = 0.3;
+        public static final double DRIVE_KS = 0.3;
+        public static final double DRIVE_KV = 0.3;
+        public static final double DRIVE_KA = 0.3;
+
+        public static final double TRACKWIDTH_METERS = Units.inchesToMeters(25);
+        public static final DifferentialDriveKinematics TANK_KINEMATICS = new DifferentialDriveKinematics(TRACKWIDTH_METERS);
+        public static final double WHEEL_DIAMETER_METERS = Units.inchesToMeters(4);
+        public static final double TANK_GEARING = 1/2 * 3/4; //driving gear 1 / driven gear 1 * driving gear 2 / driven gear 2 (teeth)
+        public static final double POSITION_CONVERSION_FACTOR_ROT_TO_METERS = (Math.PI * WHEEL_DIAMETER_METERS * TANK_GEARING);
+        public static final double VELOCITY_CONVERSION_FACTOR_RPM_TO_MPS = POSITION_CONVERSION_FACTOR_ROT_TO_METERS / 60;
+
+        public static final double MAX_RPM_NEO = 5676.0;
+        public static final double MAX_VELOCITY_MPS = MAX_RPM_NEO * VELOCITY_CONVERSION_FACTOR_RPM_TO_MPS / 1; //manually test out and maybe dampen
+        public static final double MAX_VELOCITY_AUTON_MPS = 1; //manually test out and maybe dampen
+        public static final double MAX_ACCEL_AUTON_MPSPS = 1; //manually test out and maybe dampen
+
+        public static final double JOYSTICK_TURNING_EXPONENT = 2;
     }
     // DEBUG VARS (Remove before comp if robot is stable)
     public static final boolean FIELD_RELATIVE_SWITCHABLE = true;

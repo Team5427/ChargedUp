@@ -15,10 +15,11 @@ import frc.robot.commands.JoystickSwerve;
 import frc.robot.commands.Auton.AutonSheet;
 import frc.robot.subsystems.AprilTagPi;
 import frc.robot.subsystems.Limelight;
+import frc.robot.subsystems.TankDrive;
 import frc.robot.subsystems.Swerve.SwerveDrive;
-import frc.robot.util.Logger;
 import frc.robot.util.OdometryMath2022;
-import frc.robot.util.PathMaker;
+import frc.robot.util.SwervePathMaker;
+import frc.robot.util.TankPathMaker;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -29,6 +30,7 @@ import frc.robot.util.PathMaker;
 public class RobotContainer {
 
   private static SwerveDrive swerveDrive;
+  private static TankDrive tankDrive;
   private static AHRS ahrs;
   private static XboxController joy;
   private static Limelight limelight;
@@ -39,6 +41,7 @@ public class RobotContainer {
   public RobotContainer() {
 
     ahrs = new AHRS(SPI.Port.kMXP);
+    ahrs.calibrate();
     joy = new XboxController(0);
     limelight = new Limelight(NetworkTableInstance.getDefault().getTable("limelight-scrappy"));
     pi = new AprilTagPi("scrappyvision");
@@ -46,10 +49,13 @@ public class RobotContainer {
     swerveDrive = new SwerveDrive(ahrs);
     swerveDrive.setDefaultCommand(new JoystickSwerve());
 
+    tankDrive = new TankDrive(ahrs);
+
     odom = new OdometryMath2022();
 
     //NEED TO BE AT END OF CONSTRUCTOR
-    PathMaker.initPaths("Test1", "Test2");
+    SwervePathMaker.initPaths("swervePath1", "swervePath2");
+    TankPathMaker.initPaths("tankPath");
     AutonSheet.initAutons();
 
     configureButtonBindings();
@@ -76,6 +82,7 @@ public class RobotContainer {
   }
 
   public static SwerveDrive getSwerve() {return swerveDrive;}
+  public static TankDrive getTank() {return tankDrive;}
   public static AHRS getAHRS() {return ahrs;}
   public static XboxController getController() {return joy;}
   public static AprilTagPi getPi() {return pi;}

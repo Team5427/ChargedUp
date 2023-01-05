@@ -10,7 +10,7 @@ import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Swerve.SwerveDrive;
 
-public class PathMaker {
+public class SwervePathMaker {
     private static HashMap<String, PratsSwerveControllerCommand> commandList = new HashMap<String, PratsSwerveControllerCommand>();
     private static SwerveDrive driveTrain;
     private static PIDController xTranslationPID, yTranslationPID;

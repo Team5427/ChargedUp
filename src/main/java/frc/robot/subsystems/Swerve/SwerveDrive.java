@@ -4,30 +4,20 @@ import java.util.List;
 
 import com.kauailabs.navx.frc.AHRS;
 
-import edu.wpi.first.math.MatBuilder;
-import edu.wpi.first.math.Nat;
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.RobotContainer;
-import frc.robot.subsystems.AprilTagPi;
 import frc.robot.util.Logger;
-import frc.robot.util.OdometryMath2022;
 
 public class SwerveDrive extends SubsystemBase {
 
@@ -62,20 +52,12 @@ public class SwerveDrive extends SubsystemBase {
         //edit and add to constants //FIXME tune and maybe invert P (if it goes in wrong direction)
         faceTargetPID.setTolerance(5);
         field = new Field2d();
-        zeroHeading();
-    }
-
-    public void zeroHeading() {
-        gyro.zeroYaw();
-    }
-
-    public void setGyroOffset(double angleDeg) {
-        gyro.setAngleAdjustment(angleDeg);
     }
 
     public double getHeading() {
         return Math.IEEEremainder((360 - gyro.getAngle()), 360);
     }
+
 
     public Rotation2d getRotation2d() {
         return Rotation2d.fromDegrees(getHeading());

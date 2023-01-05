@@ -1,5 +1,7 @@
 package frc.robot.commands;
 
+import com.kauailabs.navx.frc.AHRS;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -13,10 +15,12 @@ public class JoystickSwerve extends CommandBase {
     private SwerveModuleState[] states;
     private XboxController joy;
     private SwerveDrive swerve;
+    private AHRS gyro;
 
     public JoystickSwerve () {
         joy = RobotContainer.getController();
         swerve = RobotContainer.getSwerve();
+        gyro = RobotContainer.getAHRS();
         addRequirements(swerve);
     }
 
@@ -29,7 +33,7 @@ public class JoystickSwerve extends CommandBase {
     public void execute() {
         if (joy.getAButtonPressed()) {swerve.toggleFieldRelative();}
         if (joy.getBButtonPressed()) {
-            swerve.zeroHeading();
+            gyro.zeroYaw();
             swerve.resetOdometry(new Pose2d(5.93, 3.84, new Rotation2d(0)));
             swerve.resetMods();
         }
