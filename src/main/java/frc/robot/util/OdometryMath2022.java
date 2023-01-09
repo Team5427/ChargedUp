@@ -57,7 +57,7 @@ public class OdometryMath2022 extends SubsystemBase {
     public static double robotAngleToTarget(Translation2d targetTranslationMeters) {
         Translation2d trans = robotPose.getTranslation().minus(targetTranslationMeters);
         Rotation2d rot = new Rotation2d(smartArcAngle(trans.getX(), trans.getY(), Math.hypot(trans.getX(), trans.getY())));
-        return rot.minus(robotPose.getRotation()).getRadians();
+        return rot.minus(robotPose.getRotation()).getRadians(); //test w swerve
 
     }
 
