@@ -50,6 +50,7 @@ public final class Constants {
         
         public static final int CANCODER_UPDATE_RATE_MS = 15;
 
+
         // Inversions
         public static final boolean FRONT_LEFT_TURNING_INVERT = false;
         public static final boolean FRONT_RIGHT_TURNING_INVERT = false;
@@ -94,7 +95,6 @@ public final class Constants {
         public static final double CONTROLLER_TURNING_EXPONENT = 2.5;
         public static final double MAX_ACCEL_TELEOP_PERCENT_PER_S = 4;
         public static final double MAX_ANGULAR_ACCEL_TELEOP_PERCENT_PER_S = 3;
-        public static final double DAMPENER_LOW_PERCENT = 0.3;
 
         // AUTON STUFF
         public static final double MAX_AUTON_ACCEL_M_PER_S2 = 1;
@@ -169,4 +169,12 @@ public final class Constants {
     // DEBUG VARS (Remove before comp if robot is stable)
     public static final boolean FIELD_RELATIVE_SWITCHABLE = true;
     public static final boolean FIELD_RELATIVE_ON_START = false;
+
+    // DRIVER SETTINGS
+    public static final int DRIVER_CONTROLLER = 0;
+
+
+    // CAN IDS
+    public static final int PIGEON_ID = 16;
+
 }

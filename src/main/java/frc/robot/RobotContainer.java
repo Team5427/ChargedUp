@@ -4,7 +4,7 @@
 
 package frc.robot;
 
-import com.kauailabs.navx.frc.AHRS;
+import com.ctre.phoenix.sensors.WPI_Pigeon2;
 
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.GenericHID;
@@ -27,7 +27,7 @@ import frc.robot.util.SwervePathMaker;
 public class RobotContainer {
 
   private static SwerveDrive swerveDrive;
-  private static AHRS ahrs;
+  private static WPI_Pigeon2 pigeon;
   private static XboxController joy;
   private static Limelight limelight;
   private static OdometryMath2022 odom;
@@ -35,12 +35,12 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
 
-    ahrs = new AHRS(SPI.Port.kMXP);
-    ahrs.calibrate();
+    pigeon = new WPI_Pigeon2(Constants.PIGEON_ID);
+    pigeon.calibrate();
     joy = new XboxController(0);
     limelight = new Limelight(NetworkTableInstance.getDefault().getTable("limelight-scrappy"));
 
-    swerveDrive = new SwerveDrive(ahrs);
+    swerveDrive = new SwerveDrive(pigeon);
     swerveDrive.setDefaultCommand(new JoystickSwerve());
 
     odom = new OdometryMath2022();
@@ -73,7 +73,7 @@ public class RobotContainer {
   }
 
   public static SwerveDrive getSwerve() {return swerveDrive;}
-  public static AHRS getAHRS() {return ahrs;}
+  public static WPI_Pigeon2 getPigeon() {return pigeon;}
   public static XboxController getController() {return joy;}
   public static Limelight getLimelight() {return limelight;}
   public static OdometryMath2022 getOdomInstance() {return odom;}

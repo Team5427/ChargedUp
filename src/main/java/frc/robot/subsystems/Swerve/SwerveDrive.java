@@ -2,7 +2,7 @@ package frc.robot.subsystems.Swerve;
 
 import java.util.List;
 
-import com.kauailabs.navx.frc.AHRS;
+import com.ctre.phoenix.sensors.WPI_Pigeon2;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.filter.SlewRateLimiter;
@@ -13,7 +13,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -22,7 +22,7 @@ import frc.robot.util.Logger;
 public class SwerveDrive extends SubsystemBase {
 
     private SwerveModule frontLeft, frontRight, backLeft, backRight;
-    private AHRS gyro;
+    private WPI_Pigeon2 gyro;
     private double xSpeed;
     private double ySpeed;
     private double x2Speed;
@@ -35,7 +35,7 @@ public class SwerveDrive extends SubsystemBase {
     private Field2d field;
     private boolean usingOdometryTargeting = false;
 
-    public SwerveDrive (AHRS m_gyro) {
+    public SwerveDrive (WPI_Pigeon2 m_gyro) {
         this.frontLeft = new SwerveModule(Constants.SwerveConstants.SwerveModuleType.FRONT_LEFT);
         this.frontRight = new SwerveModule(Constants.SwerveConstants.SwerveModuleType.FRONT_RIGHT);
         this.backLeft = new SwerveModule(Constants.SwerveConstants.SwerveModuleType.BACK_LEFT);
@@ -75,13 +75,12 @@ public class SwerveDrive extends SubsystemBase {
         backRight.stop();
     }
 
-    public SwerveModuleState[] controllerToModuleStates(XboxController controller) {
-        dampener = ((Constants.SwerveConstants.DAMPENER_LOW_PERCENT - 1) * controller.getLeftTriggerAxis() + 1);
-        double shootButton = controller.getRightTriggerAxis();
+    public SwerveModuleState[] controllerToModuleStates(Joystick controller) {
 
-        xSpeed = -controller.getLeftX() * dampener;
-        ySpeed = -controller.getLeftY() * dampener;
-        x2Speed = Math.signum(-controller.getRightX()) * Math.pow(Math.abs(controller.getRightX()), Constants.SwerveConstants.CONTROLLER_TURNING_EXPONENT * dampener) * dampener;
+
+        xSpeed = -controller.getY() * dampener;
+        ySpeed = -controller.getX() * dampener;
+        x2Speed = Math.signum(-controller.getZ()) * Math.pow(Math.abs(controller.getRightX()), Constants.SwerveConstants.CONTROLLER_TURNING_EXPONENT * dampener) * dampener;
         //dampens exponent as well as speed
 
         xSpeed = Math.abs(xSpeed) > (Constants.SwerveConstants.CONTROLLER_DEADBAND * dampener) ? xSpeed : 0; //apply deadband with dampener

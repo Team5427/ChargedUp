@@ -1,11 +1,11 @@
 package frc.robot.commands;
 
-import com.kauailabs.navx.frc.AHRS;
+import com.ctre.phoenix.sensors.WPI_Pigeon2;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Swerve.SwerveDrive;
@@ -13,14 +13,14 @@ import frc.robot.subsystems.Swerve.SwerveDrive;
 public class JoystickSwerve extends CommandBase {
     
     private SwerveModuleState[] states;
-    private XboxController joy;
+    private Joystick joy;
     private SwerveDrive swerve;
-    private AHRS gyro;
+    private WPI_Pigeon2 gyro;
 
     public JoystickSwerve () {
-        joy = RobotContainer.getController();
+        joy = RobotContainer.getJoy();
         swerve = RobotContainer.getSwerve();
-        gyro = RobotContainer.getAHRS();
+        gyro = RobotContainer.getPigeon();
         addRequirements(swerve);
     }
 
@@ -33,7 +33,7 @@ public class JoystickSwerve extends CommandBase {
     public void execute() {
         if (joy.getAButtonPressed()) {swerve.toggleFieldRelative();}
         if (joy.getBButtonPressed()) {
-            gyro.zeroYaw();
+            gyro.setYaw(0);
             swerve.resetOdometry(new Pose2d(5.93, 3.84, new Rotation2d(0)));
             swerve.resetMods();
         }
