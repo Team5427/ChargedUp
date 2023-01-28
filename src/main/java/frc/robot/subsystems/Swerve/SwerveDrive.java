@@ -80,7 +80,7 @@ public class SwerveDrive extends SubsystemBase {
 
         xSpeed = -controller.getY() * dampener;
         ySpeed = -controller.getX() * dampener;
-        x2Speed = Math.signum(-controller.getZ()) * Math.pow(Math.abs(controller.getRightX()), Constants.SwerveConstants.CONTROLLER_TURNING_EXPONENT * dampener) * dampener;
+        x2Speed = Math.signum(-controller.getZ()) * Math.pow(Math.abs(controller.getZ()), Constants.SwerveConstants.CONTROLLER_TURNING_EXPONENT * dampener) * dampener;
         //dampens exponent as well as speed
 
         xSpeed = Math.abs(xSpeed) > (Constants.SwerveConstants.CONTROLLER_DEADBAND * dampener) ? xSpeed : 0; //apply deadband with dampener

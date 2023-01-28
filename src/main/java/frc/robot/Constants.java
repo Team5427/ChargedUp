@@ -177,4 +177,9 @@ public final class Constants {
     // CAN IDS
     public static final int PIGEON_ID = 16;
 
+
+    // BUTTON ID
+    public static final int TOGGLE_FIELD_RELATIVE_BUTTON = 12;
+    public static final int RESET_ODOMETRY_BUTTON = 11;
+
 }
