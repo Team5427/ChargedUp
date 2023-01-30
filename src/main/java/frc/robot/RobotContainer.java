@@ -4,13 +4,11 @@
 
 package frc.robot;
 
-import com.ctre.phoenix.sensors.Pigeon2;
 import com.ctre.phoenix.sensors.WPI_Pigeon2;
 
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.JoystickSwerve;
@@ -29,7 +27,7 @@ import frc.robot.util.SwervePathMaker;
 public class RobotContainer {
 
   private static SwerveDrive swerveDrive;
-  private static Pigeon2 pigeon;
+  private static WPI_Pigeon2 pigeon;
   private static Joystick joy;
   private static Limelight limelight;
   private static OdometryMath2022 odom;
@@ -37,7 +35,7 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
 
-    pigeon = new Pigeon2(Constants.PIGEON_ID);
+    pigeon = new WPI_Pigeon2(Constants.PIGEON_ID);
     pigeon.configFactoryDefault();
     joy = new Joystick(Constants.DRIVER_CONTROLLER);
     limelight = new Limelight(NetworkTableInstance.getDefault().getTable("limelight-scrappy"));
@@ -75,7 +73,7 @@ public class RobotContainer {
   }
 
   public static SwerveDrive getSwerve() {return swerveDrive;}
-  public static Pigeon2 getPigeon() {return pigeon;}
+  public static WPI_Pigeon2 getPigeon() {return pigeon;}
   public static Joystick getJoy() {return joy;}
   public static Limelight getLimelight() {return limelight;}
   public static OdometryMath2022 getOdomInstance() {return odom;}

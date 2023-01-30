@@ -39,7 +39,7 @@ public class JoystickSwerve extends CommandBase {
     public void execute() {
         if (joy.getRawButton(Constants.TOGGLE_FIELD_RELATIVE_BUTTON)) {swerve.toggleFieldRelative();}
         if (joy.getRawButton(Constants.RESET_ODOMETRY_BUTTON)) {
-            gyro.setYaw(0);
+            swerve.setHeading(0);
             swerve.resetOdometry(new Pose2d(5.93, 3.84, new Rotation2d(0)));
             swerve.resetMods();
         }

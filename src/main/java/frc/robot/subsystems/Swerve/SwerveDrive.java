@@ -20,7 +20,7 @@ import frc.robot.util.Logger;
 public class SwerveDrive extends SubsystemBase {
 
     private SwerveModule frontLeft, frontRight, backLeft, backRight;
-    private Pigeon2 gyro;
+    private WPI_Pigeon2 gyro;
     private double x2Speed;
     private boolean isFieldRelative;
     private PIDController faceTargetPID;
@@ -28,7 +28,7 @@ public class SwerveDrive extends SubsystemBase {
     private Field2d field;
     private boolean usingOdometryTargeting = false;
 
-    public SwerveDrive (Pigeon2 m_gyro) {
+    public SwerveDrive (WPI_Pigeon2 m_gyro) {
         this.frontLeft = new SwerveModule(Constants.SwerveConstants.SwerveModuleType.FRONT_LEFT);
         this.frontRight = new SwerveModule(Constants.SwerveConstants.SwerveModuleType.FRONT_RIGHT);
         this.backLeft = new SwerveModule(Constants.SwerveConstants.SwerveModuleType.BACK_LEFT);
@@ -40,6 +40,7 @@ public class SwerveDrive extends SubsystemBase {
         //edit and add to constants //FIXME tune and maybe invert P (if it goes in wrong direction)
         faceTargetPID.setTolerance(5);
         field = new Field2d();
+        gyro.reset();
     }
 
     public double getHeading() {
@@ -48,7 +49,7 @@ public class SwerveDrive extends SubsystemBase {
 
 
     public Rotation2d getRotation2d() {
-        return Rotation2d.fromDegrees(getHeading());
+        return gyro.getRotation2d();
     }
 
     public void stopMods() {
@@ -72,6 +73,10 @@ public class SwerveDrive extends SubsystemBase {
 
     public void resetOdometry(Pose2d pose) {
         odometer.resetPosition(getRotation2d(), getModulePositions(), pose);
+    }
+
+    public void setHeading(double deg) {
+        gyro.setYaw(deg);
     }
 
     public void resetMods() {
