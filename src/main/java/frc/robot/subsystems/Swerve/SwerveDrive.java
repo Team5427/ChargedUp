@@ -2,18 +2,16 @@ package frc.robot.subsystems.Swerve;
 
 import java.util.List;
 
+import com.ctre.phoenix.sensors.Pigeon2;
 import com.ctre.phoenix.sensors.WPI_Pigeon2;
 
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -22,31 +20,21 @@ import frc.robot.util.Logger;
 public class SwerveDrive extends SubsystemBase {
 
     private SwerveModule frontLeft, frontRight, backLeft, backRight;
-    private WPI_Pigeon2 gyro;
-    private double xSpeed;
-    private double ySpeed;
+    private Pigeon2 gyro;
     private double x2Speed;
-    private SlewRateLimiter xRateLimiter, yRateLimiter, xRateLimiter2, visionLimiter;
-    private ChassisSpeeds chassisSpeeds;
     private boolean isFieldRelative;
-    private double dampener;
     private PIDController faceTargetPID;
     private SwerveDriveOdometry odometer;
     private Field2d field;
     private boolean usingOdometryTargeting = false;
 
-    public SwerveDrive (WPI_Pigeon2 m_gyro) {
+    public SwerveDrive (Pigeon2 m_gyro) {
         this.frontLeft = new SwerveModule(Constants.SwerveConstants.SwerveModuleType.FRONT_LEFT);
         this.frontRight = new SwerveModule(Constants.SwerveConstants.SwerveModuleType.FRONT_RIGHT);
         this.backLeft = new SwerveModule(Constants.SwerveConstants.SwerveModuleType.BACK_LEFT);
         this.backRight = new SwerveModule(Constants.SwerveConstants.SwerveModuleType.BACK_RIGHT);
         this.gyro = m_gyro;
         isFieldRelative = Constants.FIELD_RELATIVE_ON_START;
-        dampener = 1;
-        xRateLimiter = new SlewRateLimiter(Constants.SwerveConstants.MAX_ACCEL_TELEOP_PERCENT_PER_S);
-        yRateLimiter = new SlewRateLimiter(Constants.SwerveConstants.MAX_ACCEL_TELEOP_PERCENT_PER_S);
-        xRateLimiter2 = new SlewRateLimiter(Constants.SwerveConstants.MAX_ANGULAR_ACCEL_TELEOP_PERCENT_PER_S);
-        visionLimiter = new SlewRateLimiter(Constants.SwerveConstants.MAX_ANGULAR_ACCEL_TELEOP_PERCENT_PER_S * 1.25);
         odometer = new SwerveDriveOdometry(Constants.SwerveConstants.SWERVE_DRIVE_KINEMATICS, getRotation2d(), getModulePositions(), getPose());
         faceTargetPID = new PIDController(.065, 0, 0);
         //edit and add to constants //FIXME tune and maybe invert P (if it goes in wrong direction)
@@ -55,7 +43,7 @@ public class SwerveDrive extends SubsystemBase {
     }
 
     public double getHeading() {
-        return Math.IEEEremainder((360 - gyro.getAngle()), 360);
+        return Math.IEEEremainder(gyro.getYaw(), 360);
     }
 
 
@@ -63,83 +51,11 @@ public class SwerveDrive extends SubsystemBase {
         return Rotation2d.fromDegrees(getHeading());
     }
 
-    public Rotation2d getYawRotation2d() {
-        return Rotation2d.fromDegrees(Math.IEEEremainder((360 - gyro.getYaw()), 360)); //NOT AFFECTED BY SET ANGLE ADJUSTMENT
-        // return 4.0;
-    }
-
     public void stopMods() {
         frontLeft.stop();
         frontRight.stop();
         backLeft.stop();
         backRight.stop();
-    }
-
-    public SwerveModuleState[] controllerToModuleStates(Joystick controller) {
-
-
-        xSpeed = -controller.getY() * dampener;
-        ySpeed = -controller.getX() * dampener;
-        x2Speed = Math.signum(-controller.getZ()) * Math.pow(Math.abs(controller.getZ()), Constants.SwerveConstants.CONTROLLER_TURNING_EXPONENT * dampener) * dampener;
-        //dampens exponent as well as speed
-
-        xSpeed = Math.abs(xSpeed) > (Constants.SwerveConstants.CONTROLLER_DEADBAND * dampener) ? xSpeed : 0; //apply deadband with dampener
-        ySpeed = Math.abs(ySpeed) > (Constants.SwerveConstants.CONTROLLER_DEADBAND * dampener) ? ySpeed : 0;
-        x2Speed = Math.abs(x2Speed) > (Constants.SwerveConstants.CONTROLLER_DEADBAND * dampener) ? x2Speed : 0;
-
-        xSpeed = xRateLimiter.calculate(xSpeed) * Constants.SwerveConstants.MAX_SPEED_TELEOP_M_PER_S; //apply slew + scale to m/s and rad/s
-        ySpeed = yRateLimiter.calculate(ySpeed) * Constants.SwerveConstants.MAX_SPEED_TELEOP_M_PER_S;
-        x2Speed = xRateLimiter2.calculate(x2Speed) * Constants.SwerveConstants.MAX_ANGULAR_SPEED_TELEOP_RAD_PER_S;
-
-        if (controller.getPOV() != -1) {
-            ySpeed = Math.cos(Math.toRadians(360 - controller.getPOV())) * dampener;
-            xSpeed = Math.sin(Math.toRadians(360 - controller.getPOV())) * dampener;
-        }
-
-        // boolean targetVis = aprilTagPi.hasTarget();
-
-
-        // if (shootButton > .1) {
-
-        //     if (targetVis) {
-        //         usingOdometryTargeting = false;
-        //         // double yaw = aprilTagPi.getTarget().getYaw();
-        //         double visionSpeed = faceTargetPID.calculate(yaw, 0);
-                
-        //         visionSpeed = (Math.abs(visionSpeed) > .3)?(Math.copySign(.3, visionSpeed)):visionSpeed; //makes pid stupid near the end
-        //         if (faceTargetPID.atSetpoint()) {
-        //             resetTargetingPID(yaw, Math.toDegrees(visionSpeed));
-        //             addVisionMeasurement(RobotContainer.getPi().getVisionBasedRobotPose());
-        //             // setGyroOffset(OdometryMath2022.gyroTargetOffset()); //might need to negate //FIXME
-        //         }
-        //         if (shootButton > .9) {
-        //             x2Speed = visionSpeed;
-        //         } else {
-        //             // x2Speed = x2Speed * (1 - shootButton) + visionSpeed * shootButton;
-        //             x2Speed = visionSpeed; //use this whenever debugging to see what vision speed is
-        //         }
-        //     } else {
-        //         usingOdometryTargeting = true;
-        //         x2Speed = visionLimiter.calculate(OdometryMath2022.robotEasiestTurnToTarget()) * Constants.SwerveConstants.MAX_ANGULAR_SPEED_TELEOP_RAD_PER_S;
-            
-        //     }
-        // }
-        chassisSpeeds = isFieldRelative ? ChassisSpeeds.fromFieldRelativeSpeeds(ySpeed, xSpeed, x2Speed, getPose().getRotation()) : new ChassisSpeeds(ySpeed, xSpeed, x2Speed);
-        
-        //IF YOU ARE WONDERING WHY YSPEED IS IN XSPEED PARAM OF CHASSIS SPEEDS STOP WHAT YOU ARE DOING AND ASK PRAT.
-        //DO NOT FLIP.
-        //WILL BREAK SPACE TIME FABRIC.
-        //DUK WILL NOT BE PROUD.
-
-        //DO NOT CHANGE ANYTHING HERE WITHOUT ASKING PRAT
-        //EVER
-        //THIS IS SACRED CODE
-        //IT WAS WRITTEN 35000 FEET IN THE AIR TRAVELING AT 582 MILES PER HOUR (Spring break '22 -> flight to newark)
-        //AND WAS LATER EDITED 35000 FEET IN THE AIR TRAVELING AT 620 MILES PER HOUR (Thanksgiving break '22 -> flight to chicago)
-
-        SwerveModuleState[] states = Constants.SwerveConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(chassisSpeeds);
-
-        return states;
     }
 
     public void setModules(SwerveModuleState[] desiredStates) {
@@ -163,10 +79,6 @@ public class SwerveDrive extends SubsystemBase {
         for (int i = 0; i < 4; i++) {
             modules[i].getTurnSpark().getEncoder().setPosition(modules[i].getAbsEncRad());
         }
-    }
-
-    private void resetTargetingPID(double limelightValue, double angularSpeed) {
-        faceTargetPID.reset();
     }
 
     @Override

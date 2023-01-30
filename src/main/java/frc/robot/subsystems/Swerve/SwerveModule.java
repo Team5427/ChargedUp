@@ -169,7 +169,6 @@ public class SwerveModule {
         speedEnc.setPosition(0);
         absEnc.configFactoryDefault();
         absEnc.configAbsoluteSensorRange(AbsoluteSensorRange.Signed_PlusMinus180);
-        absEnc.setStatusFramePeriod(CANCoderStatusFrame.SensorData, Constants.SwerveConstants.CANCODER_UPDATE_RATE_MS);
         turnEnc.setPosition(getAbsEncRad());
         fckUp = 0;
     }

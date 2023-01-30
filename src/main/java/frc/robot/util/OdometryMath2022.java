@@ -4,37 +4,23 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 
 public class OdometryMath2022 extends SubsystemBase {
 
-    private static Translation2d hubTrans;
     private static Pose2d robotPose;
-    private static Translation2d hubTriangleTrans;
-    private static Rotation2d hubTriangleRot;
     private static Rotation2d gyroYaw;
 
-    public OdometryMath2022() {
-        hubTrans = new Translation2d(Units.feetToMeters(27), Units.feetToMeters(27/2));
-        robotPose = RobotContainer.getSwerve().getPose();
-        hubTriangleTrans = robotPose.getTranslation().minus(hubTrans);
-        hubTriangleRot = new Rotation2d(smartArcAngle(hubTriangleTrans.getX(), hubTriangleTrans.getY(), Math.hypot(hubTriangleTrans.getX(), hubTriangleTrans.getY())));
-        gyroYaw = RobotContainer.getSwerve().getYawRotation2d();
-        log();
-    }
-
     private void log() {
-        Logger.post("easiest turn", OdometryMath2022.robotEasiestTurnToTarget());
+        Logger.post("easiest turn", Timer.getFPGATimestamp());
     }
 
     @Override
     public void periodic() {
-        hubTrans = new Translation2d(Units.feetToMeters(27), Units.feetToMeters(27/2));
         robotPose = RobotContainer.getSwerve().getPose();
-        hubTriangleTrans = robotPose.getTranslation().minus(hubTrans);
-        hubTriangleRot = new Rotation2d(smartArcAngle(hubTriangleTrans.getX(), hubTriangleTrans.getY(), Math.hypot(hubTriangleTrans.getX(), hubTriangleTrans.getY())));
-        gyroYaw = RobotContainer.getSwerve().getYawRotation2d();
+        gyroYaw = robotPose.getRotation();
         log();
     }
 
@@ -46,24 +32,10 @@ public class OdometryMath2022 extends SubsystemBase {
         }
     }
 
-    public static int robotEasiestTurnToTarget() {
-        if (hubTriangleRot.minus(robotPose.getRotation()).getRadians() > 0) {
-            return -1; //works
-        } else {
-            return 1; //same
-        }
-    }
-
     public static double robotAngleToTarget(Translation2d targetTranslationMeters) {
         Translation2d trans = robotPose.getTranslation().minus(targetTranslationMeters);
         Rotation2d rot = new Rotation2d(smartArcAngle(trans.getX(), trans.getY(), Math.hypot(trans.getX(), trans.getY())));
         return rot.minus(robotPose.getRotation()).getRadians(); //test w swerve
 
-    }
-
-
-
-    public static double gyroTargetOffset() {
-        return hubTriangleRot.minus(gyroYaw).getRadians();
     }
 }
