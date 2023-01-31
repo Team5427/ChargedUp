@@ -16,18 +16,18 @@ public class Limelight extends SubsystemBase{
         this.table_m = table;
     }
 
-    @Override
-    public void periodic() {
-        tv = table_m.getEntry("tv").getDouble(0) == 1;
-        tx = table_m.getEntry("tx").getDouble(0);
-        ty = table_m.getEntry("ty").getDouble(0);
-        ledMode = table_m.getEntry("ledMode").getDouble(0);
-        if (DriverStation.isEnabled() || DriverStation.isAutonomous()) {
-            setLight(true);
-        } else if (DriverStation.isDisabled() || DriverStation.isEStopped()) {
-            setLight(false);
-        }
-    }
+    // @Override
+    // public void periodic() {
+    //     tv = table_m.getEntry("tv").getDouble(0) == 1;
+    //     tx = table_m.getEntry("tx").getDouble(0);
+    //     ty = table_m.getEntry("ty").getDouble(0);
+    //     ledMode = table_m.getEntry("ledMode").getDouble(0);
+    //     if (DriverStation.isEnabled() || DriverStation.isAutonomous()) {
+    //         setLight(true);
+    //     } else if (DriverStation.isDisabled() || DriverStation.isEStopped()) {
+    //         setLight(false);
+    //     }
+    // }
 
     public boolean targetVisible() {
         return tv;

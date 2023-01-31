@@ -2,7 +2,6 @@ package frc.robot.subsystems.Swerve;
 
 import java.util.List;
 
-import com.ctre.phoenix.sensors.Pigeon2;
 import com.ctre.phoenix.sensors.WPI_Pigeon2;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -60,7 +59,7 @@ public class SwerveDrive extends SubsystemBase {
     }
 
     public void setModules(SwerveModuleState[] desiredStates) {
-        SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, Constants.SwerveConstants.MAX_PHYSICAL_SPEED_M_PER_SEC);
+        SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, Constants.SwerveConstants.MAX_PHYSICAL_SPEED_M_PER_SEC); //dampens a little
         frontLeft.setModState(desiredStates[0]);
         frontRight.setModState(desiredStates[1]);
         backLeft.setModState(desiredStates[2]);

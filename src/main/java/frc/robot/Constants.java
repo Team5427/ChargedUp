@@ -27,28 +27,28 @@ public final class Constants {
     public static final class SwerveConstants {
 
         // Robot Ports
-        public static final int FRONT_LEFT_SPEED_MOTOR = 10;
-        public static final int FRONT_RIGHT_SPEED_MOTOR = 6;
-        public static final int BACK_LEFT_SPEED_MOTOR = 3;
-        public static final int BACK_RIGHT_SPEED_MOTOR = 8;
+        public static final int FRONT_LEFT_SPEED_MOTOR = 10; //FIXME
+        public static final int FRONT_RIGHT_SPEED_MOTOR = 6; //FIXME
+        public static final int BACK_LEFT_SPEED_MOTOR = 3; //FIXME
+        public static final int BACK_RIGHT_SPEED_MOTOR = 8; //FIXME
 
-        public static final int FRONT_LEFT_TURN_MOTOR = 2;
-        public static final int FRONT_RIGHT_TURN_MOTOR = 5;
-        public static final int BACK_LEFT_TURN_MOTOR = 7;
-        public static final int BACK_RIGHT_TURN_MOTOR = 9;
+        public static final int FRONT_LEFT_TURN_MOTOR = 2; //FIXME
+        public static final int FRONT_RIGHT_TURN_MOTOR = 5; //FIXME
+        public static final int BACK_LEFT_TURN_MOTOR = 7; //FIXME
+        public static final int BACK_RIGHT_TURN_MOTOR = 9; //FIXME
 
-        public static final int FRONT_LEFT_CANCODER = 11;
-        public static final int FRONT_RIGHT_CANCODER = 14;
-        public static final int BACK_LEFT_CANCODER = 13;
-        public static final int BACK_RIGHT_CANCODER = 12;
+        public static final int FRONT_LEFT_CANCODER = 11; //FIXME
+        public static final int FRONT_RIGHT_CANCODER = 14; //FIXME
+        public static final int BACK_LEFT_CANCODER = 13; //FIXME
+        public static final int BACK_RIGHT_CANCODER = 12; //FIXME
 
-        public static final double FRONT_LEFT_OFFSET = -2.39;
-        public static final double FRONT_RIGHT_OFFSET = 3.03;
-        public static final double BACK_LEFT_OFFSET = .664;
-        public static final double BACK_RIGHT_OFFSET = -.9;
+        public static final double FRONT_LEFT_OFFSET = -2.39; //FIXME
+        public static final double FRONT_RIGHT_OFFSET = 3.03; //FIXME
+        public static final double BACK_LEFT_OFFSET = .664; //FIXME
+        public static final double BACK_RIGHT_OFFSET = -.9; //FIXME
 
         // Inversions
-        public static final boolean FRONT_LEFT_TURNING_INVERT = false;
+        public static final boolean FRONT_LEFT_TURNING_INVERT = false; //might change but shouldnt vvv
         public static final boolean FRONT_RIGHT_TURNING_INVERT = false;
         public static final boolean BACK_LEFT_TURNING_INVERT = false;
         public static final boolean BACK_RIGHT_TURNING_INVERT = false;
@@ -61,11 +61,11 @@ public final class Constants {
         public static final boolean FRONT_LEFT_CANCODER_INVERT = false;
         public static final boolean FRONT_RIGHT_CANCODER_INVERT = false;
         public static final boolean BACK_LEFT_CANCODER_INVERT = false;
-        public static final boolean BACK_RIGHT_CANCODER_INVERT = false;
+        public static final boolean BACK_RIGHT_CANCODER_INVERT = false; //^^^
 
         // Robot Physical Dimensions
         public static final double DT_WHEEL_DIAMETER_METERS = Units.inchesToMeters(3.83);
-        public static final double DT_TRACKWIDTH = Units.inchesToMeters(17.5);
+        public static final double DT_TRACKWIDTH = Units.inchesToMeters(19.5);
         public static final double DT_WHEELBASE = Units.inchesToMeters(19.5);
 
         public static final SwerveDriveKinematics SWERVE_DRIVE_KINEMATICS = new SwerveDriveKinematics(
@@ -82,7 +82,7 @@ public final class Constants {
         public static final double SWERVE_CONVERSION_FACTOR_ROT_TO_RAD = 2 * Math.PI * kTurningMotorGearRatio;
         public static final double SWERVE_CONVERSION_FACTOR_RPM_TO_RAD_PER_S = SWERVE_CONVERSION_FACTOR_ROT_TO_RAD / 60;
         public static final double MAX_PHYSICAL_SPEED_M_PER_SEC = 4.4196; // do not touch, unless switching from L2
-        public static final double MAX_SPEED_TELEOP_M_PER_S = 4.3;
+        public static final double MAX_SPEED_TELEOP_M_PER_S = 4; //
         public static final double MAX_ANGULAR_SPEED_TELEOP_RAD_PER_S = Math.PI * 2;
         public static final double MAX_NEO_SPEED_RPM = 5676.0;
 
