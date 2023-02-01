@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.JoystickSwerve;
 import frc.robot.commands.Auton.AutonSheet;
 import frc.robot.subsystems.Limelight;
@@ -28,7 +30,7 @@ public class RobotContainer {
 
   private static SwerveDrive swerveDrive;
   private static WPI_Pigeon2 pigeon;
-  private static Joystick joy;
+  private static CommandJoystick joy;
   private static Limelight limelight;
   private static OdometryMath2023 odom;
 
@@ -37,7 +39,7 @@ public class RobotContainer {
 
     pigeon = new WPI_Pigeon2(Constants.PIGEON_ID);
     pigeon.configFactoryDefault();
-    joy = new Joystick(Constants.DRIVER_CONTROLLER);
+    joy = new CommandJoystick(Constants.DRIVER_CONTROLLER);
     // limelight = new Limelight(NetworkTableInstance.getDefault().getTable("limelight-scrappy"));
 
     swerveDrive = new SwerveDrive(pigeon);
@@ -60,7 +62,6 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
 
-
   }
 
   /**
@@ -74,7 +75,7 @@ public class RobotContainer {
 
   public static SwerveDrive getSwerve() {return swerveDrive;}
   public static WPI_Pigeon2 getPigeon() {return pigeon;}
-  public static Joystick getJoy() {return joy;}
+  public static CommandJoystick getJoy() {return joy;}
   public static Limelight getLimelight() {return limelight;}
   public static OdometryMath2023 getOdomInstance() {return odom;}
 }

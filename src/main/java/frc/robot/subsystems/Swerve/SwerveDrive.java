@@ -14,6 +14,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.*;
 import frc.robot.util.Logger;
 
 public class SwerveDrive extends SubsystemBase {
@@ -28,13 +29,13 @@ public class SwerveDrive extends SubsystemBase {
     private boolean usingOdometryTargeting = false;
 
     public SwerveDrive (WPI_Pigeon2 m_gyro) {
-        this.frontLeft = new SwerveModule(Constants.SwerveConstants.SwerveModuleType.FRONT_LEFT);
-        this.frontRight = new SwerveModule(Constants.SwerveConstants.SwerveModuleType.FRONT_RIGHT);
-        this.backLeft = new SwerveModule(Constants.SwerveConstants.SwerveModuleType.BACK_LEFT);
-        this.backRight = new SwerveModule(Constants.SwerveConstants.SwerveModuleType.BACK_RIGHT);
+        this.frontLeft = new SwerveModule(SwerveConstants.SwerveModuleType.FRONT_LEFT);
+        this.frontRight = new SwerveModule(SwerveConstants.SwerveModuleType.FRONT_RIGHT);
+        this.backLeft = new SwerveModule(SwerveConstants.SwerveModuleType.BACK_LEFT);
+        this.backRight = new SwerveModule(SwerveConstants.SwerveModuleType.BACK_RIGHT);
         this.gyro = m_gyro;
         isFieldRelative = Constants.FIELD_RELATIVE_ON_START;
-        odometer = new SwerveDriveOdometry(Constants.SwerveConstants.SWERVE_DRIVE_KINEMATICS, getRotation2d(), getModulePositions(), getPose());
+        odometer = new SwerveDriveOdometry(SwerveConstants.SWERVE_DRIVE_KINEMATICS, getRotation2d(), getModulePositions(), getPose());
         faceTargetPID = new PIDController(.065, 0, 0);
         //edit and add to constants //FIXME tune and maybe invert P (if it goes in wrong direction)
         faceTargetPID.setTolerance(5);
@@ -59,7 +60,7 @@ public class SwerveDrive extends SubsystemBase {
     }
 
     public void setModules(SwerveModuleState[] desiredStates) {
-        SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, Constants.SwerveConstants.MAX_PHYSICAL_SPEED_M_PER_SEC); //dampens a little
+        SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, SwerveConstants.MAX_PHYSICAL_SPEED_M_PER_SEC); //dampens a little
         frontLeft.setModState(desiredStates[0]);
         frontRight.setModState(desiredStates[1]);
         backLeft.setModState(desiredStates[2]);
