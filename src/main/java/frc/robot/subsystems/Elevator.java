@@ -10,6 +10,7 @@ import edu.wpi.first.math.controller.ElevatorFeedforward;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.*;
 
@@ -17,7 +18,7 @@ public class Elevator extends SubsystemBase {
 
     public CANSparkMax leftSpark;
     public CANSparkMax rightSpark;
-    public RelativeEncoder throughbore;
+    public Encoder throughbore;
     public DigitalInput limitLeft;
     public DigitalInput limitRight;
     public double setPoint; //meters
@@ -31,12 +32,11 @@ public class Elevator extends SubsystemBase {
         setBrake(true);
         leftSpark.setSmartCurrentLimit(ElevatorConstants.CURRENT_LIMIT_AMPS);
         rightSpark.setSmartCurrentLimit(ElevatorConstants.CURRENT_LIMIT_AMPS);
-        throughbore = leftSpark.getEncoder(Type.kQuadrature, 8192);
+        throughbore = new Encoder(0, 0, 0);
+        throughbore.setDistancePerPulse(ElevatorConstants.POSITION_CONVERSION_FACTOR_ROT_TO_METERS / 8192);
         limitLeft = new DigitalInput(ElevatorConstants.LEFT_LIMIT_ID);
         limitRight = new DigitalInput(ElevatorConstants.RIGHT_LIMIT_ID);
-        throughbore.setPositionConversionFactor(ElevatorConstants.POSITION_CONVERSION_FACTOR_ROT_TO_METERS);
-        throughbore.setVelocityConversionFactor(ElevatorConstants.VELOCITY_CONVERSION_FACTOR_RPM_TO_MPS);
-        setPoint = ElevatorConstants.LOWER_LIMIT_METERS;
+        setPoint = 0;
         elevatorFF = new ElevatorFeedforward(ElevatorConstants.FF_S, ElevatorConstants.FF_G, ElevatorConstants.FF_V, ElevatorConstants.FF_A); //FIXME
         elevatorController = new ProfiledPIDController(ElevatorConstants.P, ElevatorConstants.I, ElevatorConstants.D, 
             new Constraints(ElevatorConstants.MAX_SPEED_M_S, ElevatorConstants.MAX_ACCEL_M_S_S)
@@ -45,20 +45,20 @@ public class Elevator extends SubsystemBase {
     }
 
     public void resetEncoder() {
-        throughbore.setPosition(ElevatorConstants.LOWER_LIMIT_METERS);
+        throughbore.reset();
     }
 
     public double getHeight() {
-        return throughbore.getPosition();
+        return throughbore.getDistance();
     }
 
     public double getSpeed() {
-        return throughbore.getVelocity();
+        return throughbore.getRate();
     }
 
     public void setHeight(double s) {
-        if (s < ElevatorConstants.LOWER_LIMIT_METERS) {
-            this.setPoint = ElevatorConstants.LOWER_LIMIT_METERS;
+        if (s < 0) {
+            this.setPoint = 0;
         } else {
             this.setPoint = s;
         }

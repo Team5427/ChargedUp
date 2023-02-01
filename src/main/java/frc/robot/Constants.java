@@ -155,7 +155,6 @@ public final class Constants {
         public static final double SPROCKET_PD = Units.inchesToMeters(1.751);
         public static final double POSITION_CONVERSION_FACTOR_ROT_TO_METERS = GEARBOX_GEARING * Math.PI * SPROCKET_PD;
         public static final double VELOCITY_CONVERSION_FACTOR_RPM_TO_MPS = POSITION_CONVERSION_FACTOR_ROT_TO_METERS / 60;
-        public static final double LOWER_LIMIT_METERS = .25; //FIXME resting height
         public static final double UPPER_LIMIT_METERS = 1.25; //FIXME just pull up and readout
         public static final double FF_S = .5; //FIXME
         public static final double FF_G = .5; //FIXME
