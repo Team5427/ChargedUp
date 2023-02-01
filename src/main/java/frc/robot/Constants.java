@@ -27,15 +27,15 @@ public final class Constants {
     public static final class SwerveConstants {
 
         // Robot Ports
-        public static final int FRONT_LEFT_SPEED_MOTOR = 10; //FIXME
-        public static final int FRONT_RIGHT_SPEED_MOTOR = 6; //FIXME
-        public static final int BACK_LEFT_SPEED_MOTOR = 3; //FIXME
-        public static final int BACK_RIGHT_SPEED_MOTOR = 8; //FIXME
+        public static final int FRONT_LEFT_SPEED_MOTOR = 3; //FIXME
+        public static final int FRONT_RIGHT_SPEED_MOTOR = 5; //FIXME
+        public static final int BACK_LEFT_SPEED_MOTOR = 7; //FIXME
+        public static final int BACK_RIGHT_SPEED_MOTOR = 9; //FIXME
 
         public static final int FRONT_LEFT_TURN_MOTOR = 2; //FIXME
-        public static final int FRONT_RIGHT_TURN_MOTOR = 5; //FIXME
-        public static final int BACK_LEFT_TURN_MOTOR = 7; //FIXME
-        public static final int BACK_RIGHT_TURN_MOTOR = 9; //FIXME
+        public static final int FRONT_RIGHT_TURN_MOTOR = 4; //FIXME
+        public static final int BACK_LEFT_TURN_MOTOR = 6; //FIXME
+        public static final int BACK_RIGHT_TURN_MOTOR = 8; //FIXME
 
         public static final int FRONT_LEFT_CANCODER = 11; //FIXME
         public static final int FRONT_RIGHT_CANCODER = 14; //FIXME
