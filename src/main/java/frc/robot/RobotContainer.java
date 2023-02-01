@@ -5,6 +5,7 @@
 package frc.robot;
 
 import com.ctre.phoenix.sensors.WPI_Pigeon2;
+import com.pathplanner.lib.commands.PPSwerveControllerCommand;
 
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.GenericHID;
@@ -48,9 +49,8 @@ public class RobotContainer {
     odom = new OdometryMath2023();
 
     //NEED TO BE AT END OF CONSTRUCTOR
-    SwervePathMaker.initPaths("swervePath1", "swervePath2");
+    SwervePathMaker.initPaths("Test1", "Test2");
     AutonSheet.initAutons();
-
     configureButtonBindings();
   }
 

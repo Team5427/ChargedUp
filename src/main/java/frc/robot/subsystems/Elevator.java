@@ -1,10 +1,8 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
-import com.revrobotics.SparkMaxRelativeEncoder.Type;
 
 import edu.wpi.first.math.controller.ElevatorFeedforward;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -32,7 +30,7 @@ public class Elevator extends SubsystemBase {
         setBrake(true);
         leftSpark.setSmartCurrentLimit(ElevatorConstants.CURRENT_LIMIT_AMPS);
         rightSpark.setSmartCurrentLimit(ElevatorConstants.CURRENT_LIMIT_AMPS);
-        throughbore = new Encoder(0, 0, 0);
+        throughbore = new Encoder(0, 0);
         throughbore.setDistancePerPulse(ElevatorConstants.POSITION_CONVERSION_FACTOR_ROT_TO_METERS / 8192);
         limitLeft = new DigitalInput(ElevatorConstants.LEFT_LIMIT_ID);
         limitRight = new DigitalInput(ElevatorConstants.RIGHT_LIMIT_ID);
