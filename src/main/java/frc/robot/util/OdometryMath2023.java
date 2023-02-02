@@ -3,23 +3,20 @@ package frc.robot.util;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 
 public class OdometryMath2023 extends SubsystemBase {
 
     private static Pose2d robotPose;
-    private static Rotation2d gyroYaw;
 
     private void log() {
-        // Logger.post("easiest turn", OdometryMath2023.robotAngleToTarget(new Translation2d(0, 0)));
+        Logger.post("easiest turn", OdometryMath2023.robotAngleToTarget(new Translation2d(0, 0)));
     }
 
     @Override
     public void periodic() {
         robotPose = RobotContainer.getSwerve().getPose();
-        gyroYaw = robotPose.getRotation();
         log();
     }
 

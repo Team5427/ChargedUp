@@ -20,7 +20,6 @@ public class SwerveModule {
 
     private int speedMotorID;
     private int turnMotorID;
-    private int fckUp;
     private int absEncID;
     private boolean speedInv;
     private boolean turnInv;
@@ -93,19 +92,11 @@ public class SwerveModule {
         turnMotor.setIdleMode(steerBrake ? IdleMode.kBrake : IdleMode.kCoast);
     }
 
-    public int getErrors() {
-        return fckUp;
-    }
-
-    public void incrementError() {
-        fckUp++;
-    }
-
     private void determineIDs(SwerveConstants.SwerveModuleType type) {
         switch(type) {
             case FRONT_LEFT:
-                speedMotorID = SwerveConstants.FRONT_LEFT_SPEED_MOTOR;
-                turnMotorID = SwerveConstants.FRONT_LEFT_TURN_MOTOR;
+                speedMotorID = SwerveConstants.FRONT_LEFT_DRIVE_MOTOR;
+                turnMotorID = SwerveConstants.FRONT_LEFT_STEER_MOTOR;
                 absEncID = SwerveConstants.FRONT_LEFT_CANCODER;
                 encoderOffset = SwerveConstants.FRONT_LEFT_OFFSET;
                 speedInv = SwerveConstants.FRONT_LEFT_DRIVE_INVERT;
@@ -113,8 +104,8 @@ public class SwerveModule {
                 encInv = SwerveConstants.FRONT_LEFT_CANCODER_INVERT;
                 break;
             case FRONT_RIGHT:
-                speedMotorID = SwerveConstants.FRONT_RIGHT_SPEED_MOTOR;
-                turnMotorID = SwerveConstants.FRONT_RIGHT_TURN_MOTOR;
+                speedMotorID = SwerveConstants.FRONT_RIGHT_DRIVE_MOTOR;
+                turnMotorID = SwerveConstants.FRONT_RIGHT_STEER_MOTOR;
                 absEncID = SwerveConstants.FRONT_RIGHT_CANCODER;
                 encoderOffset = SwerveConstants.FRONT_RIGHT_OFFSET;
                 speedInv = SwerveConstants.FRONT_RIGHT_DRIVE_INVERT;
@@ -122,8 +113,8 @@ public class SwerveModule {
                 encInv = SwerveConstants.FRONT_RIGHT_CANCODER_INVERT;
                 break;
             case BACK_LEFT:
-                speedMotorID = SwerveConstants.BACK_LEFT_SPEED_MOTOR;
-                turnMotorID = SwerveConstants.BACK_LEFT_TURN_MOTOR;
+                speedMotorID = SwerveConstants.BACK_LEFT_DRIVE_MOTOR;
+                turnMotorID = SwerveConstants.BACK_LEFT_STEER_MOTOR;
                 absEncID = SwerveConstants.BACK_LEFT_CANCODER;
                 encoderOffset = SwerveConstants.BACK_LEFT_OFFSET;
                 speedInv = SwerveConstants.BACK_LEFT_DRIVE_INVERT;
@@ -131,8 +122,8 @@ public class SwerveModule {
                 encInv = SwerveConstants.BACK_LEFT_CANCODER_INVERT;
                 break;
             case BACK_RIGHT:
-                speedMotorID = SwerveConstants.BACK_RIGHT_SPEED_MOTOR;
-                turnMotorID = SwerveConstants.BACK_RIGHT_TURN_MOTOR;
+                speedMotorID = SwerveConstants.BACK_RIGHT_DRIVE_MOTOR;
+                turnMotorID = SwerveConstants.BACK_RIGHT_STEER_MOTOR;
                 absEncID = SwerveConstants.BACK_RIGHT_CANCODER;
                 encoderOffset = SwerveConstants.BACK_RIGHT_OFFSET;
                 speedInv = SwerveConstants.BACK_RIGHT_DRIVE_INVERT;
@@ -169,6 +160,5 @@ public class SwerveModule {
         absEnc.configFactoryDefault();
         absEnc.configAbsoluteSensorRange(AbsoluteSensorRange.Signed_PlusMinus180);
         turnEnc.setPosition(getAbsEncRad());
-        fckUp = 0;
     }
 }

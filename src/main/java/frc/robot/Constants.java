@@ -26,42 +26,40 @@ import edu.wpi.first.math.util.Units;
 public final class Constants {
     public static final class SwerveConstants {
 
-        // Robot Ports
-        public static final int FRONT_LEFT_SPEED_MOTOR = 3; //FIXME
-        public static final int FRONT_RIGHT_SPEED_MOTOR = 5; //FIXME
-        public static final int BACK_LEFT_SPEED_MOTOR = 7; //FIXME
-        public static final int BACK_RIGHT_SPEED_MOTOR = 9; //FIXME
-
-        public static final int FRONT_LEFT_TURN_MOTOR = 2; //FIXME
-        public static final int FRONT_RIGHT_TURN_MOTOR = 4; //FIXME
-        public static final int BACK_LEFT_TURN_MOTOR = 6; //FIXME
-        public static final int BACK_RIGHT_TURN_MOTOR = 8; //FIXME
-
-        public static final int FRONT_LEFT_CANCODER = 14; //FIXME
-        public static final int BACK_RIGHT_CANCODER = 10; //FIXME
-        public static final int FRONT_RIGHT_CANCODER = 11; //FIXME
-        public static final int BACK_LEFT_CANCODER = 12; //FIXME
-
-        public static final double FRONT_LEFT_OFFSET = -2.39; //FIXME
-        public static final double FRONT_RIGHT_OFFSET = 3.03; //FIXME
-        public static final double BACK_LEFT_OFFSET = .664; //FIXME
-        public static final double BACK_RIGHT_OFFSET = -.9; //FIXME
-
-        // Inversions
-        public static final boolean FRONT_LEFT_TURNING_INVERT = false; //might change but shouldnt vvv
-        public static final boolean FRONT_RIGHT_TURNING_INVERT = false;
-        public static final boolean BACK_LEFT_TURNING_INVERT = false;
-        public static final boolean BACK_RIGHT_TURNING_INVERT = false;
-
+        //CAN IDs and offsets
+        public static final int FRONT_LEFT_DRIVE_MOTOR = 3;
+        public static final int FRONT_LEFT_STEER_MOTOR = 2;
+        public static final int FRONT_LEFT_CANCODER = 14;
+        public static final double FRONT_LEFT_OFFSET = 0.0;
+        public static final boolean FRONT_LEFT_TURNING_INVERT = false;
         public static final boolean FRONT_LEFT_DRIVE_INVERT = true;
-        public static final boolean FRONT_RIGHT_DRIVE_INVERT = false;
-        public static final boolean BACK_LEFT_DRIVE_INVERT = true;
-        public static final boolean BACK_RIGHT_DRIVE_INVERT = false;
-
         public static final boolean FRONT_LEFT_CANCODER_INVERT = false;
+
+        public static final int FRONT_RIGHT_DRIVE_MOTOR = 9;
+        public static final int FRONT_RIGHT_STEER_MOTOR = 8;
+        public static final int FRONT_RIGHT_CANCODER = 10;
+        public static final double FRONT_RIGHT_OFFSET = 0.0;
+        public static final boolean FRONT_RIGHT_TURNING_INVERT = false;
+        public static final boolean FRONT_RIGHT_DRIVE_INVERT = false;
         public static final boolean FRONT_RIGHT_CANCODER_INVERT = false;
+
+        public static final int BACK_LEFT_DRIVE_MOTOR = 7;
+        public static final int BACK_LEFT_STEER_MOTOR = 6;
+        public static final int BACK_LEFT_CANCODER = 12;
+        public static final double BACK_LEFT_OFFSET = 0.0;
+        public static final boolean BACK_LEFT_TURNING_INVERT = false;
+        public static final boolean BACK_LEFT_DRIVE_INVERT = true;
         public static final boolean BACK_LEFT_CANCODER_INVERT = false;
+
+        public static final int BACK_RIGHT_DRIVE_MOTOR = 5;
+        public static final int BACK_RIGHT_STEER_MOTOR = 4;
+        public static final int BACK_RIGHT_CANCODER = 11;
+        public static final double BACK_RIGHT_OFFSET = 0.0;
+        public static final boolean BACK_RIGHT_TURNING_INVERT = false;
+        public static final boolean BACK_RIGHT_DRIVE_INVERT = false;
         public static final boolean BACK_RIGHT_CANCODER_INVERT = false; //^^^
+
+        public static final int PIGEON_ID = 16;
 
         // Robot Physical Dimensions
         public static final double DT_WHEEL_DIAMETER_METERS = Units.inchesToMeters(3.83);
@@ -101,7 +99,7 @@ public final class Constants {
         public static final double TURNING_FF_S = 0.088444;
         public static final double TURNING_FF_V = 0.24913;
         public static final double TURNING_FF_A = 0.011425;
-        public static final double TURNING_MAX_SPEED_RAD_S = SWERVE_CONVERSION_FACTOR_RPM_TO_RAD_PER_S * MAX_NEO_SPEED_RPM;
+        public static final double TURNING_MAX_SPEED_RAD_S = SWERVE_CONVERSION_FACTOR_RPM_TO_RAD_PER_S * MiscConstants.MAX_NEO_SPEED_RPM;
         public static final double TURNING_MAX_ACCEL_RAD_S_S = TURNING_MAX_SPEED_RAD_S * 4;
 
         public static final double TURNING_P = 0.35;
@@ -110,7 +108,7 @@ public final class Constants {
         public static final double SPEED_FF_S = 0.097718;
         public static final double SPEED_FF_V = 2.5872;
         public static final double SPEED_FF_A = 0.22077;
-        public static final double SPEED_MAX_SPEED_M_S = SWERVE_CONVERSION_FACTOR_RPM_TO_METER_PER_S * MAX_NEO_SPEED_RPM;
+        public static final double SPEED_MAX_SPEED_M_S = SWERVE_CONVERSION_FACTOR_RPM_TO_METER_PER_S * MiscConstants.MAX_NEO_SPEED_RPM;
         public static final double SPEED_MAX_ACCEL_M_S_S = SPEED_MAX_SPEED_M_S * 3;
 
         public static enum SwerveModuleType {
@@ -131,11 +129,19 @@ public final class Constants {
     }
 
     public static final class JoystickConstants {
+
         public static final double CONTROLLER_DEADBAND = 0.1;
         public static final double CONTROLLER_TURNING_EXPONENT = 2.5;
         public static final double MAX_ACCEL_TELEOP_M_S_S = 4.0;
         public static final double MAX_ANGULAR_ACCEL_TELEOP_RAD_S_S = Math.PI;
         public static final double DAMPENED_SPEED = 0.3;
+
+        //Button Bindings
+        public static final int TOGGLE_FIELD_RELATIVE_BUTTON = 12;
+        public static final int RESET_ODOMETRY_BUTTON = 11;
+
+        //Joysticks
+        public static final int DRIVER_CONTROLLER = 0;
     }
 
     public static final class RoutineConstants {
@@ -163,27 +169,16 @@ public final class Constants {
         public static final double P = .5; //FIXME
         public static final double I = .5; //FIXME
         public static final double D = .5; //FIXME
-        public static final double MAX_SPEED_M_S = MAX_NEO_SPEED_RPM * VELOCITY_CONVERSION_FACTOR_RPM_TO_MPS; //FIXME rn theoretical
+        public static final double MAX_SPEED_M_S = MiscConstants.MAX_NEO_SPEED_RPM * VELOCITY_CONVERSION_FACTOR_RPM_TO_MPS; //FIXME rn theoretical
         public static final double MAX_ACCEL_M_S_S = MAX_SPEED_M_S / 4; //FIXME theoretical rn
         public static final double GOAL_TOLERANCE_METERS = .01;
         public static final int CURRENT_LIMIT_AMPS = 45;
 
     }
-    // DEBUG VARS (Remove before comp if robot is stable)
-    public static final boolean FIELD_RELATIVE_SWITCHABLE = true;
-    public static final boolean FIELD_RELATIVE_ON_START = false;
-
-    // DRIVER SETTINGS
-    public static final int DRIVER_CONTROLLER = 0;
-
-
-    // CAN IDS
-    public static final int PIGEON_ID = 16;
-
-
-    // BUTTON ID
-    public static final int TOGGLE_FIELD_RELATIVE_BUTTON = 12;
-    public static final int RESET_ODOMETRY_BUTTON = 11;
-    public static final double MAX_NEO_SPEED_RPM = 5676.0;
-
+    
+    public static final class MiscConstants {
+        public static final boolean FIELD_RELATIVE_SWITCHABLE = true;
+        public static final boolean FIELD_RELATIVE_ON_START = false;
+        public static final double MAX_NEO_SPEED_RPM = 5676.0;
+    }
 }

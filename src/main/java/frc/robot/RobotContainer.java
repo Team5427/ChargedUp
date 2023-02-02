@@ -5,19 +5,16 @@
 package frc.robot;
 
 import com.ctre.phoenix.sensors.WPI_Pigeon2;
-import com.pathplanner.lib.commands.PPSwerveControllerCommand;
 
-import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.GenericHID;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.JoystickSwerve;
 import frc.robot.commands.Auton.AutonSheet;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Swerve.SwerveDrive;
+import frc.robot.util.Logger;
 import frc.robot.util.OdometryMath2023;
 import frc.robot.util.SwervePathMaker;
 
@@ -38,9 +35,11 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
 
-    pigeon = new WPI_Pigeon2(Constants.PIGEON_ID);
+    new Logger();
+
+    pigeon = new WPI_Pigeon2(Constants.SwerveConstants.PIGEON_ID);
     pigeon.configFactoryDefault();
-    joy = new CommandJoystick(Constants.DRIVER_CONTROLLER);
+    joy = new CommandJoystick(Constants.JoystickConstants.DRIVER_CONTROLLER);
     // limelight = new Limelight(NetworkTableInstance.getDefault().getTable("limelight-scrappy"));
 
     swerveDrive = new SwerveDrive(pigeon);
