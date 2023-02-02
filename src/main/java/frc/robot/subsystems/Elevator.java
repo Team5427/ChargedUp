@@ -35,8 +35,8 @@ public class Elevator extends SubsystemBase {
         limitLeft = new DigitalInput(ElevatorConstants.LEFT_LIMIT_ID);
         limitRight = new DigitalInput(ElevatorConstants.RIGHT_LIMIT_ID);
         setPoint = 0;
-        elevatorFF = new ElevatorFeedforward(ElevatorConstants.FF_S, ElevatorConstants.FF_G, ElevatorConstants.FF_V, ElevatorConstants.FF_A); //FIXME
-        elevatorController = new ProfiledPIDController(ElevatorConstants.P, ElevatorConstants.I, ElevatorConstants.D, 
+        elevatorFF = new ElevatorFeedforward(ElevatorConstants.kS, ElevatorConstants.kG, ElevatorConstants.kV, ElevatorConstants.kA); //FIXME
+        elevatorController = new ProfiledPIDController(ElevatorConstants.kP, ElevatorConstants.kI, ElevatorConstants.kD, 
             new Constraints(ElevatorConstants.MAX_SPEED_M_S, ElevatorConstants.MAX_ACCEL_M_S_S)
         );
         elevatorController.setTolerance(ElevatorConstants.GOAL_TOLERANCE_METERS);
@@ -70,6 +70,11 @@ public class Elevator extends SubsystemBase {
 
     public boolean getBraked() {
         return (leftSpark.getIdleMode().equals(IdleMode.kBrake) && rightSpark.getIdleMode().equals(IdleMode.kBrake));
+    }
+
+    public void setV(double value) {
+        leftSpark.setVoltage(value);
+        rightSpark.setVoltage(value);
     }
 
     public void set(double value) {

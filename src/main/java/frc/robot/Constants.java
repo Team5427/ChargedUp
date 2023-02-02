@@ -4,12 +4,15 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
+import frc.robot.commands.Routines.ClawState;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -24,6 +27,7 @@ import edu.wpi.first.math.util.Units;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+    //EVERYTHING IN METERS AND RADIANS
     public static final class SwerveConstants {
 
         //CAN IDs and offsets
@@ -150,6 +154,42 @@ public final class Constants {
         public static final double ROUTINE_MAX_TRANSLATION_ACCEL_M_S_S = 1.0;
         public static final double ROUTINE_MAX_ROTATION_ACCEL_RAD_S_S = Math.PI;
         public static final double ROUTINE_THRESHOLD_ROT_ERROR_RAD = Math.PI/2;
+        public static final double SCORING_LEVEL_OFFSET_METERS = 0.3; //FIXME
+        public static final double ARM_DELAY = 1;
+
+        //PRESETS
+        public static final Pose2d BOTTOM_CONE_SCORING_POSE_DEFAULT = new Pose2d(0, 0, new Rotation2d(0)); //FIXME
+        public static final Pose2d CUBE_SCORING_POSE_DEFAULT = new Pose2d(0, 0, new Rotation2d(0)); //FIXME
+        public static final Pose2d TOP_CONE_SCORING_POSE_DEFAULT = new Pose2d(0, 0, new Rotation2d(0)); //FIXME
+        public static final Pose2d BOTTOM_SUBSTATION_POSE_DEFAULT = new Pose2d(0, 0, new Rotation2d(0)); //FIXME
+        public static final Pose2d TOP_SUBSTATION_POSE_DEFAULT = new Pose2d(0, 0, new Rotation2d(0)); //FIXME
+
+        public static enum SCORING_TYPE {
+            BOTTOM_CONE,
+            CUBE,
+            TOP_CONE
+        }
+
+        public static enum SUBSTATION_TYPE {
+            LEFT_SS,
+            RIGHT_SS
+        }
+
+        public static final ClawState TOP_CONE_CLAW_STATE = new ClawState(0, 0);
+        public static final ClawState MID_CONE_CLAW_STATE = new ClawState(0, 0);
+        public static final ClawState TOP_CUBE_CLAW_STATE = new ClawState(0, 0);
+        public static final ClawState MID_CUBE_CLAW_STATE = new ClawState(0, 0);
+        public static final ClawState LOW_CLAW_STATE = new ClawState(0, 0);
+        public static final ClawState SUBSTATION_CLAW_STATE = new ClawState(0, 0);
+
+        public static enum CLAW_TYPE {
+            TOP_CONE,
+            MID_CONE,
+            TOP_CUBE,
+            MID_CUBE,
+            LOW,
+            SUBSTATION
+        }
     }
 
     public static final class ElevatorConstants {
@@ -159,16 +199,16 @@ public final class Constants {
         public static final int RIGHT_LIMIT_ID = 2; //FIXME
         public static final double GEARBOX_GEARING = (9.0 / 62.0);
         public static final double SPROCKET_PD = Units.inchesToMeters(1.751);
-        public static final double POSITION_CONVERSION_FACTOR_ROT_TO_METERS = GEARBOX_GEARING * Math.PI * SPROCKET_PD;
+        public static final double POSITION_CONVERSION_FACTOR_ROT_TO_METERS = Math.PI * SPROCKET_PD;
         public static final double VELOCITY_CONVERSION_FACTOR_RPM_TO_MPS = POSITION_CONVERSION_FACTOR_ROT_TO_METERS / 60;
         public static final double UPPER_LIMIT_METERS = 1.25; //FIXME just pull up and readout
-        public static final double FF_S = .5; //FIXME
-        public static final double FF_G = .5; //FIXME
-        public static final double FF_V = .5; //FIXME
-        public static final double FF_A = .5; //FIXME
-        public static final double P = .5; //FIXME
-        public static final double I = .5; //FIXME
-        public static final double D = .5; //FIXME
+        public static final double kS = .5; //FIXME
+        public static final double kG = .5; //FIXME
+        public static final double kV = .5; //FIXME
+        public static final double kA = .5; //FIXME
+        public static final double kP = .5; //FIXME
+        public static final double kI = .5; //FIXME
+        public static final double kD = .5; //FIXME
         public static final double MAX_SPEED_M_S = MiscConstants.MAX_NEO_SPEED_RPM * VELOCITY_CONVERSION_FACTOR_RPM_TO_MPS; //FIXME rn theoretical
         public static final double MAX_ACCEL_M_S_S = MAX_SPEED_M_S / 4; //FIXME theoretical rn
         public static final double GOAL_TOLERANCE_METERS = .01;
@@ -176,6 +216,27 @@ public final class Constants {
 
     }
     
+    public static final class ArmConstants {
+        public static final int TOP_ID = 2;
+        public static final int BTM_ID = 3;
+        public static final int THROUGHBORE_ID = 3; //on DIO ports
+        public static final double POSITION_OFFSET_RAD = 2.2;
+        public static final int CURRENT_LIMIT_AMPS = 55;
+        public static final double kS = 2.0;
+        public static final double kG = 2.0;
+        public static final double kV = 2.0;
+        public static final double kA = 2.0;
+        public static final double kP = 2.0;
+        public static final double kI = 2.0;
+        public static final double kD = 2.0;
+        public static final double ARM_CONTROLLER_TOLERANCE_RAD = Units.degreesToRadians(1);
+        public static final double GEARBOX_GEARING = (1.0 / 100.0) * (17.0 / 20.0) * (20.0 / 32.0);
+        public static final double MAX_SPEED_RAD_S = MiscConstants.MAX_NEO_SPEED_RPM * GEARBOX_GEARING * Math.PI * 2 / 60;
+        public static final double MAX_ACCEL_RAD_S_S = MAX_SPEED_RAD_S / 4;
+        public static final double UPPER_LIMIT_RAD = 2.2;
+        public static final double LOWER_LIMIT_RAD = 2.3;
+    }
+
     public static final class MiscConstants {
         public static final boolean FIELD_RELATIVE_SWITCHABLE = true;
         public static final boolean FIELD_RELATIVE_ON_START = false;
