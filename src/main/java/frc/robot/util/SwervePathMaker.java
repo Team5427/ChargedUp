@@ -31,7 +31,7 @@ public class SwervePathMaker {
                 yTranslationPID,
                 thetaPID,
                 driveTrain::setModules,
-                driveTrain::stopMods,
+                true,
                 driveTrain)
             );
         });

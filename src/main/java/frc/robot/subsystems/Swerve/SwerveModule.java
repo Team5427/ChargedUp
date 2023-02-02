@@ -2,7 +2,6 @@ package frc.robot.subsystems.Swerve;
 
 import com.ctre.phoenix.sensors.AbsoluteSensorRange;
 import com.ctre.phoenix.sensors.CANCoder;
-import com.ctre.phoenix.sensors.CANCoderStatusFrame;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkMax.IdleMode;
@@ -15,7 +14,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
-import frc.robot.Constants;
+import frc.robot.Constants.*;
 
 public class SwerveModule {
 
@@ -37,7 +36,7 @@ public class SwerveModule {
     private SimpleMotorFeedforward speedFF;
     private double encoderOffset;
 
-    public SwerveModule (Constants.SwerveConstants.SwerveModuleType type) {
+    public SwerveModule (SwerveConstants.SwerveModuleType type) {
         determineIDs(type);
         init();
     }
@@ -71,7 +70,7 @@ public class SwerveModule {
     }
 
     public double backToRPM() {
-        return getDriveSpeed()/Constants.SwerveConstants.SWERVE_CONVERSION_FACTOR_RPM_TO_METER_PER_S;
+        return getDriveSpeed()/SwerveConstants.SWERVE_CONVERSION_FACTOR_RPM_TO_METER_PER_S;
     }
 
     public void setModState(SwerveModuleState state) {
@@ -102,43 +101,43 @@ public class SwerveModule {
         fckUp++;
     }
 
-    private void determineIDs(Constants.SwerveConstants.SwerveModuleType type) {
+    private void determineIDs(SwerveConstants.SwerveModuleType type) {
         switch(type) {
             case FRONT_LEFT:
-                speedMotorID = Constants.SwerveConstants.FRONT_LEFT_SPEED_MOTOR;
-                turnMotorID = Constants.SwerveConstants.FRONT_LEFT_TURN_MOTOR;
-                absEncID = Constants.SwerveConstants.FRONT_LEFT_CANCODER;
-                encoderOffset = Constants.SwerveConstants.FRONT_LEFT_OFFSET;
-                speedInv = Constants.SwerveConstants.FRONT_LEFT_DRIVE_INVERT;
-                turnInv = Constants.SwerveConstants.FRONT_LEFT_TURNING_INVERT;
-                encInv = Constants.SwerveConstants.FRONT_LEFT_CANCODER_INVERT;
+                speedMotorID = SwerveConstants.FRONT_LEFT_SPEED_MOTOR;
+                turnMotorID = SwerveConstants.FRONT_LEFT_TURN_MOTOR;
+                absEncID = SwerveConstants.FRONT_LEFT_CANCODER;
+                encoderOffset = SwerveConstants.FRONT_LEFT_OFFSET;
+                speedInv = SwerveConstants.FRONT_LEFT_DRIVE_INVERT;
+                turnInv = SwerveConstants.FRONT_LEFT_TURNING_INVERT;
+                encInv = SwerveConstants.FRONT_LEFT_CANCODER_INVERT;
                 break;
             case FRONT_RIGHT:
-                speedMotorID = Constants.SwerveConstants.FRONT_RIGHT_SPEED_MOTOR;
-                turnMotorID = Constants.SwerveConstants.FRONT_RIGHT_TURN_MOTOR;
-                absEncID = Constants.SwerveConstants.FRONT_RIGHT_CANCODER;
-                encoderOffset = Constants.SwerveConstants.FRONT_RIGHT_OFFSET;
-                speedInv = Constants.SwerveConstants.FRONT_RIGHT_DRIVE_INVERT;
-                turnInv = Constants.SwerveConstants.FRONT_RIGHT_TURNING_INVERT;
-                encInv = Constants.SwerveConstants.FRONT_RIGHT_CANCODER_INVERT;
+                speedMotorID = SwerveConstants.FRONT_RIGHT_SPEED_MOTOR;
+                turnMotorID = SwerveConstants.FRONT_RIGHT_TURN_MOTOR;
+                absEncID = SwerveConstants.FRONT_RIGHT_CANCODER;
+                encoderOffset = SwerveConstants.FRONT_RIGHT_OFFSET;
+                speedInv = SwerveConstants.FRONT_RIGHT_DRIVE_INVERT;
+                turnInv = SwerveConstants.FRONT_RIGHT_TURNING_INVERT;
+                encInv = SwerveConstants.FRONT_RIGHT_CANCODER_INVERT;
                 break;
             case BACK_LEFT:
-                speedMotorID = Constants.SwerveConstants.BACK_LEFT_SPEED_MOTOR;
-                turnMotorID = Constants.SwerveConstants.BACK_LEFT_TURN_MOTOR;
-                absEncID = Constants.SwerveConstants.BACK_LEFT_CANCODER;
-                encoderOffset = Constants.SwerveConstants.BACK_LEFT_OFFSET;
-                speedInv = Constants.SwerveConstants.BACK_LEFT_DRIVE_INVERT;
-                turnInv = Constants.SwerveConstants.BACK_LEFT_TURNING_INVERT;
-                encInv = Constants.SwerveConstants.BACK_LEFT_CANCODER_INVERT;
+                speedMotorID = SwerveConstants.BACK_LEFT_SPEED_MOTOR;
+                turnMotorID = SwerveConstants.BACK_LEFT_TURN_MOTOR;
+                absEncID = SwerveConstants.BACK_LEFT_CANCODER;
+                encoderOffset = SwerveConstants.BACK_LEFT_OFFSET;
+                speedInv = SwerveConstants.BACK_LEFT_DRIVE_INVERT;
+                turnInv = SwerveConstants.BACK_LEFT_TURNING_INVERT;
+                encInv = SwerveConstants.BACK_LEFT_CANCODER_INVERT;
                 break;
             case BACK_RIGHT:
-                speedMotorID = Constants.SwerveConstants.BACK_RIGHT_SPEED_MOTOR;
-                turnMotorID = Constants.SwerveConstants.BACK_RIGHT_TURN_MOTOR;
-                absEncID = Constants.SwerveConstants.BACK_RIGHT_CANCODER;
-                encoderOffset = Constants.SwerveConstants.BACK_RIGHT_OFFSET;
-                speedInv = Constants.SwerveConstants.BACK_RIGHT_DRIVE_INVERT;
-                turnInv = Constants.SwerveConstants.BACK_RIGHT_TURNING_INVERT;
-                encInv = Constants.SwerveConstants.BACK_RIGHT_CANCODER_INVERT;
+                speedMotorID = SwerveConstants.BACK_RIGHT_SPEED_MOTOR;
+                turnMotorID = SwerveConstants.BACK_RIGHT_TURN_MOTOR;
+                absEncID = SwerveConstants.BACK_RIGHT_CANCODER;
+                encoderOffset = SwerveConstants.BACK_RIGHT_OFFSET;
+                speedInv = SwerveConstants.BACK_RIGHT_DRIVE_INVERT;
+                turnInv = SwerveConstants.BACK_RIGHT_TURNING_INVERT;
+                encInv = SwerveConstants.BACK_RIGHT_CANCODER_INVERT;
                 break;
         }
     }
@@ -156,16 +155,16 @@ public class SwerveModule {
         turnEnc = turnMotor.getEncoder();
         absEnc = new CANCoder(absEncID);
         setBrake(false, false);
-        turningPID = new ProfiledPIDController(Constants.SwerveConstants.TURNING_PID_P, Constants.SwerveConstants.TURNING_PID_D, 0, 
-            new Constraints(Constants.SwerveConstants.TURNING_MAX_SPEED_RAD_S, Constants.SwerveConstants.TURNING_MAX_ACCEL_RAD_S_S));
+        turningPID = new ProfiledPIDController(SwerveConstants.TURNING_PID_P, SwerveConstants.TURNING_PID_D, 0, 
+            new Constraints(SwerveConstants.TURNING_MAX_SPEED_RAD_S, SwerveConstants.TURNING_MAX_ACCEL_RAD_S_S));
         turningPID.enableContinuousInput(-Math.PI, Math.PI);
-        turningFF = new SimpleMotorFeedforward(Constants.SwerveConstants.TURNING_FF_S, Constants.SwerveConstants.TURNING_FF_V, Constants.SwerveConstants.TURNING_FF_A);
-        speedPID = new PIDController(Constants.SwerveConstants.SPEED_PID_P, 0, 0);
-        speedFF = new SimpleMotorFeedforward(Constants.SwerveConstants.SPEED_FF_S, Constants.SwerveConstants.SPEED_FF_V, Constants.SwerveConstants.SPEED_FF_A);
-        speedEnc.setPositionConversionFactor(Constants.SwerveConstants.SWERVE_CONVERSION_FACTOR_ROT_TO_METER);
-        speedEnc.setVelocityConversionFactor(Constants.SwerveConstants.SWERVE_CONVERSION_FACTOR_RPM_TO_METER_PER_S);
-        turnEnc.setPositionConversionFactor(Constants.SwerveConstants.SWERVE_CONVERSION_FACTOR_ROT_TO_RAD);
-        turnEnc.setVelocityConversionFactor(Constants.SwerveConstants.SWERVE_CONVERSION_FACTOR_RPM_TO_RAD_PER_S);
+        turningFF = new SimpleMotorFeedforward(SwerveConstants.TURNING_FF_S, SwerveConstants.TURNING_FF_V, SwerveConstants.TURNING_FF_A);
+        speedPID = new PIDController(SwerveConstants.SPEED_PID_P, 0, 0);
+        speedFF = new SimpleMotorFeedforward(SwerveConstants.SPEED_FF_S, SwerveConstants.SPEED_FF_V, SwerveConstants.SPEED_FF_A);
+        speedEnc.setPositionConversionFactor(SwerveConstants.SWERVE_CONVERSION_FACTOR_ROT_TO_METER);
+        speedEnc.setVelocityConversionFactor(SwerveConstants.SWERVE_CONVERSION_FACTOR_RPM_TO_METER_PER_S);
+        turnEnc.setPositionConversionFactor(SwerveConstants.SWERVE_CONVERSION_FACTOR_ROT_TO_RAD);
+        turnEnc.setVelocityConversionFactor(SwerveConstants.SWERVE_CONVERSION_FACTOR_RPM_TO_RAD_PER_S);
         speedEnc.setPosition(0);
         absEnc.configFactoryDefault();
         absEnc.configAbsoluteSensorRange(AbsoluteSensorRange.Signed_PlusMinus180);

@@ -7,8 +7,8 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Swerve.SwerveDrive;
@@ -16,7 +16,7 @@ import frc.robot.subsystems.Swerve.SwerveDrive;
 public class JoystickSwerve extends CommandBase {
     
     private SwerveModuleState[] states;
-    private Joystick joy;
+    private CommandJoystick joy;
     private SwerveDrive swerve;
     private Pigeon2 gyro;
     private SlewRateLimiter translationRateLimiter, rotationRateLimiter;
@@ -37,14 +37,14 @@ public class JoystickSwerve extends CommandBase {
 
     @Override
     public void execute() {
-        if (joy.getRawButton(Constants.TOGGLE_FIELD_RELATIVE_BUTTON)) {swerve.toggleFieldRelative();}
-        if (joy.getRawButton(Constants.RESET_ODOMETRY_BUTTON)) {
+        if (joy.getHID().getRawButton(Constants.TOGGLE_FIELD_RELATIVE_BUTTON)) {swerve.toggleFieldRelative();}
+        if (joy.getHID().getRawButton(Constants.RESET_ODOMETRY_BUTTON)) {
             swerve.setHeading(0);
             swerve.resetOdometry(new Pose2d(5.93, 3.84, new Rotation2d(0)));
             swerve.resetMods();
         }
 
-        states = jostickCalculations(joy);
+        states = joystickCalculations(joy);
         
         swerve.setModules(states);
     }
@@ -59,12 +59,12 @@ public class JoystickSwerve extends CommandBase {
         return false;
     }
 
-    private SwerveModuleState[] jostickCalculations(Joystick joy) {
+    private SwerveModuleState[] joystickCalculations(CommandJoystick joy) {
 
-        double dampener = (!joy.getRawButton(6)) ? 1 : Constants.JoystickConstants.DAMPENED_SPEED;
-        double xSpeed = -joy.getY() * dampener;
-        double ySpeed = -joy.getX() * dampener;
-        double x2Speed = Math.signum(-joy.getZ()) * Math.pow(Math.abs(joy.getZ()), Constants.JoystickConstants.CONTROLLER_TURNING_EXPONENT * dampener) * dampener;
+        double dampener = (!joy.getHID().getRawButton(6)) ? 1 : Constants.JoystickConstants.DAMPENED_SPEED;
+        double xSpeed = -joy.getHID().getY() * dampener;
+        double ySpeed = -joy.getHID().getX() * dampener;
+        double x2Speed = Math.signum(-joy.getHID().getZ()) * Math.pow(Math.abs(joy.getHID().getZ()), Constants.JoystickConstants.CONTROLLER_TURNING_EXPONENT * dampener) * dampener;
         //dampens exponent as well as speed
 
         xSpeed = Math.abs(xSpeed) > (Constants.JoystickConstants.CONTROLLER_DEADBAND * dampener) ? xSpeed : 0; //apply deadband with dampener
@@ -75,9 +75,9 @@ public class JoystickSwerve extends CommandBase {
         ySpeed = translationRateLimiter.calculate(ySpeed) * Constants.SwerveConstants.MAX_SPEED_TELEOP_M_PER_S;
         x2Speed = rotationRateLimiter.calculate(x2Speed) * Constants.SwerveConstants.MAX_ANGULAR_SPEED_TELEOP_RAD_PER_S;
 
-        if (joy.getPOV() != -1) {
-            ySpeed = Math.cos(Math.toRadians(360 - joy.getPOV())) * dampener;
-            xSpeed = Math.sin(Math.toRadians(360 - joy.getPOV())) * dampener;
+        if (joy.getHID().getPOV() != -1) {
+            ySpeed = Math.cos(Math.toRadians(360 - joy.getHID().getPOV())) * dampener;
+            xSpeed = Math.sin(Math.toRadians(360 - joy.getHID().getPOV())) * dampener;
         }
 
         ChassisSpeeds chassisSpeeds = swerve.getFieldRelative() ? ChassisSpeeds.fromFieldRelativeSpeeds(ySpeed, xSpeed, x2Speed, swerve.getPose().getRotation()) : new ChassisSpeeds(ySpeed, xSpeed, x2Speed);

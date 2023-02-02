@@ -84,7 +84,6 @@ public final class Constants {
         public static final double MAX_PHYSICAL_SPEED_M_PER_SEC = 4.4196; // do not touch, unless switching from L2
         public static final double MAX_SPEED_TELEOP_M_PER_S = 4; //
         public static final double MAX_ANGULAR_SPEED_TELEOP_RAD_PER_S = Math.PI * 2;
-        public static final double MAX_NEO_SPEED_RPM = 5676.0;
 
         // AUTON STUFF
         public static final double MAX_AUTON_ACCEL_M_PER_S2 = 1;
@@ -139,6 +138,37 @@ public final class Constants {
         public static final double DAMPENED_SPEED = 0.3;
     }
 
+    public static final class RoutineConstants {
+        public static final double ROUTINE_MAX_TRANSLATION_SPEED_M_S = 3.0;
+        public static final double ROUTINE_MAX_ROTATION_SPEED_RAD_S = Math.PI;
+        public static final double ROUTINE_MAX_TRANSLATION_ACCEL_M_S_S = 1.0;
+        public static final double ROUTINE_MAX_ROTATION_ACCEL_RAD_S_S = Math.PI;
+        public static final double ROUTINE_THRESHOLD_ROT_ERROR_RAD = Math.PI/2;
+    }
+
+    public static final class ElevatorConstants {
+        public static final int LEFT_MOTOR_ID = 2; //FIXME
+        public static final int RIGHT_MOTOR_ID = 2; //FIXME
+        public static final int LEFT_LIMIT_ID = 2; //FIXME
+        public static final int RIGHT_LIMIT_ID = 2; //FIXME
+        public static final double GEARBOX_GEARING = (9.0 / 62.0);
+        public static final double SPROCKET_PD = Units.inchesToMeters(1.751);
+        public static final double POSITION_CONVERSION_FACTOR_ROT_TO_METERS = GEARBOX_GEARING * Math.PI * SPROCKET_PD;
+        public static final double VELOCITY_CONVERSION_FACTOR_RPM_TO_MPS = POSITION_CONVERSION_FACTOR_ROT_TO_METERS / 60;
+        public static final double UPPER_LIMIT_METERS = 1.25; //FIXME just pull up and readout
+        public static final double FF_S = .5; //FIXME
+        public static final double FF_G = .5; //FIXME
+        public static final double FF_V = .5; //FIXME
+        public static final double FF_A = .5; //FIXME
+        public static final double P = .5; //FIXME
+        public static final double I = .5; //FIXME
+        public static final double D = .5; //FIXME
+        public static final double MAX_SPEED_M_S = MAX_NEO_SPEED_RPM * VELOCITY_CONVERSION_FACTOR_RPM_TO_MPS; //FIXME rn theoretical
+        public static final double MAX_ACCEL_M_S_S = MAX_SPEED_M_S / 4; //FIXME theoretical rn
+        public static final double GOAL_TOLERANCE_METERS = .01;
+        public static final int CURRENT_LIMIT_AMPS = 45;
+
+    }
     // DEBUG VARS (Remove before comp if robot is stable)
     public static final boolean FIELD_RELATIVE_SWITCHABLE = true;
     public static final boolean FIELD_RELATIVE_ON_START = false;
@@ -154,5 +184,6 @@ public final class Constants {
     // BUTTON ID
     public static final int TOGGLE_FIELD_RELATIVE_BUTTON = 12;
     public static final int RESET_ODOMETRY_BUTTON = 11;
+    public static final double MAX_NEO_SPEED_RPM = 5676.0;
 
 }
