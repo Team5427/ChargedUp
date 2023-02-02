@@ -35,7 +35,7 @@ public class SwerveDrive extends SubsystemBase {
         this.backRight = new SwerveModule(SwerveConstants.SwerveModuleType.BACK_RIGHT);
         this.gyro = m_gyro;
         isFieldRelative = Constants.FIELD_RELATIVE_ON_START;
-        odometer = new SwerveDriveOdometry(SwerveConstants.SWERVE_DRIVE_KINEMATICS, getRotation2d(), getModulePositions(), getPose());
+        odometer = new SwerveDriveOdometry(SwerveConstants.SWERVE_DRIVE_KINEMATICS, getRotation2d(), getModulePositions(), new Pose2d(0, 0, new Rotation2d()));
         faceTargetPID = new PIDController(.065, 0, 0);
         //edit and add to constants //FIXME tune and maybe invert P (if it goes in wrong direction)
         faceTargetPID.setTolerance(5);
@@ -116,31 +116,31 @@ public class SwerveDrive extends SubsystemBase {
     }
     
     private void log() {
-        Logger.post("FieldRelative", getFieldRelative());
-        // Logger.post("GyroCalibrating", gyro.isCalibrating());
-        Logger.post("odom", odometer.getPoseMeters().toString());
-        // Logger.post("estimator pose", poseEstimator.getEstimatedPosition());
-        // Logger.post("key", backLeft.getTurnPosRad());
-        Logger.post("gyro", getHeading());
+        // Logger.post("FieldRelative", getFieldRelative());
+        // // Logger.post("GyroCalibrating", gyro.isCalibrating());
+        // Logger.post("odom", odometer.getPoseMeters().toString());
+        // // Logger.post("estimator pose", poseEstimator.getEstimatedPosition());
+        // // Logger.post("key", backLeft.getTurnPosRad());
+        // Logger.post("gyro", getHeading());
 
-        Logger.post("backLeft", backLeft.getErrors());
-        Logger.post("frontLeft", frontLeft.getErrors());
-        Logger.post("backRight", backRight.getErrors());
-        Logger.post("frontRight", frontRight.getErrors());
-        Logger.postComplex("Field5427", field);
-        Logger.post("abs FR", frontRight.getAbsEncRaw());
-        Logger.post("abs FL", frontLeft.getAbsEncRaw());
-        Logger.post("abs BR", backRight.getAbsEncRaw());
-        Logger.post("abs BL", backLeft.getAbsEncRaw());
+        // Logger.post("backLeft", backLeft.getErrors());
+        // Logger.post("frontLeft", frontLeft.getErrors());
+        // Logger.post("backRight", backRight.getErrors());
+        // Logger.post("frontRight", frontRight.getErrors());
+        // Logger.postComplex("Field5427", field);
+        // Logger.post("abs FR", frontRight.getAbsEncRaw());
+        // Logger.post("abs FL", frontLeft.getAbsEncRaw());
+        // Logger.post("abs BR", backRight.getAbsEncRaw());
+        // Logger.post("abs BL", backLeft.getAbsEncRaw());
 
-        Logger.post("speeds", frontRight.getDriveSpeed());
+        // Logger.post("speeds", frontRight.getDriveSpeed());
 
-        Logger.post("speed RPM", frontRight.backToRPM());
+        // Logger.post("speed RPM", frontRight.backToRPM());
 
-        Logger.post("state", frontRight.getModState().toString());
-        // Logger.post("gyro yaw", OdometryMath2022.gyroTargetOffset());
-        Logger.post("x2speed", x2Speed);
-        Logger.post("usingOdom", usingOdometryTargeting);   
+        // Logger.post("state", frontRight.getModState().toString());
+        // // Logger.post("gyro yaw", OdometryMath2022.gyroTargetOffset());
+        // Logger.post("x2speed", x2Speed);
+        // Logger.post("usingOdom", usingOdometryTargeting);   
         
         // SmartDashboard.putString("AprilTag Info", aprilTagPi.getTarget().toString());
         // SmartDashboard.putBoolean("has tag", aprilTagPi.hasTarget());

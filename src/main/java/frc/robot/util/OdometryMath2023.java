@@ -13,7 +13,7 @@ public class OdometryMath2023 extends SubsystemBase {
     private static Rotation2d gyroYaw;
 
     private void log() {
-        Logger.post("easiest turn", OdometryMath2023.robotAngleToTarget(new Translation2d(0, 0)));
+        // Logger.post("easiest turn", OdometryMath2023.robotAngleToTarget(new Translation2d(0, 0)));
     }
 
     @Override

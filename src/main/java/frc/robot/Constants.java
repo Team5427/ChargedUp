@@ -37,10 +37,10 @@ public final class Constants {
         public static final int BACK_LEFT_TURN_MOTOR = 6; //FIXME
         public static final int BACK_RIGHT_TURN_MOTOR = 8; //FIXME
 
-        public static final int FRONT_LEFT_CANCODER = 11; //FIXME
-        public static final int FRONT_RIGHT_CANCODER = 14; //FIXME
-        public static final int BACK_LEFT_CANCODER = 13; //FIXME
-        public static final int BACK_RIGHT_CANCODER = 12; //FIXME
+        public static final int FRONT_LEFT_CANCODER = 14; //FIXME
+        public static final int BACK_RIGHT_CANCODER = 10; //FIXME
+        public static final int FRONT_RIGHT_CANCODER = 11; //FIXME
+        public static final int BACK_LEFT_CANCODER = 12; //FIXME
 
         public static final double FRONT_LEFT_OFFSET = -2.39; //FIXME
         public static final double FRONT_RIGHT_OFFSET = 3.03; //FIXME
