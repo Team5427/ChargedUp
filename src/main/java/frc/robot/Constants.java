@@ -184,15 +184,6 @@ public final class Constants {
         public static final ClawState MID_CUBE_CLAW_STATE = new ClawState(0, 0);
         public static final ClawState LOW_CLAW_STATE = new ClawState(0, 0);
         public static final ClawState SUBSTATION_CLAW_STATE = new ClawState(0, 0);
-
-        public static enum CLAW_TYPE {
-            TOP_CONE,
-            MID_CONE,
-            TOP_CUBE,
-            MID_CUBE,
-            LOW,
-            SUBSTATION
-        }
     }
 
     public static final class ElevatorConstants {
@@ -244,5 +235,6 @@ public final class Constants {
         public static final boolean FIELD_RELATIVE_SWITCHABLE = true;
         public static final boolean FIELD_RELATIVE_ON_START = false;
         public static final double MAX_NEO_SPEED_RPM = 5676.0;
+        public static final Pose2d DEBUG_RESET_POSE = new Pose2d(1.85, 0.47, new Rotation2d(0)); //have to flip before using if on red side
     }
 }

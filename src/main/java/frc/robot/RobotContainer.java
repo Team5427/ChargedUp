@@ -36,8 +36,6 @@ public class RobotContainer {
   public RobotContainer() {
     new Logger();
 
-    new Logger();
-
     pigeon = new WPI_Pigeon2(Constants.SwerveConstants.PIGEON_ID);
     pigeon.configFactoryDefault();
     joy = new CommandJoystick(Constants.JoystickConstants.DRIVER_CONTROLLER);
