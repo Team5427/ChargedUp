@@ -12,7 +12,6 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 import frc.robot.Constants.*;
 import frc.robot.util.Logger;
 
@@ -30,7 +29,7 @@ public class SwerveDrive extends SubsystemBase {
         this.backLeft = new SwerveModule(SwerveConstants.SwerveModuleType.BACK_LEFT);
         this.backRight = new SwerveModule(SwerveConstants.SwerveModuleType.BACK_RIGHT);
         this.gyro = m_gyro;
-        isFieldRelative = Constants.MiscConstants.FIELD_RELATIVE_ON_START;
+        isFieldRelative = MiscConstants.FIELD_RELATIVE_ON_START;
         odometer = new SwerveDriveOdometry(SwerveConstants.SWERVE_DRIVE_KINEMATICS, getRotation2d(), getModulePositions());
         field = new Field2d();
         gyro.reset();
@@ -105,11 +104,11 @@ public class SwerveDrive extends SubsystemBase {
     }
 
     public void toggleFieldRelative() {
-        isFieldRelative = Constants.MiscConstants.FIELD_RELATIVE_SWITCHABLE ? !isFieldRelative : isFieldRelative;
+        isFieldRelative = MiscConstants.FIELD_RELATIVE_SWITCHABLE ? !isFieldRelative : isFieldRelative;
     }
     
     private void log() {
-        // Logger.post("FieldRelative", getFieldRelative());
+        Logger.post("FieldRelative", getFieldRelative());
         // // Logger.post("GyroCalibrating", gyro.isCalibrating());
         // Logger.post("odom", odometer.getPoseMeters().toString());
         // // Logger.post("estimator pose", poseEstimator.getEstimatedPosition());

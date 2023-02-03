@@ -31,15 +31,15 @@ public final class Constants {
     public static final class SwerveConstants {
 
         // Robot Ports
-        public static final int FRONT_LEFT_SPEED_MOTOR = 3; //FIXME
-        public static final int FRONT_RIGHT_SPEED_MOTOR = 8; //FIXME
-        public static final int BACK_LEFT_SPEED_MOTOR = 5; //FIXME
-        public static final int BACK_RIGHT_SPEED_MOTOR = 7; //FIXME
+        public static final int FRONT_LEFT_DRIVE_MOTOR = 3; //FIXME
+        public static final int FRONT_RIGHT_DRIVE_MOTOR = 8; //FIXME
+        public static final int BACK_LEFT_DRIVE_MOTOR = 5; //FIXME
+        public static final int BACK_RIGHT_DRIVE_MOTOR = 7; //FIXME
 
-        public static final int FRONT_LEFT_TURN_MOTOR = 2; //FIXME
-        public static final int FRONT_RIGHT_TURN_MOTOR = 18; //FIXME
-        public static final int BACK_LEFT_TURN_MOTOR = 4; //FIXME
-        public static final int BACK_RIGHT_TURN_MOTOR = 6; //FIXME
+        public static final int FRONT_LEFT_STEER_MOTOR = 2; //FIXME
+        public static final int FRONT_RIGHT_STEER_MOTOR = 18; //FIXME
+        public static final int BACK_LEFT_STEER_MOTOR = 4; //FIXME
+        public static final int BACK_RIGHT_STEER_MOTOR = 6; //FIXME
 
         public static final int FRONT_LEFT_CANCODER = 13; //FIXME
         public static final int FRONT_RIGHT_CANCODER = 10; //FIXME
@@ -129,18 +129,16 @@ public final class Constants {
     }
 
     public static final class VisionConstants {
-        public static final double LIMELIGHT_MOUNT_ANGLE_RAD = 25; // FIXME angle between back of limelight and front of
-        // vertical bar
-        public static final double LIMELIGHT_LENS_HEIGHT_M = 25; // FIXME height of lens
-        public static final double GOAL_HEIGHT_M = 2.64;
-        public static final Translation3d CAMERA_TRANSLATION = new Translation3d(0, 0, 0); // FIXME
-        public static final Rotation3d CAMERA_ROTATION = new Rotation3d(0, 0, 0); // FIXME
+        public static final Translation3d RIGHT_CAMERA_TRANSLATION = new Translation3d(0, 0, 0); // FIXME
+        public static final Rotation3d RIGHT_CAMERA_ROTATION = new Rotation3d(0, 0, 0); // FIXME
+        public static final Translation3d LEFT_CAMERA_TRANSLATION = new Translation3d(0, 0, 0); // FIXME
+        public static final Rotation3d LEFT_CAMERA_ROTATION = new Rotation3d(0, 0, 0); // FIXME
     }
 
     public static final class JoystickConstants {
 
         public static final double CONTROLLER_DEADBAND = 0.1;
-        public static final double CONTROLLER_TURNING_EXPONENT = 2.5;
+        public static final double CONTROLLER_TURNING_EXPONENT = 2;
         public static final double MAX_ACCEL_TELEOP_M_S_S = 4.0;
         public static final double MAX_ANGULAR_ACCEL_TELEOP_RAD_S_S = Math.PI;
         public static final double DAMPENED_SPEED = 0.3;
@@ -160,7 +158,7 @@ public final class Constants {
         public static final double ROUTINE_MAX_ROTATION_ACCEL_RAD_S_S = Math.PI;
         public static final double ROUTINE_THRESHOLD_ROT_ERROR_RAD = Math.PI/2;
         public static final double SCORING_LEVEL_OFFSET_METERS = 0.3; //FIXME
-        public static final double ARM_DELAY = 1;
+        public static final double ARM_DELAY_SECONDS = 1;
 
         //PRESETS
         public static final Pose2d BOTTOM_CONE_SCORING_POSE_DEFAULT = new Pose2d(0, 0, new Rotation2d(0)); //FIXME

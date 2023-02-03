@@ -51,8 +51,4 @@ public class Limelight extends SubsystemBase{
             table_m.getEntry("ledMode").setNumber(1);
         }
     }
-
-    public double distanceToTargetMeters() {
-        return ((Constants.VisionConstants.GOAL_HEIGHT_M - Constants.VisionConstants.LIMELIGHT_LENS_HEIGHT_M)/Math.tan(targetY() + Constants.VisionConstants.LIMELIGHT_MOUNT_ANGLE_RAD));
-    }
 }

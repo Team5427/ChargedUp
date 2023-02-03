@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
+import frc.robot.Constants.*;
 import frc.robot.subsystems.Swerve.SwerveDrive;
 
 public class JoystickSwerve extends CommandBase {
@@ -16,7 +17,6 @@ public class JoystickSwerve extends CommandBase {
     private SwerveModuleState[] states;
     private CommandJoystick joy;
     private SwerveDrive swerve;
-    private Pigeon2 gyro;
     private SlewRateLimiter translationRateLimiterX, translationRateLimiterY, rotationRateLimiter;
 
     public JoystickSwerve () {
@@ -35,8 +35,8 @@ public class JoystickSwerve extends CommandBase {
 
     @Override
     public void execute() {
-        if (joy.getHID().getRawButton(Constants.JoystickConstants.TOGGLE_FIELD_RELATIVE_BUTTON)) {swerve.toggleFieldRelative();}
-        if (joy.getHID().getRawButton(Constants.JoystickConstants.RESET_ODOMETRY_BUTTON)) {
+        if (joy.getHID().getRawButton(JoystickConstants.TOGGLE_FIELD_RELATIVE_BUTTON)) {swerve.toggleFieldRelative();}
+        if (joy.getHID().getRawButton(JoystickConstants.RESET_ODOMETRY_BUTTON)) {
             swerve.setHeading(0);
             swerve.resetOdometry(new Pose2d(5.93, 3.84, new Rotation2d(0)));
             swerve.resetMods();
@@ -58,21 +58,18 @@ public class JoystickSwerve extends CommandBase {
     }
 
     private SwerveModuleState[] joystickCalculations(CommandJoystick joy) {
-
-        double dampener = (!joy.getHID().getRawButton(6)) ? 1 : Constants.JoystickConstants.DAMPENED_SPEED;
-        double xSpeed = -joy.getHID().getX() * dampener;
-        double ySpeed = -joy.getHID().getY() * dampener;
-        double x2Speed = Math.signum(-joy.getHID().getZ()) * Math.pow(Math.abs(joy.getHID().getZ()), Constants.JoystickConstants.CONTROLLER_TURNING_EXPONENT * dampener) * dampener;
+        double xSpeed = -joy.getHID().getX();
+        double ySpeed = -joy.getHID().getY();
+        double x2Speed = -joy.getHID().getZ();
+        x2Speed = Math.copySign(Math.pow(x2Speed, JoystickConstants.CONTROLLER_TURNING_EXPONENT), x2Speed);
         
-        //dampens exponent as well as speed
+        xSpeed = Math.abs(xSpeed) > (JoystickConstants.CONTROLLER_DEADBAND) ? xSpeed : 0; //apply deadband with dampener
+        ySpeed = Math.abs(ySpeed) > (JoystickConstants.CONTROLLER_DEADBAND) ? ySpeed : 0;
+        x2Speed = Math.abs(x2Speed) > (JoystickConstants.CONTROLLER_DEADBAND) ? x2Speed : 0;
 
-        xSpeed = Math.abs(xSpeed) > (Constants.JoystickConstants.CONTROLLER_DEADBAND * dampener) ? xSpeed : 0; //apply deadband with dampener
-        ySpeed = Math.abs(ySpeed) > (Constants.JoystickConstants.CONTROLLER_DEADBAND * dampener) ? ySpeed : 0;
-        x2Speed = Math.abs(x2Speed) > (Constants.JoystickConstants.CONTROLLER_DEADBAND * dampener) ? x2Speed : 0;
-
-        xSpeed = translationRateLimiterX.calculate(xSpeed) * Constants.SwerveConstants.MAX_SPEED_TELEOP_M_PER_S; //apply slew + scale to m/s and rad/s
-        ySpeed = translationRateLimiterY.calculate(ySpeed) * Constants.SwerveConstants.MAX_SPEED_TELEOP_M_PER_S;
-        x2Speed = rotationRateLimiter.calculate(x2Speed) * Constants.SwerveConstants.MAX_ANGULAR_SPEED_TELEOP_RAD_PER_S;
+        xSpeed = translationRateLimiterX.calculate(xSpeed) * SwerveConstants.MAX_SPEED_TELEOP_M_PER_S; //apply slew + scale to m/s and rad/s
+        ySpeed = translationRateLimiterY.calculate(ySpeed) * SwerveConstants.MAX_SPEED_TELEOP_M_PER_S;
+        x2Speed = rotationRateLimiter.calculate(x2Speed) * SwerveConstants.MAX_ANGULAR_SPEED_TELEOP_RAD_PER_S;
 
         if (joy.getHID().getPOV() != -1) {
             ySpeed = Math.cos(Math.toRadians(360 - joy.getHID().getPOV())) * .1;
@@ -83,7 +80,7 @@ public class JoystickSwerve extends CommandBase {
 
         ChassisSpeeds chassisSpeeds = swerve.getFieldRelative() ? ChassisSpeeds.fromFieldRelativeSpeeds(ySpeed, xSpeed, x2Speed, swerve.getPose().getRotation()) : new ChassisSpeeds(ySpeed, xSpeed, x2Speed);
 
-        SwerveModuleState[] states = Constants.SwerveConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(chassisSpeeds);
+        SwerveModuleState[] states = SwerveConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(chassisSpeeds);
 
         return states;
     }    

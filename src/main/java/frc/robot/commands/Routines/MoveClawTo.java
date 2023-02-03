@@ -31,14 +31,14 @@ public class MoveClawTo extends CommandBase {
     @Override
     public void execute() {
         elevator.setHeight(setPoint.getHeight());
-        if (timer.get() >= RoutineConstants.ARM_DELAY) {
+        if (timer.get() >= RoutineConstants.ARM_DELAY_SECONDS) {
             arm.setAngle(setPoint.getAngle());
         }
     }
 
     @Override
     public boolean isFinished() {
-        return (timer.get() > (RoutineConstants.ARM_DELAY + .25));
+        return (timer.get() > (RoutineConstants.ARM_DELAY_SECONDS + .25));
     }
 
     @Override

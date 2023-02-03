@@ -11,7 +11,7 @@ public class AutonSheet {
     public static SequentialCommandGroup testAuton;
     private static PratsSwerveControllerCommand swervePath1;
     public static void initAutons() {
-        swervePath1 = SwervePathMaker.getCommand("Test1");
+        swervePath1 = SwervePathMaker.getCommand("StraightLinePath");
 
         testAuton = new SequentialCommandGroup(
             resetToFirstTrajectory(swervePath1),

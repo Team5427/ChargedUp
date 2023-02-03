@@ -49,7 +49,7 @@ public class RobotContainer {
     odom = new OdometryMath2023();
 
     //NEED TO BE AT END OF CONSTRUCTOR
-    SwervePathMaker.initPaths("Test1", "Test2");
+    SwervePathMaker.initPaths("ComplexPath", "StraightLinePath");
     AutonSheet.initAutons();
     configureButtonBindings();
   }
