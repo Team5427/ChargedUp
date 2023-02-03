@@ -128,10 +128,15 @@ public class SwerveDrive extends SubsystemBase {
         // Logger.post("backRight", backRight.getErrors());
         // Logger.post("frontRight", frontRight.getErrors());
         // Logger.postComplex("Field5427", field);
-        // Logger.post("abs FR", frontRight.getAbsEncRaw());
-        // Logger.post("abs FL", frontLeft.getAbsEncRaw());
-        // Logger.post("abs BR", backRight.getAbsEncRaw());
-        // Logger.post("abs BL", backLeft.getAbsEncRaw());
+        Logger.post("abs FR", frontRight.getAbsEncRaw());
+        Logger.post("abs FL", frontLeft.getAbsEncRaw());
+        Logger.post("abs BR", backRight.getAbsEncRaw());
+        Logger.post("abs BL", backLeft.getAbsEncRaw());
+
+        Logger.post("abs rad FR", frontRight.getAbsEncRad());
+        Logger.post("abs rad FL", frontLeft.getAbsEncRad());
+        Logger.post("abs rad BR", backRight.getAbsEncRad());
+        Logger.post("abs rad BL", backLeft.getAbsEncRad());
 
         // Logger.post("speeds", frontRight.getDriveSpeed());
 

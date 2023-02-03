@@ -18,6 +18,7 @@ import frc.robot.commands.JoystickSwerve;
 import frc.robot.commands.Auton.AutonSheet;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Swerve.SwerveDrive;
+import frc.robot.util.Logger;
 import frc.robot.util.OdometryMath2023;
 import frc.robot.util.SwervePathMaker;
 
@@ -37,6 +38,7 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    new Logger();
 
     pigeon = new WPI_Pigeon2(Constants.PIGEON_ID);
     pigeon.configFactoryDefault();

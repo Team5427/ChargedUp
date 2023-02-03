@@ -28,24 +28,25 @@ public final class Constants {
 
         // Robot Ports
         public static final int FRONT_LEFT_SPEED_MOTOR = 3; //FIXME
-        public static final int FRONT_RIGHT_SPEED_MOTOR = 5; //FIXME
-        public static final int BACK_LEFT_SPEED_MOTOR = 7; //FIXME
-        public static final int BACK_RIGHT_SPEED_MOTOR = 9; //FIXME
+        public static final int FRONT_RIGHT_SPEED_MOTOR = 8; //FIXME
+        public static final int BACK_LEFT_SPEED_MOTOR = 5; //FIXME
+        public static final int BACK_RIGHT_SPEED_MOTOR = 7; //FIXME
 
         public static final int FRONT_LEFT_TURN_MOTOR = 2; //FIXME
-        public static final int FRONT_RIGHT_TURN_MOTOR = 4; //FIXME
-        public static final int BACK_LEFT_TURN_MOTOR = 6; //FIXME
-        public static final int BACK_RIGHT_TURN_MOTOR = 8; //FIXME
+        public static final int FRONT_RIGHT_TURN_MOTOR = 18; //FIXME
+        public static final int BACK_LEFT_TURN_MOTOR = 4; //FIXME
+        public static final int BACK_RIGHT_TURN_MOTOR = 6; //FIXME
 
-        public static final int FRONT_LEFT_CANCODER = 14; //FIXME
-        public static final int BACK_RIGHT_CANCODER = 10; //FIXME
-        public static final int FRONT_RIGHT_CANCODER = 11; //FIXME
-        public static final int BACK_LEFT_CANCODER = 12; //FIXME
+        public static final int FRONT_LEFT_CANCODER = 13; //FIXME
+        public static final int FRONT_RIGHT_CANCODER = 10; //FIXME
+        public static final int BACK_LEFT_CANCODER = 11; //FIXME
+        public static final int BACK_RIGHT_CANCODER = 12; //FIXME
 
-        public static final double FRONT_LEFT_OFFSET = -2.39; //FIXME
-        public static final double FRONT_RIGHT_OFFSET = 3.03; //FIXME
-        public static final double BACK_LEFT_OFFSET = .664; //FIXME
-        public static final double BACK_RIGHT_OFFSET = -.9; //FIXME
+
+        public static final double FRONT_LEFT_OFFSET = 2.192; //FIXME
+        public static final double FRONT_RIGHT_OFFSET = -1.5769; //FIXME
+        public static final double BACK_LEFT_OFFSET = 2.325; //FIXME
+        public static final double BACK_RIGHT_OFFSET = -.8590; //FIXME
 
         // Inversions
         public static final boolean FRONT_LEFT_TURNING_INVERT = false; //might change but shouldnt vvv
