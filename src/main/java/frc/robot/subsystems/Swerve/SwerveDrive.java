@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.ctre.phoenix.sensors.WPI_Pigeon2;
 
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -21,12 +20,9 @@ public class SwerveDrive extends SubsystemBase {
 
     private SwerveModule frontLeft, frontRight, backLeft, backRight;
     private WPI_Pigeon2 gyro;
-    private double x2Speed;
     private boolean isFieldRelative;
-    private PIDController faceTargetPID;
     private SwerveDriveOdometry odometer;
     private Field2d field;
-    private boolean usingOdometryTargeting = false;
 
     public SwerveDrive (WPI_Pigeon2 m_gyro) {
         this.frontLeft = new SwerveModule(SwerveConstants.SwerveModuleType.FRONT_LEFT);
@@ -34,11 +30,8 @@ public class SwerveDrive extends SubsystemBase {
         this.backLeft = new SwerveModule(SwerveConstants.SwerveModuleType.BACK_LEFT);
         this.backRight = new SwerveModule(SwerveConstants.SwerveModuleType.BACK_RIGHT);
         this.gyro = m_gyro;
-        isFieldRelative = Constants.FIELD_RELATIVE_ON_START;
-        odometer = new SwerveDriveOdometry(SwerveConstants.SWERVE_DRIVE_KINEMATICS, getRotation2d(), getModulePositions(), new Pose2d(0, 0, new Rotation2d()));
-        faceTargetPID = new PIDController(.065, 0, 0);
-        //edit and add to constants //FIXME tune and maybe invert P (if it goes in wrong direction)
-        faceTargetPID.setTolerance(5);
+        isFieldRelative = Constants.MiscConstants.FIELD_RELATIVE_ON_START;
+        odometer = new SwerveDriveOdometry(SwerveConstants.SWERVE_DRIVE_KINEMATICS, getRotation2d(), getModulePositions());
         field = new Field2d();
         gyro.reset();
     }
@@ -112,7 +105,7 @@ public class SwerveDrive extends SubsystemBase {
     }
 
     public void toggleFieldRelative() {
-        isFieldRelative = Constants.FIELD_RELATIVE_SWITCHABLE ? !isFieldRelative : isFieldRelative;
+        isFieldRelative = Constants.MiscConstants.FIELD_RELATIVE_SWITCHABLE ? !isFieldRelative : isFieldRelative;
     }
     
     private void log() {

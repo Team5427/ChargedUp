@@ -1,7 +1,5 @@
 package frc.robot.commands;
 
-import com.ctre.phoenix.sensors.Pigeon2;
-
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -24,7 +22,6 @@ public class JoystickSwerve extends CommandBase {
     public JoystickSwerve () {
         joy = RobotContainer.getJoy();
         swerve = RobotContainer.getSwerve();
-        gyro = RobotContainer.getPigeon();
         addRequirements(swerve);
         translationRateLimiterX = new SlewRateLimiter(Constants.JoystickConstants.MAX_ACCEL_TELEOP_M_S_S);
         translationRateLimiterY = new SlewRateLimiter(Constants.JoystickConstants.MAX_ACCEL_TELEOP_M_S_S);
@@ -38,8 +35,8 @@ public class JoystickSwerve extends CommandBase {
 
     @Override
     public void execute() {
-        if (joy.getHID().getRawButton(Constants.TOGGLE_FIELD_RELATIVE_BUTTON)) {swerve.toggleFieldRelative();}
-        if (joy.getHID().getRawButton(Constants.RESET_ODOMETRY_BUTTON)) {
+        if (joy.getHID().getRawButton(Constants.JoystickConstants.TOGGLE_FIELD_RELATIVE_BUTTON)) {swerve.toggleFieldRelative();}
+        if (joy.getHID().getRawButton(Constants.JoystickConstants.RESET_ODOMETRY_BUTTON)) {
             swerve.setHeading(0);
             swerve.resetOdometry(new Pose2d(5.93, 3.84, new Rotation2d(0)));
             swerve.resetMods();
