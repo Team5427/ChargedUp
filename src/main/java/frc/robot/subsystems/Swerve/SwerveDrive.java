@@ -110,7 +110,7 @@ public class SwerveDrive extends SubsystemBase {
     private void log() {
         Logger.post("FieldRelative", getFieldRelative());
         // // Logger.post("GyroCalibrating", gyro.isCalibrating());
-        // Logger.post("odom", odometer.getPoseMeters().toString());
+        Logger.post("odom", odometer.getPoseMeters().toString());
         // // Logger.post("estimator pose", poseEstimator.getEstimatedPosition());
         // // Logger.post("key", backLeft.getTurnPosRad());
         // Logger.post("gyro", getHeading());
@@ -119,7 +119,7 @@ public class SwerveDrive extends SubsystemBase {
         // Logger.post("frontLeft", frontLeft.getErrors());
         // Logger.post("backRight", backRight.getErrors());
         // Logger.post("frontRight", frontRight.getErrors());
-        // Logger.postComplex("Field5427", field);
+        Logger.postComplex("Field5427", field);
         Logger.post("abs FR", frontRight.getAbsEncRaw());
         Logger.post("abs FL", frontLeft.getAbsEncRaw());
         Logger.post("abs BR", backRight.getAbsEncRaw());
