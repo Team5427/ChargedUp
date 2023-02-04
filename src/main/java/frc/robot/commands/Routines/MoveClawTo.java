@@ -19,7 +19,7 @@ public class MoveClawTo extends CommandBase {
         // arm = RobotContainer.getArm(); //commenting out since havent implemented in robotcontainer yet
         // elevator = RobotContainer.getElevator();
         timer = new Timer();
-        addRequirements();
+        addRequirements(arm, elevator);
     }
 
     @Override

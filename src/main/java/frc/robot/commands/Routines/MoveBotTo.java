@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
+import frc.robot.Constants.*;
 import frc.robot.subsystems.Swerve.SwerveDrive;
 
 public class MoveBotTo extends CommandBase {
@@ -18,12 +19,13 @@ public class MoveBotTo extends CommandBase {
     private SwerveDrive swerve;
     private static ProfiledPIDController xController, yController, thetaController;
     private Timer timer;
+    private static RoutineConstants.POSITION_TYPE lastPositionType;
 
-    public MoveBotTo(Pose2d setpoint) {
+    public MoveBotTo(RoutineConstants.POSITION_TYPE type) {
         swerve = RobotContainer.getSwerve();
         addRequirements(swerve);
         timer = new Timer();
-        this.setpoint = setpoint;
+        this.setpoint = PositionState.getPositionPose(type);
         initControllers();
     }
 

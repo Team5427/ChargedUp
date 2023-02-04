@@ -88,9 +88,7 @@ public final class Constants {
         public static final double SWERVE_CONVERSION_FACTOR_RPM_TO_METER_PER_S = SWERVE_CONVERSION_FACTOR_ROT_TO_METER / 60;
         public static final double SWERVE_CONVERSION_FACTOR_ROT_TO_RAD = 2 * Math.PI * kTurningMotorGearRatio;
         public static final double SWERVE_CONVERSION_FACTOR_RPM_TO_RAD_PER_S = SWERVE_CONVERSION_FACTOR_ROT_TO_RAD / 60;
-        public static final double MAX_PHYSICAL_SPEED_M_PER_SEC = 4.4196; // do not touch, unless switching from L2
-        public static final double MAX_SPEED_TELEOP_M_PER_S = 4; //
-        public static final double MAX_ANGULAR_SPEED_TELEOP_RAD_PER_S = Math.PI * 2;
+        public static final double MAX_PHYSICAL_SPEED_M_PER_SEC = Units.feetToMeters(14.5); // do not touch, unless switching from L2
 
         // AUTON STUFF
         public static final double MAX_AUTON_ACCEL_M_PER_S2 = 1;
@@ -98,9 +96,10 @@ public final class Constants {
         public static final double AUTON_TRANSLATION_P = 1.5; // FIXME lmao these r bbq values for rn
         public static final double AUTON_THETA_P = 3; // FIXME
         public static final double MAX_AUTON_SPEED_M_PER_S = 2;
+        public static final double MAX_AUTON_ANGULAR_SPEED_RAD_S = Math.PI * 2;
 
         public static final TrapezoidProfile.Constraints THETA_CONSTRAINTS = new TrapezoidProfile.Constraints(
-                MAX_ANGULAR_SPEED_TELEOP_RAD_PER_S, MAX_AUTON_ANGULAR_ACCEL_RAD_PER_S2);
+                MAX_AUTON_ANGULAR_SPEED_RAD_S, MAX_AUTON_ANGULAR_ACCEL_RAD_PER_S2);
 
         // CONTROLLER CONSTANTS MODULES
         public static final double TURNING_PID_P = 2.9;
@@ -139,16 +138,33 @@ public final class Constants {
 
         public static final double CONTROLLER_DEADBAND = 0.1;
         public static final double CONTROLLER_TURNING_EXPONENT = 2;
-        public static final double MAX_ACCEL_TELEOP_M_S_S = 4.0;
+        public static final double MAX_ACCEL_TELEOP_M_S_S = 3.5;
         public static final double MAX_ANGULAR_ACCEL_TELEOP_RAD_S_S = Math.PI;
-        public static final double DAMPENED_SPEED = 0.3;
+        public static final double REGULAR_SPEED_M_S = 3.5;
+        public static final double REGULAR_ANGULAR_SPEED_RAD_S = Math.PI * 2;
+        public static final double DAMPEN_SPEED_M_S = 1.25;
+        public static final double DAMPEN_ANGULAR_SPEED_RAD_S = Math.PI;
+        public static final double SPRINT_SPEED_M_S = 4.25;
+        public static final double SPRINT_ANGULAR_SPEED_RAD_S = Math.PI * 3;
 
-        //Button Bindings
-        public static final int TOGGLE_FIELD_RELATIVE_BUTTON = 12;
-        public static final int RESET_ODOMETRY_BUTTON = 11;
-
-        //Joysticks
+        //Joystick IDs
         public static final int DRIVER_CONTROLLER = 0;
+        public static final int OPERATION_CONTROLLER = 1;
+
+        //DRIVER bindings
+        public static final int TOGGLE_FIELD_OP = 6;
+        public static final int RESET_TELEMETRY = 5;
+        public static final int TOGGLE_RAMP_PUSHER = 2;
+        public static final int CANCEL_ALL_COMMANDS_D = 0;
+        public static final int LOCK_SWERVE = 9;
+        public static final int DAMPEN = 3;
+        public static final int SPRINT = 4;
+
+        //OPERATION bindings
+        // public static final int CANCEL_ALL_COMMANDS_O = 0;
+        // public static final int 
+        // public static final int TOGGLE_FIELD_RELATIVE_BUTTON = 12;
+        // public static final int RESET_ODOMETRY_BUTTON = 11;
     }
 
     public static final class RoutineConstants {
@@ -167,13 +183,10 @@ public final class Constants {
         public static final Pose2d BOTTOM_SUBSTATION_POSE_DEFAULT = new Pose2d(0, 0, new Rotation2d(0)); //FIXME
         public static final Pose2d TOP_SUBSTATION_POSE_DEFAULT = new Pose2d(0, 0, new Rotation2d(0)); //FIXME
 
-        public static enum SCORING_TYPE {
-            BOTTOM_CONE,
+        public static enum POSITION_TYPE {
+            LEFT_CONE,
             CUBE,
-            TOP_CONE
-        }
-
-        public static enum SUBSTATION_TYPE {
+            RIGHT_CONE,
             LEFT_SS,
             RIGHT_SS
         }
@@ -229,6 +242,12 @@ public final class Constants {
         public static final double MAX_ACCEL_RAD_S_S = MAX_SPEED_RAD_S / 4;
         public static final double UPPER_LIMIT_RAD = 2.2;
         public static final double LOWER_LIMIT_RAD = 2.3;
+    }
+
+    public static final class RampPusherConstants {
+        public static final int LEFT_ID = 2;
+        public static final int RIGHT_ID = 2;
+        public static final int THROUGHBORE_ID = 1;
     }
 
     public static final class MiscConstants {
