@@ -12,6 +12,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
 import frc.robot.Constants.*;
 import frc.robot.util.Logger;
 
@@ -81,6 +82,18 @@ public class SwerveDrive extends SubsystemBase {
     @Override
     public void periodic() {
         odometer.update(getRotation2d(), getModulePositions());
+
+        if(RobotContainer.getLimelight().targetVisible()){
+            odometer.resetPosition(getRotation2d(), 
+                new SwerveModulePosition[]{
+                            frontLeft.getModPosition(), 
+                            frontRight.getModPosition(),
+                            backLeft.getModPosition(),
+                            backRight.getModPosition()
+                }
+                    , RobotContainer.getLimelight().getEstimatedGlobalPose());
+        }
+
         field.setRobotPose(odometer.getPoseMeters());
         log();
     }

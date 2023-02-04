@@ -1,5 +1,9 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -7,41 +11,36 @@ import frc.robot.Constants;
 public class Limelight extends SubsystemBase{
     private NetworkTable table_m;
     private boolean tv;
-    private double tx;
-    private double ty;
+
     private double ledMode;
 
     public Limelight(NetworkTable table) {
         this.table_m = table;
     }
 
-    // @Override
-    // public void periodic() {
-    //     tv = table_m.getEntry("tv").getDouble(0) == 1;
-    //     tx = table_m.getEntry("tx").getDouble(0);
-    //     ty = table_m.getEntry("ty").getDouble(0);
-    //     ledMode = table_m.getEntry("ledMode").getDouble(0);
-    //     if (DriverStation.isEnabled() || DriverStation.isAutonomous()) {
-    //         setLight(true);
-    //     } else if (DriverStation.isDisabled() || DriverStation.isEStopped()) {
-    //         setLight(false);
-    //     }
-    // }
+    @Override
+    public void periodic() {
+        tv = table_m.getEntry("tv").getDouble(0) == 1;
+    }
 
     public boolean targetVisible() {
         return tv;
     }
 
-    public double targetX() {
-        return tx;
-    }
-
-    public double targetY() {
-        return ty;
-    }
-
     public boolean lightOn() {
         return ledMode == 0;
+    }
+
+    public Pose2d getEstimatedGlobalPose(){
+        if(tv){
+            double[] botPose = table_m.getEntry("botpose").getDoubleArray(new double[6]);
+            Translation2d translation = new Translation2d(botPose[0], botPose[1]);
+            Rotation2d rotation2d = new Rotation2d(botPose[5]);
+
+            return new Pose2d(translation, rotation2d);
+        }
+
+        return null;
     }
     
     public void setLight(boolean on) {

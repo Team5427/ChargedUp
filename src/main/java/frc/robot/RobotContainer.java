@@ -6,6 +6,7 @@ package frc.robot;
 
 import com.ctre.phoenix.sensors.WPI_Pigeon2;
 
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -39,7 +40,7 @@ public class RobotContainer {
     pigeon = new WPI_Pigeon2(Constants.SwerveConstants.PIGEON_ID);
     pigeon.configFactoryDefault();
     joy = new CommandJoystick(Constants.JoystickConstants.DRIVER_CONTROLLER);
-    // limelight = new Limelight(NetworkTableInstance.getDefault().getTable("limelight-scrappy"));
+    limelight = new Limelight(NetworkTableInstance.getDefault().getTable("limelight-steelta"));
 
     swerveDrive = new SwerveDrive(pigeon);
     swerveDrive.setDefaultCommand(new JoystickSwerve());
