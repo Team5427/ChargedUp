@@ -11,6 +11,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.*;
@@ -83,16 +84,19 @@ public class SwerveDrive extends SubsystemBase {
     public void periodic() {
         odometer.update(getRotation2d(), getModulePositions());
 
-        if(RobotContainer.getLimelight().targetVisible()){
-            odometer.resetPosition(getRotation2d(), 
-                new SwerveModulePosition[]{
-                            frontLeft.getModPosition(), 
-                            frontRight.getModPosition(),
-                            backLeft.getModPosition(),
-                            backRight.getModPosition()
-                }
-                    , RobotContainer.getLimelight().getEstimatedGlobalPose());
-        }
+        // if(RobotContainer.getLimelight().targetVisible()){
+        //     Logger.post("LL Pose", RobotContainer.getLimelight().getEstimatedGlobalPose().toString());
+
+        //     odometer.resetPosition(getRotation2d(), 
+        //         new SwerveModulePosition[]{
+        //                     frontLeft.getModPosition(), 
+        //                     frontRight.getModPosition(),
+        //                     backLeft.getModPosition(),
+        //                     backRight.getModPosition()
+        //         }
+        //             , RobotContainer.getLimelight().getEstimatedGlobalPose());
+            
+        // }
 
         field.setRobotPose(odometer.getPoseMeters());
         log();

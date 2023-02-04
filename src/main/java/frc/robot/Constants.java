@@ -91,8 +91,8 @@ public final class Constants {
         public static final double MAX_PHYSICAL_SPEED_M_PER_SEC = Units.feetToMeters(14.5); // do not touch, unless switching from L2
 
         // AUTON STUFF
-        public static final double MAX_AUTON_ACCEL_M_PER_S2 = 1;
-        public static final double MAX_AUTON_ANGULAR_ACCEL_RAD_PER_S2 = Math.PI * 3 * 2;
+        public static final double MAX_AUTON_ACCEL_M_PER_S2 = .5;
+        public static final double MAX_AUTON_ANGULAR_ACCEL_RAD_PER_S2 = Math.PI;
         public static final double AUTON_TRANSLATION_P = 1.5; // FIXME lmao these r bbq values for rn
         public static final double AUTON_THETA_P = 3; // FIXME
         public static final double MAX_AUTON_SPEED_M_PER_S = 2;
