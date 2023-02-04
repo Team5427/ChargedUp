@@ -40,12 +40,12 @@ public class RampPusher extends SubsystemBase {
         return deployed;
     }
 
-    @Override
-    public void periodic() {
-        if (deployed) {
-            controller.calculate(throughbore.getDistance(), 0);
-        } else {
-            controller.calculate(throughbore.getDistance(), 0);
-        }
-    }
+    // @Override
+    // public void periodic() {
+    //     if (deployed) {
+    //         controller.calculate(throughbore.getDistance(), 0);
+    //     } else {
+    //         controller.calculate(throughbore.getDistance(), 0);
+    //     }
+    // }
 }
