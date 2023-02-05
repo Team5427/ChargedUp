@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import frc.robot.commands.JoystickSwerve;
 import frc.robot.commands.Auton.AutonSheet;
 import frc.robot.subsystems.Limelight;
+import frc.robot.subsystems.RampPusher;
 import frc.robot.subsystems.Swerve.SwerveDrive;
 import frc.robot.util.Logger;
 import frc.robot.util.OdometryMath2023;
@@ -32,11 +33,13 @@ public class RobotContainer {
   private static CommandJoystick joy;
   private static Limelight limelight;
   private static OdometryMath2023 odom;
+  private static RampPusher rampPusher;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     new Logger();
 
+    rampPusher = new RampPusher();
     pigeon = new WPI_Pigeon2(Constants.SwerveConstants.PIGEON_ID);
     pigeon.configFactoryDefault();
     joy = new CommandJoystick(Constants.JoystickConstants.DRIVER_CONTROLLER);
@@ -77,4 +80,5 @@ public class RobotContainer {
   public static CommandJoystick getJoy() {return joy;}
   public static Limelight getLimelight() {return limelight;}
   public static OdometryMath2023 getOdomInstance() {return odom;}
+  public static RampPusher getRampPusher(){return rampPusher;}
 }

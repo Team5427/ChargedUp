@@ -32,12 +32,12 @@ public final class Constants {
 
         // Robot Ports
         public static final int FRONT_LEFT_DRIVE_MOTOR = 3; //FIXME
-        public static final int FRONT_RIGHT_DRIVE_MOTOR = 8; //FIXME
+        public static final int FRONT_RIGHT_DRIVE_MOTOR = 9; //FIXME
         public static final int BACK_LEFT_DRIVE_MOTOR = 5; //FIXME
         public static final int BACK_RIGHT_DRIVE_MOTOR = 7; //FIXME
 
         public static final int FRONT_LEFT_STEER_MOTOR = 2; //FIXME
-        public static final int FRONT_RIGHT_STEER_MOTOR = 18; //FIXME
+        public static final int FRONT_RIGHT_STEER_MOTOR = 8; //FIXME
         public static final int BACK_LEFT_STEER_MOTOR = 4; //FIXME
         public static final int BACK_RIGHT_STEER_MOTOR = 6; //FIXME
 
@@ -245,9 +245,12 @@ public final class Constants {
     }
 
     public static final class RampPusherConstants {
-        public static final int LEFT_ID = 2;
-        public static final int RIGHT_ID = 2;
+        public static final int LEFT_ID = 13;
+        public static final int RIGHT_ID = 16;
         public static final int THROUGHBORE_ID = 1;
+
+        public static final double UP_SPEED = .25;
+        public static final double DOWN_SPEED = -.25;
     }
 
     public static final class MiscConstants {
