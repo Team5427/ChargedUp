@@ -31,6 +31,7 @@ public class Elevator extends SubsystemBase {
         leftSpark.setSmartCurrentLimit(ElevatorConstants.CURRENT_LIMIT_AMPS);
         rightSpark.setSmartCurrentLimit(ElevatorConstants.CURRENT_LIMIT_AMPS);
         throughbore = new Encoder(0, 0);
+        throughbore.reset();
         throughbore.setDistancePerPulse(ElevatorConstants.POSITION_CONVERSION_FACTOR_ROT_TO_METERS / 8192);
         limitLeft = new DigitalInput(ElevatorConstants.LEFT_LIMIT_ID);
         limitRight = new DigitalInput(ElevatorConstants.RIGHT_LIMIT_ID);

@@ -8,8 +8,8 @@ import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
-import frc.robot.RobotContainer;
+import frc.robot.Constants.*;
+import frc.robot.util.Logger;
 
 public class RampPusher extends SubsystemBase {
 
@@ -20,16 +20,18 @@ public class RampPusher extends SubsystemBase {
     private ProfiledPIDController controller;
 
     public RampPusher() {
-        leftMotor = new CANSparkMax(Constants.RampPusherConstants.LEFT_ID, MotorType.kBrushless);
+        leftMotor = new CANSparkMax(RampPusherConstants.LEFT_ID, MotorType.kBrushless);
         leftMotor.setSmartCurrentLimit(50);
         leftMotor.setIdleMode(IdleMode.kBrake);
-        rightMotor = new CANSparkMax(Constants.RampPusherConstants.RIGHT_ID, MotorType.kBrushless);
+        rightMotor = new CANSparkMax(RampPusherConstants.RIGHT_ID, MotorType.kBrushless);
         rightMotor.setSmartCurrentLimit(50);
         rightMotor.setIdleMode(IdleMode.kBrake);
+        rightMotor.setInverted(true);
         throughbore = new DutyCycleEncoder(0);
         throughbore.setDistancePerRotation(Math.PI * 2);
-        controller = new ProfiledPIDController(0, 0, 0, 
-            new Constraints(0, 0)
+        throughbore.setPositionOffset((throughbore.getAbsolutePosition() * Math.PI * 2) - RampPusherConstants.ENCODER_OFFSET_RAD);
+        controller = new ProfiledPIDController(RampPusherConstants.P, RampPusherConstants.I, RampPusherConstants.D, 
+            new Constraints(RampPusherConstants.MAX_SPEED_RAD_S, RampPusherConstants.MAX_ACCEL_RAD_S_S)
         );
         deployed = false;
     }
@@ -40,7 +42,7 @@ public class RampPusher extends SubsystemBase {
 
     public void move(double speed){
         leftMotor.set(speed);
-        rightMotor.set(-speed);
+        rightMotor.set(speed);
     }
     
     public void stop(){
@@ -52,23 +54,23 @@ public class RampPusher extends SubsystemBase {
         return deployed;
     }
 
+    public double getPosition() {
+        return throughbore.getDistance();
+    }
+
     @Override
     public void periodic() {
-        
         // if (deployed) {
-        //     controller.calculate(throughbore.getDistance(), 0);
+        //     controller.calculate(getPosition(), RampPusherConstants.DEPLOYED_POS_RAD);
         // } else {
-        //     controller.calculate(throughbore.getDistance(), 0);
+        //     controller.calculate(getPosition(), RampPusherConstants.UNDEPLOYED_POS_RAD);
         // }
-
-        if(RobotContainer.getJoy().getHID().getRawButton(10)){
-            move(Constants.RampPusherConstants.UP_SPEED);
-        }
-        else if(RobotContainer.getJoy().getHID().getRawButton(9)){
-            move(Constants.RampPusherConstants.DOWN_SPEED);
-        }
-        else{
-            stop();
-        }
+        log();
     }
+
+    private void log() {
+        Logger.post("ramp pusher positon", getPosition());
+    }
+
+
 }

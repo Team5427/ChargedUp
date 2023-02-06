@@ -1,6 +1,5 @@
-package frc.robot.util;
+package frc.robot.pathUtil;
 
-import com.pathplanner.lib.PathPlannerTrajectory;
 import com.pathplanner.lib.PathPlannerTrajectory.PathPlannerState;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.pathplanner.lib.server.PathPlannerServer;
@@ -20,9 +19,9 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 /** Custom PathPlanner version of SwerveControllerCommand */
-public class PratsSwerveControllerCommand extends CommandBase {
+public class CustomSwerveControllerCommand extends CommandBase {
   private final Timer timer = new Timer();
-  private final PathPlannerTrajectory trajectory;
+  private final CustomTrajectory trajectory;
   private final Supplier<Pose2d> poseSupplier;
   private final SwerveDriveKinematics kinematics;
   private final PPHolonomicDriveController controller;
@@ -31,16 +30,16 @@ public class PratsSwerveControllerCommand extends CommandBase {
   private final boolean useKinematics;
   private final boolean useAllianceColor;
 
-  private PathPlannerTrajectory transformedTrajectory;
+  private CustomTrajectory transformedTrajectory;
 
-  private static Consumer<PathPlannerTrajectory> logActiveTrajectory = null;
+  private static Consumer<CustomTrajectory> logActiveTrajectory = null;
   private static Consumer<Pose2d> logTargetPose = null;
   private static Consumer<ChassisSpeeds> logSetpoint = null;
   private static BiConsumer<Translation2d, Rotation2d> logError =
-      PratsSwerveControllerCommand::defaultLogError;
+      CustomSwerveControllerCommand::defaultLogError;
 
   /**
-   * Constructs a new PratsSwerveControllerCommand that when executed will follow the provided
+   * Constructs a new CustomSwerveControllerCommand that when executed will follow the provided
    * trajectory. This command will not return output voltages but ChassisSpeeds from the position
    * controllers which need to be converted to module states and put into a velocity PID.
    *
@@ -59,8 +58,8 @@ public class PratsSwerveControllerCommand extends CommandBase {
    *     the field.
    * @param requirements The subsystems to require.
    */
-  public PratsSwerveControllerCommand(
-      PathPlannerTrajectory trajectory,
+  public CustomSwerveControllerCommand(
+      CustomTrajectory trajectory,
       Supplier<Pose2d> poseSupplier,
       PIDController xController,
       PIDController yController,
@@ -89,7 +88,7 @@ public class PratsSwerveControllerCommand extends CommandBase {
   }
 
   /**
-   * Constructs a new PratsSwerveControllerCommand that when executed will follow the provided
+   * Constructs a new CustomSwerveControllerCommand that when executed will follow the provided
    * trajectory. This command will not return output voltages but ChassisSpeeds from the position
    * controllers which need to be converted to module states and put into a velocity PID.
    *
@@ -105,8 +104,8 @@ public class PratsSwerveControllerCommand extends CommandBase {
    * @param outputChassisSpeeds The field relative chassis speeds output consumer.
    * @param requirements The subsystems to require.
    */
-  public PratsSwerveControllerCommand(
-      PathPlannerTrajectory trajectory,
+  public CustomSwerveControllerCommand(
+      CustomTrajectory trajectory,
       Supplier<Pose2d> poseSupplier,
       PIDController xController,
       PIDController yController,
@@ -125,7 +124,7 @@ public class PratsSwerveControllerCommand extends CommandBase {
   }
 
   /**
-   * Constructs a new PratsSwerveControllerCommand that when executed will follow the provided
+   * Constructs a new CustomSwerveControllerCommand that when executed will follow the provided
    * trajectory. This command will not return output voltages but rather raw module states from the
    * position controllers which need to be put into a velocity PID.
    *
@@ -145,8 +144,8 @@ public class PratsSwerveControllerCommand extends CommandBase {
    *     the field.
    * @param requirements The subsystems to require.
    */
-  public PratsSwerveControllerCommand(
-      PathPlannerTrajectory trajectory,
+  public CustomSwerveControllerCommand(
+      CustomTrajectory trajectory,
       Supplier<Pose2d> poseSupplier,
       SwerveDriveKinematics kinematics,
       PIDController xController,
@@ -176,7 +175,7 @@ public class PratsSwerveControllerCommand extends CommandBase {
   }
 
   /**
-   * Constructs a new PratsSwerveControllerCommand that when executed will follow the provided
+   * Constructs a new CustomSwerveControllerCommand that when executed will follow the provided
    * trajectory. This command will not return output voltages but rather raw module states from the
    * position controllers which need to be put into a velocity PID.
    *
@@ -193,8 +192,8 @@ public class PratsSwerveControllerCommand extends CommandBase {
    * @param outputModuleStates The raw output module states from the position controllers.
    * @param requirements The subsystems to require.
    */
-  public PratsSwerveControllerCommand(
-      PathPlannerTrajectory trajectory,
+  public CustomSwerveControllerCommand(
+      CustomTrajectory trajectory,
       Supplier<Pose2d> poseSupplier,
       SwerveDriveKinematics kinematics,
       PIDController xController,
@@ -218,7 +217,7 @@ public class PratsSwerveControllerCommand extends CommandBase {
   public void initialize() {
     if (useAllianceColor && trajectory.fromGUI) {
       transformedTrajectory =
-          PathPlannerTrajectory.transformTrajectoryForAlliance(
+          CustomTrajectory.transformTrajectoryForAlliance(
               trajectory, DriverStation.getAlliance());
     } else {
       transformedTrajectory = trajectory;
@@ -293,18 +292,18 @@ public class PratsSwerveControllerCommand extends CommandBase {
   }
 
   private static void defaultLogError(Translation2d translationError, Rotation2d rotationError) {
-    SmartDashboard.putNumber("PratsSwerveControllerCommand/xErrorMeters", translationError.getX());
-    SmartDashboard.putNumber("PratsSwerveControllerCommand/yErrorMeters", translationError.getY());
+    SmartDashboard.putNumber("CustomSwerveControllerCommand/xErrorMeters", translationError.getX());
+    SmartDashboard.putNumber("CustomSwerveControllerCommand/yErrorMeters", translationError.getY());
     SmartDashboard.putNumber(
-        "PratsSwerveControllerCommand/rotationErrorDegrees", rotationError.getDegrees());
+        "CustomSwerveControllerCommand/rotationErrorDegrees", rotationError.getDegrees());
   }
 
   /**
    * Set custom logging callbacks for this command to use instead of the default configuration of
    * pushing values to SmartDashboard
    *
-   * @param logActiveTrajectory Consumer that accepts a PathPlannerTrajectory representing the
-   *     active path. This will be called whenever a PratsSwerveControllerCommand starts
+   * @param logActiveTrajectory Consumer that accepts a CustomTrajectory representing the
+   *     active path. This will be called whenever a CustomSwerveControllerCommand starts
    * @param logTargetPose Consumer that accepts a Pose2d representing the target pose while path
    *     following
    * @param logSetpoint Consumer that accepts a ChassisSpeeds object representing the setpoint
@@ -313,18 +312,13 @@ public class PratsSwerveControllerCommand extends CommandBase {
    *     while path following
    */
   public static void setLoggingCallbacks(
-      Consumer<PathPlannerTrajectory> logActiveTrajectory,
+      Consumer<CustomTrajectory> logActiveTrajectory,
       Consumer<Pose2d> logTargetPose,
       Consumer<ChassisSpeeds> logSetpoint,
       BiConsumer<Translation2d, Rotation2d> logError) {
-    PratsSwerveControllerCommand.logActiveTrajectory = logActiveTrajectory;
-    PratsSwerveControllerCommand.logTargetPose = logTargetPose;
-    PratsSwerveControllerCommand.logSetpoint = logSetpoint;
-    PratsSwerveControllerCommand.logError = logError;
-  }
-
-  public PathPlannerTrajectory getTrajectory() {
-    return this.trajectory;
+    CustomSwerveControllerCommand.logActiveTrajectory = logActiveTrajectory;
+    CustomSwerveControllerCommand.logTargetPose = logTargetPose;
+    CustomSwerveControllerCommand.logSetpoint = logSetpoint;
+    CustomSwerveControllerCommand.logError = logError;
   }
 }
-

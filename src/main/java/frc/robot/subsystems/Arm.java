@@ -4,6 +4,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
@@ -21,15 +22,16 @@ public class Arm extends SubsystemBase {
     private ProfiledPIDController armController;
 
     public Arm() {
-        topMotor = new CANSparkMax(0, MotorType.kBrushless);
-        btmMotor = new CANSparkMax(0, MotorType.kBrushless);
+        topMotor = new CANSparkMax(ArmConstants.TOP_ID, MotorType.kBrushless);
+        btmMotor = new CANSparkMax(ArmConstants.BTM_ID, MotorType.kBrushless);
         btmMotor.setInverted(true);
         topMotor.setSmartCurrentLimit(ArmConstants.CURRENT_LIMIT_AMPS);
         btmMotor.setSmartCurrentLimit(ArmConstants.CURRENT_LIMIT_AMPS);
         setBrake(true);
         throughbore = new DutyCycleEncoder(ArmConstants.THROUGHBORE_ID);
-        throughbore.setPositionOffset(ArmConstants.POSITION_OFFSET_RAD);
+        throughbore.reset();
         throughbore.setDistancePerRotation(Math.PI * 2);
+        throughbore.setPositionOffset(throughbore.getAbsolutePosition() - ArmConstants.POSITION_OFFSET_COUNT);
         armFF = new ArmFeedforward(ArmConstants.kS, ArmConstants.kG, ArmConstants.kV, ArmConstants.kA);
         armController = new ProfiledPIDController(ArmConstants.kP, ArmConstants.kI, ArmConstants.kD,
             new Constraints(ArmConstants.MAX_SPEED_RAD_S, ArmConstants.MAX_ACCEL_RAD_S_S)
@@ -43,7 +45,7 @@ public class Arm extends SubsystemBase {
     }
 
     public void setAngle(double s) {
-        this.setPoint = s;
+        this.setPoint = MathUtil.clamp(s, ArmConstants.LOWER_LIMIT_RAD, ArmConstants.UPPER_LIMIT_RAD);
     }
 
     public void setBrake(boolean braked) {
@@ -62,35 +64,12 @@ public class Arm extends SubsystemBase {
         btmMotor.set(speed);
     }
 
-    public int inRange() {
-        boolean ret = (getAngle() < ArmConstants.UPPER_LIMIT_RAD);
-        boolean ret2 = (getAngle() > ArmConstants.LOWER_LIMIT_RAD);
-        if (ret && ret2) {
-            return 1;
-        } else if (ret) {
-            return 2; //too low
-        } else if (ret2) {
-            return 3; //too high
-        } else {
-            return 4;
-        }
-    }
-
     public boolean atGoal() {
         return armController.atGoal();
     }
 
-    // @Override
-    // public void periodic() {
-    //     if (inRange() == 1) {
-    //         setV(armController.calculate(getAngle(), setPoint) + armFF.calculate(getAngle(), armController.getSetpoint().velocity));
-    //     } else if (inRange() == 2) {
-    //         setV(0.1); //might have to negate
-    //     } else if (inRange() == 3) {
-    //         setV(-.1);
-    //     } else {
-    //         setV(0);
-    //         System.out.println("theres some zesty shit going on with this arm bro i swr.");
-    //     }
-    // }
+    @Override
+    public void periodic() {
+        setV(armController.calculate(getAngle(), setPoint) + armFF.calculate(getAngle(), armController.getSetpoint().velocity));
+    }
 }

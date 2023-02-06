@@ -136,8 +136,8 @@ public final class Constants {
 
     public static final class JoystickConstants {
 
-        public static final double CONTROLLER_DEADBAND = 0.05;
-        public static final double CONTROLLER_TURNING_EXPONENT = 2;
+        public static final double CONTROLLER_DEADBAND = 0.08;
+        public static final double CONTROLLER_TURNING_EXPONENT = 1.5;
         public static final double MAX_ACCEL_TELEOP_M_S_S = 3.5 * 3;
         public static final double MAX_ANGULAR_ACCEL_TELEOP_RAD_S_S = Math.PI * 4;
         public static final double REGULAR_SPEED_M_S = 3.5;
@@ -155,13 +155,15 @@ public final class Constants {
         public static final int TOGGLE_FIELD_OP = 6;
         public static final int RESET_TELEMETRY = 5;
         public static final int TOGGLE_RAMP_PUSHER = 2;
-        public static final int CANCEL_ALL_COMMANDS_D = 0;
+        public static final int CANCEL_ALL_COMMANDS_D = 10;
         public static final int LOCK_SWERVE = 9;
         public static final int DAMPEN = 3;
         public static final int SPRINT = 4;
+        public static final int debugRampUp = 12;
+        public static final int debugRampDown = 11;
 
         //OPERATION bindings
-        // public static final int CANCEL_ALL_COMMANDS_O = 0;
+        public static final int CANCEL_ALL_COMMANDS_O = 0;
         // public static final int 
         // public static final int TOGGLE_FIELD_RELATIVE_BUTTON = 12;
         // public static final int RESET_ODOMETRY_BUTTON = 11;
@@ -172,9 +174,9 @@ public final class Constants {
         public static final double ROUTINE_MAX_ROTATION_SPEED_RAD_S = Math.PI;
         public static final double ROUTINE_MAX_TRANSLATION_ACCEL_M_S_S = 1.0;
         public static final double ROUTINE_MAX_ROTATION_ACCEL_RAD_S_S = Math.PI;
-        public static final double ROUTINE_THRESHOLD_ROT_ERROR_RAD = Math.PI/2;
+        public static final double ROT_THRESH_RAD = Math.PI/4;
         public static final double SCORING_LEVEL_OFFSET_METERS = 0.3; //FIXME
-        public static final double ARM_DELAY_SECONDS = 1;
+        public static final double ARM_DELAY_SECONDS = 1; //FIXME
 
         //PRESETS
         public static final Pose2d BOTTOM_CONE_SCORING_POSE_DEFAULT = new Pose2d(0, 0, new Rotation2d(0)); //FIXME
@@ -191,12 +193,13 @@ public final class Constants {
             RIGHT_SS
         }
 
-        public static final ClawState TOP_CONE_CLAW_STATE = new ClawState(0, 0);
-        public static final ClawState MID_CONE_CLAW_STATE = new ClawState(0, 0);
-        public static final ClawState TOP_CUBE_CLAW_STATE = new ClawState(0, 0);
-        public static final ClawState MID_CUBE_CLAW_STATE = new ClawState(0, 0);
-        public static final ClawState LOW_CLAW_STATE = new ClawState(0, 0);
-        public static final ClawState SUBSTATION_CLAW_STATE = new ClawState(0, 0);
+        public static final ClawState TOP_CONE_CLAW_STATE = new ClawState(0, 0); //FIXME
+        public static final ClawState MID_CONE_CLAW_STATE = new ClawState(0, 0); //FIXME
+        public static final ClawState TOP_CUBE_CLAW_STATE = new ClawState(0, 0); //FIXME
+        public static final ClawState MID_CUBE_CLAW_STATE = new ClawState(0, 0); //FIXME
+        public static final ClawState LOW_CLAW_STATE = new ClawState(0, 0); //FIXME
+        public static final ClawState SUBSTATION_CLAW_STATE = new ClawState(0, 0); //FIXME
+        public static final ClawState DEFAULT_CLAW_STATE = new ClawState(0, 0); //FIXME
     }
 
     public static final class ElevatorConstants {
@@ -227,7 +230,7 @@ public final class Constants {
         public static final int TOP_ID = 2;
         public static final int BTM_ID = 3;
         public static final int THROUGHBORE_ID = 3; //on DIO ports
-        public static final double POSITION_OFFSET_RAD = 2.2;
+        public static final double POSITION_OFFSET_COUNT = 2.2;
         public static final int CURRENT_LIMIT_AMPS = 55;
         public static final double kS = 2.0;
         public static final double kG = 2.0;
@@ -238,7 +241,7 @@ public final class Constants {
         public static final double kD = 2.0;
         public static final double ARM_CONTROLLER_TOLERANCE_RAD = Units.degreesToRadians(1);
         public static final double GEARBOX_GEARING = (1.0 / 100.0) * (17.0 / 20.0) * (20.0 / 32.0);
-        public static final double MAX_SPEED_RAD_S = MiscConstants.MAX_NEO_SPEED_RPM * GEARBOX_GEARING * Math.PI * 2 / 60;
+        public static final double MAX_SPEED_RAD_S = MiscConstants.MAX_NEO_SPEED_RPM * GEARBOX_GEARING * Math.PI * 2.0 / 60.0;
         public static final double MAX_ACCEL_RAD_S_S = MAX_SPEED_RAD_S / 4;
         public static final double UPPER_LIMIT_RAD = 2.2;
         public static final double LOWER_LIMIT_RAD = 2.3;
@@ -249,14 +252,24 @@ public final class Constants {
         public static final int RIGHT_ID = 16;
         public static final int THROUGHBORE_ID = 1;
 
-        public static final double UP_SPEED = .25;
-        public static final double DOWN_SPEED = -.25;
+        public static final double GEARING = (1.0 / 100.0);
+        public static final double ENCODER_OFFSET_RAD = 0; //FIXME
+        public static final double P = .5; //FIXME
+        public static final double I = 0; //FIXME
+        public static final double D = 0; //FIXME
+        public static final double MAX_SPEED_RAD_S = Units.rotationsPerMinuteToRadiansPerSecond(MiscConstants.MAX_550_SPEED_RPM * GEARING) / 3;
+        public static final double MAX_ACCEL_RAD_S_S = MAX_SPEED_RAD_S / 3;
+
+        public static final double DEPLOYED_POS_RAD = 0; //HAS TO BE 0
+        public static final double UNDEPLOYED_POS_RAD = 0; //FIXME
+        
     }
 
     public static final class MiscConstants {
         public static final boolean FIELD_RELATIVE_SWITCHABLE = true;
         public static final boolean FIELD_RELATIVE_ON_START = false;
         public static final double MAX_NEO_SPEED_RPM = 5676.0;
+        public static final double MAX_550_SPEED_RPM = 11000;
         public static final Pose2d DEBUG_RESET_POSE = new Pose2d(1.85, 0.47, new Rotation2d(0)); //have to flip before using if on red side
     }
 }

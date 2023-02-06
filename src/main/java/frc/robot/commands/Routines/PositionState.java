@@ -26,6 +26,18 @@ public class PositionState {
                     ret = RoutineConstants.BOTTOM_CONE_SCORING_POSE_DEFAULT;
                 }                
                 break;
+            } case LEFT_SS: {
+                if (OdometryMath2023.isBlue()) {
+                    ret = RoutineConstants.TOP_SUBSTATION_POSE_DEFAULT;
+                } else {
+                    ret = RoutineConstants.BOTTOM_SUBSTATION_POSE_DEFAULT;
+                }
+            } case RIGHT_SS: {
+                if (!OdometryMath2023.isBlue()) {
+                    ret = RoutineConstants.TOP_SUBSTATION_POSE_DEFAULT;
+                } else {
+                    ret = RoutineConstants.BOTTOM_SUBSTATION_POSE_DEFAULT;
+                }
             } default: {
                 ret = RoutineConstants.BOTTOM_CONE_SCORING_POSE_DEFAULT;
             }

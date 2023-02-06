@@ -11,10 +11,9 @@ import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.RobotContainer;
-import frc.robot.Constants.*;
+import frc.robot.Constants.MiscConstants;
+import frc.robot.Constants.SwerveConstants;
 import frc.robot.util.Logger;
 
 public class SwerveDrive extends SubsystemBase {

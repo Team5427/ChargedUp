@@ -1,7 +1,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -35,14 +34,6 @@ public class JoystickSwerve extends CommandBase {
 
     @Override
     public void execute() {
-        if (joy.getHID().getRawButtonPressed(JoystickConstants.TOGGLE_FIELD_OP)) {swerve.toggleFieldRelative();}
-        if (joy.getHID().getRawButtonPressed(JoystickConstants.RESET_TELEMETRY)) {
-            swerve.setHeading(0);
-            Pose2d resetPose = MiscConstants.DEBUG_RESET_POSE;
-            swerve.resetOdometry(OdometryMath2023.isBlue() ? resetPose : OdometryMath2023.flip(resetPose));
-            swerve.resetMods();
-        }
-
         states = joystickCalculations(joy);
         
         swerve.setModules(states);

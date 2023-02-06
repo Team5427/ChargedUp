@@ -20,6 +20,7 @@ public class MoveBotTo extends CommandBase {
     private static ProfiledPIDController xController, yController, thetaController;
     private Timer timer;
     private static RoutineConstants.POSITION_TYPE lastPositionType;
+    private RoutineConstants.POSITION_TYPE setType;
 
     public MoveBotTo(RoutineConstants.POSITION_TYPE type) {
         swerve = RobotContainer.getSwerve();
@@ -27,6 +28,7 @@ public class MoveBotTo extends CommandBase {
         timer = new Timer();
         this.setpoint = PositionState.getPositionPose(type);
         initControllers();
+        this.setType = type;
     }
 
     @Override
@@ -40,7 +42,7 @@ public class MoveBotTo extends CommandBase {
         measurement = swerve.getPose();
         SwerveModuleState[] states;
         if (
-            Math.abs(measurement.getRotation().minus(setpoint.getRotation()).getRadians()) > Constants.RoutineConstants.ROUTINE_THRESHOLD_ROT_ERROR_RAD
+            Math.abs(measurement.getRotation().minus(setpoint.getRotation()).getRadians()) < Constants.RoutineConstants.ROT_THRESH_RAD
         ) {
             states = Constants.SwerveConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(
                 calculateClosedLoop(measurement, setpoint)
@@ -63,8 +65,9 @@ public class MoveBotTo extends CommandBase {
     @Override
     public boolean isFinished() {
         if (xController.atGoal() && yController.atGoal() && thetaController.atGoal()) {
+            lastPositionType = this.setType;
             return true;
-        } else if (RobotContainer.getJoy().getHID().getRawButton(2)) {
+        } else if (RobotContainer.getJoy().getHID().getRawButton(JoystickConstants.CANCEL_ALL_COMMANDS_D) || RobotContainer.getJoy().getHID().getRawButton(JoystickConstants.CANCEL_ALL_COMMANDS_O)) {
             return true;
         } else {
             return false;
@@ -103,5 +106,9 @@ public class MoveBotTo extends CommandBase {
             )
         );
         thetaController.enableContinuousInput(-Math.PI, Math.PI);
+    }
+
+    public static RoutineConstants.POSITION_TYPE getLastPositionType() {
+        return lastPositionType;
     }
 }
