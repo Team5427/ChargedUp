@@ -230,7 +230,7 @@ public final class Constants {
         public static final int TOP_ID = 2;
         public static final int BTM_ID = 3;
         public static final int THROUGHBORE_ID = 3; //on DIO ports
-        public static final double POSITION_OFFSET_COUNT = 2.2;
+        public static final double POSITION_OFFSET_COUNT = 0.0;
         public static final int CURRENT_LIMIT_AMPS = 55;
         public static final double kS = 2.0;
         public static final double kG = 2.0;
@@ -265,11 +265,27 @@ public final class Constants {
         
     }
 
+    public static final class ClawConstants {
+        public static final int LEFT_ID = 0;
+        public static final int RIGHT_ID = 1;
+        public static final int CURRENT_LIMIT_AMPS = 20;
+
+        public static enum GAME_PIECE_STATE {
+            CONE,
+            CUBE,
+            NO_GP
+        }
+
+        public static final double PROX_VALUE = 0.0;
+        public static final double PURPLE_THRESH = 0.0;
+    }
+
     public static final class MiscConstants {
         public static final boolean FIELD_RELATIVE_SWITCHABLE = true;
         public static final boolean FIELD_RELATIVE_ON_START = false;
         public static final double MAX_NEO_SPEED_RPM = 5676.0;
         public static final double MAX_550_SPEED_RPM = 11000;
         public static final Pose2d DEBUG_RESET_POSE = new Pose2d(1.85, 0.47, new Rotation2d(0)); //have to flip before using if on red side
+        public static final int MAX_SMAX_PERIODIC_FRAME_MS = 65535;
     }
 }

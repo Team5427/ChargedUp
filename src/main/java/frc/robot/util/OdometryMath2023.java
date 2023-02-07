@@ -1,5 +1,8 @@
 package frc.robot.util;
 
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMaxLowLevel.PeriodicFrame;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -8,6 +11,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
+import frc.robot.Constants.MiscConstants;
 
 public class OdometryMath2023 extends SubsystemBase {
 
@@ -77,5 +81,14 @@ public class OdometryMath2023 extends SubsystemBase {
 
     public static boolean isBlue() {
         return DriverStation.getAlliance().equals(Alliance.Blue);
+    }
+
+    public static void doPeriodicFrame(CANSparkMax motor) {
+        motor.setPeriodicFramePeriod(PeriodicFrame.kStatus1, MiscConstants.MAX_SMAX_PERIODIC_FRAME_MS);
+        motor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, MiscConstants.MAX_SMAX_PERIODIC_FRAME_MS);
+        motor.setPeriodicFramePeriod(PeriodicFrame.kStatus3, MiscConstants.MAX_SMAX_PERIODIC_FRAME_MS);
+        motor.setPeriodicFramePeriod(PeriodicFrame.kStatus4, MiscConstants.MAX_SMAX_PERIODIC_FRAME_MS);
+        motor.setPeriodicFramePeriod(PeriodicFrame.kStatus5, MiscConstants.MAX_SMAX_PERIODIC_FRAME_MS);
+        motor.setPeriodicFramePeriod(PeriodicFrame.kStatus6, MiscConstants.MAX_SMAX_PERIODIC_FRAME_MS);
     }
 }
