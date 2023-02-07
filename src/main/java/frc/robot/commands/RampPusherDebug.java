@@ -24,10 +24,17 @@ public class RampPusherDebug extends CommandBase {
 
     @Override
     public void execute() {
-        if (joy.button(JoystickConstants.debugRampUp).getAsBoolean()) {
+        if (joy.button(JoystickConstants.debugRampUp).getAsBoolean()
+        //  && 
+        // (rampPusher.getPosition() < -2.5)
+        ) {
             rampPusher.move(.35);
-        } else if (joy.button(JoystickConstants.debugRampDown).getAsBoolean()) {
+        } else if (joy.button(JoystickConstants.debugRampDown).getAsBoolean()
+        //  && (rampPusher.getPosition() > 0)
+         ) {
             rampPusher.move(-.35);
+        } else {
+            rampPusher.stop();
         }
     }
 

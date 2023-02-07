@@ -6,9 +6,9 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 import frc.robot.Constants.*;
 import frc.robot.util.Logger;
 
@@ -18,36 +18,30 @@ public class RampPusher extends SubsystemBase {
     private CANSparkMax rightMotor;
     private DutyCycleEncoder throughbore;
     private boolean deployed;
-    private ProfiledPIDController leftController;
-    private ProfiledPIDController rightController;
+    private ProfiledPIDController controller;
 
     public RampPusher() {
 
         // LEFT MOTOR IS LEADER
 
         leftMotor = new CANSparkMax(RampPusherConstants.LEFT_ID, MotorType.kBrushless);
-        leftMotor.setSmartCurrentLimit(50);
-        leftMotor.setIdleMode(IdleMode.kBrake);
+        leftMotor.setSmartCurrentLimit(RampPusherConstants.CURRENT_LIMIT_AMPS);
+        leftMotor.setIdleMode(IdleMode.kCoast);
         rightMotor = new CANSparkMax(RampPusherConstants.RIGHT_ID, MotorType.kBrushless);
-        rightMotor.setSmartCurrentLimit(50);
-        rightMotor.setIdleMode(IdleMode.kBrake);
+        rightMotor.setSmartCurrentLimit(RampPusherConstants.CURRENT_LIMIT_AMPS);
+        rightMotor.setIdleMode(IdleMode.kCoast);
         rightMotor.setInverted(true);
-        throughbore = new DutyCycleEncoder(0);
-        throughbore.setDistancePerRotation(Math.PI * 2);
-        throughbore.setPositionOffset((throughbore.getAbsolutePosition() * Math.PI * 2) - RampPusherConstants.ENCODER_OFFSET_RAD);
-        leftController = new ProfiledPIDController(RampPusherConstants.P, RampPusherConstants.I, RampPusherConstants.D, 
+        throughbore = new DutyCycleEncoder(RampPusherConstants.THROUGHBORE_ID);
+        throughbore.reset();
+        throughbore.setPositionOffset(0);
+        controller = new ProfiledPIDController(RampPusherConstants.P, RampPusherConstants.I, RampPusherConstants.D, 
             new Constraints(RampPusherConstants.MAX_SPEED_RAD_S, RampPusherConstants.MAX_ACCEL_RAD_S_S)
-        );
-        rightController = new ProfiledPIDController(RampPusherConstants.P, RampPusherConstants.I, RampPusherConstants.D, 
-        new Constraints(RampPusherConstants.MAX_SPEED_RAD_S, RampPusherConstants.MAX_ACCEL_RAD_S_S)
         );
         deployed = false;
     }
 
     public void deploy(boolean bool) {
         deployed = bool;
-
-        
     }
 
     public void move(double speed){
@@ -66,27 +60,30 @@ public class RampPusher extends SubsystemBase {
 
 
     public double getPosition() {
-        return throughbore.getDistance();
+        return ((throughbore.getAbsolutePosition() * Math.PI * 2.0) - RampPusherConstants.ENCODER_OFFSET_RAD);
     }
 
     @Override
     public void periodic() {
-        leftMotor.set(leftController.calculate(getPosition()));
-        rightMotor.set(rightController.calculate(getPosition()));
+        // move(controller.calculate(getPosition()));
 
-        if(deployed){
-            leftController.setGoal(RampPusherConstants.DEPLOYED_POS_RAD);
-            rightController.setGoal(RampPusherConstants.DEPLOYED_POS_RAD);
-        } else{
-            leftController.setGoal(RampPusherConstants.UNDEPLOYED_POS_RAD);
-            rightController.setGoal(RampPusherConstants.DEPLOYED_POS_RAD);
-        }
+        // if (DriverStation.isEnabled()) {
+        //     if(deployed){
+        //         controller.setGoal(RampPusherConstants.DEPLOYED_POS_RAD);
+        //     } else{
+        //         controller.setGoal(RampPusherConstants.UNDEPLOYED_POS_RAD);
+        //     }
+        // } else {
+        //     controller.setGoal(getPosition());
+        // }
 
         log();
     }
 
     private void log() {
-        Logger.post("ramp pusher positon", getPosition());
+        Logger.post("ramp pusher positon", getPosition()); //baiscally absolute output x 2pi
+        Logger.post("absolute position", throughbore.getAbsolutePosition());
+        Logger.post("controller setpoint", controller.getSetpoint());
     }
 
 

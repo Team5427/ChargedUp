@@ -250,15 +250,15 @@ public final class Constants {
     public static final class RampPusherConstants {
         public static final int LEFT_ID = 13;
         public static final int RIGHT_ID = 16;
-        public static final int THROUGHBORE_ID = 1;
+        public static final int THROUGHBORE_ID = 0;
+        public static final int CURRENT_LIMIT_AMPS = 50;
 
         public static final double GEARING = (1.0 / 100.0);
-        public static final double ENCODER_OFFSET_RAD = 0; //FIXME
-        public static final double P = .5; //FIXME
+        public static final double ENCODER_OFFSET_RAD = 0; //FIXME urgent
+        public static final double P = .5; //FIXME should work for rn
         public static final double I = 0; //FIXME
         public static final double D = 0; //FIXME
-        // public static final double MAX_SPEED_RAD_S = Units.rotationsPerMinuteToRadiansPerSecond(MiscConstants.MAX_550_SPEED_RPM * GEARING) / 3;
-        public static final double MAX_SPEED_RAD_S = Math.PI/2;
+        public static final double MAX_SPEED_RAD_S = Units.rotationsPerMinuteToRadiansPerSecond(MiscConstants.MAX_550_SPEED_RPM * GEARING) / 3;
         public static final double MAX_ACCEL_RAD_S_S = MAX_SPEED_RAD_S / 3;
 
         public static final double DEPLOYED_POS_RAD = 0; //HAS TO BE 0
