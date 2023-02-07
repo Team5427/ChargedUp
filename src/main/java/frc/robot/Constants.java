@@ -257,7 +257,8 @@ public final class Constants {
         public static final double P = .5; //FIXME
         public static final double I = 0; //FIXME
         public static final double D = 0; //FIXME
-        public static final double MAX_SPEED_RAD_S = Units.rotationsPerMinuteToRadiansPerSecond(MiscConstants.MAX_550_SPEED_RPM * GEARING) / 3;
+        // public static final double MAX_SPEED_RAD_S = Units.rotationsPerMinuteToRadiansPerSecond(MiscConstants.MAX_550_SPEED_RPM * GEARING) / 3;
+        public static final double MAX_SPEED_RAD_S = Math.PI/2;
         public static final double MAX_ACCEL_RAD_S_S = MAX_SPEED_RAD_S / 3;
 
         public static final double DEPLOYED_POS_RAD = 0; //HAS TO BE 0

@@ -8,6 +8,7 @@ import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.Constants.*;
 import frc.robot.util.Logger;
 
@@ -20,6 +21,9 @@ public class RampPusher extends SubsystemBase {
     private ProfiledPIDController controller;
 
     public RampPusher() {
+
+        // LEFT MOTOR IS LEADER
+
         leftMotor = new CANSparkMax(RampPusherConstants.LEFT_ID, MotorType.kBrushless);
         leftMotor.setSmartCurrentLimit(50);
         leftMotor.setIdleMode(IdleMode.kBrake);
@@ -27,6 +31,9 @@ public class RampPusher extends SubsystemBase {
         rightMotor.setSmartCurrentLimit(50);
         rightMotor.setIdleMode(IdleMode.kBrake);
         rightMotor.setInverted(true);
+
+        rightMotor.follow(leftMotor);
+
         throughbore = new DutyCycleEncoder(0);
         throughbore.setDistancePerRotation(Math.PI * 2);
         throughbore.setPositionOffset((throughbore.getAbsolutePosition() * Math.PI * 2) - RampPusherConstants.ENCODER_OFFSET_RAD);
@@ -38,6 +45,12 @@ public class RampPusher extends SubsystemBase {
 
     public void deploy(boolean bool) {
         deployed = bool;
+
+        if(deployed){
+            leftMotor.set(controller.calculate(getPosition(), Constants.RampPusherConstants.DEPLOYED_POS_RAD));
+        } else{
+            leftMotor.set(controller.calculate(getPosition(), Constants.RampPusherConstants.UNDEPLOYED_POS_RAD));
+        }
     }
 
     public void move(double speed){
@@ -53,6 +66,7 @@ public class RampPusher extends SubsystemBase {
     public boolean isDeployed() {
         return deployed;
     }
+
 
     public double getPosition() {
         return throughbore.getDistance();
