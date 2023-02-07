@@ -14,22 +14,22 @@ import frc.robot.Constants.*;
 
 public class Elevator extends SubsystemBase {
 
-    public CANSparkMax leftSpark;
-    public CANSparkMax rightSpark;
+    public CANSparkMax leftMotor;
+    public CANSparkMax rightMotor;
     public Encoder throughbore;
     public DigitalInput limitLeft;
     public DigitalInput limitRight;
     public double setPoint; //meters
     public ElevatorFeedforward elevatorFF;
-    public ProfiledPIDController elevatorController;
+    public ProfiledPIDController leftElevatorController, rightElevatorController;
 
     public Elevator() {
-        leftSpark = new CANSparkMax(ElevatorConstants.LEFT_MOTOR_ID, MotorType.kBrushless);
-        rightSpark = new CANSparkMax(ElevatorConstants.RIGHT_MOTOR_ID, MotorType.kBrushless);
-        rightSpark.setInverted(true);
+        leftMotor = new CANSparkMax(ElevatorConstants.LEFT_MOTOR_ID, MotorType.kBrushless);
+        rightMotor = new CANSparkMax(ElevatorConstants.RIGHT_MOTOR_ID, MotorType.kBrushless);
+        rightMotor.setInverted(true);
         setBrake(true);
-        leftSpark.setSmartCurrentLimit(ElevatorConstants.CURRENT_LIMIT_AMPS);
-        rightSpark.setSmartCurrentLimit(ElevatorConstants.CURRENT_LIMIT_AMPS);
+        leftMotor.setSmartCurrentLimit(ElevatorConstants.CURRENT_LIMIT_AMPS);
+        rightMotor.setSmartCurrentLimit(ElevatorConstants.CURRENT_LIMIT_AMPS);
         throughbore = new Encoder(0, 0);
         throughbore.reset();
         throughbore.setDistancePerPulse(ElevatorConstants.POSITION_CONVERSION_FACTOR_ROT_TO_METERS / 8192);
@@ -37,10 +37,14 @@ public class Elevator extends SubsystemBase {
         limitRight = new DigitalInput(ElevatorConstants.RIGHT_LIMIT_ID);
         setPoint = 0;
         elevatorFF = new ElevatorFeedforward(ElevatorConstants.kS, ElevatorConstants.kG, ElevatorConstants.kV, ElevatorConstants.kA); //FIXME
-        elevatorController = new ProfiledPIDController(ElevatorConstants.kP, ElevatorConstants.kI, ElevatorConstants.kD, 
+        leftElevatorController = new ProfiledPIDController(ElevatorConstants.kP, ElevatorConstants.kI, ElevatorConstants.kD, 
             new Constraints(ElevatorConstants.MAX_SPEED_M_S, ElevatorConstants.MAX_ACCEL_M_S_S)
         );
-        elevatorController.setTolerance(ElevatorConstants.GOAL_TOLERANCE_METERS);
+        leftElevatorController.setTolerance(ElevatorConstants.GOAL_TOLERANCE_METERS);
+        rightElevatorController = new ProfiledPIDController(ElevatorConstants.kP, ElevatorConstants.kI, ElevatorConstants.kD, 
+            new Constraints(ElevatorConstants.MAX_SPEED_M_S, ElevatorConstants.MAX_ACCEL_M_S_S)
+        );
+        rightElevatorController.setTolerance(ElevatorConstants.GOAL_TOLERANCE_METERS);
     }
 
     public void resetEncoder() {
@@ -65,40 +69,46 @@ public class Elevator extends SubsystemBase {
 
     public void setBrake(boolean braked) {
         IdleMode idle = braked ? IdleMode.kBrake : IdleMode.kCoast;
-        leftSpark.setIdleMode(idle);
-        rightSpark.setIdleMode(idle);
+        leftMotor.setIdleMode(idle);
+        rightMotor.setIdleMode(idle);
     }
 
     public boolean getBraked() {
-        return (leftSpark.getIdleMode().equals(IdleMode.kBrake) && rightSpark.getIdleMode().equals(IdleMode.kBrake));
+        return (leftMotor.getIdleMode().equals(IdleMode.kBrake) && rightMotor.getIdleMode().equals(IdleMode.kBrake));
     }
 
     public void setV(double value) {
-        leftSpark.setVoltage(value);
-        rightSpark.setVoltage(value);
+        leftMotor.setVoltage(value);
+        rightMotor.setVoltage(value);
     }
 
     public void set(double value) {
-        leftSpark.set(value);
-        rightSpark.set(value);
+        leftMotor.set(value);
+        rightMotor.set(value);
     }
 
     public boolean atGoal() {
-        return elevatorController.atGoal();
+        return leftElevatorController.atGoal();
     }
 
-    // @Override
-    // public void periodic() {
+    public double getPosition() {
+        return throughbore.getDistance();
+    }
 
-    //     if (getHeight() <= ElevatorConstants.UPPER_LIMIT_METERS) {
-    //         set(elevatorController.calculate(getHeight(), setPoint) + elevatorFF.calculate(elevatorController.getSetpoint().velocity));
-    //     } else {
-    //         set(0);
-    //     }
+    @Override
+    public void periodic() {
 
-    //     if (limitLeft.get() || limitRight.get()) {
-    //         resetEncoder();
-    //     }
-    // }
+        if (getHeight() <= ElevatorConstants.UPPER_LIMIT_METERS) {
+            leftElevatorController.setGoal(setPoint);
+            rightElevatorController.setGoal(setPoint);
+        } else {
+            leftElevatorController.setGoal(getPosition());
+            rightElevatorController.setGoal(getPosition());
+        }
+
+        if (limitLeft.get() || limitRight.get()) {
+            resetEncoder();
+        }
+    }
     
 }

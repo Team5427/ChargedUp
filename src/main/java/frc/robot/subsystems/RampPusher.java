@@ -18,7 +18,8 @@ public class RampPusher extends SubsystemBase {
     private CANSparkMax rightMotor;
     private DutyCycleEncoder throughbore;
     private boolean deployed;
-    private ProfiledPIDController controller;
+    private ProfiledPIDController leftController;
+    private ProfiledPIDController rightController;
 
     public RampPusher() {
 
@@ -31,14 +32,14 @@ public class RampPusher extends SubsystemBase {
         rightMotor.setSmartCurrentLimit(50);
         rightMotor.setIdleMode(IdleMode.kBrake);
         rightMotor.setInverted(true);
-
-        rightMotor.follow(leftMotor);
-
         throughbore = new DutyCycleEncoder(0);
         throughbore.setDistancePerRotation(Math.PI * 2);
         throughbore.setPositionOffset((throughbore.getAbsolutePosition() * Math.PI * 2) - RampPusherConstants.ENCODER_OFFSET_RAD);
-        controller = new ProfiledPIDController(RampPusherConstants.P, RampPusherConstants.I, RampPusherConstants.D, 
+        leftController = new ProfiledPIDController(RampPusherConstants.P, RampPusherConstants.I, RampPusherConstants.D, 
             new Constraints(RampPusherConstants.MAX_SPEED_RAD_S, RampPusherConstants.MAX_ACCEL_RAD_S_S)
+        );
+        rightController = new ProfiledPIDController(RampPusherConstants.P, RampPusherConstants.I, RampPusherConstants.D, 
+        new Constraints(RampPusherConstants.MAX_SPEED_RAD_S, RampPusherConstants.MAX_ACCEL_RAD_S_S)
         );
         deployed = false;
     }
@@ -46,11 +47,7 @@ public class RampPusher extends SubsystemBase {
     public void deploy(boolean bool) {
         deployed = bool;
 
-        if(deployed){
-            leftMotor.set(controller.calculate(getPosition(), Constants.RampPusherConstants.DEPLOYED_POS_RAD));
-        } else{
-            leftMotor.set(controller.calculate(getPosition(), Constants.RampPusherConstants.UNDEPLOYED_POS_RAD));
-        }
+        
     }
 
     public void move(double speed){
@@ -74,11 +71,17 @@ public class RampPusher extends SubsystemBase {
 
     @Override
     public void periodic() {
-        // if (deployed) {
-        //     controller.calculate(getPosition(), RampPusherConstants.DEPLOYED_POS_RAD);
-        // } else {
-        //     controller.calculate(getPosition(), RampPusherConstants.UNDEPLOYED_POS_RAD);
-        // }
+        leftMotor.set(leftController.calculate(getPosition()));
+        rightMotor.set(rightController.calculate(getPosition()));
+
+        if(deployed){
+            leftController.setGoal(RampPusherConstants.DEPLOYED_POS_RAD);
+            rightController.setGoal(RampPusherConstants.DEPLOYED_POS_RAD);
+        } else{
+            leftController.setGoal(RampPusherConstants.UNDEPLOYED_POS_RAD);
+            rightController.setGoal(RampPusherConstants.DEPLOYED_POS_RAD);
+        }
+
         log();
     }
 
