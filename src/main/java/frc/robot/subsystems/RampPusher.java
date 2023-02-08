@@ -26,10 +26,10 @@ public class RampPusher extends SubsystemBase {
 
         leftMotor = new CANSparkMax(RampPusherConstants.LEFT_ID, MotorType.kBrushless);
         leftMotor.setSmartCurrentLimit(RampPusherConstants.CURRENT_LIMIT_AMPS);
-        leftMotor.setIdleMode(IdleMode.kCoast);
+        leftMotor.setIdleMode(IdleMode.kBrake);
         rightMotor = new CANSparkMax(RampPusherConstants.RIGHT_ID, MotorType.kBrushless);
         rightMotor.setSmartCurrentLimit(RampPusherConstants.CURRENT_LIMIT_AMPS);
-        rightMotor.setIdleMode(IdleMode.kCoast);
+        rightMotor.setIdleMode(IdleMode.kBrake);
         rightMotor.setInverted(true);
         throughbore = new DutyCycleEncoder(RampPusherConstants.THROUGHBORE_ID);
         throughbore.reset();
@@ -37,6 +37,7 @@ public class RampPusher extends SubsystemBase {
         controller = new ProfiledPIDController(RampPusherConstants.P, RampPusherConstants.I, RampPusherConstants.D, 
             new Constraints(RampPusherConstants.MAX_SPEED_RAD_S, RampPusherConstants.MAX_ACCEL_RAD_S_S)
         );
+        controller.enableContinuousInput(0 - RampPusherConstants.ENCODER_OFFSET_RAD, (2 * Math.PI) - RampPusherConstants.ENCODER_OFFSET_RAD);
         deployed = false;
     }
 
@@ -65,17 +66,18 @@ public class RampPusher extends SubsystemBase {
 
     @Override
     public void periodic() {
-        // move(controller.calculate(getPosition()));
+        move(controller.calculate(getPosition()));
 
-        // if (DriverStation.isEnabled()) {
-        //     if(deployed){
-        //         controller.setGoal(RampPusherConstants.DEPLOYED_POS_RAD);
-        //     } else{
-        //         controller.setGoal(RampPusherConstants.UNDEPLOYED_POS_RAD);
-        //     }
-        // } else {
-        //     controller.setGoal(getPosition());
-        // }
+        if (DriverStation.isEnabled()) {
+            System.out.println("getName()");
+            if(deployed){
+                controller.setGoal(RampPusherConstants.DEPLOYED_POS_RAD);
+            } else{
+                controller.setGoal(RampPusherConstants.UNDEPLOYED_POS_RAD);
+            }
+        } else {
+            controller.setGoal(getPosition());
+        }
 
         log();
     }
@@ -83,7 +85,7 @@ public class RampPusher extends SubsystemBase {
     private void log() {
         Logger.post("ramp pusher positon", getPosition()); //baiscally absolute output x 2pi
         Logger.post("absolute position", throughbore.getAbsolutePosition());
-        Logger.post("controller setpoint", controller.getSetpoint());
+        Logger.post("controller setpoint", controller.getSetpoint().position);
     }
 
 

@@ -29,7 +29,7 @@ public class ButtonBindings {
 
         joy.button(JoystickConstants.TOGGLE_RAMP_PUSHER).onTrue(new InstantCommand(() -> {
             pusher.deploy(!pusher.isDeployed());
-        }));
+        }, pusher));    
 
     }
 

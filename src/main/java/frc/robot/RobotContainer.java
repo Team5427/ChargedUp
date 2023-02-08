@@ -40,7 +40,7 @@ public class RobotContainer {
     swerveDrive.setDefaultCommand(new JoystickSwerve());
 
     rampPusher = new RampPusher();
-    rampPusher.setDefaultCommand(new RampPusherDebug());
+    // rampPusher.setDefaultCommand(new RampPusherDebug());
 
     odom = new OdometryMath2023();
 
