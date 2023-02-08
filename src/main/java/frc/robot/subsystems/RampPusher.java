@@ -21,9 +21,6 @@ public class RampPusher extends SubsystemBase {
     private ProfiledPIDController controller;
 
     public RampPusher() {
-
-        // LEFT MOTOR IS LEADER
-
         leftMotor = new CANSparkMax(RampPusherConstants.LEFT_ID, MotorType.kBrushless);
         leftMotor.setSmartCurrentLimit(RampPusherConstants.CURRENT_LIMIT_AMPS);
         leftMotor.setIdleMode(IdleMode.kBrake);
@@ -66,10 +63,9 @@ public class RampPusher extends SubsystemBase {
 
     @Override
     public void periodic() {
-        move(controller.calculate(getPosition()));
-
+        double calc = controller.calculate(getPosition());
+        move(calc);
         if (DriverStation.isEnabled()) {
-            System.out.println("getName()");
             if(deployed){
                 controller.setGoal(RampPusherConstants.DEPLOYED_POS_RAD);
             } else{
@@ -83,7 +79,7 @@ public class RampPusher extends SubsystemBase {
     }
 
     private void log() {
-        Logger.post("ramp pusher positon", getPosition()); //baiscally absolute output x 2pi
+        Logger.post("ramp pusher positon", getPosition());
         Logger.post("absolute position", throughbore.getAbsolutePosition());
         Logger.post("controller setpoint", controller.getSetpoint().position);
     }

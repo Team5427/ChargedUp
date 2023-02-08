@@ -21,7 +21,7 @@ public class Elevator extends SubsystemBase {
     public DigitalInput limitRight;
     public double setPoint; //meters
     public ElevatorFeedforward elevatorFF;
-    public ProfiledPIDController leftElevatorController, rightElevatorController;
+    public ProfiledPIDController elevatorController;
 
     public Elevator() {
         leftMotor = new CANSparkMax(ElevatorConstants.LEFT_MOTOR_ID, MotorType.kBrushless);
@@ -37,14 +37,10 @@ public class Elevator extends SubsystemBase {
         limitRight = new DigitalInput(ElevatorConstants.RIGHT_LIMIT_ID);
         setPoint = 0;
         elevatorFF = new ElevatorFeedforward(ElevatorConstants.kS, ElevatorConstants.kG, ElevatorConstants.kV, ElevatorConstants.kA); //FIXME
-        leftElevatorController = new ProfiledPIDController(ElevatorConstants.kP, ElevatorConstants.kI, ElevatorConstants.kD, 
+        elevatorController = new ProfiledPIDController(ElevatorConstants.kP, ElevatorConstants.kI, ElevatorConstants.kD, 
             new Constraints(ElevatorConstants.MAX_SPEED_M_S, ElevatorConstants.MAX_ACCEL_M_S_S)
         );
-        leftElevatorController.setTolerance(ElevatorConstants.GOAL_TOLERANCE_METERS);
-        rightElevatorController = new ProfiledPIDController(ElevatorConstants.kP, ElevatorConstants.kI, ElevatorConstants.kD, 
-            new Constraints(ElevatorConstants.MAX_SPEED_M_S, ElevatorConstants.MAX_ACCEL_M_S_S)
-        );
-        rightElevatorController.setTolerance(ElevatorConstants.GOAL_TOLERANCE_METERS);
+        elevatorController.setTolerance(ElevatorConstants.GOAL_TOLERANCE_METERS);
     }
 
     public void resetEncoder() {
@@ -88,7 +84,7 @@ public class Elevator extends SubsystemBase {
     }
 
     public boolean atGoal() {
-        return leftElevatorController.atGoal();
+        return elevatorController.atGoal();
     }
 
     public double getPosition() {
@@ -97,13 +93,13 @@ public class Elevator extends SubsystemBase {
 
     @Override
     public void periodic() {
+        double calc = elevatorController.calculate(getHeight());
+        setV(calc);
 
-        if (getHeight() <= ElevatorConstants.UPPER_LIMIT_METERS) {
-            leftElevatorController.setGoal(setPoint);
-            rightElevatorController.setGoal(setPoint);
+        if (getHeight() < ElevatorConstants.UPPER_LIMIT_METERS) {
+            elevatorController.setGoal(this.setPoint);
         } else {
-            leftElevatorController.setGoal(getPosition());
-            rightElevatorController.setGoal(getPosition());
+            elevatorController.setGoal(getPosition() - 0.01);
         }
 
         if (limitLeft.get() || limitRight.get()) {

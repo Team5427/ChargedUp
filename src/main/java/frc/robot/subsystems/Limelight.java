@@ -6,7 +6,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Limelight extends SubsystemBase{
+public class Limelight extends SubsystemBase {
     private NetworkTable table_m;
     private boolean tv;
 
@@ -47,7 +47,7 @@ public class Limelight extends SubsystemBase{
             currentPose.minus(pose).div(2)
             );
     }
-    
+
     public void setLight(boolean on) {
         if (on) {
             table_m.getEntry("ledMode").setNumber(0);

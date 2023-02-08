@@ -8,9 +8,13 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import edu.wpi.first.wpilibj.PneumaticHub;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.*;
+import frc.robot.util.Logger;
 
 public class Arm extends SubsystemBase {
     
@@ -18,6 +22,7 @@ public class Arm extends SubsystemBase {
     private CANSparkMax btmMotor;
     private DutyCycleEncoder throughbore;
     private double setPoint;
+    private double calc;
     private ArmFeedforward armFF;
     private ProfiledPIDController armController;
 
@@ -30,18 +35,19 @@ public class Arm extends SubsystemBase {
         setBrake(true);
         throughbore = new DutyCycleEncoder(ArmConstants.THROUGHBORE_ID);
         throughbore.reset();
+        throughbore.setPositionOffset(0);
         throughbore.setDistancePerRotation(Math.PI * 2);
-        throughbore.setPositionOffset(throughbore.getAbsolutePosition() - ArmConstants.POSITION_OFFSET_COUNT);
         armFF = new ArmFeedforward(ArmConstants.kS, ArmConstants.kG, ArmConstants.kV, ArmConstants.kA);
         armController = new ProfiledPIDController(ArmConstants.kP, ArmConstants.kI, ArmConstants.kD,
             new Constraints(ArmConstants.MAX_SPEED_RAD_S, ArmConstants.MAX_ACCEL_RAD_S_S)
         );
+        armController.enableContinuousInput(setPoint, setPoint);
         armController.setTolerance(ArmConstants.ARM_CONTROLLER_TOLERANCE_RAD);
         setPoint = getAngle(); //arm locks up on robot startup
     }
 
     public double getAngle() {
-        return throughbore.getDistance();
+        return ((throughbore.getAbsolutePosition() * Math.PI * 2) - ArmConstants.POSITION_OFFSET_COUNT);
     }
 
     public void setAngle(double s) {
@@ -64,12 +70,30 @@ public class Arm extends SubsystemBase {
         btmMotor.set(speed);
     }
 
+    public void stopMotors() {
+        topMotor.stopMotor();
+        btmMotor.stopMotor();
+    }
+
     public boolean atGoal() {
         return armController.atGoal();
     }
 
     @Override
     public void periodic() {
-        setV(armController.calculate(getAngle(), setPoint) + armFF.calculate(getAngle(), armController.getSetpoint().velocity));
+        // calc = armController.calculate(getAngle());
+        // setV(calc + armFF.calculate(getAngle(), armController.getSetpoint().velocity));
+        // if (DriverStation.isEnabled()) {
+        //     armController.setGoal(this.setPoint);
+        // } else {
+        //     armController.setGoal(getAngle());
+        // }
+    }
+
+    public void log() {
+        Logger.post("calculation", this.calc);
+        Logger.post("angle", getAngle());
+        Logger.post("at goal", atGoal());
+        Logger.post("arm setpoint", this.setPoint);
     }
 }

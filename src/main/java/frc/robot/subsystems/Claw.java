@@ -3,6 +3,9 @@ package frc.robot.subsystems;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ColorSensorV3;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.*;
@@ -13,6 +16,7 @@ public class Claw extends SubsystemBase {
     CANSparkMax left;
     CANSparkMax right;
     ColorSensorV3 sensor;
+    Solenoid grabber;
 
     public Claw() {
         left = new CANSparkMax(0, MotorType.kBrushless);
@@ -23,16 +27,15 @@ public class Claw extends SubsystemBase {
         OdometryMath2023.doPeriodicFrame(right);
         right.setInverted(true);
         sensor = new ColorSensorV3(Port.kOnboard);
+        grabber = new Solenoid(PneumaticsModuleType.REVPH, 2);
     }
 
     public ClawConstants.GAME_PIECE_STATE getState() {
         if (sensor.getProximity() < ClawConstants.PROX_VALUE) { //has game piece
             if (isPurple(sensor)) {
                 return ClawConstants.GAME_PIECE_STATE.CUBE;
-            } else if (!isPurple(sensor)) {
-                return ClawConstants.GAME_PIECE_STATE.CONE;
             } else {
-                return ClawConstants.GAME_PIECE_STATE.NO_GP;
+                return ClawConstants.GAME_PIECE_STATE.CONE;
             }
         } else {
             return ClawConstants.GAME_PIECE_STATE.NO_GP;
