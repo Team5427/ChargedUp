@@ -83,6 +83,4 @@ public class RampPusher extends SubsystemBase {
         Logger.post("absolute position", throughbore.getAbsolutePosition());
         Logger.post("controller setpoint", controller.getSetpoint().position);
     }
-
-
 }

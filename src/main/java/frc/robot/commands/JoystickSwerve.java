@@ -54,7 +54,7 @@ public class JoystickSwerve extends CommandBase {
         double xSpeed = -joy.getHID().getX();
         double ySpeed = -joy.getHID().getY();
         double x2Speed = -joy.getHID().getZ();
-        x2Speed = Math.copySign(Math.pow(x2Speed, JoystickConstants.CONTROLLER_TURNING_EXPONENT), x2Speed);
+        // x2Speed = Math.copySign(Math.pow(x2Speed, JoystickConstants.CONTROLLER_TURNING_EXPONENT), x2Speed);
         
 
         // xSpeed = Math.abs(xSpeed) > (JoystickConstants.CONTROLLER_DEADBAND) ? (xSpeed - Constants.SwerveConstants.MINIMUM_SPEED_M_PER_SEC)/(1 - Constants.SwerveConstants.MINIMUM_SPEED_M_PER_SEC) : 0;
