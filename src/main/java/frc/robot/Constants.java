@@ -288,5 +288,6 @@ public final class Constants {
         public static final double MAX_550_SPEED_RPM = 11000;
         public static final Pose2d DEBUG_RESET_POSE = new Pose2d(1.85, 0.47, new Rotation2d(0)); //have to flip before using if on red side
         public static final int MAX_SMAX_PERIODIC_FRAME_MS = 65535;
+        public static final int THORUGHBORE_CONNECTION_HZ = 975;
     }
 }

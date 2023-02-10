@@ -31,6 +31,7 @@ public class RampPusher extends SubsystemBase {
         throughbore = new DutyCycleEncoder(RampPusherConstants.THROUGHBORE_ID);
         throughbore.reset();
         throughbore.setPositionOffset(0);
+        throughbore.setConnectedFrequencyThreshold(MiscConstants.THORUGHBORE_CONNECTION_HZ);
         controller = new ProfiledPIDController(RampPusherConstants.P, RampPusherConstants.I, RampPusherConstants.D, 
             new Constraints(RampPusherConstants.MAX_SPEED_RAD_S, RampPusherConstants.MAX_ACCEL_RAD_S_S)
         );
@@ -63,18 +64,21 @@ public class RampPusher extends SubsystemBase {
 
     @Override
     public void periodic() {
-        double calc = controller.calculate(getPosition());
-        move(calc);
-        if (DriverStation.isEnabled()) {
-            if(deployed){
-                controller.setGoal(RampPusherConstants.DEPLOYED_POS_RAD);
-            } else{
-                controller.setGoal(RampPusherConstants.UNDEPLOYED_POS_RAD);
+        if (throughbore.isConnected()) {
+            double calc = controller.calculate(getPosition());
+            move(calc);
+            if (DriverStation.isEnabled()) {
+                if(deployed){
+                    controller.setGoal(RampPusherConstants.DEPLOYED_POS_RAD);
+                } else{
+                    controller.setGoal(RampPusherConstants.UNDEPLOYED_POS_RAD);
+                }
+            } else {
+                controller.setGoal(getPosition());
             }
         } else {
-            controller.setGoal(getPosition());
+            stop();
         }
-
         log();
     }
 
@@ -82,5 +86,7 @@ public class RampPusher extends SubsystemBase {
         Logger.post("ramp pusher positon", getPosition());
         Logger.post("absolute position", throughbore.getAbsolutePosition());
         Logger.post("controller setpoint", controller.getSetpoint().position);
+        Logger.post("THroughbore connect", throughbore.isConnected());
+        Logger.post("getFreq", throughbore.getFrequency());
     }
 }
