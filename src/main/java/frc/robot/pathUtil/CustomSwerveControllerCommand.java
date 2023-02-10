@@ -1,6 +1,5 @@
 package frc.robot.pathUtil;
 
-import com.pathplanner.lib.PathPlannerTrajectory.PathPlannerState;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.pathplanner.lib.server.PathPlannerServer;
 import edu.wpi.first.math.controller.PIDController;
@@ -14,6 +13,8 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.*;
+import frc.robot.pathUtil.CustomTrajectory.PathPlannerState;
+
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
@@ -24,7 +25,7 @@ public class CustomSwerveControllerCommand extends CommandBase {
   private final CustomTrajectory trajectory;
   private final Supplier<Pose2d> poseSupplier;
   private final SwerveDriveKinematics kinematics;
-  private final PPHolonomicDriveController controller;
+  private final CustomPPHolonomicDriveController controller;
   private final Consumer<SwerveModuleState[]> outputModuleStates;
   private final Consumer<ChassisSpeeds> outputChassisSpeeds;
   private final boolean useKinematics;
@@ -69,7 +70,7 @@ public class CustomSwerveControllerCommand extends CommandBase {
       Subsystem... requirements) {
     this.trajectory = trajectory;
     this.poseSupplier = poseSupplier;
-    this.controller = new PPHolonomicDriveController(xController, yController, rotationController);
+    this.controller = new CustomPPHolonomicDriveController(xController, yController, rotationController);
     this.outputChassisSpeeds = outputChassisSpeeds;
     this.outputModuleStates = null;
     this.kinematics = null;
@@ -157,7 +158,7 @@ public class CustomSwerveControllerCommand extends CommandBase {
     this.trajectory = trajectory;
     this.poseSupplier = poseSupplier;
     this.kinematics = kinematics;
-    this.controller = new PPHolonomicDriveController(xController, yController, rotationController);
+    this.controller = new CustomPPHolonomicDriveController(xController, yController, rotationController);
     this.outputModuleStates = outputModuleStates;
     this.outputChassisSpeeds = null;
     this.useKinematics = true;
@@ -236,7 +237,7 @@ public class CustomSwerveControllerCommand extends CommandBase {
   @Override
   public void execute() {
     double currentTime = this.timer.get();
-    PathPlannerState desiredState = (PathPlannerState) transformedTrajectory.sample(currentTime);
+    PathPlannerState desiredState = transformedTrajectory.sample(currentTime);
 
     Pose2d currentPose = this.poseSupplier.get();
 

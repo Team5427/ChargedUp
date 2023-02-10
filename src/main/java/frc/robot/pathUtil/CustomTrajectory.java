@@ -92,7 +92,7 @@ public class CustomTrajectory extends Trajectory {
    * @return The state at the given point in time
    */
   @Override
-  public State sample(double time) {
+  public PathPlannerState sample(double time) {
     if (time <= getInitialState().timeSeconds) return getInitialState();
     if (time >= getTotalTimeSeconds()) return getEndState();
 
