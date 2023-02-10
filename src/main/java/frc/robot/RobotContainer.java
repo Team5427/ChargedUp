@@ -24,7 +24,7 @@ public class RobotContainer {
   private static SwerveDrive swerveDrive;
   private static WPI_Pigeon2 pigeon;
   private static CommandJoystick joy;
-  private static Limelight limelight;
+  private static Limelight limelight_right, limelight_left;
   private static OdometryMath2023 odom;
   private static RampPusher rampPusher;
 
@@ -34,7 +34,8 @@ public class RobotContainer {
     pigeon = new WPI_Pigeon2(Constants.SwerveConstants.PIGEON_ID);
     pigeon.configFactoryDefault();
     joy = new CommandJoystick(Constants.JoystickConstants.DRIVER_CONTROLLER);
-    limelight = new Limelight(NetworkTableInstance.getDefault().getTable("limelight-steelta"));
+    limelight_right = new Limelight(NetworkTableInstance.getDefault().getTable("limelight-right"));
+    limelight_left = new Limelight(NetworkTableInstance.getDefault().getTable("limelight-left"));
 
     swerveDrive = new SwerveDrive(pigeon);
     swerveDrive.setDefaultCommand(new JoystickSwerve());
@@ -57,7 +58,8 @@ public class RobotContainer {
   public static SwerveDrive getSwerve() {return swerveDrive;}
   public static WPI_Pigeon2 getPigeon() {return pigeon;}
   public static CommandJoystick getJoy() {return joy;}
-  public static Limelight getLimelight() {return limelight;}
+  public static Limelight getLimelightRight() {return limelight_right;}
+  public static Limelight getLimelightLeft() {return limelight_left;}
   public static OdometryMath2023 getOdomInstance() {return odom;}
   public static RampPusher getRampPusher(){return rampPusher;}
 }

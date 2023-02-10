@@ -137,7 +137,7 @@ public final class Constants {
     public static final class JoystickConstants {
 
         public static final double CONTROLLER_DEADBAND = 0.08;
-        public static final double CONTROLLER_TURNING_EXPONENT = 1.5;
+        public static final double CONTROLLER_TURNING_EXPONENT = 2;
         public static final double MAX_ACCEL_TELEOP_M_S_S = 3.5 * 3;
         public static final double MAX_ANGULAR_ACCEL_TELEOP_RAD_S_S = Math.PI * 4;
         public static final double REGULAR_SPEED_M_S = 3.5;

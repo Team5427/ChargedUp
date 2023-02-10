@@ -33,7 +33,7 @@ public class Limelight extends SubsystemBase {
         if(tv){
             double[] botPose = table_m.getEntry("botpose_wpiblue").getDoubleArray(new double[6]);
             Translation2d translation = new Translation2d(botPose[0], botPose[1]);
-            Rotation2d rotation2d = new Rotation2d(botPose[5]);
+            Rotation2d rotation2d = new Rotation2d(Math.toRadians(botPose[5]));
 
             return new Pose2d(translation, rotation2d);
         }
@@ -43,9 +43,15 @@ public class Limelight extends SubsystemBase {
     
     public Pose2d getAverageEstimatedPose(Pose2d pose){
         Pose2d currentPose = getEstimatedGlobalPose();
-        return currentPose.plus(
-            currentPose.minus(pose).div(2)
-            );
+
+        return new Pose2d(
+            new Translation2d(
+                (pose.getX() + currentPose.getX())/2, 
+                (pose.getY() + currentPose.getY())/2),
+            new Rotation2d(
+                (pose.getRotation().getRadians() + currentPose.getRotation().getRadians())/2
+            )
+        );
     }
 
     public void setLight(boolean on) {

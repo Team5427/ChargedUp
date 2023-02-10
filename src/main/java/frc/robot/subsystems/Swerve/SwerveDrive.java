@@ -12,6 +12,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
 import frc.robot.Constants.MiscConstants;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.util.Logger;
@@ -82,20 +83,33 @@ public class SwerveDrive extends SubsystemBase {
     @Override
     public void periodic() {
         odometer.update(getRotation2d(), getModulePositions());
+        Logger.post("LL Right", RobotContainer.getLimelightRight().targetVisible());
+        Logger.post("LL Left", RobotContainer.getLimelightLeft().targetVisible());
 
-        // if(RobotContainer.getLimelight().targetVisible()){
-        //     Logger.post("LL Pose", RobotContainer.getLimelight().getEstimatedGlobalPose().toString());
+        Pose2d visionPose = null;
 
-        //     odometer.resetPosition(getRotation2d(), 
-        //         new SwerveModulePosition[]{
-        //                     frontLeft.getModPosition(), 
-        //                     frontRight.getModPosition(),
-        //                     backLeft.getModPosition(),
-        //                     backRight.getModPosition()
-        //         }
-        //             , RobotContainer.getLimelight().getEstimatedGlobalPose());
+        if(RobotContainer.getLimelightRight().targetVisible()){
+            Logger.post("LL Right Pose", RobotContainer.getLimelightRight().getEstimatedGlobalPose().toString());
             
-        // }
+            visionPose =  RobotContainer.getLimelightRight().getEstimatedGlobalPose();
+        }
+        if(RobotContainer.getLimelightLeft().targetVisible()){
+            Logger.post("LL Left Pose", RobotContainer.getLimelightLeft().getEstimatedGlobalPose().toString());
+            if(visionPose == null){
+                visionPose =  RobotContainer.getLimelightLeft().getEstimatedGlobalPose();
+            } else{
+                visionPose = RobotContainer.getLimelightLeft().getAverageEstimatedPose(visionPose);
+            }
+        }
+
+        if(visionPose != null ){
+
+            odometer.resetPosition(getRotation2d(), getModulePositions(), visionPose);
+            Logger.post("LL Avg Pose", visionPose.toString());
+
+        } else{
+            odometer.update(getRotation2d(), getModulePositions());
+        }
 
         field.setRobotPose(odometer.getPoseMeters());
         log();
