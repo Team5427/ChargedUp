@@ -56,10 +56,6 @@ public class JoystickSwerve extends CommandBase {
         double x2Speed = -joy.getHID().getZ();
         x2Speed = Math.copySign(Math.pow(x2Speed, JoystickConstants.CONTROLLER_TURNING_EXPONENT), x2Speed);
         
-
-        // xSpeed = Math.abs(xSpeed) > (JoystickConstants.CONTROLLER_DEADBAND) ? (xSpeed - Constants.SwerveConstants.MINIMUM_SPEED_M_PER_SEC)/(1 - Constants.SwerveConstants.MINIMUM_SPEED_M_PER_SEC) : 0;
-        // ySpeed = Math.abs(ySpeed) > (JoystickConstants.CONTROLLER_DEADBAND) ? (ySpeed - Constants.SwerveConstants.MINIMUM_SPEED_M_PER_SEC)/(1 - Constants.SwerveConstants.MINIMUM_SPEED_M_PER_SEC) : 0;
-        
         xSpeed = Math.abs(xSpeed) > (JoystickConstants.CONTROLLER_DEADBAND) ? xSpeed : 0;
         ySpeed = Math.abs(ySpeed) > (JoystickConstants.CONTROLLER_DEADBAND) ? ySpeed : 0;
         x2Speed = Math.abs(x2Speed) > (JoystickConstants.CONTROLLER_DEADBAND) ? x2Speed : 0;
@@ -68,13 +64,11 @@ public class JoystickSwerve extends CommandBase {
             ySpeed = Math.cos(Math.toRadians(360 - joy.getHID().getPOV())) * .2;
             xSpeed = Math.sin(Math.toRadians(360 - joy.getHID().getPOV())) * .2;
         }
-
         
         xSpeed = translationRateLimiterX.calculate(xSpeed * unitsMultiplier[0]);
         ySpeed = translationRateLimiterY.calculate(ySpeed * unitsMultiplier[0]);
         x2Speed = rotationRateLimiter.calculate(x2Speed * unitsMultiplier[1]);
 
-        // System.out.println("xSpeed:" + xSpeed + "  ySpeed: " + ySpeed + "  x2Speed" + x2Speed);
         Rotation2d rot;
         if (OdometryMath2023.isBlue()) {
             rot = swerve.getPose().getRotation();

@@ -11,6 +11,7 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.PneumaticHub;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.*;
@@ -25,6 +26,7 @@ public class Arm extends SubsystemBase {
     private double calc;
     private ArmFeedforward armFF;
     private ProfiledPIDController armController;
+    private Solenoid sol;
 
     public Arm() {
         topMotor = new CANSparkMax(ArmConstants.TOP_ID, MotorType.kBrushless);
@@ -44,6 +46,7 @@ public class Arm extends SubsystemBase {
         armController.enableContinuousInput(setPoint, setPoint);
         armController.setTolerance(ArmConstants.ARM_CONTROLLER_TOLERANCE_RAD);
         setPoint = getAngle(); //arm locks up on robot startup
+        sol = new Solenoid(PneumaticsModuleType.REVPH, 2);
     }
 
     public double getAngle() {
@@ -77,6 +80,14 @@ public class Arm extends SubsystemBase {
 
     public boolean atGoal() {
         return armController.atGoal();
+    }
+
+    public boolean getExtended() {
+        return sol.get();
+    }
+
+    public void extend(boolean extended) {
+        sol.set(extended);
     }
 
     @Override

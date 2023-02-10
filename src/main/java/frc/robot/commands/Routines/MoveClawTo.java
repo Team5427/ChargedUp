@@ -33,11 +33,15 @@ public class MoveClawTo extends CommandBase {
         if (timer.get() >= RoutineConstants.ARM_DELAY_SECONDS) {
             arm.setAngle(setPoint.getAngle());
         }
+
+        if (arm.atGoal()) {
+            arm.extend(setPoint.getExtended());
+        }
     }
 
     @Override
     public boolean isFinished() {
-        return (timer.get() > (RoutineConstants.ARM_DELAY_SECONDS + .25));
+        return (elevator.atGoal() && arm.atGoal());
     }
 
     @Override
