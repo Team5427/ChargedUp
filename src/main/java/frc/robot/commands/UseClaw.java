@@ -2,8 +2,10 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.RobotContainer;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Constants.ClawConstants;
+import frc.robot.Constants.RoutineConstants;
+import frc.robot.commands.Routines.MoveClawTo;
 import frc.robot.subsystems.Claw;
 
 public class UseClaw extends CommandBase {
@@ -67,5 +69,6 @@ public class UseClaw extends CommandBase {
         timer.stop();
         timer.reset();
         claw.stop();
+        CommandScheduler.getInstance().schedule(new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE));
     }
 }

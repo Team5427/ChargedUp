@@ -23,11 +23,10 @@ public class Claw extends SubsystemBase {
         left = new CANSparkMax(ClawConstants.LEFT_ID, MotorType.kBrushless);
         left.setSmartCurrentLimit(ClawConstants.CURRENT_LIMIT_AMPS);
         left.setIdleMode(IdleMode.kBrake);
-        OdometryMath2023.doPeriodicFrame(left);
         right = new CANSparkMax(ClawConstants.RIGHT_ID, MotorType.kBrushless);
         right.setSmartCurrentLimit(ClawConstants.CURRENT_LIMIT_AMPS);
         right.setIdleMode(IdleMode.kBrake);
-        OdometryMath2023.doPeriodicFrame(right);
+        OdometryMath2023.doPeriodicFrame(left, right);
         right.setInverted(true);
         sensor = new ColorSensorV3(Port.kOnboard);
         grabber = new Solenoid(PneumaticsModuleType.REVPH, 2);

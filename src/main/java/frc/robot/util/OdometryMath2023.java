@@ -83,12 +83,14 @@ public class OdometryMath2023 extends SubsystemBase {
         return DriverStation.getAlliance().equals(Alliance.Blue);
     }
 
-    public static void doPeriodicFrame(CANSparkMax motor) {
-        motor.setPeriodicFramePeriod(PeriodicFrame.kStatus1, MiscConstants.MAX_SMAX_PERIODIC_FRAME_MS);
-        motor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, MiscConstants.MAX_SMAX_PERIODIC_FRAME_MS);
-        motor.setPeriodicFramePeriod(PeriodicFrame.kStatus3, MiscConstants.MAX_SMAX_PERIODIC_FRAME_MS);
-        motor.setPeriodicFramePeriod(PeriodicFrame.kStatus4, MiscConstants.MAX_SMAX_PERIODIC_FRAME_MS);
-        motor.setPeriodicFramePeriod(PeriodicFrame.kStatus5, MiscConstants.MAX_SMAX_PERIODIC_FRAME_MS);
-        motor.setPeriodicFramePeriod(PeriodicFrame.kStatus6, MiscConstants.MAX_SMAX_PERIODIC_FRAME_MS);
+    public static void doPeriodicFrame(CANSparkMax... motor) {
+        for (CANSparkMax m : motor) {
+            m.setPeriodicFramePeriod(PeriodicFrame.kStatus1, MiscConstants.MAX_SMAX_PERIODIC_FRAME_MS);
+            m.setPeriodicFramePeriod(PeriodicFrame.kStatus2, MiscConstants.MAX_SMAX_PERIODIC_FRAME_MS);
+            m.setPeriodicFramePeriod(PeriodicFrame.kStatus3, MiscConstants.MAX_SMAX_PERIODIC_FRAME_MS);
+            m.setPeriodicFramePeriod(PeriodicFrame.kStatus4, MiscConstants.MAX_SMAX_PERIODIC_FRAME_MS);
+            m.setPeriodicFramePeriod(PeriodicFrame.kStatus5, MiscConstants.MAX_SMAX_PERIODIC_FRAME_MS);
+            m.setPeriodicFramePeriod(PeriodicFrame.kStatus6, MiscConstants.MAX_SMAX_PERIODIC_FRAME_MS);
+        }
     }
 }
