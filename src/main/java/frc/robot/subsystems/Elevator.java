@@ -4,10 +4,12 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ElevatorFeedforward;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.*;
@@ -30,7 +32,7 @@ public class Elevator extends SubsystemBase {
         setBrake(true);
         leftMotor.setSmartCurrentLimit(ElevatorConstants.CURRENT_LIMIT_AMPS);
         rightMotor.setSmartCurrentLimit(ElevatorConstants.CURRENT_LIMIT_AMPS);
-        throughbore = new Encoder(0, 0);
+        throughbore = new Encoder(ElevatorConstants.THROUGHBORE_ID_A, ElevatorConstants.THROUGHBORE_ID_B);
         throughbore.reset();
         throughbore.setDistancePerPulse(ElevatorConstants.POSITION_CONVERSION_FACTOR_ROT_TO_METERS / 8192);
         limitLeft = new DigitalInput(ElevatorConstants.LEFT_LIMIT_ID);
@@ -56,11 +58,8 @@ public class Elevator extends SubsystemBase {
     }
 
     public void setHeight(double s) {
-        if (s < 0) {
-            this.setPoint = 0;
-        } else {
-            this.setPoint = s;
-        }
+        double clamped = MathUtil.clamp(s, 0, ElevatorConstants.UPPER_LIMIT_METERS);
+        this.setPoint = clamped;
     }
 
     public void setBrake(boolean braked) {
@@ -87,19 +86,19 @@ public class Elevator extends SubsystemBase {
         return elevatorController.atGoal();
     }
 
-    public double getPosition() {
-        return throughbore.getDistance();
-    }
-
     @Override
     public void periodic() {
         double calc = elevatorController.calculate(getHeight());
         setV(calc);
 
-        if (getHeight() < ElevatorConstants.UPPER_LIMIT_METERS) {
-            elevatorController.setGoal(this.setPoint);
+        if (DriverStation.isEnabled()) {
+            if (getHeight() < ElevatorConstants.UPPER_LIMIT_METERS) {
+                elevatorController.setGoal(this.setPoint);
+            } else {
+                elevatorController.setGoal(getHeight() - 0.01);
+            }
         } else {
-            elevatorController.setGoal(getPosition() - 0.01);
+            elevatorController.setGoal(getHeight());
         }
 
         if (limitLeft.get() || limitRight.get()) {

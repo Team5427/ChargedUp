@@ -207,6 +207,8 @@ public final class Constants {
         public static final int RIGHT_MOTOR_ID = 2; //FIXME
         public static final int LEFT_LIMIT_ID = 2; //FIXME
         public static final int RIGHT_LIMIT_ID = 2; //FIXME
+        public static final int THROUGHBORE_ID_A = 2;
+        public static final int THROUGHBORE_ID_B = 2;
         public static final double GEARBOX_GEARING = (9.0 / 62.0);
         public static final double SPROCKET_PD = Units.inchesToMeters(1.751);
         public static final double POSITION_CONVERSION_FACTOR_ROT_TO_METERS = Math.PI * SPROCKET_PD;
@@ -222,7 +224,7 @@ public final class Constants {
         public static final double MAX_SPEED_M_S = MiscConstants.MAX_NEO_SPEED_RPM * VELOCITY_CONVERSION_FACTOR_RPM_TO_MPS; //FIXME rn theoretical
         public static final double MAX_ACCEL_M_S_S = MAX_SPEED_M_S / 4; //FIXME theoretical rn
         public static final double GOAL_TOLERANCE_METERS = .01;
-        public static final int CURRENT_LIMIT_AMPS = 45;
+        public static final int CURRENT_LIMIT_AMPS = 40;
 
     }
     
@@ -231,7 +233,7 @@ public final class Constants {
         public static final int BTM_ID = 3;
         public static final int THROUGHBORE_ID = 3; //on DIO ports
         public static final double POSITION_OFFSET_COUNT = 0.0;
-        public static final int CURRENT_LIMIT_AMPS = 55;
+        public static final int CURRENT_LIMIT_AMPS = 40;
         public static final double kS = 2.0;
         public static final double kG = 2.0;
         public static final double kV = 2.0;
@@ -251,7 +253,7 @@ public final class Constants {
         public static final int LEFT_ID = 13;
         public static final int RIGHT_ID = 16;
         public static final int THROUGHBORE_ID = 0;
-        public static final int CURRENT_LIMIT_AMPS = 50;
+        public static final int CURRENT_LIMIT_AMPS = 40;
 
         public static final double GEARING = (1.0 / 100.0);
         public static final double ENCODER_OFFSET_RAD = 4.22; //FIXME urgent
@@ -276,6 +278,11 @@ public final class Constants {
             CUBE,
             NO_GP
         }
+
+        public static final double INTAKE_SPEED_DECIMAL = 0.5; //FIXME
+        public static final double CUBE_INTAKE_EXCESS_TIME_S = 0.1; //FIXME
+        public static final double OUTTAKE_SPEED_DECIMAL = 0.4; //FIXME
+        public static final double CUBE_OUTTAKE_EXCESS_TIME_S = 0.5; //FIXME
 
         public static final double PROX_VALUE = 0.0;
         public static final double PURPLE_THRESH = 0.0;

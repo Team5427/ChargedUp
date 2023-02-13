@@ -1,5 +1,6 @@
 package frc.robot.commands.Routines;
 
+import edu.wpi.first.math.controller.HolonomicDriveController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -7,7 +8,6 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.*;
 import frc.robot.subsystems.Swerve.SwerveDrive;
@@ -40,21 +40,25 @@ public class MoveBotTo extends CommandBase {
     @Override
     public void execute() {
         measurement = swerve.getPose();
+        double xCalc = xController.calculate(measurement.getX());
+        double yCalc = yController.calculate(measurement.getY());
+        double thetaCalc = thetaController.calculate(measurement.getRotation().getRadians());
         SwerveModuleState[] states;
         if (
-            Math.abs(measurement.getRotation().minus(setpoint.getRotation()).getRadians()) < Constants.RoutineConstants.ROT_THRESH_RAD
+            Math.abs(measurement.getRotation().minus(setpoint.getRotation()).getRadians()) < RoutineConstants.ROT_THRESH_RAD
         ) {
-            states = Constants.SwerveConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(
-                calculateClosedLoop(measurement, setpoint)
+            states = SwerveConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(
+                new ChassisSpeeds(
+                    xCalc, 
+                    yCalc, 
+                    thetaCalc
+                )
             );
         } else {
-            states = Constants.SwerveConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(
+            states = SwerveConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(
                 new ChassisSpeeds(
                     0, 0, 
-                    thetaController.calculate(
-                        measurement.getRotation().getRadians(), 
-                        setpoint.getRotation().getRadians()
-                    )
+                    thetaCalc
                 )
             );
         }
@@ -74,35 +78,36 @@ public class MoveBotTo extends CommandBase {
         }
     }
 
-    private ChassisSpeeds calculateClosedLoop(Pose2d current, Pose2d setpoint) {
-        double xSpeed = xController.calculate(current.getX(), setpoint.getX());
-        double ySpeed = yController.calculate(current.getY(), setpoint.getY());
-        double rotSpeed = thetaController.calculate(current.getRotation().getRadians(), setpoint.getRotation().getRadians());
-        return ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rotSpeed, current.getRotation());
+    @Override
+    public void end(boolean interrupted) {
+        Pose2d pose = swerve.getPose();
+        xController.reset(pose.getX());
+        yController.reset(pose.getY());
+        thetaController.reset(pose.getRotation().getRadians());
     }
 
     private void initControllers() {
         xController = new ProfiledPIDController(
-            0, 0, 0, 
+            0.3, 0, 0, 
             new Constraints(
-                Constants.RoutineConstants.ROUTINE_MAX_TRANSLATION_SPEED_M_S, 
-                Constants.RoutineConstants.ROUTINE_MAX_TRANSLATION_ACCEL_M_S_S
+                RoutineConstants.ROUTINE_MAX_TRANSLATION_SPEED_M_S, 
+                RoutineConstants.ROUTINE_MAX_TRANSLATION_ACCEL_M_S_S
             )
         );
 
         yController = new ProfiledPIDController(
-            0, 0, 0, 
+            0.3, 0, 0, 
             new Constraints(
-                Constants.RoutineConstants.ROUTINE_MAX_TRANSLATION_SPEED_M_S, 
-                Constants.RoutineConstants.ROUTINE_MAX_TRANSLATION_ACCEL_M_S_S
+                RoutineConstants.ROUTINE_MAX_TRANSLATION_SPEED_M_S, 
+                RoutineConstants.ROUTINE_MAX_TRANSLATION_ACCEL_M_S_S
             )
         );
 
         thetaController = new ProfiledPIDController(
-            0, 0, 0, 
+            0.3, 0, 0, 
             new Constraints(
-                Constants.RoutineConstants.ROUTINE_MAX_ROTATION_SPEED_RAD_S, 
-                Constants.RoutineConstants.ROUTINE_MAX_ROTATION_ACCEL_RAD_S_S
+                RoutineConstants.ROUTINE_MAX_ROTATION_SPEED_RAD_S, 
+                RoutineConstants.ROUTINE_MAX_ROTATION_ACCEL_RAD_S_S
             )
         );
         thetaController.enableContinuousInput(-Math.PI, Math.PI);

@@ -10,7 +10,6 @@ import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
-import edu.wpi.first.wpilibj.PneumaticHub;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -92,13 +91,13 @@ public class Arm extends SubsystemBase {
 
     @Override
     public void periodic() {
-        // calc = armController.calculate(getAngle());
-        // setV(calc + armFF.calculate(getAngle(), armController.getSetpoint().velocity));
-        // if (DriverStation.isEnabled()) {
-        //     armController.setGoal(this.setPoint);
-        // } else {
-        //     armController.setGoal(getAngle());
-        // }
+        calc = armController.calculate(getAngle());
+        setV(calc + armFF.calculate(getAngle(), armController.getSetpoint().velocity));
+        if (DriverStation.isEnabled()) {
+            armController.setGoal(this.setPoint);
+        } else {
+            armController.setGoal(getAngle());
+        }
     }
 
     public void log() {

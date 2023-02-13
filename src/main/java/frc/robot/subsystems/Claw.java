@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ColorSensorV3;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
@@ -19,11 +20,13 @@ public class Claw extends SubsystemBase {
     Solenoid grabber;
 
     public Claw() {
-        left = new CANSparkMax(0, MotorType.kBrushless);
+        left = new CANSparkMax(ClawConstants.LEFT_ID, MotorType.kBrushless);
         left.setSmartCurrentLimit(ClawConstants.CURRENT_LIMIT_AMPS);
+        left.setIdleMode(IdleMode.kBrake);
         OdometryMath2023.doPeriodicFrame(left);
-        right = new CANSparkMax(0, MotorType.kBrushless);
+        right = new CANSparkMax(ClawConstants.RIGHT_ID, MotorType.kBrushless);
         right.setSmartCurrentLimit(ClawConstants.CURRENT_LIMIT_AMPS);
+        right.setIdleMode(IdleMode.kBrake);
         OdometryMath2023.doPeriodicFrame(right);
         right.setInverted(true);
         sensor = new ColorSensorV3(Port.kOnboard);
@@ -51,5 +54,16 @@ public class Claw extends SubsystemBase {
         right.set(speed);
     }
 
+    public void stop() {
+        left.stopMotor();
+        right.stopMotor();
+    }
 
+    public void grab(boolean closed) {
+        grabber.set(closed);
+    }
+
+    public boolean getGrabber() {
+        return grabber.get();
+    }
 }
