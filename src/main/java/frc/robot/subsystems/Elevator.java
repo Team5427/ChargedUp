@@ -86,20 +86,29 @@ public class Elevator extends SubsystemBase {
         return elevatorController.atGoal();
     }
 
+    public void stop(){
+        leftMotor.stopMotor();
+        rightMotor.stopMotor();
+    }
+
+    public boolean atLowerLimit(){
+        return limitLeft.get() || limitRight.get();
+    }
+
     @Override
     public void periodic() {
-        double calc = elevatorController.calculate(getHeight());
-        setV(calc);
+        // double calc = elevatorController.calculate(getHeight());
+        // setV(calc);
 
-        if (DriverStation.isEnabled()) {
-            if (getHeight() < ElevatorConstants.UPPER_LIMIT_METERS) {
-                elevatorController.setGoal(this.setPoint);
-            } else {
-                elevatorController.setGoal(getHeight() - 0.01);
-            }
-        } else {
-            elevatorController.setGoal(getHeight());
-        }
+        // if (DriverStation.isEnabled()) {
+        //     if (getHeight() < ElevatorConstants.UPPER_LIMIT_METERS) {
+        //         elevatorController.setGoal(this.setPoint);
+        //     } else {
+        //         elevatorController.setGoal(getHeight() - 0.01);
+        //     }
+        // } else {
+        //     elevatorController.setGoal(getHeight());
+        // }
 
         if (limitLeft.get() || limitRight.get()) {
             resetEncoder();

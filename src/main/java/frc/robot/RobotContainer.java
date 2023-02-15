@@ -9,10 +9,12 @@ import com.ctre.phoenix.sensors.WPI_Pigeon2;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
+import frc.robot.commands.ElevatorDebug;
 import frc.robot.commands.JoystickSwerve;
 import frc.robot.commands.RampPusherDebug;
 import frc.robot.commands.Auton.AutonSheet;
 import frc.robot.pathUtil.SwervePathMaker;
+import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.RampPusher;
 import frc.robot.subsystems.Swerve.SwerveDrive;
@@ -22,11 +24,14 @@ import frc.robot.util.OdometryMath2023;
 public class RobotContainer {
 
   private static SwerveDrive swerveDrive;
+  private static RampPusher rampPusher;
+  private static Elevator elevator;
+
   private static WPI_Pigeon2 pigeon;
   private static CommandJoystick joy;
   private static Limelight limelight_right, limelight_left;
   private static OdometryMath2023 odom;
-  private static RampPusher rampPusher;
+
 
   public RobotContainer() {
     new Logger();
@@ -41,7 +46,8 @@ public class RobotContainer {
     swerveDrive.setDefaultCommand(new JoystickSwerve());
 
     rampPusher = new RampPusher();
-    // rampPusher.setDefaultCommand(new RampPusherDebug());
+    elevator = new Elevator();
+    elevator.setDefaultCommand(new ElevatorDebug());
 
     odom = new OdometryMath2023();
 
@@ -62,4 +68,5 @@ public class RobotContainer {
   public static Limelight getLimelightLeft() {return limelight_left;}
   public static OdometryMath2023 getOdomInstance() {return odom;}
   public static RampPusher getRampPusher(){return rampPusher;}
+  public static Elevator getElevator(){return elevator;}
 }

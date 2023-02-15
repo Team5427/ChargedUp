@@ -159,8 +159,13 @@ public final class Constants {
         public static final int LOCK_SWERVE = 9;
         public static final int DAMPEN = 3;
         public static final int SPRINT = 4;
+
         public static final int debugRampUp = 12;
         public static final int debugRampDown = 11;
+
+        public static final int debugElevatorUp = 8;
+        public static final int debugElevatorDown = 7;
+
 
         //OPERATION bindings
         public static final int CANCEL_ALL_COMMANDS_O = 0;
