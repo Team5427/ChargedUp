@@ -33,7 +33,7 @@ public class Arm extends SubsystemBase {
         btmMotor.setInverted(true);
         topMotor.setSmartCurrentLimit(ArmConstants.CURRENT_LIMIT_AMPS);
         btmMotor.setSmartCurrentLimit(ArmConstants.CURRENT_LIMIT_AMPS);
-        setBrake(true);
+        setBrake(false); //FIXME turn to true after testing
         throughbore = new DutyCycleEncoder(ArmConstants.THROUGHBORE_ID);
         throughbore.reset();
         throughbore.setPositionOffset(0);
@@ -45,7 +45,7 @@ public class Arm extends SubsystemBase {
         armController.enableContinuousInput(setPoint, setPoint);
         armController.setTolerance(ArmConstants.ARM_CONTROLLER_TOLERANCE_RAD);
         setPoint = getAngle(); //arm locks up on robot startup
-        sol = new Solenoid(PneumaticsModuleType.REVPH, 2);
+        sol = new Solenoid(PneumaticsModuleType.REVPH, ArmConstants.SOL_ID);
     }
 
     public double getAngle() {
@@ -89,15 +89,20 @@ public class Arm extends SubsystemBase {
         sol.set(extended);
     }
 
+    public void stop(){
+        topMotor.stopMotor();
+        btmMotor.stopMotor();
+    }
+
     @Override
     public void periodic() {
-        calc = armController.calculate(getAngle());
-        setV(calc + armFF.calculate(getAngle(), armController.getSetpoint().velocity));
-        if (DriverStation.isEnabled()) {
-            armController.setGoal(this.setPoint);
-        } else {
-            armController.setGoal(getAngle());
-        }
+        // calc = armController.calculate(getAngle());
+        // setV(calc + armFF.calculate(getAngle(), armController.getSetpoint().velocity));
+        // if (DriverStation.isEnabled()) {
+        //     armController.setGoal(this.setPoint);
+        // } else {
+        //     armController.setGoal(getAngle());
+        // }
     }
 
     public void log() {

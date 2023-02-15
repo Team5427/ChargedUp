@@ -160,13 +160,13 @@ public final class Constants {
         public static final int DAMPEN = 3;
         public static final int SPRINT = 4;
 
-        public static final int debugRampUp = 12;
-        public static final int debugRampDown = 11;
+        public static final int debugArmUp = 12;
+        public static final int debugArmDown = 11;
 
         public static final int debugElevatorUp = 8;
         public static final int debugElevatorDown = 7;
 
-
+        public static final int debugArmExtend = 1;
         //OPERATION bindings
         public static final int CANCEL_ALL_COMMANDS_O = 0;
         // public static final int 
@@ -236,6 +236,7 @@ public final class Constants {
     public static final class ArmConstants {
         public static final int TOP_ID = 2;
         public static final int BTM_ID = 3;
+        public static final int SOL_ID = 2;
         public static final int THROUGHBORE_ID = 3; //on DIO ports
         public static final double POSITION_OFFSET_COUNT = 0.0;
         public static final int CURRENT_LIMIT_AMPS = 40;
