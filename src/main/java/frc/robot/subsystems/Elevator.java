@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.*;
+import frc.robot.util.Logger;
 
 public class Elevator extends SubsystemBase {
 
@@ -113,6 +114,12 @@ public class Elevator extends SubsystemBase {
         if (limitLeft.get() || limitRight.get()) {
             resetEncoder();
         }
+    }
+
+    private void log() {
+        Logger.post("position", getHeight());
+        Logger.post("left limit", limitLeft.get());
+        Logger.post("right limit", limitRight.get());
     }
     
 }
