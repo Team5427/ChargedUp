@@ -36,6 +36,7 @@ public class RampPusher extends SubsystemBase {
             new Constraints(RampPusherConstants.MAX_SPEED_RAD_S, RampPusherConstants.MAX_ACCEL_RAD_S_S)
         );
         controller.enableContinuousInput(0 - RampPusherConstants.ENCODER_OFFSET_RAD, (2 * Math.PI) - RampPusherConstants.ENCODER_OFFSET_RAD);
+        controller.setTolerance(RampPusherConstants.CONTROLLER_TOLERANCE_RAD);
         deployed = false;
     }
 

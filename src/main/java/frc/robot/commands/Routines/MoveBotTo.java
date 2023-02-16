@@ -1,6 +1,5 @@
 package frc.robot.commands.Routines;
 
-import edu.wpi.first.math.controller.HolonomicDriveController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -94,6 +93,7 @@ public class MoveBotTo extends CommandBase {
                 RoutineConstants.ROUTINE_MAX_TRANSLATION_ACCEL_M_S_S
             )
         );
+        xController.setTolerance(RoutineConstants.TRANSLATION_TOLERANCE_METERS);
 
         yController = new ProfiledPIDController(
             0.3, 0, 0, 
@@ -102,6 +102,7 @@ public class MoveBotTo extends CommandBase {
                 RoutineConstants.ROUTINE_MAX_TRANSLATION_ACCEL_M_S_S
             )
         );
+        yController.setTolerance(RoutineConstants.TRANSLATION_TOLERANCE_METERS);
 
         thetaController = new ProfiledPIDController(
             0.3, 0, 0, 
@@ -110,6 +111,7 @@ public class MoveBotTo extends CommandBase {
                 RoutineConstants.ROUTINE_MAX_ROTATION_ACCEL_RAD_S_S
             )
         );
+        thetaController.setTolerance(RoutineConstants.ROTATION_TOLERANCE_RAD);
         thetaController.enableContinuousInput(-Math.PI, Math.PI);
     }
 

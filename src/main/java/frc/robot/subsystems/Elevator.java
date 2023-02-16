@@ -9,7 +9,6 @@ import edu.wpi.first.math.controller.ElevatorFeedforward;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.*;
@@ -111,9 +110,11 @@ public class Elevator extends SubsystemBase {
         //     elevatorController.setGoal(getHeight());
         // }
 
-        if (limitLeft.get() || limitRight.get()) {
+        if (atLowerLimit()) {
             resetEncoder();
         }
+
+        log();
     }
 
     private void log() {

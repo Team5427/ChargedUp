@@ -182,6 +182,8 @@ public final class Constants {
         public static final double ROT_THRESH_RAD = Math.PI/4;
         public static final double SCORING_LEVEL_OFFSET_METERS = 0.3; //FIXME
         public static final double ARM_DELAY_SECONDS = 1; //FIXME
+        public static final double TRANSLATION_TOLERANCE_METERS = 0.01;
+        public static final double ROTATION_TOLERANCE_RAD = Units.degreesToRadians(1);
 
         //PRESETS
         public static final Pose2d BOTTOM_CONE_SCORING_POSE_DEFAULT = new Pose2d(0, 0, new Rotation2d(0)); //FIXME
@@ -271,6 +273,7 @@ public final class Constants {
 
         public static final double DEPLOYED_POS_RAD = 0; //HAS TO BE 0
         public static final double UNDEPLOYED_POS_RAD = 5.85 - ENCODER_OFFSET_RAD; //FIXME
+        public static final double CONTROLLER_TOLERANCE_RAD = Units.degreesToRadians(1.5); //FIXME if still twerks
         
     }
 
