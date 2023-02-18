@@ -28,7 +28,8 @@ public class Elevator extends SubsystemBase {
     public Elevator() {
         leftMotor = new CANSparkMax(ElevatorConstants.LEFT_MOTOR_ID, MotorType.kBrushless);
         rightMotor = new CANSparkMax(ElevatorConstants.RIGHT_MOTOR_ID, MotorType.kBrushless);
-        // rightMotor.setInverted(true);
+        rightMotor.setInverted(true);
+        leftMotor.setInverted(true);
         setBrake(true); //FIXME turn to true after testing
         leftMotor.setSmartCurrentLimit(ElevatorConstants.CURRENT_LIMIT_AMPS);
         rightMotor.setSmartCurrentLimit(ElevatorConstants.CURRENT_LIMIT_AMPS);
@@ -80,8 +81,13 @@ public class Elevator extends SubsystemBase {
     }
 
     public void set(double value) {
-        leftMotor.set(value);
-        rightMotor.set(value);
+        if (!atLowerLimit()) {
+            leftMotor.set(value);
+            rightMotor.set(value);
+        } else {
+            leftMotor.set(value <= 0 ? 0 : value);
+            rightMotor.set(value <= 0 ? 0 : value);
+        }
     }
 
     public boolean atGoal() {
