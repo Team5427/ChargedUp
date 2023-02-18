@@ -18,7 +18,7 @@ public class Elevator extends SubsystemBase {
 
     public CANSparkMax leftMotor;
     public CANSparkMax rightMotor;
-    public Encoder throughbore;
+    // public Encoder throughbore;
     public DigitalInput limitLeft;
     public DigitalInput limitRight;
     public double setPoint; //meters
@@ -28,13 +28,13 @@ public class Elevator extends SubsystemBase {
     public Elevator() {
         leftMotor = new CANSparkMax(ElevatorConstants.LEFT_MOTOR_ID, MotorType.kBrushless);
         rightMotor = new CANSparkMax(ElevatorConstants.RIGHT_MOTOR_ID, MotorType.kBrushless);
-        rightMotor.setInverted(true);
-        setBrake(false); //FIXME turn to true after testing
+        // rightMotor.setInverted(true);
+        setBrake(true); //FIXME turn to true after testing
         leftMotor.setSmartCurrentLimit(ElevatorConstants.CURRENT_LIMIT_AMPS);
         rightMotor.setSmartCurrentLimit(ElevatorConstants.CURRENT_LIMIT_AMPS);
-        throughbore = new Encoder(ElevatorConstants.THROUGHBORE_ID_A, ElevatorConstants.THROUGHBORE_ID_B);
-        throughbore.reset();
-        throughbore.setDistancePerPulse(ElevatorConstants.POSITION_CONVERSION_FACTOR_ROT_TO_METERS / 8192);
+        // throughbore = new Encoder(ElevatorConstants.THROUGHBORE_ID_A, ElevatorConstants.THROUGHBORE_ID_B);
+        // throughbore.reset();
+        // throughbore.setDistancePerPulse(ElevatorConstants.POSITION_CONVERSION_FACTOR_ROT_TO_METERS / 8192);
         limitLeft = new DigitalInput(ElevatorConstants.LEFT_LIMIT_ID);
         limitRight = new DigitalInput(ElevatorConstants.RIGHT_LIMIT_ID);
         setPoint = 0;
@@ -46,15 +46,17 @@ public class Elevator extends SubsystemBase {
     }
 
     public void resetEncoder() {
-        throughbore.reset();
+        // throughbore.reset();
     }
 
     public double getHeight() {
-        return throughbore.getDistance();
+        // return throughbore.getDistance();
+        return 0;
     }
 
     public double getSpeed() {
-        return throughbore.getRate();
+        // return throughbore.getRate();
+        return 0;
     }
 
     public void setHeight(double s) {

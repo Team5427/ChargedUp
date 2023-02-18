@@ -210,10 +210,10 @@ public final class Constants {
     }
 
     public static final class ElevatorConstants {
-        public static final int LEFT_MOTOR_ID = 2; //FIXME
-        public static final int RIGHT_MOTOR_ID = 2; //FIXME
-        public static final int LEFT_LIMIT_ID = 2; //FIXME
-        public static final int RIGHT_LIMIT_ID = 2; //FIXME
+        public static final int LEFT_MOTOR_ID = 21; //FIXME
+        public static final int RIGHT_MOTOR_ID = 19; //FIXME
+        public static final int LEFT_LIMIT_ID = 0; //FIXME
+        public static final int RIGHT_LIMIT_ID = 1; //FIXME
         public static final int THROUGHBORE_ID_A = 2;
         public static final int THROUGHBORE_ID_B = 2;
         public static final double GEARBOX_GEARING = (9.0 / 62.0);
@@ -260,7 +260,7 @@ public final class Constants {
     public static final class RampPusherConstants {
         public static final int LEFT_ID = 13;
         public static final int RIGHT_ID = 16;
-        public static final int THROUGHBORE_ID = 0;
+        public static final int THROUGHBORE_ID = 2;
         public static final int CURRENT_LIMIT_AMPS = 40;
 
         public static final double GEARING = (1.0 / 100.0);
