@@ -30,21 +30,22 @@ public class Arm extends SubsystemBase {
     public Arm() {
         topMotor = new CANSparkMax(ArmConstants.TOP_ID, MotorType.kBrushless);
         btmMotor = new CANSparkMax(ArmConstants.BTM_ID, MotorType.kBrushless);
-        btmMotor.setInverted(true);
+        btmMotor.setInverted(false);
+        topMotor.setInverted(true);
         topMotor.setSmartCurrentLimit(ArmConstants.CURRENT_LIMIT_AMPS);
         btmMotor.setSmartCurrentLimit(ArmConstants.CURRENT_LIMIT_AMPS);
-        setBrake(false); //FIXME turn to true after testing
-        throughbore = new DutyCycleEncoder(ArmConstants.THROUGHBORE_ID);
-        throughbore.reset();
-        throughbore.setPositionOffset(0);
-        throughbore.setDistancePerRotation(Math.PI * 2);
+        setBrake(true); //FIXME turn to true after testing
+        // throughbore = new DutyCycleEncoder(ArmConstants.THROUGHBORE_ID);
+        // throughbore.reset();
+        // throughbore.setPositionOffset(0);
+        // throughbore.setDistancePerRotation(Math.PI * 2);
         armFF = new ArmFeedforward(ArmConstants.kS, ArmConstants.kG, ArmConstants.kV, ArmConstants.kA);
         armController = new ProfiledPIDController(ArmConstants.kP, ArmConstants.kI, ArmConstants.kD,
             new Constraints(ArmConstants.MAX_SPEED_RAD_S, ArmConstants.MAX_ACCEL_RAD_S_S)
         );
         armController.enableContinuousInput(setPoint, setPoint);
         armController.setTolerance(ArmConstants.ARM_CONTROLLER_TOLERANCE_RAD);
-        setPoint = getAngle(); //arm locks up on robot startup
+        // setPoint = getAngle(); //arm locks up on robot startup
         sol = new Solenoid(PneumaticsModuleType.REVPH, ArmConstants.SOL_ID);
     }
 
@@ -106,9 +107,9 @@ public class Arm extends SubsystemBase {
     }
 
     public void log() {
-        Logger.post("calculation", this.calc);
-        Logger.post("angle", getAngle());
-        Logger.post("at goal", atGoal());
-        Logger.post("arm setpoint", this.setPoint);
+        // Logger.post("calculation", this.calc);
+        // Logger.post("angle", getAngle());
+        // Logger.post("at goal", atGoal());
+        // Logger.post("arm setpoint", this.setPoint);
     }
 }

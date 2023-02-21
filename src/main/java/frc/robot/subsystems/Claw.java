@@ -28,8 +28,9 @@ public class Claw extends SubsystemBase {
         right.setIdleMode(IdleMode.kBrake);
         OdometryMath2023.doPeriodicFrame(left, right);
         right.setInverted(true);
-        sensor = new ColorSensorV3(Port.kOnboard);
-        grabber = new Solenoid(PneumaticsModuleType.REVPH, 2);
+        left.setInverted(false);
+        // sensor = new ColorSensorV3(Port.kOnboard);
+        grabber = new Solenoid(PneumaticsModuleType.REVPH, ClawConstants.SOL_ID);
     }
 
     public ClawConstants.GAME_PIECE_STATE getState() {

@@ -9,8 +9,10 @@ import edu.wpi.first.math.controller.ElevatorFeedforward;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
 import frc.robot.Constants.*;
 import frc.robot.util.Logger;
 
@@ -18,7 +20,7 @@ public class Elevator extends SubsystemBase {
 
     public CANSparkMax leftMotor;
     public CANSparkMax rightMotor;
-    // public Encoder throughbore;
+    public Encoder throughbore;
     public DigitalInput limitLeft;
     public DigitalInput limitRight;
     public double setPoint; //meters
@@ -33,9 +35,9 @@ public class Elevator extends SubsystemBase {
         setBrake(true); //FIXME turn to true after testing
         leftMotor.setSmartCurrentLimit(ElevatorConstants.CURRENT_LIMIT_AMPS);
         rightMotor.setSmartCurrentLimit(ElevatorConstants.CURRENT_LIMIT_AMPS);
-        // throughbore = new Encoder(ElevatorConstants.THROUGHBORE_ID_A, ElevatorConstants.THROUGHBORE_ID_B);
-        // throughbore.reset();
-        // throughbore.setDistancePerPulse(ElevatorConstants.POSITION_CONVERSION_FACTOR_ROT_TO_METERS / 8192);
+        throughbore = new Encoder(ElevatorConstants.THROUGHBORE_ID_A, ElevatorConstants.THROUGHBORE_ID_B);
+        throughbore.reset();
+        throughbore.setDistancePerPulse(ElevatorConstants.POSITION_CONVERSION_FACTOR_ROT_TO_METERS / 2048);
         limitLeft = new DigitalInput(ElevatorConstants.LEFT_LIMIT_ID);
         limitRight = new DigitalInput(ElevatorConstants.RIGHT_LIMIT_ID);
         setPoint = 0;
@@ -47,17 +49,15 @@ public class Elevator extends SubsystemBase {
     }
 
     public void resetEncoder() {
-        // throughbore.reset();
+        throughbore.reset();
     }
 
     public double getHeight() {
-        // return throughbore.getDistance();
-        return 0;
+        return throughbore.getDistance();
     }
 
     public double getSpeed() {
-        // return throughbore.getRate();
-        return 0;
+        return throughbore.getRate();
     }
 
     public void setHeight(double s) {
@@ -81,12 +81,17 @@ public class Elevator extends SubsystemBase {
     }
 
     public void set(double value) {
-        if (!atLowerLimit()) {
+        if (!atLowerLimit() && !atUpperLimit()) {
             leftMotor.set(value);
             rightMotor.set(value);
         } else {
-            leftMotor.set(value <= 0 ? 0 : value);
-            rightMotor.set(value <= 0 ? 0 : value);
+            if (atLowerLimit()) {
+                leftMotor.set(value <= 0 ? 0 : value);
+                rightMotor.set(value <= 0 ? 0 : value);
+            } else {
+                leftMotor.set(value >= 0 ? 0 : value);
+                rightMotor.set(value >= 0 ? 0 : value);
+            }
         }
     }
 
@@ -103,10 +108,14 @@ public class Elevator extends SubsystemBase {
         return limitLeft.get() || limitRight.get();
     }
 
+    public boolean atUpperLimit() {
+        return (getHeight() >= ElevatorConstants.UPPER_LIMIT_METERS);
+    }
+
     @Override
     public void periodic() {
         // double calc = elevatorController.calculate(getHeight());
-        // setV(calc);
+        // set(calc);
 
         // if (DriverStation.isEnabled()) {
         //     if (getHeight() < ElevatorConstants.UPPER_LIMIT_METERS) {
@@ -114,21 +123,25 @@ public class Elevator extends SubsystemBase {
         //     } else {
         //         elevatorController.setGoal(getHeight() - 0.01);
         //     }
-        // } else {
-        //     elevatorController.setGoal(getHeight());
         // }
 
-        if (atLowerLimit()) {
-            resetEncoder();
-        }
+        // if (atLowerLimit()) {
+        //     resetEncoder();
+        // }
 
-        log();
+        // log();
     }
 
     private void log() {
         Logger.post("position", getHeight());
         Logger.post("left limit", limitLeft.get());
         Logger.post("right limit", limitRight.get());
+        Logger.post("error", elevatorController.getPositionError());
+        Logger.post("at Goal", elevatorController.atGoal());
+        Logger.post("output", elevatorController.calculate(getHeight()));
+        Logger.post("elevator setpoint position", elevatorController.getSetpoint().position);
+        Logger.post("elevator setpoint velocity", elevatorController.getSetpoint().velocity);
+        Logger.post("FF output", elevatorFF.calculate(elevatorController.getSetpoint().velocity));
     }
     
 }

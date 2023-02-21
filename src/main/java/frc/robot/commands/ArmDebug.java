@@ -18,7 +18,7 @@ public class ArmDebug extends CommandBase {
     public ArmDebug() {
         arm = RobotContainer.getArm();
         joy = RobotContainer.getJoy();
-        armSpeed = .1;
+        armSpeed = .2;
 
         addRequirements(arm);
 
@@ -42,7 +42,7 @@ public class ArmDebug extends CommandBase {
             arm.stop();
         }
 
-        if(joy.getHID().getRawButton(JoystickConstants.debugArmExtend)){
+        if(joy.getHID().getRawButtonPressed(JoystickConstants.debugArmExtend)){
             arm.extend(!arm.getExtended());
         }
 

@@ -167,6 +167,10 @@ public final class Constants {
         public static final int debugElevatorDown = 7;
 
         public static final int debugArmExtend = 1;
+
+        public static final int debugClawUp = 10;
+        public static final int debugClawDown = 9;
+        public static final int debugClawExtend = 2;
         //OPERATION bindings
         public static final int CANCEL_ALL_COMMANDS_O = 0;
         // public static final int 
@@ -214,31 +218,31 @@ public final class Constants {
         public static final int RIGHT_MOTOR_ID = 19; //FIXME
         public static final int LEFT_LIMIT_ID = 0; //FIXME
         public static final int RIGHT_LIMIT_ID = 1; //FIXME
-        public static final int THROUGHBORE_ID_A = 2;
-        public static final int THROUGHBORE_ID_B = 2;
+        public static final int THROUGHBORE_ID_A = 3;
+        public static final int THROUGHBORE_ID_B = 4;
         public static final double GEARBOX_GEARING = (9.0 / 62.0);
         public static final double SPROCKET_PD = Units.inchesToMeters(1.751);
-        public static final double POSITION_CONVERSION_FACTOR_ROT_TO_METERS = Math.PI * SPROCKET_PD;
-        public static final double VELOCITY_CONVERSION_FACTOR_RPM_TO_MPS = POSITION_CONVERSION_FACTOR_ROT_TO_METERS / 60;
-        public static final double UPPER_LIMIT_METERS = 1.25; //FIXME just pull up and readout
-        public static final double kS = .5; //FIXME
-        public static final double kG = .5; //FIXME
-        public static final double kV = .5; //FIXME
-        public static final double kA = .5; //FIXME
-        public static final double kP = .5; //FIXME
-        public static final double kI = .5; //FIXME
-        public static final double kD = .5; //FIXME
-        public static final double MAX_SPEED_M_S = MiscConstants.MAX_NEO_SPEED_RPM * VELOCITY_CONVERSION_FACTOR_RPM_TO_MPS; //FIXME rn theoretical
-        public static final double MAX_ACCEL_M_S_S = MAX_SPEED_M_S / 4; //FIXME theoretical rn
+        public static final double POSITION_CONVERSION_FACTOR_ROT_TO_METERS = Math.PI * SPROCKET_PD * 2.0;
+        public static final double VELOCITY_CONVERSION_FACTOR_RPM_TO_MPS = POSITION_CONVERSION_FACTOR_ROT_TO_METERS / 60.0;
+        public static final double UPPER_LIMIT_METERS = Units.inchesToMeters(19.0 * 2.0); //FIXME just pull up and readout
+        public static final double kS = 0.5; //FIXME
+        public static final double kG = 0.6; //FIXME
+        public static final double kV = 2.93; //FIXME
+        public static final double kA = 1.168; //FIXME
+        public static final double kP = 8.0; //FIXME was 4.125
+        public static final double kI = 0.1; //FIXME
+        public static final double kD = 0.1; //FIXME
+        public static final double MAX_SPEED_M_S = MiscConstants.MAX_NEO_SPEED_RPM * VELOCITY_CONVERSION_FACTOR_RPM_TO_MPS / 4; //FIXME rn theoretical
+        public static final double MAX_ACCEL_M_S_S = MAX_SPEED_M_S / 8; //FIXME theoretical rn
         public static final double GOAL_TOLERANCE_METERS = .01;
         public static final int CURRENT_LIMIT_AMPS = 40;
 
     }
     
     public static final class ArmConstants {
-        public static final int TOP_ID = 2;
-        public static final int BTM_ID = 3;
-        public static final int SOL_ID = 2;
+        public static final int TOP_ID = 26;
+        public static final int BTM_ID = 27;
+        public static final int SOL_ID = 1;
         public static final int THROUGHBORE_ID = 3; //on DIO ports
         public static final double POSITION_OFFSET_COUNT = 0.0;
         public static final int CURRENT_LIMIT_AMPS = 40;
@@ -278,9 +282,10 @@ public final class Constants {
     }
 
     public static final class ClawConstants {
-        public static final int LEFT_ID = 0;
-        public static final int RIGHT_ID = 1;
+        public static final int LEFT_ID = 24;
+        public static final int RIGHT_ID = 25;
         public static final int CURRENT_LIMIT_AMPS = 20;
+        public static final int SOL_ID = 0;
 
         public static enum GAME_PIECE_STATE {
             CONE,

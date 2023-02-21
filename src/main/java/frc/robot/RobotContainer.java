@@ -7,15 +7,18 @@ package frc.robot;
 import com.ctre.phoenix.sensors.WPI_Pigeon2;
 
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.PneumaticHub;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import frc.robot.commands.ArmDebug;
+import frc.robot.commands.ClawDebug;
 import frc.robot.commands.ElevatorDebug;
 import frc.robot.commands.JoystickSwerve;
 import frc.robot.commands.RampPusherDebug;
 import frc.robot.commands.Auton.AutonSheet;
 import frc.robot.pathUtil.SwervePathMaker;
 import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.RampPusher;
@@ -29,6 +32,8 @@ public class RobotContainer {
   private static RampPusher rampPusher;
   private static Elevator elevator;
   private static Arm arm;
+  private static Claw claw;
+  private static PneumaticHub hub;
 
   private static WPI_Pigeon2 pigeon;
   private static CommandJoystick joy;
@@ -51,8 +56,13 @@ public class RobotContainer {
     rampPusher = new RampPusher();
     elevator = new Elevator();
     elevator.setDefaultCommand(new ElevatorDebug());
-    // arm = new Arm();
-    // arm.setDefaultCommand(new ArmDebug());
+    arm = new Arm();
+    arm.setDefaultCommand(new ArmDebug());
+    claw = new Claw();
+    claw.setDefaultCommand(new ClawDebug());
+
+    hub = new PneumaticHub(0);
+    hub.enableCompressorDigital();
 
     odom = new OdometryMath2023();
 
@@ -75,4 +85,5 @@ public class RobotContainer {
   public static RampPusher getRampPusher(){return rampPusher;}
   public static Elevator getElevator(){return elevator;}
   public static Arm getArm(){return arm;}
+  public static Claw getClaw() {return claw;}
 }
