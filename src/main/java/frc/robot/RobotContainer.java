@@ -20,6 +20,7 @@ import frc.robot.pathUtil.SwervePathMaker;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.Led;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.RampPusher;
 import frc.robot.subsystems.Swerve.SwerveDrive;
@@ -33,6 +34,8 @@ public class RobotContainer {
   private static Elevator elevator;
   private static Arm arm;
   private static Claw claw;
+  private static Led led;
+
   private static PneumaticHub hub;
 
   private static WPI_Pigeon2 pigeon;
@@ -66,6 +69,8 @@ public class RobotContainer {
 
     odom = new OdometryMath2023();
 
+    led = new Led();
+
     //NEED TO BE AT END OF CONSTRUCTOR
     SwervePathMaker.initPaths("ComplexPath", "StraightLinePath");
     AutonSheet.initAutons();
@@ -86,4 +91,5 @@ public class RobotContainer {
   public static Elevator getElevator(){return elevator;}
   public static Arm getArm(){return arm;}
   public static Claw getClaw() {return claw;}
+  public static Led getLed(){return led;}
 }

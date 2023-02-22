@@ -3,21 +3,26 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.RobotContainer;
 import frc.robot.Constants.ClawConstants;
 import frc.robot.Constants.RoutineConstants;
 import frc.robot.commands.Routines.MoveClawTo;
 import frc.robot.subsystems.Claw;
+import frc.robot.subsystems.Led;
 
 public class UseClaw extends CommandBase {
 
     private Claw claw;
+    private Led led;
     private ClawConstants.GAME_PIECE_STATE initState;
     private boolean finish = false;
     private boolean intake;
+    private boolean isPurple;
     private Timer timer;
 
     public UseClaw() {
         // claw = RobotContainer.getClaw()
+        led = RobotContainer.getLed();
         addRequirements(claw);
         timer = new Timer();
     }
@@ -25,7 +30,8 @@ public class UseClaw extends CommandBase {
     @Override
     public void initialize() {
         timer.reset();
-        initState = claw.getState();
+        isPurple = led.isPurple();
+        initState = claw.getState(isPurple);
         if (initState.equals(ClawConstants.GAME_PIECE_STATE.NO_GP)) {
             intake = true;
         } else {
@@ -37,10 +43,10 @@ public class UseClaw extends CommandBase {
     public void execute() {
         if (intake) {
             claw.set(ClawConstants.INTAKE_SPEED_DECIMAL);
-            if (claw.getState().equals(ClawConstants.GAME_PIECE_STATE.CONE)) {
+            if (claw.getState(isPurple).equals(ClawConstants.GAME_PIECE_STATE.CONE)) {
                 claw.grab(true);
                 finish = true;
-            } else if (claw.getState().equals(ClawConstants.GAME_PIECE_STATE.CUBE)) {
+            } else if (claw.getState(isPurple).equals(ClawConstants.GAME_PIECE_STATE.CUBE)) {
                 timer.start();
                 if (timer.get() > ClawConstants.CUBE_INTAKE_EXCESS_TIME_S) {
                     finish = true;

@@ -33,9 +33,9 @@ public class Claw extends SubsystemBase {
         grabber = new Solenoid(28, PneumaticsModuleType.REVPH, ClawConstants.SOL_ID);
     }
 
-    public ClawConstants.GAME_PIECE_STATE getState() {
+    public ClawConstants.GAME_PIECE_STATE getState(boolean isPurple) {
         if (sensor.getProximity() < ClawConstants.PROX_VALUE) { //has game piece
-            if (isPurple(sensor)) {
+            if (isPurple) {
                 return ClawConstants.GAME_PIECE_STATE.CUBE;
             } else {
                 return ClawConstants.GAME_PIECE_STATE.CONE;
