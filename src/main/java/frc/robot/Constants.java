@@ -242,7 +242,7 @@ public final class Constants {
     public static final class ArmConstants {
         public static final int TOP_ID = 26;
         public static final int BTM_ID = 27;
-        public static final int SOL_ID = 1;
+        public static final int SOL_ID = 0;
         public static final int THROUGHBORE_ID = 3; //on DIO ports
         public static final double POSITION_OFFSET_COUNT = 0.0;
         public static final int CURRENT_LIMIT_AMPS = 40;
@@ -285,7 +285,7 @@ public final class Constants {
         public static final int LEFT_ID = 24;
         public static final int RIGHT_ID = 25;
         public static final int CURRENT_LIMIT_AMPS = 20;
-        public static final int SOL_ID = 0;
+        public static final int SOL_ID = 1;
 
         public static enum GAME_PIECE_STATE {
             CONE,

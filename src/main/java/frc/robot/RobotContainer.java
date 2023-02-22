@@ -61,7 +61,7 @@ public class RobotContainer {
     claw = new Claw();
     claw.setDefaultCommand(new ClawDebug());
 
-    hub = new PneumaticHub(0);
+    hub = new PneumaticHub(28);
     hub.enableCompressorDigital();
 
     odom = new OdometryMath2023();

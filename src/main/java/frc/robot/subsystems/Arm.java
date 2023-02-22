@@ -46,7 +46,7 @@ public class Arm extends SubsystemBase {
         armController.enableContinuousInput(setPoint, setPoint);
         armController.setTolerance(ArmConstants.ARM_CONTROLLER_TOLERANCE_RAD);
         // setPoint = getAngle(); //arm locks up on robot startup
-        sol = new Solenoid(PneumaticsModuleType.REVPH, ArmConstants.SOL_ID);
+        sol = new Solenoid(28, PneumaticsModuleType.REVPH, ArmConstants.SOL_ID);
     }
 
     public double getAngle() {
