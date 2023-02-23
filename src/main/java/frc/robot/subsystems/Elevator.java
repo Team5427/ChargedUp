@@ -81,17 +81,21 @@ public class Elevator extends SubsystemBase {
     }
 
     public void set(double value) {
-        if (!atLowerLimit() && !atUpperLimit()) {
-            leftMotor.set(value);
-            rightMotor.set(value);
-        } else {
-            if (atLowerLimit()) {
-                leftMotor.set(value <= 0 ? 0 : value);
-                rightMotor.set(value <= 0 ? 0 : value);
+        if (value <= 1) {
+            if (!atLowerLimit() && !atUpperLimit()) {
+                leftMotor.set(value);
+                rightMotor.set(value);
             } else {
-                leftMotor.set(value >= 0 ? 0 : value);
-                rightMotor.set(value >= 0 ? 0 : value);
+                if (atLowerLimit()) {
+                    leftMotor.set(value <= 0 ? 0 : value);
+                    rightMotor.set(value <= 0 ? 0 : value);
+                } else {
+                    leftMotor.set(value >= 0 ? 0 : value);
+                    rightMotor.set(value >= 0 ? 0 : value);
+                }
             }
+        } else {
+            stop();
         }
     }
 
@@ -114,22 +118,28 @@ public class Elevator extends SubsystemBase {
 
     @Override
     public void periodic() {
-        // double calc = elevatorController.calculate(getHeight());
-        // set(calc);
+        double calc = elevatorController.calculate(getHeight());
+        set(calc);
 
-        // if (DriverStation.isEnabled()) {
-        //     if (getHeight() < ElevatorConstants.UPPER_LIMIT_METERS) {
-        //         elevatorController.setGoal(this.setPoint);
-        //     } else {
-        //         elevatorController.setGoal(getHeight() - 0.01);
-        //     }
-        // }
+        if (DriverStation.isEnabled()) {
+            if (getHeight() < ElevatorConstants.UPPER_LIMIT_METERS) {
+                elevatorController.setGoal(this.setPoint);
+            } else {
+                elevatorController.setGoal(getHeight() - 0.01);
+            }
+        }
 
-        // if (atLowerLimit()) {
-        //     resetEncoder();
-        // }
+        if (atLowerLimit()) {
+            resetEncoder();
+        }
 
-        // log();
+        if (RobotContainer.getJoy().getHID().getRawButton(8)) {
+            setPoint = 0.5;
+        } else {
+            setPoint = 0.0;
+        }
+
+        log();
     }
 
     private void log() {

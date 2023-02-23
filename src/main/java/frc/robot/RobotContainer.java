@@ -58,9 +58,9 @@ public class RobotContainer {
 
     rampPusher = new RampPusher();
     elevator = new Elevator();
-    elevator.setDefaultCommand(new ElevatorDebug());
+    // elevator.setDefaultCommand(new ElevatorDebug());
     arm = new Arm();
-    arm.setDefaultCommand(new ArmDebug());
+    // arm.setDefaultCommand(new ArmDebug());
     claw = new Claw();
     claw.setDefaultCommand(new ClawDebug());
 

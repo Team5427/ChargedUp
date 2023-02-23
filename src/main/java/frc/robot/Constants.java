@@ -232,7 +232,7 @@ public final class Constants {
         public static final double kP = 8.0; //FIXME was 4.125
         public static final double kI = 0.1; //FIXME
         public static final double kD = 0.1; //FIXME
-        public static final double MAX_SPEED_M_S = MiscConstants.MAX_NEO_SPEED_RPM * VELOCITY_CONVERSION_FACTOR_RPM_TO_MPS / 4; //FIXME rn theoretical
+        public static final double MAX_SPEED_M_S = MiscConstants.MAX_NEO_SPEED_RPM * VELOCITY_CONVERSION_FACTOR_RPM_TO_MPS / 8; //FIXME rn theoretical
         public static final double MAX_ACCEL_M_S_S = MAX_SPEED_M_S / 8; //FIXME theoretical rn
         public static final double GOAL_TOLERANCE_METERS = .01;
         public static final int CURRENT_LIMIT_AMPS = 40;
@@ -243,22 +243,22 @@ public final class Constants {
         public static final int TOP_ID = 26;
         public static final int BTM_ID = 27;
         public static final int SOL_ID = 0;
-        public static final int THROUGHBORE_ID = 3; //on DIO ports
-        public static final double POSITION_OFFSET_COUNT = 0.0;
+        public static final int THROUGHBORE_ID = 5; //on DIO ports
+        public static final double POSITION_OFFSET_RAD = 2.5871;
         public static final int CURRENT_LIMIT_AMPS = 40;
         public static final double kS = 2.0;
         public static final double kG = 2.0;
         public static final double kV = 2.0;
         public static final double kA = 2.0;
-        public static final double kP = 2.0;
-        public static final double kI = 2.0;
-        public static final double kD = 2.0;
+        public static final double kP = 1.0;
+        public static final double kI = 0.0;
+        public static final double kD = 0.0;
         public static final double ARM_CONTROLLER_TOLERANCE_RAD = Units.degreesToRadians(1);
         public static final double GEARBOX_GEARING = (1.0 / 100.0) * (17.0 / 20.0) * (20.0 / 32.0);
-        public static final double MAX_SPEED_RAD_S = MiscConstants.MAX_NEO_SPEED_RPM * GEARBOX_GEARING * Math.PI * 2.0 / 60.0;
-        public static final double MAX_ACCEL_RAD_S_S = MAX_SPEED_RAD_S / 4;
-        public static final double UPPER_LIMIT_RAD = 2.2;
-        public static final double LOWER_LIMIT_RAD = 2.3;
+        public static final double MAX_SPEED_RAD_S = (MiscConstants.MAX_NEO_SPEED_RPM * GEARBOX_GEARING * Math.PI * 2.0 / 60.0) / 2;
+        public static final double MAX_ACCEL_RAD_S_S = MAX_SPEED_RAD_S * 2;
+        public static final double UPPER_LIMIT_RAD = 1.25;
+        public static final double LOWER_LIMIT_RAD = 0;
     }
 
     public static final class RampPusherConstants {
