@@ -87,8 +87,6 @@ public class JoystickSwerve extends CommandBase {
     private double[] getMultiplier(CommandJoystick joy) {
         if (joy.getHID().getRawButton(JoystickConstants.DAMPEN)) {
             return new double[] {JoystickConstants.DAMPEN_SPEED_M_S, JoystickConstants.DAMPEN_ANGULAR_SPEED_RAD_S};
-        } else if (joy.getHID().getRawButtonPressed(JoystickConstants.SPRINT)) {
-            return new double[] {JoystickConstants.SPRINT_SPEED_M_S, JoystickConstants.SPRINT_ANGULAR_SPEED_RAD_S};
         } else {
             return new double[] {JoystickConstants.REGULAR_SPEED_M_S, JoystickConstants.REGULAR_ANGULAR_SPEED_RAD_S};
         }

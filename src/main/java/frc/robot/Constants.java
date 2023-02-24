@@ -158,7 +158,7 @@ public final class Constants {
         public static final int CANCEL_ALL_COMMANDS_D = 10;
         public static final int LOCK_SWERVE = 9;
         public static final int DAMPEN = 3;
-        public static final int SPRINT = 4;
+        // public static final int SPRINT = 4;
 
         public static final int debugArmUp = 12;
         public static final int debugArmDown = 11;
@@ -170,7 +170,7 @@ public final class Constants {
 
         public static final int debugClawUp = 10;
         public static final int debugClawDown = 9;
-        public static final int debugClawExtend = 2;
+        public static final int debugClawExtend = 4;
         //OPERATION bindings
         public static final int CANCEL_ALL_COMMANDS_O = 0;
         // public static final int 
@@ -229,7 +229,7 @@ public final class Constants {
         public static final double kG = 0.6; //FIXME
         public static final double kV = 2.93; //FIXME
         public static final double kA = 1.168; //FIXME
-        public static final double kP = 8.0; //FIXME was 4.125
+        public static final double kP = 6.0; //FIXME was 4.125
         public static final double kI = 0.1; //FIXME
         public static final double kD = 0.1; //FIXME
         public static final double MAX_SPEED_M_S = MiscConstants.MAX_NEO_SPEED_RPM * VELOCITY_CONVERSION_FACTOR_RPM_TO_MPS / 8; //FIXME rn theoretical
@@ -250,7 +250,7 @@ public final class Constants {
         public static final double kG = 2.0;
         public static final double kV = 2.0;
         public static final double kA = 2.0;
-        public static final double kP = 1.0;
+        public static final double kP = 0.7;
         public static final double kI = 0.0;
         public static final double kD = 0.0;
         public static final double ARM_CONTROLLER_TOLERANCE_RAD = Units.degreesToRadians(1);

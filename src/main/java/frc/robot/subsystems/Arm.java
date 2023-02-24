@@ -69,15 +69,17 @@ public class Arm extends SubsystemBase {
     }
 
     public void set(double speed) {
-        if (getAngle() <= ArmConstants.UPPER_LIMIT_RAD && speed >= 0) {
-            topMotor.set(speed);
-            btmMotor.set(speed);
-        } else if(getAngle() >= ArmConstants.LOWER_LIMIT_RAD && speed <= 0) {
-            topMotor.set(speed);
-            btmMotor.set(speed);
-        } else{
-            stopMotors();
-        }
+        // if (getAngle() <= ArmConstants.UPPER_LIMIT_RAD && speed >= 0) {
+        //     topMotor.set(speed);
+        //     btmMotor.set(speed);
+        // } else if(getAngle() >= ArmConstants.LOWER_LIMIT_RAD && speed <= 0) {
+        //     topMotor.set(speed);
+        //     btmMotor.set(speed);
+        // } else{
+        //     stopMotors();
+        // }
+        topMotor.set(speed);
+        btmMotor.set(speed);
     }
 
     public void stopMotors() {
@@ -105,18 +107,18 @@ public class Arm extends SubsystemBase {
     @Override
     public void periodic() {
         calc = armController.calculate(getAngle());
-        set(calc);
-        if (DriverStation.isEnabled()) {
-            armController.setGoal(this.setPoint);
-        } else {
-            armController.setGoal(getAngle());
-        }
+        // set(calc);
+        // if (DriverStation.isEnabled()) {
+        //     armController.setGoal(this.setPoint);
+        // } else {
+        //     armController.setGoal(getAngle());
+        // }
 
-        if (RobotContainer.getJoy().getHID().getRawButton(12)) {
-            setPoint = Math.PI/8;
-        } else {
-            setPoint = Math.PI/4;
-        }
+        // if (RobotContainer.getJoy().getHID().getRawButton(12)) {
+        //     setPoint = Math.PI/8;
+        // } else {
+        //     setPoint = Math.PI/4;
+        // }
 
         log();
     }

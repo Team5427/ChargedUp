@@ -37,7 +37,7 @@ public class RampPusher extends SubsystemBase {
         );
         controller.enableContinuousInput(0 - RampPusherConstants.ENCODER_OFFSET_RAD, (2 * Math.PI) - RampPusherConstants.ENCODER_OFFSET_RAD);
         controller.setTolerance(RampPusherConstants.CONTROLLER_TOLERANCE_RAD);
-        deployed = false;
+        deployed = true;
     }
 
     public void deploy(boolean bool) {
@@ -65,22 +65,22 @@ public class RampPusher extends SubsystemBase {
 
     @Override
     public void periodic() {
-        // if (throughbore.isConnected()) {
-        //     double calc = controller.calculate(getPosition());
-        //     move(calc);
-        //     if (DriverStation.isEnabled()) {
-        //         if(deployed){
-        //             controller.setGoal(RampPusherConstants.DEPLOYED_POS_RAD);
-        //         } else {
-        //             controller.setGoal(RampPusherConstants.UNDEPLOYED_POS_RAD);
-        //         }
-        //     } else {
-        //         controller.setGoal(getPosition());
-        //     }
-        // } else {
-        //     stop();
-        // }
-        // log();
+        if (throughbore.isConnected()) {
+            double calc = controller.calculate(getPosition());
+            move(calc);
+            if (DriverStation.isEnabled()) {
+                if(deployed){
+                    controller.setGoal(RampPusherConstants.DEPLOYED_POS_RAD);
+                } else {
+                    controller.setGoal(RampPusherConstants.UNDEPLOYED_POS_RAD);
+                }
+            } else {
+                controller.setGoal(getPosition());
+            }
+        } else {
+            stop();
+        }
+        log();
     }
 
     private void log() {
