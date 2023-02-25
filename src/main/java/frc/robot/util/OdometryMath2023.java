@@ -21,6 +21,8 @@ public class OdometryMath2023 extends SubsystemBase {
     private static final double scoringY1 = Units.feetToMeters(0); //FIXME
     private static final double scoringY2 = Units.feetToMeters(0); //FIXME
     private static final double scoringY3 = Units.feetToMeters(0); //FIXME y of gaurdrail
+    private static Pose2d limelightLeftPose;
+    private static Pose2d limelightRightPose;
 
     private void log() {
         Logger.post("easiest turn", OdometryMath2023.robotAngleToTarget(new Translation2d(0, 0)));
@@ -28,8 +30,23 @@ public class OdometryMath2023 extends SubsystemBase {
 
     @Override
     public void periodic() {
+        limelightLeftPose = RobotContainer.getLimelightLeft().getEstimatedGlobalPose();
+        limelightRightPose = RobotContainer.getLimelightRight().getEstimatedGlobalPose();
+        reseedOdometry();
         robotPose = RobotContainer.getSwerve().getPose();
         log();
+    }
+
+    public static void reseedOdometry() {
+        if (limelightLeftPose != null && limelightRightPose != null) {
+            RobotContainer.getSwerve().resetOdometry(averagePose(limelightLeftPose, limelightRightPose));
+        } else if (limelightLeftPose == null && limelightRightPose != null) {
+            RobotContainer.getSwerve().resetOdometry(limelightRightPose);
+        } else if (limelightLeftPose != null && limelightRightPose == null) {
+            RobotContainer.getSwerve().resetOdometry(limelightLeftPose);
+        } else {
+            return;
+        }
     }
 
     private static double smartArcAngle(double inputX, double inputY, double distance) {
@@ -59,6 +76,14 @@ public class OdometryMath2023 extends SubsystemBase {
         } else {
             return 3;
         }
+    }
+
+    public static Pose2d averagePose(Pose2d A, Pose2d B) {
+        return new Pose2d(
+            (A.getX() + B.getX())/2,
+            (A.getY() + B.getY())/2,
+            A.getRotation().rotateBy(B.getRotation()).div(2)    
+        );
     }
 
     public static Pose2d flip(Pose2d pose) {

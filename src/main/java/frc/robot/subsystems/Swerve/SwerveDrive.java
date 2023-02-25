@@ -83,34 +83,6 @@ public class SwerveDrive extends SubsystemBase {
     @Override
     public void periodic() {
         odometer.update(getRotation2d(), getModulePositions());
-        Logger.post("LL Right", RobotContainer.getLimelightRight().targetVisible());
-        Logger.post("LL Left", RobotContainer.getLimelightLeft().targetVisible());
-
-        Pose2d visionPose = null;
-
-        if(RobotContainer.getLimelightRight().targetVisible()){
-            Logger.post("LL Right Pose", RobotContainer.getLimelightRight().getEstimatedGlobalPose().toString());
-            
-            visionPose =  RobotContainer.getLimelightRight().getEstimatedGlobalPose();
-        }
-        if(RobotContainer.getLimelightLeft().targetVisible()){
-            Logger.post("LL Left Pose", RobotContainer.getLimelightLeft().getEstimatedGlobalPose().toString());
-            if(visionPose == null){
-                visionPose =  RobotContainer.getLimelightLeft().getEstimatedGlobalPose();
-            } else{
-                visionPose = RobotContainer.getLimelightLeft().getAverageEstimatedPose(visionPose);
-            }
-        }
-
-        if(visionPose != null ){
-
-            odometer.resetPosition(getRotation2d(), getModulePositions(), visionPose);
-            Logger.post("LL Avg Pose", visionPose.toString());
-
-        } else{
-            odometer.update(getRotation2d(), getModulePositions());
-        }
-
         field.setRobotPose(odometer.getPoseMeters());
         log();
     }

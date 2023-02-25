@@ -92,6 +92,10 @@ public class Arm extends SubsystemBase {
         return (Math.abs(getAngle() - setPoint) < ArmConstants.ARM_CONTROLLER_TOLERANCE_RAD);
     }
 
+    public boolean atGoal(double pos) {
+        return (Math.abs(getAngle() - pos) < ArmConstants.ARM_CONTROLLER_TOLERANCE_RAD);
+    }
+
     public boolean getExtended() {
         return sol.get();
     }

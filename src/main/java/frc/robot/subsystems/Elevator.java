@@ -103,6 +103,10 @@ public class Elevator extends SubsystemBase {
         return (Math.abs(getHeight() - setPoint) < ElevatorConstants.GOAL_TOLERANCE_METERS);
     }
 
+    public boolean atGoal(double pos) {
+        return (Math.abs(getHeight() - pos) < ElevatorConstants.GOAL_TOLERANCE_METERS);
+    }
+
     public void stop(){
         leftMotor.stopMotor();
         rightMotor.stopMotor();

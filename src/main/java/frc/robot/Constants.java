@@ -180,7 +180,7 @@ public final class Constants {
         public static final int MID_CUBE_PRESET = 5;
         public static final int LOW_SCORE_PRESET = 6;
         public static final int SUBSTATION_PRESET = 7;
-        public static final int FLOOR_INTAKE_PRESET = 8;
+        public static final int FLOOR_INTAKE_PRESET_CUBES = 8;
         public static final int FLOOR_INTAKE_PRESET_CONES = 9;
         // public static final int TOGGLE_FIELD_RELATIVE_BUTTON = 12;
         // public static final int RESET_ODOMETRY_BUTTON = 11;
@@ -212,14 +212,14 @@ public final class Constants {
             RIGHT_SS
         }
 
+        public static final ClawState DEFAULT_CLAW_STATE = new ClawState(0, ArmConstants.UPPER_LIMIT_RAD); //FIXME
         public static final ClawState TOP_CONE_CLAW_STATE = new ClawState(ElevatorConstants.UPPER_LIMIT_METERS, Units.degreesToRadians(11.85), true); //FIXME
         public static final ClawState MID_CONE_CLAW_STATE = new ClawState(.8540754, 0); //FIXME
-        public static final ClawState TOP_CUBE_CLAW_STATE = new ClawState(0, 0); //FIXME
+        public static final ClawState TOP_CUBE_CLAW_STATE = new ClawState(0.654, (Math.PI / 6)); //FIXME
         public static final ClawState MID_CUBE_CLAW_STATE = new ClawState(.6540754, 0); //FIXME
-        public static final ClawState LOW_CLAW_STATE = new ClawState(0, 0); //FIXME
+        public static final ClawState LOW_CLAW_STATE = new ClawState(0.9, -0.925); //FIXME
         public static final ClawState SUBSTATION_CLAW_STATE = new ClawState(.8540754, 0); //FIXME
-        public static final ClawState INTAKE_CLAW_STATE = new ClawState(0.654, -0.925, false, 2); //FIXME 0.93
-        public static final ClawState DEFAULT_CLAW_STATE = new ClawState(0, ArmConstants.UPPER_LIMIT_RAD); //FIXME
+        public static final ClawState CUBE_INTAKE_CLAW_STATE = new ClawState(0.654, -0.925, false, 2); //FIXME 0.93
         public static final ClawState CONE_INTAKE_CLAW_STATE = new ClawState(0, -0.1); //FIXME
     }
 
