@@ -16,7 +16,7 @@ public class ElevatorDebug extends CommandBase {
 
     public ElevatorDebug() {
         elevator = RobotContainer.getElevator();
-        joy = RobotContainer.getJoy();
+        joy = RobotContainer.getPilotJoy();
         elevatorSpeed = .15;
 
         addRequirements(elevator);

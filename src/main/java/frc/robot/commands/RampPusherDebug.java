@@ -13,7 +13,7 @@ public class RampPusherDebug extends CommandBase {
 
     public RampPusherDebug() {
         rampPusher = RobotContainer.getRampPusher();
-        joy = RobotContainer.getJoy();
+        joy = RobotContainer.getPilotJoy();
         addRequirements(rampPusher);
 
     }

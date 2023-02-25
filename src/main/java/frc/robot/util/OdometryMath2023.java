@@ -12,23 +12,27 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.MiscConstants;
+import frc.robot.Constants.RoutineConstants;
 
 public class OdometryMath2023 extends SubsystemBase {
 
     private static Pose2d robotPose;
+    private static Pose2d limelightLeftPose;
+    private static Pose2d limelightRightPose;
     private static final double fieldWidth = Units.feetToMeters(54);
     private static final double fieldHeight = Units.feetToMeters(27);
-    private static final double scoringY1 = Units.feetToMeters(0); //FIXME
-    private static final double scoringY2 = Units.feetToMeters(0); //FIXME
-    private static final double scoringY3 = Units.feetToMeters(0); //FIXME y of gaurdrail
+    private static final double scoringY1 = RoutineConstants.Y_LEVEL_1_METERS; //FIXME
+    private static final double scoringY2 = RoutineConstants.Y_LEVEL_2_METERS; //FIXME
+    private static final double scoringY3 = RoutineConstants.Y_LEVEL_3_METERS; //FIXME y of gaurdrail
 
     private void log() {
-        Logger.post("easiest turn", OdometryMath2023.robotAngleToTarget(new Translation2d(0, 0)));
+        // Logger.post("easiest turn", OdometryMath2023.robotAngleToTarget(new Translation2d(0, 0)));
     }
 
     @Override
     public void periodic() {
         robotPose = RobotContainer.getSwerve().getPose();
+        odometryUpdate();
         log();
     }
 
@@ -37,6 +41,20 @@ public class OdometryMath2023 extends SubsystemBase {
             return (Math.PI - Math.asin(inputY/distance));
         } else {
             return Math.asin(inputY/distance);
+        }
+    }
+
+    private static void odometryUpdate() {
+        limelightLeftPose = RobotContainer.getLimelightLeft().getEstimatedGlobalPose();
+        limelightRightPose = RobotContainer.getLimelightRight().getEstimatedGlobalPose();
+        if (limelightLeftPose != null && limelightRightPose != null) {
+            RobotContainer.getSwerve().resetOdometry(averagePose(limelightRightPose, limelightLeftPose));
+        } else if (limelightLeftPose == null && limelightRightPose != null) {
+            RobotContainer.getSwerve().resetOdometry(limelightRightPose);
+        } else if (limelightLeftPose != null && limelightRightPose == null) {
+            RobotContainer.getSwerve().resetOdometry(limelightLeftPose);
+        } else {
+            return;
         }
     }
 
@@ -92,5 +110,16 @@ public class OdometryMath2023 extends SubsystemBase {
             m.setPeriodicFramePeriod(PeriodicFrame.kStatus5, MiscConstants.MAX_SMAX_PERIODIC_FRAME_MS);
             m.setPeriodicFramePeriod(PeriodicFrame.kStatus6, MiscConstants.MAX_SMAX_PERIODIC_FRAME_MS);
         }
+    }
+
+    public static Pose2d averagePose(Pose2d poseA, Pose2d poseB) {
+        return new Pose2d(
+            new Translation2d(
+                (poseA.getX() + poseB.getX())/2, 
+                (poseA.getY() + poseB.getY())/2),
+            new Rotation2d(
+                (poseA.getRotation().getRadians() + poseB.getRotation().getRadians())/2
+            )
+        );
     }
 }

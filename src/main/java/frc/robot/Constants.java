@@ -139,13 +139,11 @@ public final class Constants {
         public static final double CONTROLLER_DEADBAND = 0.08;
         public static final double CONTROLLER_TURNING_EXPONENT = 2;
         public static final double MAX_ACCEL_TELEOP_M_S_S = 3.5 * 3;
-        public static final double MAX_ANGULAR_ACCEL_TELEOP_RAD_S_S = Math.PI * 4;
+        public static final double MAX_ANGULAR_ACCEL_TELEOP_RAD_S_S = Math.PI * 3;
         public static final double REGULAR_SPEED_M_S = 3.5;
-        public static final double REGULAR_ANGULAR_SPEED_RAD_S = Math.PI * 2;
+        public static final double REGULAR_ANGULAR_SPEED_RAD_S = Math.PI;
         public static final double DAMPEN_SPEED_M_S = 1.25;
-        public static final double DAMPEN_ANGULAR_SPEED_RAD_S = Math.PI / 2;
-        public static final double SPRINT_SPEED_M_S = 4.25;
-        public static final double SPRINT_ANGULAR_SPEED_RAD_S = Math.PI * 3;
+        public static final double DAMPEN_ANGULAR_SPEED_RAD_S = Math.PI / 4;
 
         //Joystick IDs
         public static final int DRIVER_CONTROLLER = 0;
@@ -156,10 +154,9 @@ public final class Constants {
         public static final int TOGGLE_FIELD_OP = 6;
         public static final int RESET_TELEMETRY = 5;
         public static final int TOGGLE_RAMP_PUSHER = 2;
-        public static final int CANCEL_ALL_COMMANDS_D = 10;
-        public static final int LOCK_SWERVE = 9;
+        public static final int CANCEL_ALL_COMMANDS_P = 8;
+        public static final int LOCK_SWERVE_P = 7;
         public static final int DAMPEN = 3;
-        // public static final int SPRINT = 4;
 
         public static final int debugArmUp = 12;
         public static final int debugArmDown = 11;
@@ -172,7 +169,8 @@ public final class Constants {
         public static final int debugClawUp = 10;
         public static final int debugClawDown = 9;
         public static final int debugClawExtend = 4;
-        //OPERATION bindings
+
+        //OPERATION 1 BINDINGS
         public static final int CANCEL_ALL_COMMANDS_O = 1;
         public static final int HIGH_CONE_PRESET = 2;
         public static final int MID_CONE_PRESET = 3;
@@ -180,29 +178,41 @@ public final class Constants {
         public static final int MID_CUBE_PRESET = 5;
         public static final int LOW_SCORE_PRESET = 6;
         public static final int SUBSTATION_PRESET = 7;
-        public static final int FLOOR_INTAKE_PRESET = 8;
+        public static final int FLOOR_INTAKE_PRESET_CUBES = 8;
         public static final int FLOOR_INTAKE_PRESET_CONES = 9;
-        // public static final int TOGGLE_FIELD_RELATIVE_BUTTON = 12;
-        // public static final int RESET_ODOMETRY_BUTTON = 11;
+
+        //OPERATION 2 BINDINGS
+        public static final int LOCK_SWERVE_O = 1;
+        public static final int UNLOCK_SWERVE_O = 2;
+        public static final int LEFT_CONE = 3;
+        public static final int CUBE = 4;
+        public static final int RIGHT_CONE = 5;
+        public static final int LEFT_SS = 6;
+        public static final int RIGHT_SS = 7;
+        public static final int debugButton = 8;
     }
 
     public static final class RoutineConstants {
         public static final double ROUTINE_MAX_TRANSLATION_SPEED_M_S = 3.0;
         public static final double ROUTINE_MAX_ROTATION_SPEED_RAD_S = Math.PI;
-        public static final double ROUTINE_MAX_TRANSLATION_ACCEL_M_S_S = 1.0;
+        public static final double ROUTINE_MAX_TRANSLATION_ACCEL_M_S_S = 3.0;
         public static final double ROUTINE_MAX_ROTATION_ACCEL_RAD_S_S = Math.PI;
         public static final double ROT_THRESH_RAD = Math.PI/4;
-        public static final double SCORING_LEVEL_OFFSET_METERS = 0.3; //FIXME
-        public static final double ARM_DELAY_SECONDS = 0; //FIXME
-        public static final double TRANSLATION_TOLERANCE_METERS = 0.01;
-        public static final double ROTATION_TOLERANCE_RAD = Units.degreesToRadians(1);
+        public static final double SCORING_LEVEL_OFFSET_METERS = Units.inchesToMeters(66);
+        public static final double TRANSLATION_TOLERANCE_METERS = 0.05;
+        public static final double ROTATION_TOLERANCE_RAD = Units.degreesToRadians(2);
+        public static final double Y_LEVEL_1_METERS = Units.inchesToMeters(75.34); 
+        public static final double Y_LEVEL_2_METERS = Units.inchesToMeters(141.34);
+        public static final double Y_LEVEL_3_METERS = Units.inchesToMeters(216.03);
 
         //PRESETS
-        public static final Pose2d BOTTOM_CONE_SCORING_POSE_DEFAULT = new Pose2d(0, 0, new Rotation2d(0)); //FIXME
-        public static final Pose2d CUBE_SCORING_POSE_DEFAULT = new Pose2d(0, 0, new Rotation2d(0)); //FIXME
-        public static final Pose2d TOP_CONE_SCORING_POSE_DEFAULT = new Pose2d(0, 0, new Rotation2d(0)); //FIXME
-        public static final Pose2d BOTTOM_SUBSTATION_POSE_DEFAULT = new Pose2d(0, 0, new Rotation2d(0)); //FIXME
-        public static final Pose2d TOP_SUBSTATION_POSE_DEFAULT = new Pose2d(0, 0, new Rotation2d(0)); //FIXME
+        public static final Pose2d BOTTOM_CONE_SCORING_POSE_DEFAULT = new Pose2d(1.79, 0.5, new Rotation2d(Math.PI)); //FIXME basic guesses done
+        public static final Pose2d CUBE_SCORING_POSE_DEFAULT = new Pose2d(1.79, 1.05, new Rotation2d(Math.PI)); //FIXME
+        public static final Pose2d TOP_CONE_SCORING_POSE_DEFAULT = new Pose2d(1.79, 1.63, new Rotation2d(Math.PI)); //FIXME
+        public static final Pose2d BOTTOM_SUBSTATION_POSE_DEFAULT = new Pose2d(15.39, 6, new Rotation2d(0)); //FIXME
+        public static final Pose2d TOP_SUBSTATION_POSE_DEFAULT = new Pose2d(15.39, 7.5, new Rotation2d(0)); //FIXME
+
+        public static final Pose2d debugPreset = new Pose2d(0, 0, new Rotation2d(0)); //USE TO TEST MOVEBOT TO
 
         public static enum POSITION_TYPE {
             LEFT_CONE,
@@ -212,15 +222,16 @@ public final class Constants {
             RIGHT_SS
         }
 
-        public static final ClawState TOP_CONE_CLAW_STATE = new ClawState(ElevatorConstants.UPPER_LIMIT_METERS, Units.degreesToRadians(11.85), true); //FIXME
-        public static final ClawState MID_CONE_CLAW_STATE = new ClawState(.8540754, 0); //FIXME
-        public static final ClawState TOP_CUBE_CLAW_STATE = new ClawState(0, 0); //FIXME
-        public static final ClawState MID_CUBE_CLAW_STATE = new ClawState(.6540754, 0); //FIXME
-        public static final ClawState LOW_CLAW_STATE = new ClawState(0, 0); //FIXME
-        public static final ClawState SUBSTATION_CLAW_STATE = new ClawState(.8540754, 0); //FIXME
-        public static final ClawState INTAKE_CLAW_STATE = new ClawState(0.654, -0.925, false, 2); //FIXME 0.93
-        public static final ClawState DEFAULT_CLAW_STATE = new ClawState(0, ArmConstants.UPPER_LIMIT_RAD); //FIXME
-        public static final ClawState CONE_INTAKE_CLAW_STATE = new ClawState(0, -0.1); //FIXME
+        public static final ClawState TOP_CONE_CLAW_STATE = new ClawState(ElevatorConstants.UPPER_LIMIT_METERS, Units.degreesToRadians(11.85), true);
+        public static final ClawState MID_CONE_CLAW_STATE = new ClawState(.8540754, 0);
+        public static final ClawState TOP_CUBE_CLAW_STATE = new ClawState(0.6, (Math.PI/4));
+        public static final ClawState MID_CUBE_CLAW_STATE = new ClawState(.6540754, 0);
+        public static final ClawState LOW_CLAW_STATE = new ClawState(0.75, -0.925);
+        public static final ClawState SUBSTATION_CLAW_STATE = new ClawState(.8540754, 0);
+        public static final ClawState CUBE_FLOOR_INTAKE_CLAW_STATE = new ClawState(0.654, -0.925);
+        public static final ClawState CONE_FLOOR_INTAKE_CLAW_STATE = new ClawState(0, -0.1);
+        public static final ClawState DEFAULT_CLAW_STATE = new ClawState(0, ArmConstants.UPPER_LIMIT_RAD);
+
     }
 
     public static final class ElevatorConstants {
@@ -268,7 +279,7 @@ public final class Constants {
         public static final double MAX_SPEED_RAD_S = (MiscConstants.MAX_NEO_SPEED_RPM * GEARBOX_GEARING * Math.PI * 2.0 / 60.0) ;
         public static final double MAX_ACCEL_RAD_S_S = MAX_SPEED_RAD_S / 1.5;
         public static final double UPPER_LIMIT_RAD = 1.45;
-        public static final double LOWER_LIMIT_RAD = -1;
+        public static final double LOWER_LIMIT_RAD = -1.5;
     }
 
     public static final class RampPusherConstants {
