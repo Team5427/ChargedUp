@@ -54,7 +54,11 @@ public class RampPusher extends SubsystemBase {
         rightMotor.stopMotor();
     }
 
-    public boolean isDeployed() {
+    public boolean atSetpoint() {
+        return ((deployed && (getPosition() < 0.2)) || (!deployed && (getPosition() > 1.4)));
+    }
+
+    public boolean isDeployed() {        
         return deployed;
     }
 

@@ -9,7 +9,7 @@ import frc.robot.subsystems.Elevator;
 
 public class ClawDebug extends CommandBase {
 
-    CommandJoystick joy;
+    CommandJoystick joy, joy2;
     Claw claw;
     double clawSpeed;
 
@@ -17,6 +17,7 @@ public class ClawDebug extends CommandBase {
     public ClawDebug() {
         claw = RobotContainer.getClaw();
         joy = RobotContainer.getJoy();
+        joy2 = RobotContainer.getOperatorJoy1();
         clawSpeed = .2;
 
         addRequirements(claw);
@@ -36,12 +37,12 @@ public class ClawDebug extends CommandBase {
         } else if(joy.getHID().getRawButton(JoystickConstants.debugClawDown)
         // && claw.getAngle() > clawConstants.LOWER_LIMIT_RAD
         ){
-            claw.set(-clawSpeed);
+            claw.set(-clawSpeed * 3);
         } else{
             claw.stop();
         }
 
-        if(joy.getHID().getRawButtonPressed(JoystickConstants.debugClawExtend)){
+        if(joy.getHID().getRawButtonPressed(4)){
             claw.grab(!claw.getGrabber());
         }
 

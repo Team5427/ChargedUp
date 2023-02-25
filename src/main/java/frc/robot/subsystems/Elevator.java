@@ -100,7 +100,7 @@ public class Elevator extends SubsystemBase {
     }
 
     public boolean atGoal() {
-        return elevatorController.atGoal();
+        return (Math.abs(getHeight() - setPoint) < ElevatorConstants.GOAL_TOLERANCE_METERS);
     }
 
     public void stop(){
@@ -133,11 +133,11 @@ public class Elevator extends SubsystemBase {
             resetEncoder();
         }
 
-        if (RobotContainer.getJoy().getHID().getRawButton(8)) {
-            setPoint = 0.5;
-        } else {
-            setPoint = 0.0;
-        }
+        // if (RobotContainer.getJoy().getHID().getRawButton(8)) {
+        //     setPoint = .6540754;
+        // } else {
+        //     setPoint = 0.0;
+        // }
 
         log();
     }

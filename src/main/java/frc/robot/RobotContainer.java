@@ -40,6 +40,7 @@ public class RobotContainer {
 
   private static WPI_Pigeon2 pigeon;
   private static CommandJoystick joy;
+  private static CommandJoystick operatorJoy1;
   private static Limelight limelight_right, limelight_left;
   private static OdometryMath2023 odom;
 
@@ -50,6 +51,7 @@ public class RobotContainer {
     pigeon = new WPI_Pigeon2(Constants.SwerveConstants.PIGEON_ID);
     pigeon.configFactoryDefault();
     joy = new CommandJoystick(Constants.JoystickConstants.DRIVER_CONTROLLER);
+    operatorJoy1 = new CommandJoystick(Constants.JoystickConstants.OPERATION_CONTROLLER);
     limelight_right = new Limelight(NetworkTableInstance.getDefault().getTable("limelight-right"));
     limelight_left = new Limelight(NetworkTableInstance.getDefault().getTable("limelight-left"));
 
@@ -60,7 +62,7 @@ public class RobotContainer {
     elevator = new Elevator();
     // elevator.setDefaultCommand(new ElevatorDebug());
     arm = new Arm();
-    arm.setDefaultCommand(new ArmDebug());
+    // arm.setDefaultCommand(new ArmDebug());
     claw = new Claw();
     claw.setDefaultCommand(new ClawDebug());
 
@@ -74,7 +76,7 @@ public class RobotContainer {
     //NEED TO BE AT END OF CONSTRUCTOR
     SwervePathMaker.initPaths("ComplexPath", "StraightLinePath");
     AutonSheet.initAutons();
-    new ButtonBindings(getJoy());
+    new ButtonBindings(getJoy(), getOperatorJoy1());
   }
 
   public Command getAutonomousCommand() {
@@ -84,6 +86,7 @@ public class RobotContainer {
   public static SwerveDrive getSwerve() {return swerveDrive;}
   public static WPI_Pigeon2 getPigeon() {return pigeon;}
   public static CommandJoystick getJoy() {return joy;}
+  public static CommandJoystick getOperatorJoy1() {return operatorJoy1;}
   public static Limelight getLimelightRight() {return limelight_right;}
   public static Limelight getLimelightLeft() {return limelight_left;}
   public static OdometryMath2023 getOdomInstance() {return odom;}

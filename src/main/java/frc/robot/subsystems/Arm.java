@@ -8,6 +8,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
@@ -45,7 +46,7 @@ public class Arm extends SubsystemBase {
         );
         armController.enableContinuousInput(0 - ArmConstants.POSITION_OFFSET_RAD, (2 * Math.PI) - ArmConstants.POSITION_OFFSET_RAD);
         armController.setTolerance(ArmConstants.ARM_CONTROLLER_TOLERANCE_RAD);
-        setPoint = Math.PI / 4; //arm locks up on robot startup
+        setPoint = ArmConstants.UPPER_LIMIT_RAD; //arm locks up on robot startup
         sol = new Solenoid(28, PneumaticsModuleType.REVPH, ArmConstants.SOL_ID);
     }
 
@@ -88,7 +89,7 @@ public class Arm extends SubsystemBase {
     }
 
     public boolean atGoal() {
-        return armController.atGoal();
+        return (Math.abs(getAngle() - setPoint) < ArmConstants.ARM_CONTROLLER_TOLERANCE_RAD);
     }
 
     public boolean getExtended() {
@@ -107,17 +108,17 @@ public class Arm extends SubsystemBase {
     @Override
     public void periodic() {
         calc = armController.calculate(getAngle());
-        // set(calc);
-        // if (DriverStation.isEnabled()) {
-        //     armController.setGoal(this.setPoint);
-        // } else {
-        //     armController.setGoal(getAngle());
-        // }
+        set(calc);
+        if (DriverStation.isEnabled()) {
+            armController.setGoal(this.setPoint);
+        } else {
+            armController.setGoal(getAngle());
+        }
 
         // if (RobotContainer.getJoy().getHID().getRawButton(12)) {
-        //     setPoint = Math.PI/8;
+        //     setPoint = ArmConstants.UPPER_LIMIT_RAD;
         // } else {
-        //     setPoint = Math.PI/4;
+        //     setPoint = ArmConstants.LOWER_LIMIT_RAD;
         // }
 
         log();

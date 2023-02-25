@@ -1,5 +1,6 @@
 package frc.robot.commands.Routines;
 
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
@@ -7,6 +8,7 @@ import frc.robot.Constants.JoystickConstants;
 import frc.robot.Constants.RoutineConstants;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.RampPusher;
 
 public class MoveClawTo extends CommandBase {
     
@@ -14,12 +16,17 @@ public class MoveClawTo extends CommandBase {
     private Timer timer;
     private Arm arm;
     private Elevator elevator;
+    private RampPusher pusher;
+    private double startingAngle;
+    private double armDelay = 2;
 
     public MoveClawTo(ClawState setPoint) {
         this.setPoint = setPoint;
-        // arm = RobotContainer.getArm(); //commenting out since havent implemented in robotcontainer yet
-        // elevator = RobotContainer.getElevator();
+        arm = RobotContainer.getArm(); //commenting out since havent implemented in robotcontainer yet
+        elevator = RobotContainer.getElevator();
+        pusher = RobotContainer.getRampPusher();
         timer = new Timer();
+        startingAngle = arm.getAngle();
         addRequirements(arm, elevator);
     }
 
@@ -31,12 +38,15 @@ public class MoveClawTo extends CommandBase {
 
     @Override
     public void execute() {
-        elevator.setHeight(setPoint.getHeight());
-        if (timer.get() >= RoutineConstants.ARM_DELAY_SECONDS) {
-            arm.setAngle(setPoint.getAngle());
+        if (setPoint.getAngle() < (Math.PI / 6) && setPoint.getHeight() < 0.12) {
+            pusher.deploy(true);
         }
-
-        if (arm.atGoal()) {
+        if (pusher.atSetpoint()) {
+            arm.setAngle(setPoint.getAngle());
+            if (arm.getAngle() > 0) {
+                elevator.setHeight(setPoint.getHeight());
+            }
+    
             arm.extend(setPoint.getExtended());
         }
     }
@@ -54,6 +64,9 @@ public class MoveClawTo extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
+        if (setPoint.getAngle() > (Math.PI / 6) || setPoint.getHeight() > 0.12) {
+            pusher.deploy(false);
+        }
         timer.stop();
         timer.reset();
     }
