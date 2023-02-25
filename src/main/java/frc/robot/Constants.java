@@ -220,7 +220,7 @@ public final class Constants {
         public static final ClawState LOW_CLAW_STATE = new ClawState(0.9, -0.925); //FIXME
         public static final ClawState SUBSTATION_CLAW_STATE = new ClawState(.8540754, 0); //FIXME
         public static final ClawState CUBE_INTAKE_CLAW_STATE = new ClawState(0.654, -0.925, false, 2); //FIXME 0.93
-        public static final ClawState CONE_INTAKE_CLAW_STATE = new ClawState(0, -0.1); //FIXME
+        public static final ClawState CONE_INTAKE_CLAW_STATE = new ClawState(0, -0.13); //FIXME
     }
 
     public static final class ElevatorConstants {
@@ -279,7 +279,7 @@ public final class Constants {
 
         public static final double GEARING = (1.0 / 100.0);
         public static final double ENCODER_OFFSET_RAD = 4.22; //FIXME urgent
-        public static final double P = 1.5; //FIXME should work for rn
+        public static final double P = 1.3; //FIXME should work for rn
         public static final double I = 0; //FIXME
         public static final double D = 0; //FIXME
         public static final double MAX_SPEED_RAD_S = Units.rotationsPerMinuteToRadiansPerSecond(MiscConstants.MAX_550_SPEED_RPM * GEARING) / 2;

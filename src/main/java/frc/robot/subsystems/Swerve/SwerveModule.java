@@ -138,8 +138,8 @@ public class SwerveModule {
         turnMotor = new CANSparkMax(turnMotorID, MotorType.kBrushless);
         speedMotor.restoreFactoryDefaults();
         turnMotor.restoreFactoryDefaults();
-        speedMotor.setSmartCurrentLimit(40);
-        turnMotor.setSmartCurrentLimit(27);
+        speedMotor.setSmartCurrentLimit(35);
+        turnMotor.setSmartCurrentLimit(23);
         speedMotor.setInverted(speedInv);
         turnMotor.setInverted(turnInv);
         speedEnc = speedMotor.getEncoder();

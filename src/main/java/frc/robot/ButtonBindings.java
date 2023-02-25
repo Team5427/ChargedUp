@@ -20,6 +20,7 @@ public class ButtonBindings {
     private static RampPusher pusher;
     private static Arm arm;
     private static Elevator elevator;
+    private static Claw claw;
 
     public ButtonBindings(CommandJoystick joy, CommandJoystick operatorJoy1) {
         getSubsystems();
@@ -46,7 +47,11 @@ public class ButtonBindings {
         operatorJoy1.button(JoystickConstants.MID_CUBE_PRESET).onTrue(new MoveClawTo(RoutineConstants.MID_CUBE_CLAW_STATE));
         operatorJoy1.button(JoystickConstants.SUBSTATION_PRESET).onTrue(new MoveClawTo(RoutineConstants.SUBSTATION_CLAW_STATE));
         operatorJoy1.button(JoystickConstants.FLOOR_INTAKE_PRESET_CUBES).onTrue(new MoveClawTo(RoutineConstants.CUBE_INTAKE_CLAW_STATE));
-        operatorJoy1.button(JoystickConstants.FLOOR_INTAKE_PRESET_CONES).onTrue(new SequentialCommandGroup(new MoveClawTo(RoutineConstants.CONE_INTAKE_CLAW_STATE)));  
+        operatorJoy1.button(JoystickConstants.FLOOR_INTAKE_PRESET_CONES).onTrue(new SequentialCommandGroup(
+        new InstantCommand(() -> {
+            claw.grab(true);
+        }, claw),    
+        new MoveClawTo(RoutineConstants.CONE_INTAKE_CLAW_STATE)));  
     }
 
     private static void getSubsystems() {
@@ -54,5 +59,6 @@ public class ButtonBindings {
         pusher = RobotContainer.getRampPusher();
         arm = RobotContainer.getArm();
         elevator = RobotContainer.getElevator();
+        claw = RobotContainer.getClaw();
     }
 }

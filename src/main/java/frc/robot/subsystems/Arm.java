@@ -112,12 +112,13 @@ public class Arm extends SubsystemBase {
     @Override
     public void periodic() {
         calc = armController.calculate(getAngle());
-        set(calc);
-        if (DriverStation.isEnabled()) {
-            armController.setGoal(this.setPoint);
-        } else {
-            armController.setGoal(getAngle());
-        }
+        // set(calc);
+        // if (DriverStation.isEnabled()) {
+        //     armController.setGoal(this.setPoint);
+        // } else {
+        //     armController.setGoal(getAngle());
+        // }
+        set(.02);
 
         // if (RobotContainer.getJoy().getHID().getRawButton(12)) {
         //     setPoint = ArmConstants.UPPER_LIMIT_RAD;
