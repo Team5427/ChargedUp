@@ -30,14 +30,6 @@ public class MoveBotTo extends CommandBase {
         this.setType = type;
     }
 
-    public MoveBotTo(Pose2d type) {
-        swerve = RobotContainer.getSwerve();
-        addRequirements(swerve);
-        timer = new Timer();
-        this.setpoint = type;
-        initControllers();
-    }
-
     @Override
     public void initialize() {
         timer.reset();
@@ -54,22 +46,21 @@ public class MoveBotTo extends CommandBase {
         if (
             Math.abs(measurement.getRotation().minus(setpoint.getRotation()).getRadians()) < RoutineConstants.ROT_THRESH_RAD
         ) {
-            xController.setGoal(setpoint.getX());
-            yController.setGoal(setpoint.getY());
-            thetaController.setGoal(setpoint.getRotation().getRadians());
+            states = SwerveConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(
+                new ChassisSpeeds(
+                    xCalc, 
+                    yCalc, 
+                    thetaCalc
+                )
+            );
         } else {
-            xController.setGoal(measurement.getX());
-            yController.setGoal(measurement.getY());
-            thetaController.setGoal(setpoint.getRotation().getRadians());
+            states = SwerveConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(
+                new ChassisSpeeds(
+                    0, 0, 
+                    thetaCalc
+                )
+            );
         }
-
-        states = SwerveConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(
-            new ChassisSpeeds(
-                xCalc, 
-                yCalc, 
-                thetaCalc
-            )
-        );
 
         swerve.setModules(states);
     }
@@ -79,10 +70,7 @@ public class MoveBotTo extends CommandBase {
         if (xController.atGoal() && yController.atGoal() && thetaController.atGoal()) {
             lastPositionType = this.setType;
             return true;
-        } else if (
-            RobotContainer.getPilotJoy().getHID().getRawButton(JoystickConstants.CANCEL_ALL_COMMANDS_P) || 
-            RobotContainer.getOperatorJoy1().getHID().getRawButton(JoystickConstants.CANCEL_ALL_COMMANDS_O)
-        ) {
+        } else if (RobotContainer.getJoy().getHID().getRawButton(JoystickConstants.CANCEL_ALL_COMMANDS_D) || RobotContainer.getJoy().getHID().getRawButton(JoystickConstants.CANCEL_ALL_COMMANDS_O)) {
             return true;
         } else {
             return false;

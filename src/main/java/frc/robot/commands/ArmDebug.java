@@ -17,7 +17,7 @@ public class ArmDebug extends CommandBase {
 
     public ArmDebug() {
         arm = RobotContainer.getArm();
-        joy = RobotContainer.getPilotJoy();
+        joy = RobotContainer.getJoy();
         armSpeed = .10;
 
         addRequirements(arm);

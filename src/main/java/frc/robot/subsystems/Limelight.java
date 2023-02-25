@@ -41,6 +41,19 @@ public class Limelight extends SubsystemBase {
         return null;
     }
     
+    public Pose2d getAverageEstimatedPose(Pose2d pose){
+        Pose2d currentPose = getEstimatedGlobalPose();
+
+        return new Pose2d(
+            new Translation2d(
+                (pose.getX() + currentPose.getX())/2, 
+                (pose.getY() + currentPose.getY())/2),
+            new Rotation2d(
+                (pose.getRotation().getRadians() + currentPose.getRotation().getRadians())/2
+            )
+        );
+    }
+
     public void setLight(boolean on) {
         if (on) {
             table_m.getEntry("ledMode").setNumber(0);

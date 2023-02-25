@@ -16,7 +16,7 @@ public class ClawDebug extends CommandBase {
 
     public ClawDebug() {
         claw = RobotContainer.getClaw();
-        joy = RobotContainer.getPilotJoy();
+        joy = RobotContainer.getJoy();
         joy2 = RobotContainer.getOperatorJoy1();
         clawSpeed = .2;
 

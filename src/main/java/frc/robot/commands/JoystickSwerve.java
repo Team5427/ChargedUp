@@ -19,7 +19,7 @@ public class JoystickSwerve extends CommandBase {
     private SlewRateLimiter translationRateLimiterX, translationRateLimiterY, rotationRateLimiter;
 
     public JoystickSwerve () {
-        joy = RobotContainer.getPilotJoy();
+        joy = RobotContainer.getJoy();
         swerve = RobotContainer.getSwerve();
         addRequirements(swerve);
         translationRateLimiterX = new SlewRateLimiter(JoystickConstants.MAX_ACCEL_TELEOP_M_S_S);
@@ -73,7 +73,7 @@ public class JoystickSwerve extends CommandBase {
         if (OdometryMath2023.isBlue()) {
             rot = swerve.getPose().getRotation();
         } else {
-            rot = OdometryMath2023.flip(swerve.getPose().getRotation());
+            rot = swerve.getPose().getRotation().plus(new Rotation2d(Math.PI));
         }
         
         ChassisSpeeds chassisSpeeds = swerve.getFieldRelative() ? ChassisSpeeds.fromFieldRelativeSpeeds(ySpeed, xSpeed, x2Speed, rot) : new ChassisSpeeds(ySpeed, xSpeed, x2Speed);

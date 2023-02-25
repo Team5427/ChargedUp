@@ -12,7 +12,6 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.MiscConstants;
 import frc.robot.Constants.SwerveConstants;
@@ -23,7 +22,6 @@ public class SwerveDrive extends SubsystemBase {
     private SwerveModule frontLeft, frontRight, backLeft, backRight;
     private WPI_Pigeon2 gyro;
     private boolean isFieldRelative;
-    private boolean locked;
     private SwerveDriveOdometry odometer;
     private Field2d field;
 
@@ -34,7 +32,6 @@ public class SwerveDrive extends SubsystemBase {
         this.backRight = new SwerveModule(SwerveConstants.SwerveModuleType.BACK_RIGHT);
         this.gyro = m_gyro;
         isFieldRelative = MiscConstants.FIELD_RELATIVE_ON_START;
-        locked = false;
         odometer = new SwerveDriveOdometry(SwerveConstants.SWERVE_DRIVE_KINEMATICS, getRotation2d(), getModulePositions());
         field = new Field2d();
         gyro.reset();
@@ -57,18 +54,11 @@ public class SwerveDrive extends SubsystemBase {
     }
 
     public void setModules(SwerveModuleState[] desiredStates) {
-        if (!locked) {
-            SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, SwerveConstants.MAX_PHYSICAL_SPEED_M_PER_SEC); //dampens a little
-            frontLeft.setModState(desiredStates[0]);
-            frontRight.setModState(desiredStates[1]);
-            backLeft.setModState(desiredStates[2]);
-            backRight.setModState(desiredStates[3]);
-        } else {
-            frontLeft.setModState(new SwerveModuleState(0, new Rotation2d(Math.PI/4))); //FIXME could be inverted on all of these
-            frontRight.setModState(new SwerveModuleState(0, new Rotation2d(-Math.PI/4)));
-            backLeft.setModState(new SwerveModuleState(0, new Rotation2d(-Math.PI/4)));
-            backRight.setModState(new SwerveModuleState(0, new Rotation2d(Math.PI/4)));
-        }
+        SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, SwerveConstants.MAX_PHYSICAL_SPEED_M_PER_SEC); //dampens a little
+        frontLeft.setModState(desiredStates[0]);
+        frontRight.setModState(desiredStates[1]);
+        backLeft.setModState(desiredStates[2]);
+        backRight.setModState(desiredStates[3]);
     }
 
     public Pose2d getPose() {
@@ -93,6 +83,34 @@ public class SwerveDrive extends SubsystemBase {
     @Override
     public void periodic() {
         odometer.update(getRotation2d(), getModulePositions());
+        Logger.post("LL Right", RobotContainer.getLimelightRight().targetVisible());
+        Logger.post("LL Left", RobotContainer.getLimelightLeft().targetVisible());
+
+        Pose2d visionPose = null;
+
+        if(RobotContainer.getLimelightRight().targetVisible()){
+            Logger.post("LL Right Pose", RobotContainer.getLimelightRight().getEstimatedGlobalPose().toString());
+            
+            visionPose =  RobotContainer.getLimelightRight().getEstimatedGlobalPose();
+        }
+        if(RobotContainer.getLimelightLeft().targetVisible()){
+            Logger.post("LL Left Pose", RobotContainer.getLimelightLeft().getEstimatedGlobalPose().toString());
+            if(visionPose == null){
+                visionPose =  RobotContainer.getLimelightLeft().getEstimatedGlobalPose();
+            } else{
+                visionPose = RobotContainer.getLimelightLeft().getAverageEstimatedPose(visionPose);
+            }
+        }
+
+        if(visionPose != null ){
+
+            odometer.resetPosition(getRotation2d(), getModulePositions(), visionPose);
+            Logger.post("LL Avg Pose", visionPose.toString());
+
+        } else{
+            odometer.update(getRotation2d(), getModulePositions());
+        }
+
         field.setRobotPose(odometer.getPoseMeters());
         log();
     }
@@ -118,19 +136,11 @@ public class SwerveDrive extends SubsystemBase {
     public void toggleFieldRelative() {
         isFieldRelative = MiscConstants.FIELD_RELATIVE_SWITCHABLE ? !isFieldRelative : isFieldRelative;
     }
-
-    public boolean getLocked() {
-        return locked;
-    }
-
-    public void setLocked(boolean lock) {
-        this.locked = lock;
-    }
     
     private void log() {
         Logger.post("FieldRelative", getFieldRelative());
         // // Logger.post("GyroCalibrating", gyro.isCalibrating());
-        // Logger.post("odom", odometer.getPoseMeters().toString());
+        Logger.post("odom", odometer.getPoseMeters().toString());
         // // Logger.post("estimator pose", poseEstimator.getEstimatedPosition());
         // // Logger.post("key", backLeft.getTurnPosRad());
         // Logger.post("gyro", getHeading());
@@ -140,15 +150,15 @@ public class SwerveDrive extends SubsystemBase {
         // Logger.post("backRight", backRight.getErrors());
         // Logger.post("frontRight", frontRight.getErrors());
         Logger.postComplex("Field5427", field);
-        // Logger.post("abs FR", frontRight.getAbsEncRaw());
-        // Logger.post("abs FL", frontLeft.getAbsEncRaw());
-        // Logger.post("abs BR", backRight.getAbsEncRaw());
-        // Logger.post("abs BL", backLeft.getAbsEncRaw());
+        Logger.post("abs FR", frontRight.getAbsEncRaw());
+        Logger.post("abs FL", frontLeft.getAbsEncRaw());
+        Logger.post("abs BR", backRight.getAbsEncRaw());
+        Logger.post("abs BL", backLeft.getAbsEncRaw());
 
-        // Logger.post("abs rad FR", frontRight.getAbsEncRad());
-        // Logger.post("abs rad FL", frontLeft.getAbsEncRad());
-        // Logger.post("abs rad BR", backRight.getAbsEncRad());
-        // Logger.post("abs rad BL", backLeft.getAbsEncRad());
+        Logger.post("abs rad FR", frontRight.getAbsEncRad());
+        Logger.post("abs rad FL", frontLeft.getAbsEncRad());
+        Logger.post("abs rad BR", backRight.getAbsEncRad());
+        Logger.post("abs rad BL", backLeft.getAbsEncRad());
 
         // Logger.post("speeds", frontRight.getDriveSpeed());
 

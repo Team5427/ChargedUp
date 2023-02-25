@@ -125,9 +125,9 @@ public class Arm extends SubsystemBase {
     }
 
     public void log() {
-        // Logger.post("calculation", this.calc);
+        Logger.post("calculation", this.calc);
         Logger.post("arm angle", getAngle());
-        // Logger.post("at goal", atGoal());
-        // Logger.post("arm setpoint", this.setPoint);
+        Logger.post("at goal", atGoal());
+        Logger.post("arm setpoint", this.setPoint);
     }
 }
