@@ -94,6 +94,7 @@ public class SwerveDrive extends SubsystemBase {
 
     public SwerveModulePosition[] getModulePositions() {
         SwerveModulePosition ret[] = {frontLeft.getModPosition(), frontRight.getModPosition(), backLeft.getModPosition(), backRight.getModPosition()};
+        
         return ret;
     }
 
@@ -137,6 +138,7 @@ public class SwerveDrive extends SubsystemBase {
         // Logger.post("speed RPM", frontRight.backToRPM());
 
         // Logger.post("state", frontRight.getModState().toString());
+
         // // Logger.post("gyro yaw", OdometryMath2022.gyroTargetOffset());
         // Logger.post("x2speed", x2Speed);
         // Logger.post("usingOdom", usingOdometryTargeting);   

@@ -26,6 +26,11 @@ public class OdometryMath2023 extends SubsystemBase {
 
     private void log() {
         Logger.post("easiest turn", OdometryMath2023.robotAngleToTarget(new Translation2d(0, 0)));
+        
+        if(limelightLeftPose != null)
+            Logger.post("LL LEft position", limelightLeftPose.toString());
+        if(limelightRightPose != null)
+            Logger.post("LL Right position", limelightRightPose.toString());
     }
 
     @Override
@@ -45,6 +50,7 @@ public class OdometryMath2023 extends SubsystemBase {
         } else if (limelightLeftPose != null && limelightRightPose == null) {
             RobotContainer.getSwerve().resetOdometry(limelightLeftPose);
         } else {
+            // System.out.println("no target spotted");
             return;
         }
     }
