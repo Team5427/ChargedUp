@@ -112,7 +112,7 @@ public class Arm extends SubsystemBase {
     @Override
     public void periodic() {
         if (atGoal() && (setPoint == ArmConstants.UPPER_LIMIT_RAD)) {
-            set(0.04);
+            set(0.02);
             armController.reset(getAngle());
         } else {
             calc = armController.calculate(getAngle());

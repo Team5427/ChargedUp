@@ -279,7 +279,7 @@ public final class Constants {
         public static final double kD = 0.0;
         public static final double ARM_CONTROLLER_TOLERANCE_RAD = 0.2;
         public static final double GEARBOX_GEARING = (1.0 / 100.0) * (17.0 / 20.0) * (20.0 / 32.0);
-        public static final double MAX_SPEED_RAD_S = (MiscConstants.MAX_NEO_SPEED_RPM * GEARBOX_GEARING * Math.PI * 2.0 / 60.0) ;
+        public static final double MAX_SPEED_RAD_S = Units.rotationsPerMinuteToRadiansPerSecond(MiscConstants.MAX_NEO_SPEED_RPM * GEARBOX_GEARING);
         public static final double MAX_ACCEL_RAD_S_S = MAX_SPEED_RAD_S / 1.5;
         public static final double UPPER_LIMIT_RAD = 1.45;
         public static final double LOWER_LIMIT_RAD = -1;
