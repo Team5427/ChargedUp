@@ -112,8 +112,8 @@ public class Arm extends SubsystemBase {
     @Override
     public void periodic() {
         if (atGoal() && (setPoint == ArmConstants.UPPER_LIMIT_RAD)) {
-            System.out.println("asasdasd");
-            set(0.01);
+            set(0.04);
+            armController.reset(getAngle());
         } else {
             calc = armController.calculate(getAngle());
             set(calc);
@@ -123,14 +123,6 @@ public class Arm extends SubsystemBase {
         } else {
             armController.setGoal(getAngle());
         }
-        // set(.01);
-
-        // if (RobotContainer.getJoy().getHID().getRawButton(12)) {
-        //     setPoint = ArmConstants.UPPER_LIMIT_RAD;
-        // } else {
-        //     setPoint = ArmConstants.LOWER_LIMIT_RAD;
-        // }
-
         log();
     }
 

@@ -5,7 +5,9 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import frc.robot.Constants.*;
+import frc.robot.Constants.RoutineConstants.POSITION_TYPE;
 import frc.robot.commands.Routines.ClawState;
+import frc.robot.commands.Routines.MoveBotTo;
 // import frc.robot.commands.Routines.MoveClawTo;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Claw;
@@ -30,7 +32,7 @@ public class ButtonBindings {
             Pose2d resetPose = MiscConstants.DEBUG_RESET_POSE;
             swerve.resetOdometry(OdometryMath2023.isBlue() ? resetPose : OdometryMath2023.flip(resetPose));
             swerve.resetMods();
-        }));
+        }, swerve));
 
         joy.button(JoystickConstants.TOGGLE_FIELD_OP).onTrue(new InstantCommand(() -> {
             swerve.toggleFieldRelative();
@@ -38,7 +40,11 @@ public class ButtonBindings {
 
         joy.button(JoystickConstants.TOGGLE_RAMP_PUSHER).onTrue(new InstantCommand(() -> {
             pusher.deploy(!pusher.isDeployed());
-        }, pusher));    
+        }, pusher));
+
+        joy.button(JoystickConstants.LOCK_SWERVE).onTrue(new InstantCommand(() -> {
+            swerve.setLocked(!swerve.getLocked());
+        }, swerve));
 
         // operatorJoy1.button(JoystickConstants.CANCEL_ALL_COMMANDS_O).onTrue(new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE));
         // operatorJoy1.button(JoystickConstants.HIGH_CONE_PRESET).onTrue(new MoveClawTo(RoutineConstants.TOP_CONE_CLAW_STATE));
@@ -50,7 +56,9 @@ public class ButtonBindings {
         // new InstantCommand(() -> {
         //     claw.grab(true);
         // }, claw),    
-        // new MoveClawTo(RoutineConstants.CONE_INTAKE_CLAW_STATE)));  
+        // new MoveClawTo(RoutineConstants.CONE_INTAKE_CLAW_STATE)));
+
+        operatorJoy1.button(JoystickConstants.debugMovement).onTrue(new MoveBotTo(RoutineConstants.debug));
     }
 
     private static void getSubsystems() {

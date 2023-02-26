@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.ctre.phoenix.sensors.WPI_Pigeon2;
 
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -22,7 +23,8 @@ public class SwerveDrive extends SubsystemBase {
     private SwerveModule frontLeft, frontRight, backLeft, backRight;
     private WPI_Pigeon2 gyro;
     private boolean isFieldRelative;
-    private SwerveDriveOdometry odometer;
+    private boolean locked;
+    private SwerveDrivePoseEstimator odometer;
     private Field2d field;
 
     public SwerveDrive (WPI_Pigeon2 m_gyro) {
@@ -32,7 +34,8 @@ public class SwerveDrive extends SubsystemBase {
         this.backRight = new SwerveModule(SwerveConstants.SwerveModuleType.BACK_RIGHT);
         this.gyro = m_gyro;
         isFieldRelative = MiscConstants.FIELD_RELATIVE_ON_START;
-        odometer = new SwerveDriveOdometry(SwerveConstants.SWERVE_DRIVE_KINEMATICS, getRotation2d(), getModulePositions());
+        locked = false;
+        odometer = new SwerveDrivePoseEstimator(SwerveConstants.SWERVE_DRIVE_KINEMATICS, getRotation2d(), getModulePositions(), new Pose2d(0, 0, new Rotation2d(0)));
         field = new Field2d();
         gyro.reset();
     }
@@ -54,18 +57,26 @@ public class SwerveDrive extends SubsystemBase {
     }
 
     public void setModules(SwerveModuleState[] desiredStates) {
-        SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, SwerveConstants.MAX_PHYSICAL_SPEED_M_PER_SEC); //dampens a little
-        frontLeft.setModState(desiredStates[0]);
-        frontRight.setModState(desiredStates[1]);
-        backLeft.setModState(desiredStates[2]);
-        backRight.setModState(desiredStates[3]);
+        if (!locked) {
+            SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, SwerveConstants.MAX_PHYSICAL_SPEED_M_PER_SEC); //dampens a little
+            frontLeft.setModState(desiredStates[0]);
+            frontRight.setModState(desiredStates[1]);
+            backLeft.setModState(desiredStates[2]);
+            backRight.setModState(desiredStates[3]);
+        } else {
+            frontLeft.setModState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
+            frontRight.setModState(new SwerveModuleState(0, Rotation2d.fromDegrees(-45)));
+            backLeft.setModState(new SwerveModuleState(0, Rotation2d.fromDegrees(-45)));
+            backRight.setModState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
+        }
     }
 
     public Pose2d getPose() {
-        return odometer.getPoseMeters();
+        return odometer.getEstimatedPosition();
     }
 
     public void resetOdometry(Pose2d pose) {
+        Logger.post("reset pose", pose.toString());
         odometer.resetPosition(getRotation2d(), getModulePositions(), pose);
     }
 
@@ -83,13 +94,17 @@ public class SwerveDrive extends SubsystemBase {
     @Override
     public void periodic() {
         odometer.update(getRotation2d(), getModulePositions());
-        field.setRobotPose(odometer.getPoseMeters());
+        field.setRobotPose(getPose());
         log();
     }
 
     public List<SwerveModule> getModules() {
         List<SwerveModule> list = List.of(frontLeft, frontRight, backLeft, backRight);
         return list;
+    }
+
+    public SwerveDrivePoseEstimator getEstimator() {
+        return odometer;
     }
 
     public SwerveModulePosition[] getModulePositions() {
@@ -109,11 +124,19 @@ public class SwerveDrive extends SubsystemBase {
     public void toggleFieldRelative() {
         isFieldRelative = MiscConstants.FIELD_RELATIVE_SWITCHABLE ? !isFieldRelative : isFieldRelative;
     }
+
+    public boolean getLocked() {
+        return locked;
+    }
+
+    public void setLocked(boolean lock) {
+        this.locked = lock;
+    }
     
     private void log() {
         Logger.post("FieldRelative", getFieldRelative());
         // // Logger.post("GyroCalibrating", gyro.isCalibrating());
-        Logger.post("odom", odometer.getPoseMeters().toString());
+        Logger.post("odom", getPose().toString());
         // // Logger.post("estimator pose", poseEstimator.getEstimatedPosition());
         // // Logger.post("key", backLeft.getTurnPosRad());
         // Logger.post("gyro", getHeading());
@@ -123,16 +146,20 @@ public class SwerveDrive extends SubsystemBase {
         // Logger.post("backRight", backRight.getErrors());
         // Logger.post("frontRight", frontRight.getErrors());
         Logger.postComplex("Field5427", field);
-        Logger.post("abs FR", frontRight.getAbsEncRaw());
-        Logger.post("abs FL", frontLeft.getAbsEncRaw());
-        Logger.post("abs BR", backRight.getAbsEncRaw());
-        Logger.post("abs BL", backLeft.getAbsEncRaw());
+        // Logger.post("abs FR", frontRight.getAbsEncRaw());
+        // Logger.post("abs FL", frontLeft.getAbsEncRaw());
+        // Logger.post("abs BR", backRight.getAbsEncRaw());
+        // Logger.post("abs BL", backLeft.getAbsEncRaw());
 
-        Logger.post("abs rad FR", frontRight.getAbsEncRad());
-        Logger.post("abs rad FL", frontLeft.getAbsEncRad());
-        Logger.post("abs rad BR", backRight.getAbsEncRad());
-        Logger.post("abs rad BL", backLeft.getAbsEncRad());
+        // Logger.post("abs rad FR", frontRight.getAbsEncRad());
+        // Logger.post("abs rad FL", frontLeft.getAbsEncRad());
+        // Logger.post("abs rad BR", backRight.getAbsEncRad());
+        // Logger.post("abs rad BL", backLeft.getAbsEncRad());
 
+        Logger.post("frontLeft.getModPosition()", frontLeft.getModPosition().toString());
+        Logger.post("frontRight.getModPosition()", frontRight.getModPosition().toString());
+        Logger.post("bakcLeft.getModPosition()", backLeft.getModPosition().toString());
+        Logger.post("backRight.getModPosition()", backRight.getModPosition().toString());
         // Logger.post("speeds", frontRight.getDriveSpeed());
 
         // Logger.post("speed RPM", frontRight.backToRPM());

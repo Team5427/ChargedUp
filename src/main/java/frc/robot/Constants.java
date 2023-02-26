@@ -159,7 +159,6 @@ public final class Constants {
         public static final int CANCEL_ALL_COMMANDS_D = 10;
         public static final int LOCK_SWERVE = 9;
         public static final int DAMPEN = 3;
-        // public static final int SPRINT = 4;
 
         public static final int debugArmUp = 12;
         public static final int debugArmDown = 11;
@@ -172,6 +171,7 @@ public final class Constants {
         public static final int debugClawUp = 10;
         public static final int debugClawDown = 9;
         public static final int debugClawExtend = 4;
+
         //OPERATION bindings
         public static final int CANCEL_ALL_COMMANDS_O = 1;
         public static final int HIGH_CONE_PRESET = 2;
@@ -182,8 +182,17 @@ public final class Constants {
         public static final int SUBSTATION_PRESET = 7;
         public static final int FLOOR_INTAKE_PRESET_CUBES = 8;
         public static final int FLOOR_INTAKE_PRESET_CONES = 9;
-        // public static final int TOGGLE_FIELD_RELATIVE_BUTTON = 12;
-        // public static final int RESET_ODOMETRY_BUTTON = 11;
+        public static final int debugMovement = 10;
+
+        //OPERATION 2 BINDINGS
+        public static final int LOCK_SWERVE_O = 1;
+        public static final int UNLOCK_SWERVE_O = 2;
+        public static final int LEFT_CONE = 3;
+        public static final int CUBE = 4;
+        public static final int RIGHT_CONE = 5;
+        public static final int LEFT_SS = 6;
+        public static final int RIGHT_SS = 7;
+        public static final int debugButton = 8;
     }
 
     public static final class RoutineConstants {
@@ -197,12 +206,17 @@ public final class Constants {
         public static final double TRANSLATION_TOLERANCE_METERS = 0.01;
         public static final double ROTATION_TOLERANCE_RAD = Units.degreesToRadians(1);
 
+        public static final double TRANSLATION_P = 0.5;
+        public static final double ROTATION_P = 0.5;
+
         //PRESETS
-        public static final Pose2d BOTTOM_CONE_SCORING_POSE_DEFAULT = new Pose2d(0, 0, new Rotation2d(0)); //FIXME
-        public static final Pose2d CUBE_SCORING_POSE_DEFAULT = new Pose2d(0, 0, new Rotation2d(0)); //FIXME
-        public static final Pose2d TOP_CONE_SCORING_POSE_DEFAULT = new Pose2d(0, 0, new Rotation2d(0)); //FIXME
-        public static final Pose2d BOTTOM_SUBSTATION_POSE_DEFAULT = new Pose2d(0, 0, new Rotation2d(0)); //FIXME
-        public static final Pose2d TOP_SUBSTATION_POSE_DEFAULT = new Pose2d(0, 0, new Rotation2d(0)); //FIXME
+        public static final Pose2d BOTTOM_CONE_SCORING_POSE_DEFAULT = new Pose2d(1.79, 0.5, new Rotation2d(Math.PI)); //FIXME basic guesses done
+        public static final Pose2d CUBE_SCORING_POSE_DEFAULT = new Pose2d(1.79, 1.05, new Rotation2d(Math.PI)); //FIXME
+        public static final Pose2d TOP_CONE_SCORING_POSE_DEFAULT = new Pose2d(1.79, 1.63, new Rotation2d(Math.PI)); //FIXME
+        public static final Pose2d BOTTOM_SUBSTATION_POSE_DEFAULT = new Pose2d(15.39, 6, new Rotation2d(0)); //FIXME
+        public static final Pose2d TOP_SUBSTATION_POSE_DEFAULT = new Pose2d(15.39, 7.5, new Rotation2d(0)); //FIXME
+
+        public static final Pose2d debug = new Pose2d(0, 0, new Rotation2d(0));
 
         public static enum POSITION_TYPE {
             LEFT_CONE,
@@ -212,38 +226,38 @@ public final class Constants {
             RIGHT_SS
         }
 
-        public static final ClawState DEFAULT_CLAW_STATE = new ClawState(0, ArmConstants.UPPER_LIMIT_RAD); //FIXME
-        public static final ClawState TOP_CONE_CLAW_STATE = new ClawState(ElevatorConstants.UPPER_LIMIT_METERS, Units.degreesToRadians(11.85), true); //FIXME
-        public static final ClawState MID_CONE_CLAW_STATE = new ClawState(.8540754, 0); //FIXME
-        public static final ClawState TOP_CUBE_CLAW_STATE = new ClawState(0.654, (Math.PI / 6)); //FIXME
-        public static final ClawState MID_CUBE_CLAW_STATE = new ClawState(.6540754, 0); //FIXME
-        public static final ClawState LOW_CLAW_STATE = new ClawState(0.9, -0.925); //FIXME
-        public static final ClawState SUBSTATION_CLAW_STATE = new ClawState(.8540754, 0); //FIXME
-        public static final ClawState CUBE_INTAKE_CLAW_STATE = new ClawState(0.654, -0.925, false, 2); //FIXME 0.93
-        public static final ClawState CONE_INTAKE_CLAW_STATE = new ClawState(0, -0.13); //FIXME
+        public static final ClawState DEFAULT_CLAW_STATE = new ClawState(0, ArmConstants.UPPER_LIMIT_RAD);
+        public static final ClawState TOP_CONE_CLAW_STATE = new ClawState(ElevatorConstants.UPPER_LIMIT_METERS, Units.degreesToRadians(11.85), true);
+        public static final ClawState MID_CONE_CLAW_STATE = new ClawState(.8540754, 0);
+        public static final ClawState TOP_CUBE_CLAW_STATE = new ClawState(0.654, (Math.PI / 6));
+        public static final ClawState MID_CUBE_CLAW_STATE = new ClawState(.6540754, 0);
+        public static final ClawState LOW_CLAW_STATE = new ClawState(0.9, -0.925);
+        public static final ClawState SUBSTATION_CLAW_STATE = new ClawState(.8540754, 0);
+        public static final ClawState CUBE_INTAKE_CLAW_STATE = new ClawState(0.654, -0.925, false);
+        public static final ClawState CONE_INTAKE_CLAW_STATE = new ClawState(0, -0.13);
     }
 
     public static final class ElevatorConstants {
-        public static final int LEFT_MOTOR_ID = 21; //FIXME
-        public static final int RIGHT_MOTOR_ID = 19; //FIXME
-        public static final int LEFT_LIMIT_ID = 0; //FIXME
-        public static final int RIGHT_LIMIT_ID = 1; //FIXME
+        public static final int LEFT_MOTOR_ID = 21;
+        public static final int RIGHT_MOTOR_ID = 19;
+        public static final int LEFT_LIMIT_ID = 0;
+        public static final int RIGHT_LIMIT_ID = 1;
         public static final int THROUGHBORE_ID_A = 3;
         public static final int THROUGHBORE_ID_B = 4;
         public static final double GEARBOX_GEARING = (9.0 / 62.0);
         public static final double SPROCKET_PD = Units.inchesToMeters(1.751);
         public static final double POSITION_CONVERSION_FACTOR_ROT_TO_METERS = Math.PI * SPROCKET_PD * 2.0;
         public static final double VELOCITY_CONVERSION_FACTOR_RPM_TO_MPS = POSITION_CONVERSION_FACTOR_ROT_TO_METERS / 60.0;
-        public static final double UPPER_LIMIT_METERS = Units.inchesToMeters(19.0 * 2.0); //FIXME just pull up and readout
-        public static final double kS = 0.5; //FIXME
-        public static final double kG = 0.6; //FIXME
-        public static final double kV = 2.93; //FIXME
-        public static final double kA = 1.168; //FIXME
-        public static final double kP = 6.0; //FIXME was 4.125
-        public static final double kI = 0.1; //FIXME
-        public static final double kD = 0.1; //FIXME
-        public static final double MAX_SPEED_M_S = MiscConstants.MAX_NEO_SPEED_RPM * VELOCITY_CONVERSION_FACTOR_RPM_TO_MPS / 9; //FIXME rn theoretical
-        public static final double MAX_ACCEL_M_S_S = MAX_SPEED_M_S / 12; //FIXME theoretical rn
+        public static final double UPPER_LIMIT_METERS = Units.inchesToMeters(19.0 * 2.0);
+        public static final double kS = 0.5;
+        public static final double kG = 0.6;
+        public static final double kV = 2.93;
+        public static final double kA = 1.168;
+        public static final double kP = 6.0;
+        public static final double kI = 0.1;
+        public static final double kD = 0.1;
+        public static final double MAX_SPEED_M_S = MiscConstants.MAX_NEO_SPEED_RPM * VELOCITY_CONVERSION_FACTOR_RPM_TO_MPS / 9;
+        public static final double MAX_ACCEL_M_S_S = MAX_SPEED_M_S / 12;
         public static final double GOAL_TOLERANCE_METERS = .03;
         public static final int CURRENT_LIMIT_AMPS = 40;
 
@@ -278,16 +292,16 @@ public final class Constants {
         public static final int CURRENT_LIMIT_AMPS = 40;
 
         public static final double GEARING = (1.0 / 100.0);
-        public static final double ENCODER_OFFSET_RAD = 4.22; //FIXME urgent
-        public static final double P = 1.3; //FIXME should work for rn
-        public static final double I = 0; //FIXME
-        public static final double D = 0; //FIXME
+        public static final double ENCODER_OFFSET_RAD = 4.22;
+        public static final double P = 1;
+        public static final double I = 0;
+        public static final double D = 0;
         public static final double MAX_SPEED_RAD_S = Units.rotationsPerMinuteToRadiansPerSecond(MiscConstants.MAX_550_SPEED_RPM * GEARING) / 2;
         public static final double MAX_ACCEL_RAD_S_S = MAX_SPEED_RAD_S / 4;
 
         public static final double DEPLOYED_POS_RAD = 0; //HAS TO BE 0
-        public static final double UNDEPLOYED_POS_RAD = 5.85 - ENCODER_OFFSET_RAD; //FIXME
-        public static final double CONTROLLER_TOLERANCE_RAD = Units.degreesToRadians(5); //FIXME if still twerks
+        public static final double UNDEPLOYED_POS_RAD = 5.85 - ENCODER_OFFSET_RAD;
+        public static final double CONTROLLER_TOLERANCE_RAD = Units.degreesToRadians(5);
         
     }
 
@@ -308,8 +322,8 @@ public final class Constants {
         public static final double OUTTAKE_SPEED_DECIMAL = 0.4; //FIXME
         public static final double CUBE_OUTTAKE_EXCESS_TIME_S = 0.5; //FIXME
 
-        public static final double PROX_VALUE = 0.0;
-        public static final double PURPLE_THRESH = 0.0;
+        public static final double PROX_VALUE = 0.0; //FIXME
+        public static final double PURPLE_THRESH = 0.0; //FIXME
     }
 
     public static final class MiscConstants {
@@ -317,7 +331,7 @@ public final class Constants {
         public static final boolean FIELD_RELATIVE_ON_START = false;
         public static final double MAX_NEO_SPEED_RPM = 5676.0;
         public static final double MAX_550_SPEED_RPM = 11000;
-        public static final Pose2d DEBUG_RESET_POSE = new Pose2d(1.85, 0.47, new Rotation2d(0)); //have to flip before using if on red side
+        public static final Pose2d DEBUG_RESET_POSE = new Pose2d(0, 0, new Rotation2d(0)); //have to flip before using if on red side
         public static final int MAX_SMAX_PERIODIC_FRAME_MS = 65535;
         public static final int THORUGHBORE_CONNECTION_HZ = 975;
     }

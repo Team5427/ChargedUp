@@ -8,6 +8,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
@@ -26,6 +27,8 @@ public class OdometryMath2023 extends SubsystemBase {
 
     private void log() {
         Logger.post("easiest turn", OdometryMath2023.robotAngleToTarget(new Translation2d(0, 0)));
+        Logger.post("left using target", RobotContainer.getLimelightLeft().usingTarget());
+        Logger.post("right using target", RobotContainer.getLimelightRight().usingTarget());
         
         if(limelightLeftPose != null)
             Logger.post("LL LEft position", limelightLeftPose.toString());
@@ -37,18 +40,21 @@ public class OdometryMath2023 extends SubsystemBase {
     public void periodic() {
         limelightLeftPose = RobotContainer.getLimelightLeft().getEstimatedGlobalPose();
         limelightRightPose = RobotContainer.getLimelightRight().getEstimatedGlobalPose();
-        reseedOdometry();
+        // reseedOdometry();
         robotPose = RobotContainer.getSwerve().getPose();
         log();
     }
 
     public static void reseedOdometry() {
         if (limelightLeftPose != null && limelightRightPose != null) {
+            RobotContainer.getSwerve().getEstimator().addVisionMeasurement(averagePose(limelightLeftPose, limelightRightPose), Timer.getFPGATimestamp());
             RobotContainer.getSwerve().resetOdometry(averagePose(limelightLeftPose, limelightRightPose));
         } else if (limelightLeftPose == null && limelightRightPose != null) {
             RobotContainer.getSwerve().resetOdometry(limelightRightPose);
+            RobotContainer.getSwerve().getEstimator().addVisionMeasurement(limelightRightPose, Timer.getFPGATimestamp());
         } else if (limelightLeftPose != null && limelightRightPose == null) {
             RobotContainer.getSwerve().resetOdometry(limelightLeftPose);
+            RobotContainer.getSwerve().getEstimator().addVisionMeasurement(limelightLeftPose, Timer.getFPGATimestamp());
         } else {
             // System.out.println("no target spotted");
             return;

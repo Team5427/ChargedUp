@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.*;
 import frc.robot.subsystems.Swerve.SwerveDrive;
+import frc.robot.util.Logger;
 
 public class MoveBotTo extends CommandBase {
 
@@ -30,10 +31,22 @@ public class MoveBotTo extends CommandBase {
         this.setType = type;
     }
 
+    public MoveBotTo(Pose2d type) {
+        swerve = RobotContainer.getSwerve();
+        addRequirements(swerve);
+        timer = new Timer();
+        this.setpoint = type;
+        // this.setType = type;
+    }
+
     @Override
     public void initialize() {
+        initControllers();
         timer.reset();
         timer.start();
+        xController.setGoal(setpoint.getX());
+        yController.setGoal(setpoint.getY());
+        thetaController.setGoal(setpoint.getRotation().getRadians());
     }
 
     @Override
@@ -48,8 +61,8 @@ public class MoveBotTo extends CommandBase {
         ) {
             states = SwerveConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(
                 new ChassisSpeeds(
-                    xCalc, 
-                    yCalc, 
+                    xCalc,
+                    yCalc,
                     thetaCalc
                 )
             );
@@ -60,6 +73,9 @@ public class MoveBotTo extends CommandBase {
                     thetaCalc
                 )
             );
+
+            xController.reset(measurement.getX());
+            yController.reset(measurement.getY());    
         }
 
         swerve.setModules(states);
@@ -79,33 +95,33 @@ public class MoveBotTo extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        Pose2d pose = swerve.getPose();
-        xController.reset(pose.getX());
-        yController.reset(pose.getY());
-        thetaController.reset(pose.getRotation().getRadians());
+        timer.stop();
+        timer.reset();
     }
 
     private void initControllers() {
         xController = new ProfiledPIDController(
-            0.3, 0, 0, 
+            RoutineConstants.TRANSLATION_P, 0, 0, 
             new Constraints(
                 RoutineConstants.ROUTINE_MAX_TRANSLATION_SPEED_M_S, 
                 RoutineConstants.ROUTINE_MAX_TRANSLATION_ACCEL_M_S_S
             )
         );
         xController.setTolerance(RoutineConstants.TRANSLATION_TOLERANCE_METERS);
+        xController.reset(swerve.getPose().getX());
 
         yController = new ProfiledPIDController(
-            0.3, 0, 0, 
+            RoutineConstants.TRANSLATION_P, 0, 0, 
             new Constraints(
-                RoutineConstants.ROUTINE_MAX_TRANSLATION_SPEED_M_S, 
+                RoutineConstants.ROUTINE_MAX_TRANSLATION_SPEED_M_S,
                 RoutineConstants.ROUTINE_MAX_TRANSLATION_ACCEL_M_S_S
             )
         );
         yController.setTolerance(RoutineConstants.TRANSLATION_TOLERANCE_METERS);
+        yController.reset(swerve.getPose().getY());
 
         thetaController = new ProfiledPIDController(
-            0.3, 0, 0, 
+            RoutineConstants.ROTATION_P, 0, 0, 
             new Constraints(
                 RoutineConstants.ROUTINE_MAX_ROTATION_SPEED_RAD_S, 
                 RoutineConstants.ROUTINE_MAX_ROTATION_ACCEL_RAD_S_S
@@ -113,6 +129,7 @@ public class MoveBotTo extends CommandBase {
         );
         thetaController.setTolerance(RoutineConstants.ROTATION_TOLERANCE_RAD);
         thetaController.enableContinuousInput(-Math.PI, Math.PI);
+        thetaController.reset(swerve.getPose().getRotation().getRadians());
     }
 
     public static RoutineConstants.POSITION_TYPE getLastPositionType() {
