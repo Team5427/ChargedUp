@@ -6,57 +6,61 @@ import com.revrobotics.CANSparkMaxLowLevel.PeriodicFrame;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
+import frc.robot.Constants.JoystickConstants;
 import frc.robot.Constants.MiscConstants;
+import frc.robot.Constants.RoutineConstants;
+import frc.robot.Constants.SwerveConstants;
+import frc.robot.commands.Routines.MoveBotTo;
 
 public class OdometryMath2023 extends SubsystemBase {
 
     private static Pose2d robotPose;
     private static final double fieldWidth = Units.feetToMeters(54);
     private static final double fieldHeight = Units.feetToMeters(27);
-    private static final double scoringY1 = Units.feetToMeters(0); //FIXME
-    private static final double scoringY2 = Units.feetToMeters(0); //FIXME
-    private static final double scoringY3 = Units.feetToMeters(0); //FIXME y of gaurdrail
+    private static final double scoringY1 = RoutineConstants.Y_LEVEL_1_METERS; //FIXME
+    private static final double scoringY2 = RoutineConstants.Y_LEVEL_2_METERS; //FIXME
+    private static final double scoringY3 = RoutineConstants.Y_LEVEL_3_METERS; //FIXME y of gaurdrail
     private static Pose2d limelightLeftPose;
     private static Pose2d limelightRightPose;
 
     private void log() {
-        Logger.post("easiest turn", OdometryMath2023.robotAngleToTarget(new Translation2d(0, 0)));
-        Logger.post("left using target", RobotContainer.getLimelightLeft().usingTarget());
-        Logger.post("right using target", RobotContainer.getLimelightRight().usingTarget());
+        // Logger.post("easiest turn", OdometryMath2023.robotAngleToTarget(new Translation2d(0, 0)));
+        // Logger.post("left using target", RobotContainer.getLimelightLeft().usingTarget());
+        // Logger.post("right using target", RobotContainer.getLimelightRight().usingTarget());
         
         if(limelightLeftPose != null)
-            Logger.post("LL LEft position", limelightLeftPose.toString());
+            Logger.post("LL Left position", limelightLeftPose.toString());
         if(limelightRightPose != null)
             Logger.post("LL Right position", limelightRightPose.toString());
     }
 
     @Override
     public void periodic() {
-        limelightLeftPose = RobotContainer.getLimelightLeft().getEstimatedGlobalPose();
-        limelightRightPose = RobotContainer.getLimelightRight().getEstimatedGlobalPose();
-        // reseedOdometry();
+        limelightLeftPose = RobotContainer.getLimelightLeft().getAdjustedGlobalPose();
+        limelightRightPose = RobotContainer.getLimelightRight().getAdjustedGlobalPose();
+        reseedOdometry();
         robotPose = RobotContainer.getSwerve().getPose();
         log();
     }
 
     public static void reseedOdometry() {
-        if (limelightLeftPose != null && limelightRightPose != null) {
-            RobotContainer.getSwerve().getEstimator().addVisionMeasurement(averagePose(limelightLeftPose, limelightRightPose), Timer.getFPGATimestamp());
-            RobotContainer.getSwerve().resetOdometry(averagePose(limelightLeftPose, limelightRightPose));
-        } else if (limelightLeftPose == null && limelightRightPose != null) {
-            RobotContainer.getSwerve().resetOdometry(limelightRightPose);
-            RobotContainer.getSwerve().getEstimator().addVisionMeasurement(limelightRightPose, Timer.getFPGATimestamp());
-        } else if (limelightLeftPose != null && limelightRightPose == null) {
-            RobotContainer.getSwerve().resetOdometry(limelightLeftPose);
-            RobotContainer.getSwerve().getEstimator().addVisionMeasurement(limelightLeftPose, Timer.getFPGATimestamp());
+        if (limelightLeftPose != null && limelightRightPose != null && (getScoringLevel() != 2)) {
+            RobotContainer.getSwerve().updateVision(averagePose(limelightLeftPose, limelightRightPose));
+            // RobotContainer.getSwerve().resetOdometry(averagePose(limelightLeftPose, limelightRightPose));
+        } else if ((limelightLeftPose == null && limelightRightPose != null) || (getScoringLevel() == 2 && !isBlue() && limelightRightPose != null)) {
+            // RobotContainer.getSwerve().resetOdometry(limelightRightPose);
+            RobotContainer.getSwerve().updateVision(limelightRightPose);
+        } else if (limelightLeftPose != null && limelightRightPose == null && (getScoringLevel() == 2 && isBlue() && limelightLeftPose != null)) {
+            // RobotContainer.getSwerve().resetOdometry(limelightLeftPose);
+            RobotContainer.getSwerve().updateVision(limelightLeftPose);
         } else {
-            // System.out.println("no target spotted");
             return;
         }
     }

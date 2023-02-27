@@ -8,12 +8,14 @@ import frc.robot.Constants.*;
 import frc.robot.Constants.RoutineConstants.POSITION_TYPE;
 import frc.robot.commands.Routines.ClawState;
 import frc.robot.commands.Routines.MoveBotTo;
+import frc.robot.commands.Routines.PositionState;
 // import frc.robot.commands.Routines.MoveClawTo;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.RampPusher;
 import frc.robot.subsystems.Swerve.SwerveDrive;
+import frc.robot.util.Logger;
 import frc.robot.util.OdometryMath2023;
 
 public class ButtonBindings {
@@ -24,7 +26,7 @@ public class ButtonBindings {
     private static Elevator elevator;
     private static Claw claw;
 
-    public ButtonBindings(CommandJoystick joy, CommandJoystick operatorJoy1) {
+    public ButtonBindings(CommandJoystick joy, CommandJoystick operatorJoy1, CommandJoystick operatorJoy2) {
         getSubsystems();
 
         joy.button(JoystickConstants.RESET_TELEMETRY).onTrue(new InstantCommand(() -> {
@@ -59,6 +61,10 @@ public class ButtonBindings {
         // new MoveClawTo(RoutineConstants.CONE_INTAKE_CLAW_STATE)));
 
         operatorJoy1.button(JoystickConstants.debugMovement).onTrue(new MoveBotTo(RoutineConstants.debug));
+
+        operatorJoy2.button(JoystickConstants.LEFT_CONE).onTrue(new MoveBotTo(POSITION_TYPE.LEFT_CONE));
+        operatorJoy2.button(JoystickConstants.CUBE).onTrue(new MoveBotTo(POSITION_TYPE.CUBE));
+        operatorJoy2.button(JoystickConstants.RIGHT_CONE).onTrue(new MoveBotTo(POSITION_TYPE.RIGHT_CONE));
     }
 
     private static void getSubsystems() {

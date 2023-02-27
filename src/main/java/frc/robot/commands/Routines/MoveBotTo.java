@@ -7,6 +7,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.*;
 import frc.robot.subsystems.Swerve.SwerveDrive;
@@ -17,30 +18,43 @@ public class MoveBotTo extends CommandBase {
     private Pose2d setpoint;
     private Pose2d measurement;
     private SwerveDrive swerve;
+    public static boolean isRunning;
+    public static double runningSpeed = 0;
     private static ProfiledPIDController xController, yController, thetaController;
     private Timer timer;
     private static RoutineConstants.POSITION_TYPE lastPositionType;
     private RoutineConstants.POSITION_TYPE setType;
+    private boolean isJank;
+    private RoutineConstants.POSITION_TYPE type;
 
     public MoveBotTo(RoutineConstants.POSITION_TYPE type) {
         swerve = RobotContainer.getSwerve();
         addRequirements(swerve);
         timer = new Timer();
-        this.setpoint = PositionState.getPositionPose(type);
-        initControllers();
+        isJank = false;
+        this.type = type;
+        // initControllers();
         this.setType = type;
+        isRunning = false;
     }
 
     public MoveBotTo(Pose2d type) {
         swerve = RobotContainer.getSwerve();
         addRequirements(swerve);
         timer = new Timer();
+        isJank = true;
         this.setpoint = type;
+        isRunning = false;
+
         // this.setType = type;
     }
 
     @Override
     public void initialize() {
+        isRunning = true;
+        if (!isJank) {
+            this.setpoint = PositionState.getPositionPose(type);
+        }
         initControllers();
         timer.reset();
         timer.start();
@@ -66,6 +80,7 @@ public class MoveBotTo extends CommandBase {
                     thetaCalc
                 )
             );
+            runningSpeed = Math.hypot(xCalc, yCalc);
         } else {
             states = SwerveConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(
                 new ChassisSpeeds(
@@ -73,17 +88,26 @@ public class MoveBotTo extends CommandBase {
                     thetaCalc
                 )
             );
-
+            runningSpeed = 0;
             xController.reset(measurement.getX());
-            yController.reset(measurement.getY());    
+            yController.reset(measurement.getY());
         }
 
         swerve.setModules(states);
+        // Logger.post("calc", xCalc);
+        // Logger.post("error", xController.getPositionError());
+        // Logger.post("setpoint", xController.getSetpoint().position);
+        Logger.post("setPoint", setpoint.toString());
+        Logger.post("measurement", measurement.toString());
     }
 
     @Override
     public boolean isFinished() {
-        if (xController.atGoal() && yController.atGoal() && thetaController.atGoal()) {
+        if (
+            (Math.abs(xController.getPositionError()) < RoutineConstants.TRANSLATION_TOLERANCE_METERS && xController.getSetpoint().equals(xController.getGoal())) && 
+            (Math.abs(yController.getPositionError()) < RoutineConstants.TRANSLATION_TOLERANCE_METERS && xController.getSetpoint().equals(xController.getGoal())) && 
+            (Math.abs(thetaController.getPositionError()) < RoutineConstants.TRANSLATION_TOLERANCE_METERS && xController.getSetpoint().equals(xController.getGoal()))
+        ) {
             lastPositionType = this.setType;
             return true;
         } else if (RobotContainer.getJoy().getHID().getRawButton(JoystickConstants.CANCEL_ALL_COMMANDS_D) || RobotContainer.getJoy().getHID().getRawButton(JoystickConstants.CANCEL_ALL_COMMANDS_O)) {
@@ -97,6 +121,9 @@ public class MoveBotTo extends CommandBase {
     public void end(boolean interrupted) {
         timer.stop();
         timer.reset();
+        isRunning = false;
+        runningSpeed = 0;
+        CommandScheduler.getInstance().schedule(new TurnAndTranslate(measurement.getRotation().getRadians(), measurement.getRotation().getRadians(), 1, 0.25));
     }
 
     private void initControllers() {

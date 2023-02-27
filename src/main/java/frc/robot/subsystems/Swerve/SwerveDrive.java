@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.ctre.phoenix.sensors.WPI_Pigeon2;
 
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -11,6 +12,8 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
@@ -35,7 +38,10 @@ public class SwerveDrive extends SubsystemBase {
         this.gyro = m_gyro;
         isFieldRelative = MiscConstants.FIELD_RELATIVE_ON_START;
         locked = false;
-        odometer = new SwerveDrivePoseEstimator(SwerveConstants.SWERVE_DRIVE_KINEMATICS, getRotation2d(), getModulePositions(), new Pose2d(0, 0, new Rotation2d(0)));
+        odometer = new SwerveDrivePoseEstimator(SwerveConstants.SWERVE_DRIVE_KINEMATICS, getRotation2d(), getModulePositions(), new Pose2d(0, 0, new Rotation2d(0)), 
+            VecBuilder.fill(3, 2, 0.02),
+            VecBuilder.fill(0.05, 0.05, Units.degreesToRadians(60))
+        );
         field = new Field2d();
         gyro.reset();
     }
@@ -80,6 +86,10 @@ public class SwerveDrive extends SubsystemBase {
         odometer.resetPosition(getRotation2d(), getModulePositions(), pose);
     }
 
+    public void updateVision(Pose2d pose) {
+        getEstimator().addVisionMeasurement(pose, Timer.getFPGATimestamp());
+    }
+
     public void setHeading(double deg) {
         gyro.setYaw(deg);
     }
@@ -113,6 +123,12 @@ public class SwerveDrive extends SubsystemBase {
         return ret;
     }
 
+    public SwerveModuleState[] getModuleStates() {
+        SwerveModuleState ret[] = {frontLeft.getModState(), frontRight.getModState(), backLeft.getModState(), backRight.getModState()};
+        
+        return ret;
+    }
+
     public void setBrake(boolean driveBrake, boolean steerBrake) {
         getModules().forEach((mod) -> mod.setBrake(driveBrake, steerBrake));        
     }
@@ -136,7 +152,7 @@ public class SwerveDrive extends SubsystemBase {
     private void log() {
         Logger.post("FieldRelative", getFieldRelative());
         // // Logger.post("GyroCalibrating", gyro.isCalibrating());
-        Logger.post("odom", getPose().toString());
+        // Logger.post("odom", getPose().toString());
         // // Logger.post("estimator pose", poseEstimator.getEstimatedPosition());
         // // Logger.post("key", backLeft.getTurnPosRad());
         // Logger.post("gyro", getHeading());
@@ -156,10 +172,10 @@ public class SwerveDrive extends SubsystemBase {
         // Logger.post("abs rad BR", backRight.getAbsEncRad());
         // Logger.post("abs rad BL", backLeft.getAbsEncRad());
 
-        Logger.post("frontLeft.getModPosition()", frontLeft.getModPosition().toString());
-        Logger.post("frontRight.getModPosition()", frontRight.getModPosition().toString());
-        Logger.post("bakcLeft.getModPosition()", backLeft.getModPosition().toString());
-        Logger.post("backRight.getModPosition()", backRight.getModPosition().toString());
+        // Logger.post("frontLeft.getModPosition()", frontLeft.getModPosition().toString());
+        // Logger.post("frontRight.getModPosition()", frontRight.getModPosition().toString());
+        // Logger.post("bakcLeft.getModPosition()", backLeft.getModPosition().toString());
+        // Logger.post("backRight.getModPosition()", backRight.getModPosition().toString());
         // Logger.post("speeds", frontRight.getDriveSpeed());
 
         // Logger.post("speed RPM", frontRight.backToRPM());

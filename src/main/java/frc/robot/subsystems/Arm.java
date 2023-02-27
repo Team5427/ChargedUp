@@ -8,13 +8,11 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.RobotContainer;
 import frc.robot.Constants.*;
 import frc.robot.util.Logger;
 
@@ -92,6 +90,10 @@ public class Arm extends SubsystemBase {
         return (Math.abs(getAngle() - setPoint) < ArmConstants.ARM_CONTROLLER_TOLERANCE_RAD);
     }
 
+    public boolean atJankGoal() {
+        return (Math.abs(getAngle() - setPoint) < ArmConstants.ARM_CONTROLLER_TOLERANCE_RAD_JANK);
+    }
+
     public boolean atGoal(double pos) {
         return (Math.abs(getAngle() - pos) < ArmConstants.ARM_CONTROLLER_TOLERANCE_RAD);
     }
@@ -111,8 +113,8 @@ public class Arm extends SubsystemBase {
 
     @Override
     public void periodic() {
-        if (atGoal() && (setPoint == ArmConstants.UPPER_LIMIT_RAD)) {
-            set(0.02);
+        if (atJankGoal() && (setPoint == ArmConstants.UPPER_LIMIT_RAD)) {
+            set(0.03);
             armController.reset(getAngle());
         } else {
             calc = armController.calculate(getAngle());

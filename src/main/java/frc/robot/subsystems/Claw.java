@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.*;
+import frc.robot.util.Logger;
 import frc.robot.util.OdometryMath2023;
 
 public class Claw extends SubsystemBase {
@@ -65,5 +66,10 @@ public class Claw extends SubsystemBase {
 
     public boolean getGrabber() {
         return grabber.get();
+    }
+
+    @Override
+    public void periodic() {
+        Logger.post("claw state", getState(isPurple(sensor)).name());
     }
 }

@@ -140,12 +140,10 @@ public final class Constants {
         public static final double CONTROLLER_TURNING_EXPONENT = 2;
         public static final double MAX_ACCEL_TELEOP_M_S_S = 3.5 * 3;
         public static final double MAX_ANGULAR_ACCEL_TELEOP_RAD_S_S = Math.PI * 4;
-        public static final double REGULAR_SPEED_M_S = 3.5;
-        public static final double REGULAR_ANGULAR_SPEED_RAD_S = Math.PI * 2;
+        public static final double REGULAR_SPEED_M_S = 4.25;
+        public static final double REGULAR_ANGULAR_SPEED_RAD_S = Math.PI * 1.5;
         public static final double DAMPEN_SPEED_M_S = 1.25;
         public static final double DAMPEN_ANGULAR_SPEED_RAD_S = Math.PI / 2;
-        public static final double SPRINT_SPEED_M_S = 4.25;
-        public static final double SPRINT_ANGULAR_SPEED_RAD_S = Math.PI * 3;
 
         //Joystick IDs
         public static final int DRIVER_CONTROLLER = 0;
@@ -197,22 +195,26 @@ public final class Constants {
 
     public static final class RoutineConstants {
         public static final double ROUTINE_MAX_TRANSLATION_SPEED_M_S = 3.0;
-        public static final double ROUTINE_MAX_ROTATION_SPEED_RAD_S = Math.PI;
-        public static final double ROUTINE_MAX_TRANSLATION_ACCEL_M_S_S = 1.0;
+        public static final double ROUTINE_MAX_ROTATION_SPEED_RAD_S = Math.PI * 1.5;
+        public static final double ROUTINE_MAX_TRANSLATION_ACCEL_M_S_S = 2.0;
         public static final double ROUTINE_MAX_ROTATION_ACCEL_RAD_S_S = Math.PI;
         public static final double ROT_THRESH_RAD = Math.PI/4;
-        public static final double SCORING_LEVEL_OFFSET_METERS = 0.3; //FIXME
+        public static final double SCORING_LEVEL_OFFSET_METERS = Units.inchesToMeters(66); //FIXME
         public static final double ARM_DELAY_SECONDS = 0; //FIXME
         public static final double TRANSLATION_TOLERANCE_METERS = 0.01;
         public static final double ROTATION_TOLERANCE_RAD = Units.degreesToRadians(1);
 
-        public static final double TRANSLATION_P = 0.5;
-        public static final double ROTATION_P = 0.5;
+        public static final double Y_LEVEL_1_METERS = Units.inchesToMeters(75.34); 
+        public static final double Y_LEVEL_2_METERS = Units.inchesToMeters(141.34);
+        public static final double Y_LEVEL_3_METERS = Units.inchesToMeters(216.03);
+
+        public static final double TRANSLATION_P = 8;
+        public static final double ROTATION_P = 4.6;
 
         //PRESETS
-        public static final Pose2d BOTTOM_CONE_SCORING_POSE_DEFAULT = new Pose2d(1.79, 0.5, new Rotation2d(Math.PI)); //FIXME basic guesses done
-        public static final Pose2d CUBE_SCORING_POSE_DEFAULT = new Pose2d(1.79, 1.05, new Rotation2d(Math.PI)); //FIXME
-        public static final Pose2d TOP_CONE_SCORING_POSE_DEFAULT = new Pose2d(1.79, 1.63, new Rotation2d(Math.PI)); //FIXME
+        public static final Pose2d BOTTOM_CONE_SCORING_POSE_DEFAULT = new Pose2d(1.77, 0.5, new Rotation2d(Math.PI)); //FIXME basic guesses done
+        public static final Pose2d CUBE_SCORING_POSE_DEFAULT = new Pose2d(1.77, 1.05, new Rotation2d(Math.PI)); //FIXME
+        public static final Pose2d TOP_CONE_SCORING_POSE_DEFAULT = new Pose2d(1.77, 1.63, new Rotation2d(Math.PI)); //FIXME
         public static final Pose2d BOTTOM_SUBSTATION_POSE_DEFAULT = new Pose2d(15.39, 6, new Rotation2d(0)); //FIXME
         public static final Pose2d TOP_SUBSTATION_POSE_DEFAULT = new Pose2d(15.39, 7.5, new Rotation2d(0)); //FIXME
 
@@ -277,7 +279,8 @@ public final class Constants {
         public static final double kP = 0.7;
         public static final double kI = 0.0;
         public static final double kD = 0.0;
-        public static final double ARM_CONTROLLER_TOLERANCE_RAD = 0.2;
+        public static final double ARM_CONTROLLER_TOLERANCE_RAD = Units.degreesToRadians(1);
+        public static final double ARM_CONTROLLER_TOLERANCE_RAD_JANK = Units.degreesToRadians(15);
         public static final double GEARBOX_GEARING = (1.0 / 100.0) * (17.0 / 20.0) * (20.0 / 32.0);
         public static final double MAX_SPEED_RAD_S = Units.rotationsPerMinuteToRadiansPerSecond(MiscConstants.MAX_NEO_SPEED_RPM * GEARBOX_GEARING);
         public static final double MAX_ACCEL_RAD_S_S = MAX_SPEED_RAD_S / 1.5;

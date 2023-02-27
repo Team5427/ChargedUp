@@ -37,7 +37,7 @@ public class RampPusher extends SubsystemBase {
         );
         controller.enableContinuousInput(0 - RampPusherConstants.ENCODER_OFFSET_RAD, (2 * Math.PI) - RampPusherConstants.ENCODER_OFFSET_RAD);
         controller.setTolerance(RampPusherConstants.CONTROLLER_TOLERANCE_RAD);
-        deployed = true;
+        deployed = false;
     }
 
     public void deploy(boolean bool) {
@@ -88,10 +88,10 @@ public class RampPusher extends SubsystemBase {
     }
 
     private void log() {
-        Logger.post("ramp pusher positon", getPosition());
-        Logger.post("absolute position", throughbore.getAbsolutePosition());
-        Logger.post("controller setpoint", controller.getSetpoint().position);
-        Logger.post("THroughbore connect", throughbore.isConnected());
-        Logger.post("getFreq", throughbore.getFrequency());
+        // Logger.post("ramp pusher positon", getPosition());
+        // Logger.post("absolute position", throughbore.getAbsolutePosition());
+        // Logger.post("controller setpoint", controller.getSetpoint().position);
+        // Logger.post("THroughbore connect", throughbore.isConnected());
+        // Logger.post("getFreq", throughbore.getFrequency());
     }
 }

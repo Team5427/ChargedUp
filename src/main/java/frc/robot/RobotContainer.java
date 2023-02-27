@@ -10,6 +10,7 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.PneumaticHub;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
+import frc.robot.Constants.JoystickConstants;
 // import frc.robot.commands.ArmDebug;
 // import frc.robot.commands.ClawDebug;
 // import frc.robot.commands.ElevatorDebug;
@@ -41,6 +42,7 @@ public class RobotContainer {
   private static WPI_Pigeon2 pigeon;
   private static CommandJoystick joy;
   private static CommandJoystick operatorJoy1;
+  private static CommandJoystick operatorJoy2;
   private static Limelight limelight_right, limelight_left;
   private static OdometryMath2023 odom;
 
@@ -52,6 +54,7 @@ public class RobotContainer {
     pigeon.configFactoryDefault();
     joy = new CommandJoystick(Constants.JoystickConstants.DRIVER_CONTROLLER);
     operatorJoy1 = new CommandJoystick(Constants.JoystickConstants.OPERATION_CONTROLLER);
+    operatorJoy2 = new CommandJoystick(JoystickConstants.OPERATION2_CONTROLLER);
     limelight_right = new Limelight(NetworkTableInstance.getDefault().getTable("limelight-right"));
     limelight_left = new Limelight(NetworkTableInstance.getDefault().getTable("limelight-left"));
 
@@ -76,7 +79,7 @@ public class RobotContainer {
     //NEED TO BE AT END OF CONSTRUCTOR
     SwervePathMaker.initPaths("ComplexPath", "StraightLinePath");
     AutonSheet.initAutons();
-    new ButtonBindings(getJoy(), getOperatorJoy1());
+    new ButtonBindings(getJoy(), getOperatorJoy1(), getOperatorJoy2());
   }
 
   public Command getAutonomousCommand() {
@@ -87,6 +90,7 @@ public class RobotContainer {
   public static WPI_Pigeon2 getPigeon() {return pigeon;}
   public static CommandJoystick getJoy() {return joy;}
   public static CommandJoystick getOperatorJoy1() {return operatorJoy1;}
+  public static CommandJoystick getOperatorJoy2() {return operatorJoy2;}
   public static Limelight getLimelightRight() {return limelight_right;}
   public static Limelight getLimelightLeft() {return limelight_left;}
   public static OdometryMath2023 getOdomInstance() {return odom;}
