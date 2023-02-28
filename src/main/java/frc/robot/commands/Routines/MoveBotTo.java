@@ -18,7 +18,7 @@ public class MoveBotTo extends CommandBase {
     private Pose2d setpoint;
     private Pose2d measurement;
     private SwerveDrive swerve;
-    public static boolean isRunning;
+    public static boolean isRunning = false;
     public static double runningSpeed = 0;
     private static ProfiledPIDController xController, yController, thetaController;
     private Timer timer;
@@ -97,8 +97,9 @@ public class MoveBotTo extends CommandBase {
         // Logger.post("calc", xCalc);
         // Logger.post("error", xController.getPositionError());
         // Logger.post("setpoint", xController.getSetpoint().position);
-        Logger.post("setPoint", setpoint.toString());
-        Logger.post("measurement", measurement.toString());
+        // Logger.post("setPoint", setpoint.toString());
+        // Logger.post("measurement", measurement.toString());
+        // System.out.println(runningSpeed);
     }
 
     @Override
@@ -123,7 +124,7 @@ public class MoveBotTo extends CommandBase {
         timer.reset();
         isRunning = false;
         runningSpeed = 0;
-        CommandScheduler.getInstance().schedule(new TurnAndTranslate(measurement.getRotation().getRadians(), measurement.getRotation().getRadians(), 1, 0.25));
+        // CommandScheduler.getInstance().schedule(new TurnAndTranslate(measurement.getRotation().getRadians(), measurement.getRotation().getRadians(), 0.5, 0.25));
     }
 
     private void initControllers() {

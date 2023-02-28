@@ -31,8 +31,10 @@ public class ButtonBindings {
 
         joy.button(JoystickConstants.RESET_TELEMETRY).onTrue(new InstantCommand(() -> {
             swerve.setHeading(0);
-            Pose2d resetPose = MiscConstants.DEBUG_RESET_POSE;
-            swerve.resetOdometry(OdometryMath2023.isBlue() ? resetPose : OdometryMath2023.flip(resetPose));
+            // swerve.resetGyro();
+            Pose2d resetPose = RoutineConstants.BOTTOM_CONE_SCORING_POSE_DEFAULT;
+            
+            // swerve.resetOdometry(OdometryMath2023.isBlue() ? resetPose : OdometryMath2023.flip(resetPose));
             swerve.resetMods();
         }, swerve));
 

@@ -5,7 +5,6 @@ import java.util.List;
 import com.ctre.phoenix.sensors.WPI_Pigeon2;
 
 import edu.wpi.first.math.VecBuilder;
-import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
@@ -20,6 +19,7 @@ import frc.robot.RobotContainer;
 import frc.robot.Constants.MiscConstants;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.util.Logger;
+import frc.robot.util.OdometryMath2023;
 
 public class SwerveDrive extends SubsystemBase {
 
@@ -27,7 +27,7 @@ public class SwerveDrive extends SubsystemBase {
     private WPI_Pigeon2 gyro;
     private boolean isFieldRelative;
     private boolean locked;
-    private SwerveDrivePoseEstimator odometer;
+    private SwerveDriveOdometry odometer;
     private Field2d field;
 
     public SwerveDrive (WPI_Pigeon2 m_gyro) {
@@ -38,10 +38,7 @@ public class SwerveDrive extends SubsystemBase {
         this.gyro = m_gyro;
         isFieldRelative = MiscConstants.FIELD_RELATIVE_ON_START;
         locked = false;
-        odometer = new SwerveDrivePoseEstimator(SwerveConstants.SWERVE_DRIVE_KINEMATICS, getRotation2d(), getModulePositions(), new Pose2d(0, 0, new Rotation2d(0)), 
-            VecBuilder.fill(3, 2, 0.02),
-            VecBuilder.fill(0.05, 0.05, Units.degreesToRadians(60))
-        );
+        odometer = new SwerveDriveOdometry(SwerveConstants.SWERVE_DRIVE_KINEMATICS, getRotation2d(), getModulePositions(), new Pose2d(0, 0, new Rotation2d(0)));
         field = new Field2d();
         gyro.reset();
     }
@@ -50,6 +47,17 @@ public class SwerveDrive extends SubsystemBase {
         return Math.IEEEremainder(gyro.getYaw(), 360);
     }
 
+    public double getPitchDeg() {
+        return gyro.getPitch();
+    }
+
+    public void resetGyro() {
+        gyro.reset();
+    }
+
+    public double getRollDeg() {
+        return gyro.getRoll();
+    }
 
     public Rotation2d getRotation2d() {
         return gyro.getRotation2d();
@@ -78,7 +86,7 @@ public class SwerveDrive extends SubsystemBase {
     }
 
     public Pose2d getPose() {
-        return odometer.getEstimatedPosition();
+        return odometer.getPoseMeters();
     }
 
     public void resetOdometry(Pose2d pose) {
@@ -87,7 +95,7 @@ public class SwerveDrive extends SubsystemBase {
     }
 
     public void updateVision(Pose2d pose) {
-        getEstimator().addVisionMeasurement(pose, Timer.getFPGATimestamp());
+        getEstimator().resetPosition(getRotation2d(), getModulePositions(), new Pose2d(pose.getX(), pose.getY(), getRotation2d()));
     }
 
     public void setHeading(double deg) {
@@ -113,7 +121,7 @@ public class SwerveDrive extends SubsystemBase {
         return list;
     }
 
-    public SwerveDrivePoseEstimator getEstimator() {
+    public SwerveDriveOdometry getEstimator() {
         return odometer;
     }
 
@@ -126,6 +134,18 @@ public class SwerveDrive extends SubsystemBase {
     public SwerveModuleState[] getModuleStates() {
         SwerveModuleState ret[] = {frontLeft.getModState(), frontRight.getModState(), backLeft.getModState(), backRight.getModState()};
         
+        return ret;
+    }
+
+    public double[] getAccelerationMPS2() {
+        short[] accelerometerValues = new short[3];
+        double[] mag = new double[3];
+        gyro.getBiasedAccelerometer(accelerometerValues);
+        for (int i = 0; i < 3; i++) {
+            mag[i] = (accelerometerValues[i] / 16384.0) * 9.8;
+        }
+        double hyp = Math.hypot(mag[0], mag[1]);
+        double [] ret = {hyp, OdometryMath2023.smartArcAngle(mag[0], mag[1], hyp)};
         return ret;
     }
 
@@ -162,6 +182,9 @@ public class SwerveDrive extends SubsystemBase {
         // Logger.post("backRight", backRight.getErrors());
         // Logger.post("frontRight", frontRight.getErrors());
         Logger.postComplex("Field5427", field);
+
+        Logger.post("accerlation magnitude", getAccelerationMPS2()[0]);
+        Logger.post("accerlation direction", getAccelerationMPS2()[1]);
         // Logger.post("abs FR", frontRight.getAbsEncRaw());
         // Logger.post("abs FL", frontLeft.getAbsEncRaw());
         // Logger.post("abs BR", backRight.getAbsEncRaw());
@@ -188,6 +211,9 @@ public class SwerveDrive extends SubsystemBase {
         
         // SmartDashboard.putString("AprilTag Info", aprilTagPi.getTarget().toString());
         // SmartDashboard.putBoolean("has tag", aprilTagPi.hasTarget());
+
+        Logger.post("drivetrain Pitch", getPitchDeg());
+        Logger.post("drivetrain Roll", getRollDeg());
 
     }
 }

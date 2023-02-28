@@ -43,21 +43,23 @@ public class OdometryMath2023 extends SubsystemBase {
 
     @Override
     public void periodic() {
-        limelightLeftPose = RobotContainer.getLimelightLeft().getAdjustedGlobalPose();
-        limelightRightPose = RobotContainer.getLimelightRight().getAdjustedGlobalPose();
-        reseedOdometry();
+        limelightLeftPose = RobotContainer.getLimelightLeft().getEstimatedGlobalPose();
+        limelightRightPose = RobotContainer.getLimelightRight().getEstimatedGlobalPose();
         robotPose = RobotContainer.getSwerve().getPose();
+
+        if((!MoveBotTo.isRunning) || true)
+            reseedOdometry();
         log();
     }
 
     public static void reseedOdometry() {
-        if (limelightLeftPose != null && limelightRightPose != null && (getScoringLevel() != 2)) {
+        if (limelightLeftPose != null && limelightRightPose != null) {
             RobotContainer.getSwerve().updateVision(averagePose(limelightLeftPose, limelightRightPose));
             // RobotContainer.getSwerve().resetOdometry(averagePose(limelightLeftPose, limelightRightPose));
-        } else if ((limelightLeftPose == null && limelightRightPose != null) || (getScoringLevel() == 2 && !isBlue() && limelightRightPose != null)) {
+        } else if ((limelightLeftPose == null && limelightRightPose != null)) {
             // RobotContainer.getSwerve().resetOdometry(limelightRightPose);
             RobotContainer.getSwerve().updateVision(limelightRightPose);
-        } else if (limelightLeftPose != null && limelightRightPose == null && (getScoringLevel() == 2 && isBlue() && limelightLeftPose != null)) {
+        } else if (limelightLeftPose != null && limelightRightPose == null) {
             // RobotContainer.getSwerve().resetOdometry(limelightLeftPose);
             RobotContainer.getSwerve().updateVision(limelightLeftPose);
         } else {
@@ -65,7 +67,7 @@ public class OdometryMath2023 extends SubsystemBase {
         }
     }
 
-    private static double smartArcAngle(double inputX, double inputY, double distance) {
+    public static double smartArcAngle(double inputX, double inputY, double distance) {
         if (inputX < 0 ) {
             return (Math.PI - Math.asin(inputY/distance));
         } else {

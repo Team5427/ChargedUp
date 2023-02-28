@@ -61,8 +61,8 @@ public class JoystickSwerve extends CommandBase {
         x2Speed = Math.abs(x2Speed) > (JoystickConstants.CONTROLLER_DEADBAND) ? x2Speed : 0;
 
         if (joy.getHID().getPOV() != -1) {
-            ySpeed = Math.cos(Math.toRadians(360 - joy.getHID().getPOV())) * .2;
-            xSpeed = Math.sin(Math.toRadians(360 - joy.getHID().getPOV())) * .2;
+            ySpeed = Math.cos(Math.toRadians(360 - joy.getHID().getPOV())) * .1;
+            xSpeed = Math.sin(Math.toRadians(360 - joy.getHID().getPOV())) * .1;
         }
         
         xSpeed = translationRateLimiterX.calculate(xSpeed * unitsMultiplier[0]);

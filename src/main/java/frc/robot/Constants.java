@@ -194,10 +194,10 @@ public final class Constants {
     }
 
     public static final class RoutineConstants {
-        public static final double ROUTINE_MAX_TRANSLATION_SPEED_M_S = 3.0;
+        public static final double ROUTINE_MAX_TRANSLATION_SPEED_M_S = 4.0;
         public static final double ROUTINE_MAX_ROTATION_SPEED_RAD_S = Math.PI * 1.5;
-        public static final double ROUTINE_MAX_TRANSLATION_ACCEL_M_S_S = 2.0;
-        public static final double ROUTINE_MAX_ROTATION_ACCEL_RAD_S_S = Math.PI;
+        public static final double ROUTINE_MAX_TRANSLATION_ACCEL_M_S_S = 3.0;
+        public static final double ROUTINE_MAX_ROTATION_ACCEL_RAD_S_S = Math.PI * 2;
         public static final double ROT_THRESH_RAD = Math.PI/4;
         public static final double SCORING_LEVEL_OFFSET_METERS = Units.inchesToMeters(66); //FIXME
         public static final double ARM_DELAY_SECONDS = 0; //FIXME
@@ -208,13 +208,13 @@ public final class Constants {
         public static final double Y_LEVEL_2_METERS = Units.inchesToMeters(141.34);
         public static final double Y_LEVEL_3_METERS = Units.inchesToMeters(216.03);
 
-        public static final double TRANSLATION_P = 8;
-        public static final double ROTATION_P = 4.6;
+        public static final double TRANSLATION_P = 3;
+        public static final double ROTATION_P = 4.5;
 
         //PRESETS
-        public static final Pose2d BOTTOM_CONE_SCORING_POSE_DEFAULT = new Pose2d(1.77, 0.5, new Rotation2d(Math.PI)); //FIXME basic guesses done
-        public static final Pose2d CUBE_SCORING_POSE_DEFAULT = new Pose2d(1.77, 1.05, new Rotation2d(Math.PI)); //FIXME
-        public static final Pose2d TOP_CONE_SCORING_POSE_DEFAULT = new Pose2d(1.77, 1.63, new Rotation2d(Math.PI)); //FIXME
+        public static final Pose2d BOTTOM_CONE_SCORING_POSE_DEFAULT = new Pose2d(1.79, 0.5, new Rotation2d(Math.PI)); //FIXME basic guesses done
+        public static final Pose2d CUBE_SCORING_POSE_DEFAULT = new Pose2d(1.79, 1.05, new Rotation2d(Math.PI)); //FIXME
+        public static final Pose2d TOP_CONE_SCORING_POSE_DEFAULT = new Pose2d(1.79, 1.63, new Rotation2d(Math.PI)); //FIXME
         public static final Pose2d BOTTOM_SUBSTATION_POSE_DEFAULT = new Pose2d(15.39, 6, new Rotation2d(0)); //FIXME
         public static final Pose2d TOP_SUBSTATION_POSE_DEFAULT = new Pose2d(15.39, 7.5, new Rotation2d(0)); //FIXME
 
