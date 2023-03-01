@@ -43,24 +43,20 @@ public class OdometryMath2023 extends SubsystemBase {
 
     @Override
     public void periodic() {
-        limelightLeftPose = RobotContainer.getLimelightLeft().getEstimatedGlobalPose();
-        limelightRightPose = RobotContainer.getLimelightRight().getEstimatedGlobalPose();
+        limelightLeftPose = RobotContainer.getLimelightLeft().getAdjustedGlobalPose();
+        limelightRightPose = RobotContainer.getLimelightRight().getAdjustedGlobalPose();
         robotPose = RobotContainer.getSwerve().getPose();
 
-        if((!MoveBotTo.isRunning) || true)
-            reseedOdometry();
+        reseedOdometry();
         log();
     }
 
     public static void reseedOdometry() {
         if (limelightLeftPose != null && limelightRightPose != null) {
             RobotContainer.getSwerve().updateVision(averagePose(limelightLeftPose, limelightRightPose));
-            // RobotContainer.getSwerve().resetOdometry(averagePose(limelightLeftPose, limelightRightPose));
         } else if ((limelightLeftPose == null && limelightRightPose != null)) {
-            // RobotContainer.getSwerve().resetOdometry(limelightRightPose);
             RobotContainer.getSwerve().updateVision(limelightRightPose);
         } else if (limelightLeftPose != null && limelightRightPose == null) {
-            // RobotContainer.getSwerve().resetOdometry(limelightLeftPose);
             RobotContainer.getSwerve().updateVision(limelightLeftPose);
         } else {
             return;

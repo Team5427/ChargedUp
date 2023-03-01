@@ -188,8 +188,7 @@ public final class Constants {
         public static final int LEFT_CONE = 3;
         public static final int CUBE = 4;
         public static final int RIGHT_CONE = 5;
-        public static final int LEFT_SS = 6;
-        public static final int RIGHT_SS = 7;
+        public static final int SS = 6;
         public static final int debugButton = 8;
     }
 
@@ -198,9 +197,9 @@ public final class Constants {
         public static final double ROUTINE_MAX_ROTATION_SPEED_RAD_S = Math.PI * 1.5;
         public static final double ROUTINE_MAX_TRANSLATION_ACCEL_M_S_S = 3.0;
         public static final double ROUTINE_MAX_ROTATION_ACCEL_RAD_S_S = Math.PI * 2;
+
         public static final double ROT_THRESH_RAD = Math.PI/4;
-        public static final double SCORING_LEVEL_OFFSET_METERS = Units.inchesToMeters(66); //FIXME
-        public static final double ARM_DELAY_SECONDS = 0; //FIXME
+        public static final double SCORING_LEVEL_OFFSET_METERS = Units.inchesToMeters(66);
         public static final double TRANSLATION_TOLERANCE_METERS = 0.01;
         public static final double ROTATION_TOLERANCE_RAD = Units.degreesToRadians(1);
 
@@ -211,12 +210,15 @@ public final class Constants {
         public static final double TRANSLATION_P = 3;
         public static final double ROTATION_P = 4.5;
 
+        public static final double BALANCE_ACTIVATION_PITCH_DEG = 10;
+        public static final double BALANCE_ACTIVATION_SPEED_M_S = 0.5;
+
         //PRESETS
-        public static final Pose2d BOTTOM_CONE_SCORING_POSE_DEFAULT = new Pose2d(1.79, 0.5, new Rotation2d(Math.PI)); //FIXME basic guesses done
-        public static final Pose2d CUBE_SCORING_POSE_DEFAULT = new Pose2d(1.79, 1.05, new Rotation2d(Math.PI)); //FIXME
-        public static final Pose2d TOP_CONE_SCORING_POSE_DEFAULT = new Pose2d(1.79, 1.63, new Rotation2d(Math.PI)); //FIXME
-        public static final Pose2d BOTTOM_SUBSTATION_POSE_DEFAULT = new Pose2d(15.39, 6, new Rotation2d(0)); //FIXME
-        public static final Pose2d TOP_SUBSTATION_POSE_DEFAULT = new Pose2d(15.39, 7.5, new Rotation2d(0)); //FIXME
+        public static final Pose2d BOTTOM_CONE_SCORING_POSE_DEFAULT = new Pose2d(1.79, 0.5, new Rotation2d(Math.PI));
+        public static final Pose2d CUBE_SCORING_POSE_DEFAULT = new Pose2d(1.79, 1.05, new Rotation2d(Math.PI));
+        public static final Pose2d TOP_CONE_SCORING_POSE_DEFAULT = new Pose2d(1.79, 1.63, new Rotation2d(Math.PI));
+        public static final Pose2d BOTTOM_SUBSTATION_POSE_DEFAULT = new Pose2d(15.39, 6, new Rotation2d(0));
+        public static final Pose2d TOP_SUBSTATION_POSE_DEFAULT = new Pose2d(15.39, 7.5, new Rotation2d(0));
 
         public static final Pose2d debug = new Pose2d(0, 0, new Rotation2d(0));
 
@@ -276,14 +278,14 @@ public final class Constants {
         public static final double kG = 2.0;
         public static final double kV = 2.0;
         public static final double kA = 2.0;
-        public static final double kP = 0.7;
+        public static final double kP = 0.8;
         public static final double kI = 0.0;
         public static final double kD = 0.0;
         public static final double ARM_CONTROLLER_TOLERANCE_RAD = Units.degreesToRadians(1);
         public static final double ARM_CONTROLLER_TOLERANCE_RAD_JANK = Units.degreesToRadians(15);
         public static final double GEARBOX_GEARING = (1.0 / 100.0) * (17.0 / 20.0) * (20.0 / 32.0);
         public static final double MAX_SPEED_RAD_S = Units.rotationsPerMinuteToRadiansPerSecond(MiscConstants.MAX_NEO_SPEED_RPM * GEARBOX_GEARING);
-        public static final double MAX_ACCEL_RAD_S_S = MAX_SPEED_RAD_S / 1.5;
+        public static final double MAX_ACCEL_RAD_S_S = MAX_SPEED_RAD_S * 1.5;
         public static final double UPPER_LIMIT_RAD = 1.45;
         public static final double LOWER_LIMIT_RAD = -1;
     }
@@ -321,7 +323,7 @@ public final class Constants {
         }
 
         public static final double INTAKE_SPEED_DECIMAL = 0.5; //FIXME
-        public static final double CUBE_INTAKE_EXCESS_TIME_S = 0.1; //FIXME
+        public static final double CUBE_INTAKE_EXCESS_TIME_S = 0.25; //FIXME
         public static final double OUTTAKE_SPEED_DECIMAL = 0.4; //FIXME
         public static final double CUBE_OUTTAKE_EXCESS_TIME_S = 0.5; //FIXME
 

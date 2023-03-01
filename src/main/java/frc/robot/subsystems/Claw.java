@@ -30,12 +30,12 @@ public class Claw extends SubsystemBase {
         OdometryMath2023.doPeriodicFrame(left, right);
         right.setInverted(true);
         left.setInverted(false);
-        // sensor = new ColorSensorV3(Port.kOnboard);
+        sensor = new ColorSensorV3(Port.kOnboard);
         grabber = new Solenoid(28, PneumaticsModuleType.REVPH, ClawConstants.SOL_ID);
     }
 
     public ClawConstants.GAME_PIECE_STATE getState(boolean isPurple) {
-        if (sensor.getProximity() < ClawConstants.PROX_VALUE) { //has game piece
+        if (sensor.getProximity() > ClawConstants.PROX_VALUE) { //has game piece
             if (isPurple) {
                 return ClawConstants.GAME_PIECE_STATE.CUBE;
             } else {
@@ -71,5 +71,9 @@ public class Claw extends SubsystemBase {
     @Override
     public void periodic() {
         Logger.post("claw state", getState(isPurple(sensor)).name());
+        Logger.post("debug blue abc", sensor.getBlue());
+        Logger.post("claw debug prox", sensor.getProximity());
+
+        Logger.post("sensor connected", sensor.isConnected());
     }
 }

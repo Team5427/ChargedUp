@@ -2,6 +2,7 @@ package frc.robot.commands.Routines;
 
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
@@ -10,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.*;
+import frc.robot.commands.Routines.BasicMovement.MoveRobotOriented;
 import frc.robot.subsystems.Swerve.SwerveDrive;
 import frc.robot.util.Logger;
 
@@ -124,7 +126,7 @@ public class MoveBotTo extends CommandBase {
         timer.reset();
         isRunning = false;
         runningSpeed = 0;
-        // CommandScheduler.getInstance().schedule(new TurnAndTranslate(measurement.getRotation().getRadians(), measurement.getRotation().getRadians(), 0.5, 0.25));
+        CommandScheduler.getInstance().schedule(new MoveRobotOriented(0.25, 0.5, new Rotation2d(0)));
     }
 
     private void initControllers() {

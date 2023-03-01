@@ -17,6 +17,7 @@ import frc.robot.Constants.JoystickConstants;
 import frc.robot.commands.JoystickSwerve;
 import frc.robot.commands.RampPusherDebug;
 import frc.robot.commands.Auton.AutonSheet;
+import frc.robot.commands.Auton.SubRoutineSheet;
 import frc.robot.pathUtil.SwervePathMaker;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Claw;
@@ -32,9 +33,9 @@ public class RobotContainer {
 
   private static SwerveDrive swerveDrive;
   private static RampPusher rampPusher;
-  // private static Elevator elevator;
-  // private static Arm arm;
-  // private static Claw claw;
+  private static Elevator elevator;
+  private static Arm arm;
+  private static Claw claw;
   private static Led led;
 
   private static PneumaticHub hub;
@@ -62,11 +63,11 @@ public class RobotContainer {
     swerveDrive.setDefaultCommand(new JoystickSwerve());
 
     rampPusher = new RampPusher();
-    // elevator = new Elevator();
+    elevator = new Elevator();
     // elevator.setDefaultCommand(new ElevatorDebug());
-    // arm = new Arm();
+    arm = new Arm();
     // arm.setDefaultCommand(new ArmDebug());
-    // claw = new Claw();
+    claw = new Claw();
     // claw.setDefaultCommand(new ClawDebug());
 
     hub = new PneumaticHub(28);
@@ -79,6 +80,7 @@ public class RobotContainer {
     //NEED TO BE AT END OF CONSTRUCTOR
     SwervePathMaker.initPaths("ComplexPath", "StraightLinePath");
     AutonSheet.initAutons();
+    SubRoutineSheet.initSubRoutines();
     new ButtonBindings(getJoy(), getOperatorJoy1(), getOperatorJoy2());
   }
 
@@ -95,8 +97,8 @@ public class RobotContainer {
   public static Limelight getLimelightLeft() {return limelight_left;}
   public static OdometryMath2023 getOdomInstance() {return odom;}
   public static RampPusher getRampPusher(){return rampPusher;}
-  // public static Elevator getElevator(){return elevator;}
-  // public static Arm getArm(){return arm;}
-  // public static Claw getClaw() {return claw;}
+  public static Elevator getElevator(){return elevator;}
+  public static Arm getArm(){return arm;}
+  public static Claw getClaw() {return claw;}
   public static Led getLed(){return led;}
 }

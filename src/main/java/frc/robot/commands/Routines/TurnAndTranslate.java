@@ -20,7 +20,8 @@ public class TurnAndTranslate extends CommandBase {
     private double holonomicRotationRadians;
     private double speedMPS;
     private ProfiledPIDController headingPID;
-    private double timed;
+    private double time;
+    private boolean timed;
     private Timer timer;
 
     public TurnAndTranslate(double headingRadians, double holonomicRotationRadians, double speedMPS, double time) {
@@ -29,7 +30,18 @@ public class TurnAndTranslate extends CommandBase {
         this.headingRadians = headingRadians;
         this.holonomicRotationRadians = holonomicRotationRadians;
         this.speedMPS = speedMPS;
-        this.timed = time;
+        this.time = time;
+        this.timed = true;
+        timer = new Timer();
+    }
+
+    public TurnAndTranslate(double headingRadians, double holonomicRotationRadians, double speedMPS) {
+        dt = RobotContainer.getSwerve();
+        addRequirements(dt);
+        this.headingRadians = headingRadians;
+        this.holonomicRotationRadians = holonomicRotationRadians;
+        this.speedMPS = speedMPS;
+        this.timed = false;
         timer = new Timer();
     }
 
@@ -65,7 +77,7 @@ public class TurnAndTranslate extends CommandBase {
     public boolean isFinished() {
         if (RobotContainer.getJoy().getHID().getRawButton(JoystickConstants.CANCEL_ALL_COMMANDS_D)) {
             return true;
-        } else if (timer.get() > timed) {
+        } else if (timer.get() > time && timed) {
             return true;
         } else {
             return false;

@@ -2,6 +2,7 @@ package frc.robot.subsystems.Swerve;
 
 import java.util.List;
 
+import com.ctre.phoenix.sensors.Pigeon2;
 import com.ctre.phoenix.sensors.WPI_Pigeon2;
 
 import edu.wpi.first.math.VecBuilder;
