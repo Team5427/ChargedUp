@@ -12,7 +12,7 @@ import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
-import frc.robot.commands.Routines.ClawState;
+import frc.robot.commands.Routines.StateTypes.ClawState;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide
@@ -212,6 +212,7 @@ public final class Constants {
 
         public static final double BALANCE_ACTIVATION_PITCH_DEG = 10;
         public static final double BALANCE_ACTIVATION_SPEED_M_S = 0.5;
+        public static final double BALANCED_TIME = 1;
 
         //PRESETS
         public static final Pose2d BOTTOM_CONE_SCORING_POSE_DEFAULT = new Pose2d(1.79, 0.5, new Rotation2d(Math.PI));
@@ -327,8 +328,8 @@ public final class Constants {
         public static final double OUTTAKE_SPEED_DECIMAL = 0.4; //FIXME
         public static final double CUBE_OUTTAKE_EXCESS_TIME_S = 0.5; //FIXME
 
-        public static final double PROX_VALUE = 0.0; //FIXME
-        public static final double PURPLE_THRESH = 0.0; //FIXME
+        public static final double PROX_VALUE = 200.0;
+        public static final double PURPLE_THRESH = 600.0;
     }
 
     public static final class MiscConstants {

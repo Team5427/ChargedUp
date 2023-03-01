@@ -1,4 +1,4 @@
-package frc.robot.commands.Routines;
+package frc.robot.commands.Routines.StateTypes;
 
 public class ClawState {
 

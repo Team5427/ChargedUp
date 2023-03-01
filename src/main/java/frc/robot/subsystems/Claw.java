@@ -46,8 +46,8 @@ public class Claw extends SubsystemBase {
         }
     }
 
-    public boolean isPurple(ColorSensorV3 sensor) {
-        return (sensor.getBlue() > ClawConstants.PURPLE_THRESH);
+    public boolean isPurple() {
+        return (this.sensor.getBlue() > ClawConstants.PURPLE_THRESH);
     }
 
     public void set(double speed) {
@@ -70,7 +70,7 @@ public class Claw extends SubsystemBase {
 
     @Override
     public void periodic() {
-        Logger.post("claw state", getState(isPurple(sensor)).name());
+        Logger.post("claw state", getState(isPurple()).name());
         Logger.post("debug blue abc", sensor.getBlue());
         Logger.post("claw debug prox", sensor.getProximity());
 

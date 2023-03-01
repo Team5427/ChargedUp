@@ -32,6 +32,7 @@ public class UseClaw extends CommandBase {
         timer.reset();
         finish = false;
         isPurple = led.isPurple();
+        // isPurple = claw.isPurple();
         initState = claw.getState(isPurple);
         if (initState.equals(ClawConstants.GAME_PIECE_STATE.NO_GP)) {
             intake = true;
@@ -43,6 +44,7 @@ public class UseClaw extends CommandBase {
     @Override
     public void execute() {
         isPurple = led.isPurple();
+        // isPurple = claw.isPurple();
         if (intake) {
             claw.set(ClawConstants.INTAKE_SPEED_DECIMAL);
             if (claw.getState(isPurple).equals(ClawConstants.GAME_PIECE_STATE.CONE)) {

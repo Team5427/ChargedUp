@@ -1,4 +1,4 @@
-package frc.robot.commands.Auton;
+package frc.robot.commands.Routines;
 
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.Joystick;
@@ -24,18 +24,28 @@ public class Balance extends CommandBase {
     }
 
     @Override
+    public void initialize() {
+        timer.reset();
+    }
+
+    @Override
     public void execute() {
         if (dt.getPitchDeg() < -RoutineConstants.BALANCE_ACTIVATION_PITCH_DEG) {
             dt.setModules(SwerveConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(speeds));
+            timer.stop();
+            timer.reset();
         } else if (dt.getPitchDeg() > RoutineConstants.BALANCE_ACTIVATION_PITCH_DEG) {
             dt.setModules(SwerveConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(speeds2));
+            timer.stop();
+            timer.reset();
         } else {
             dt.stopMods();
+            timer.start();
         }
     }
 
     @Override
     public boolean isFinished() {
-        return RobotContainer.getJoy().getHID().getRawButton(JoystickConstants.CANCEL_ALL_COMMANDS_D);
+        return (RobotContainer.getJoy().getHID().getRawButton(JoystickConstants.CANCEL_ALL_COMMANDS_D)) || (timer.get() > RoutineConstants.BALANCED_TIME);
     }
 }
