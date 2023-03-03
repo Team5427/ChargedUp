@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.ClawConstants;
+import frc.robot.Constants.JoystickConstants;
 import frc.robot.Constants.RoutineConstants;
 import frc.robot.commands.Routines.MoveClawTo;
 import frc.robot.subsystems.Claw;
@@ -71,7 +72,7 @@ public class UseClaw extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return (finish);
+        return (finish || RobotContainer.getJoy().getHID().getRawButtonPressed(10));
     }
 
     @Override

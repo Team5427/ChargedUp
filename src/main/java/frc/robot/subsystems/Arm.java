@@ -44,6 +44,7 @@ public class Arm extends SubsystemBase {
         );
         armController.enableContinuousInput(0 - ArmConstants.POSITION_OFFSET_RAD, (2 * Math.PI) - ArmConstants.POSITION_OFFSET_RAD);
         armController.setTolerance(ArmConstants.ARM_CONTROLLER_TOLERANCE_RAD);
+        armController.reset(getAngle());
         setPoint = ArmConstants.UPPER_LIMIT_RAD; //arm locks up on robot startup
         sol = new Solenoid(28, PneumaticsModuleType.REVPH, ArmConstants.SOL_ID);
     }
@@ -68,17 +69,13 @@ public class Arm extends SubsystemBase {
     }
 
     public void set(double speed) {
-        // if (getAngle() <= ArmConstants.UPPER_LIMIT_RAD && speed >= 0) {
-        //     topMotor.set(speed);
-        //     btmMotor.set(speed);
-        // } else if(getAngle() >= ArmConstants.LOWER_LIMIT_RAD && speed <= 0) {
-        //     topMotor.set(speed);
-        //     btmMotor.set(speed);
-        // } else{
-        //     stopMotors();
-        // }
-        topMotor.set(speed);
-        btmMotor.set(speed);
+        if (getAngle() == ArmConstants.POSITION_OFFSET_RAD) {
+            stopMotors();
+            System.out.println("DANGER ARM ENCODER NOT PLUGGED IN");
+        } else {
+            topMotor.set(speed);
+            btmMotor.set(speed);    
+        }
     }
 
     public void stopMotors() {
@@ -113,25 +110,26 @@ public class Arm extends SubsystemBase {
 
     @Override
     public void periodic() {
-        if (atJankGoal() && (setPoint == ArmConstants.UPPER_LIMIT_RAD)) {
-            set(0.03);
-            armController.reset(getAngle());
-        } else {
-            calc = armController.calculate(getAngle());
-            set(calc);
-        }
-        if (DriverStation.isEnabled()) {
-            armController.setGoal(this.setPoint);
-        } else {
-            armController.setGoal(getAngle());
-        }
+        // if (atJankGoal() && (setPoint == ArmConstants.UPPER_LIMIT_RAD)) {
+        //     set(0.025);
+        //     armController.reset(getAngle());
+        // } else {
+        //     calc = armController.calculate(getAngle());
+        //     set(calc);    
+        // }
+        // if (DriverStation.isEnabled()) { 
+        //     armController.setGoal(this.setPoint);
+        // } else {
+        //     armController.setGoal(getAngle());
+        // }
         log();
     }
 
     public void log() {
-        Logger.post("calculation", this.calc);
+        // Logger.post("calculation", this.calc);
         Logger.post("arm angle", getAngle());
-        Logger.post("at goal", atGoal());
-        Logger.post("arm setpoint", this.setPoint);
+        // Logger.post("at goal", atGoal());
+        // Logger.post("arm setpoint", this.setPoint);
+        // Logger.post("bruh", true);
     }
 }

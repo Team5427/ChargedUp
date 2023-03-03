@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
 import frc.robot.Constants.*;
 import frc.robot.util.Logger;
 import frc.robot.util.OdometryMath2023;
@@ -30,7 +31,7 @@ public class Claw extends SubsystemBase {
         OdometryMath2023.doPeriodicFrame(left, right);
         right.setInverted(true);
         left.setInverted(false);
-        sensor = new ColorSensorV3(Port.kOnboard);
+        sensor = new ColorSensorV3(Port.kMXP);
         grabber = new Solenoid(28, PneumaticsModuleType.REVPH, ClawConstants.SOL_ID);
     }
 
@@ -70,10 +71,10 @@ public class Claw extends SubsystemBase {
 
     @Override
     public void periodic() {
-        Logger.post("claw state", getState(isPurple()).name());
-        Logger.post("debug blue abc", sensor.getBlue());
+        Logger.post("claw state", getState(RobotContainer.getLed().isPurple()).name());
+        // Logger.post("debug blue abc", sensor.getBlue());
         Logger.post("claw debug prox", sensor.getProximity());
 
-        Logger.post("sensor connected", sensor.isConnected());
+        // Logger.post("sensor connected", sensor.isConnected());
     }
 }

@@ -147,15 +147,19 @@ public class Elevator extends SubsystemBase {
     }
 
     private void log() {
-        Logger.post("position", getHeight());
+        Logger.post("elevator position", getHeight());
         Logger.post("left limit", limitLeft.get());
         Logger.post("right limit", limitRight.get());
-        Logger.post("error", elevatorController.getPositionError());
-        Logger.post("at Goal", elevatorController.atGoal());
-        Logger.post("output", elevatorController.calculate(getHeight()));
-        Logger.post("elevator setpoint position", elevatorController.getSetpoint().position);
-        Logger.post("elevator setpoint velocity", elevatorController.getSetpoint().velocity);
-        Logger.post("FF output", elevatorFF.calculate(elevatorController.getSetpoint().velocity));
+        Logger.post("output left elevator", leftMotor.get());
+        Logger.post("output left elevator applied", leftMotor.getAppliedOutput());
+        Logger.post("output right elevator", rightMotor.get());
+        Logger.post("output right elevator applied", rightMotor.getAppliedOutput());
+        // Logger.post("error", elevatorController.getPositionError());
+        // Logger.post("at Goal", elevatorController.atGoal());
+        // Logger.post("output", elevatorController.calculate(getHeight()));
+        // Logger.post("elevator setpoint position", elevatorController.getSetpoint().position);
+        // Logger.post("elevator setpoint velocity", elevatorController.getSetpoint().velocity);
+        // Logger.post("FF output", elevatorFF.calculate(elevatorController.getSetpoint().velocity));
     }
     
 }

@@ -88,8 +88,8 @@ public class RampPusher extends SubsystemBase {
     }
 
     private void log() {
-        // Logger.post("ramp pusher positon", getPosition());
-        // Logger.post("absolute position", throughbore.getAbsolutePosition());
+        Logger.post("ramp pusher positon", getPosition());
+        Logger.post("absolute position", throughbore.getAbsolutePosition());
         // Logger.post("controller setpoint", controller.getSetpoint().position);
         // Logger.post("THroughbore connect", throughbore.isConnected());
         // Logger.post("getFreq", throughbore.getFrequency());

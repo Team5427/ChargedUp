@@ -157,6 +157,7 @@ public final class Constants {
         public static final int CANCEL_ALL_COMMANDS_D = 10;
         public static final int LOCK_SWERVE = 9;
         public static final int DAMPEN = 3;
+        public static final int CLAW_BTN = 1;
 
         public static final int debugArmUp = 12;
         public static final int debugArmDown = 11;
@@ -176,7 +177,7 @@ public final class Constants {
         public static final int MID_CONE_PRESET = 3;
         public static final int HIGH_CUBE_PRESET = 4;
         public static final int MID_CUBE_PRESET = 5;
-        public static final int LOW_SCORE_PRESET = 6;
+        public static final int FLIP_COLOR = 6;
         public static final int SUBSTATION_PRESET = 7;
         public static final int FLOOR_INTAKE_PRESET_CUBES = 8;
         public static final int FLOOR_INTAKE_PRESET_CONES = 9;
@@ -232,7 +233,7 @@ public final class Constants {
         }
 
         public static final ClawState DEFAULT_CLAW_STATE = new ClawState(0, ArmConstants.UPPER_LIMIT_RAD);
-        public static final ClawState TOP_CONE_CLAW_STATE = new ClawState(ElevatorConstants.UPPER_LIMIT_METERS, Units.degreesToRadians(11.85), true);
+        public static final ClawState TOP_CONE_CLAW_STATE = new ClawState(ElevatorConstants.UPPER_LIMIT_METERS - .02, Units.degreesToRadians(11.85), true);
         public static final ClawState MID_CONE_CLAW_STATE = new ClawState(.8540754, 0);
         public static final ClawState TOP_CUBE_CLAW_STATE = new ClawState(0.654, (Math.PI / 6));
         public static final ClawState MID_CUBE_CLAW_STATE = new ClawState(.6540754, 0);
@@ -283,10 +284,10 @@ public final class Constants {
         public static final double kI = 0.0;
         public static final double kD = 0.0;
         public static final double ARM_CONTROLLER_TOLERANCE_RAD = Units.degreesToRadians(1);
-        public static final double ARM_CONTROLLER_TOLERANCE_RAD_JANK = Units.degreesToRadians(15);
+        public static final double ARM_CONTROLLER_TOLERANCE_RAD_JANK = Units.degreesToRadians(4);
         public static final double GEARBOX_GEARING = (1.0 / 100.0) * (17.0 / 20.0) * (20.0 / 32.0);
         public static final double MAX_SPEED_RAD_S = Units.rotationsPerMinuteToRadiansPerSecond(MiscConstants.MAX_NEO_SPEED_RPM * GEARBOX_GEARING);
-        public static final double MAX_ACCEL_RAD_S_S = MAX_SPEED_RAD_S * 1.5;
+        public static final double MAX_ACCEL_RAD_S_S = MAX_SPEED_RAD_S;
         public static final double UPPER_LIMIT_RAD = 1.45;
         public static final double LOWER_LIMIT_RAD = -1;
     }
@@ -323,9 +324,9 @@ public final class Constants {
             NO_GP
         }
 
-        public static final double INTAKE_SPEED_DECIMAL = 0.5; //FIXME
-        public static final double CUBE_INTAKE_EXCESS_TIME_S = 0.25; //FIXME
-        public static final double OUTTAKE_SPEED_DECIMAL = 0.4; //FIXME
+        public static final double INTAKE_SPEED_DECIMAL = 0.3; //FIXME
+        public static final double CUBE_INTAKE_EXCESS_TIME_S = 0.0; //FIXME
+        public static final double OUTTAKE_SPEED_DECIMAL = -0.6; //FIXME
         public static final double CUBE_OUTTAKE_EXCESS_TIME_S = 0.5; //FIXME
 
         public static final double PROX_VALUE = 200.0;
