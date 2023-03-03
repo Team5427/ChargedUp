@@ -34,7 +34,7 @@ public class Arm extends SubsystemBase {
         topMotor.setInverted(true);
         topMotor.setSmartCurrentLimit(ArmConstants.CURRENT_LIMIT_AMPS);
         btmMotor.setSmartCurrentLimit(ArmConstants.CURRENT_LIMIT_AMPS);
-        setBrake(true); //FIXME turn to true after testing
+        setBrake(true);
         throughbore = new DutyCycleEncoder(ArmConstants.THROUGHBORE_ID);
         throughbore.reset();
         throughbore.setPositionOffset(0);

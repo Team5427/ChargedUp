@@ -32,7 +32,7 @@ public class Elevator extends SubsystemBase {
         rightMotor = new CANSparkMax(ElevatorConstants.RIGHT_MOTOR_ID, MotorType.kBrushless);
         rightMotor.setInverted(true);
         leftMotor.setInverted(true);
-        setBrake(true); //FIXME turn to true after testing
+        setBrake(true);
         leftMotor.setSmartCurrentLimit(ElevatorConstants.CURRENT_LIMIT_AMPS);
         rightMotor.setSmartCurrentLimit(ElevatorConstants.CURRENT_LIMIT_AMPS);
         throughbore = new Encoder(ElevatorConstants.THROUGHBORE_ID_A, ElevatorConstants.THROUGHBORE_ID_B);
