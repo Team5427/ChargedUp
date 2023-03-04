@@ -334,6 +334,7 @@ public final class Constants {
     }
 
     public static final class MiscConstants {
+
         public static final boolean FIELD_RELATIVE_SWITCHABLE = true;
         public static final boolean FIELD_RELATIVE_ON_START = false;
         public static final double MAX_NEO_SPEED_RPM = 5676.0;
@@ -341,5 +342,15 @@ public final class Constants {
         public static final Pose2d DEBUG_RESET_POSE = new Pose2d(0, 0, new Rotation2d(0)); //have to flip before using if on red side
         public static final int MAX_SMAX_PERIODIC_FRAME_MS = 65535;
         public static final int THORUGHBORE_CONNECTION_HZ = 975;
+    }
+
+    public static final class LedConstants {
+
+        public static final int[] PURPLE = {255, 0, 255};
+        public static final int[] YELLOW = {255, 255, 0};
+        public static final int[] GREEN = {0, 255, 0};
+        public static final int[] RED = {255, 0, 0};
+        public static final int[] WHITE = {255, 255, 255};
+        public static final int[] CLEAR = {0, 0, 0};
     }
 }
