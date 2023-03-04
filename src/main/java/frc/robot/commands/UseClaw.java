@@ -20,6 +20,7 @@ public class UseClaw extends CommandBase {
     private boolean intake;
     private boolean isPurple;
     private Timer timer;
+    public static boolean isRunning;
 
     public UseClaw() {
         claw = RobotContainer.getClaw();
@@ -30,6 +31,7 @@ public class UseClaw extends CommandBase {
 
     @Override
     public void initialize() {
+        isRunning = true;
         timer.reset();
         finish = false;
         isPurple = led.isPurple();
@@ -47,11 +49,13 @@ public class UseClaw extends CommandBase {
         isPurple = led.isPurple();
         // isPurple = claw.isPurple();
         if (intake) {
+            claw.grab(false);
             claw.set(ClawConstants.INTAKE_SPEED_DECIMAL);
             if (claw.getState(isPurple).equals(ClawConstants.GAME_PIECE_STATE.CONE)) {
                 claw.grab(true);
                 finish = true;
             } else if (claw.getState(isPurple).equals(ClawConstants.GAME_PIECE_STATE.CUBE)) {
+                claw.grab(false);
                 timer.start();
                 if (timer.get() > ClawConstants.CUBE_INTAKE_EXCESS_TIME_S) {
                     finish = true;
@@ -77,9 +81,10 @@ public class UseClaw extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
+        isRunning = false;
         timer.stop();
         timer.reset();
         claw.stop();
-        CommandScheduler.getInstance().schedule(new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE));
+        // CommandScheduler.getInstance().schedule(new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE));
     }
 }

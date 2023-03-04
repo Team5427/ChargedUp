@@ -46,7 +46,7 @@ public class Limelight extends SubsystemBase {
             Translation2d translation = new Translation2d(botPose[0], botPose[1]);
             Rotation2d rotation2d = new Rotation2d(Math.toRadians(botPose[5]));
 
-            return new Pose2d(translation, rotation2d);
+            return new Pose2d(translation, RobotContainer.getSwerve().getRotation2d());
         } else {
             return null;
         }

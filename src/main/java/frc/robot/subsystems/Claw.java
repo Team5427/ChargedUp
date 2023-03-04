@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.*;
+import frc.robot.commands.UseClaw;
 import frc.robot.util.Logger;
 import frc.robot.util.OdometryMath2023;
 
@@ -72,8 +73,12 @@ public class Claw extends SubsystemBase {
     @Override
     public void periodic() {
         Logger.post("claw state", getState(RobotContainer.getLed().isPurple()).name());
+        Logger.post("claw clamped", getGrabber());
         // Logger.post("debug blue abc", sensor.getBlue());
         Logger.post("claw debug prox", sensor.getProximity());
+        if (UseClaw.isRunning == false) {
+            set(0.05);
+        }
 
         // Logger.post("sensor connected", sensor.isConnected());
     }

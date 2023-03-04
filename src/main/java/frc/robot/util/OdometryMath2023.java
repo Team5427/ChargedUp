@@ -43,8 +43,8 @@ public class OdometryMath2023 extends SubsystemBase {
 
     @Override
     public void periodic() {
-        limelightLeftPose = RobotContainer.getLimelightLeft().getAdjustedGlobalPose();
-        limelightRightPose = RobotContainer.getLimelightRight().getAdjustedGlobalPose();
+        limelightLeftPose = RobotContainer.getLimelightLeft().getEstimatedGlobalPose();
+        limelightRightPose = RobotContainer.getLimelightRight().getEstimatedGlobalPose();
         robotPose = RobotContainer.getSwerve().getPose();
 
         reseedOdometry();

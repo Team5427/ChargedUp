@@ -15,6 +15,7 @@ import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.RampPusher;
 import frc.robot.subsystems.Swerve.SwerveDrive;
+import frc.robot.util.OdometryMath2023;
 
 public class ButtonBindings {
 
@@ -31,7 +32,7 @@ public class ButtonBindings {
             swerve.setHeading(0);
             Pose2d resetPose = RoutineConstants.BOTTOM_CONE_SCORING_POSE_DEFAULT;
             
-            // swerve.resetOdometry(OdometryMath2023.isBlue() ? resetPose : OdometryMath2023.flip(resetPose));
+            swerve.resetOdometry(OdometryMath2023.isBlue() ? resetPose : OdometryMath2023.flip(resetPose));
             swerve.resetMods();
         }, swerve));
 

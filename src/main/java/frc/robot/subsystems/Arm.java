@@ -110,18 +110,18 @@ public class Arm extends SubsystemBase {
 
     @Override
     public void periodic() {
-        // if (atJankGoal() && (setPoint == ArmConstants.UPPER_LIMIT_RAD)) {
-        //     set(0.025);
-        //     armController.reset(getAngle());
-        // } else {
-        //     calc = armController.calculate(getAngle());
-        //     set(calc);    
-        // }
-        // if (DriverStation.isEnabled()) { 
-        //     armController.setGoal(this.setPoint);
-        // } else {
-        //     armController.setGoal(getAngle());
-        // }
+        if (atJankGoal() && (setPoint == ArmConstants.UPPER_LIMIT_RAD)) {
+            set(0.02);
+            armController.reset(getAngle());
+        } else {
+            calc = armController.calculate(getAngle());
+            set(calc);    
+        }
+        if (DriverStation.isEnabled()) { 
+            armController.setGoal(this.setPoint);
+        } else {
+            armController.setGoal(getAngle());
+        }
         log();
     }
 
