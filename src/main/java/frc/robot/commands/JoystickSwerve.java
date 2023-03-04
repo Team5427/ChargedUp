@@ -71,9 +71,9 @@ public class JoystickSwerve extends CommandBase {
 
         Rotation2d rot;
         if (OdometryMath2023.isBlue()) {
-            rot = swerve.getPose().getRotation();
+            rot = swerve.getRotation2d();
         } else {
-            rot = swerve.getPose().getRotation().plus(new Rotation2d(Math.PI));
+            rot = swerve.getRotation2d().plus(new Rotation2d(Math.PI));
         }
         
         ChassisSpeeds chassisSpeeds = swerve.getFieldRelative() ? ChassisSpeeds.fromFieldRelativeSpeeds(ySpeed, xSpeed, x2Speed, rot) : new ChassisSpeeds(ySpeed, xSpeed, x2Speed);

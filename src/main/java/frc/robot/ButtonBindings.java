@@ -10,6 +10,7 @@ import frc.robot.commands.UseClaw;
 import frc.robot.commands.Auton.SubRoutineSheet;
 import frc.robot.commands.Routines.MoveBotTo;
 import frc.robot.commands.Routines.MoveClawTo;
+import frc.robot.commands.Routines.BasicMovement.TurnAndTranslate;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.Elevator;
@@ -65,7 +66,7 @@ public class ButtonBindings {
         operatorJoy2.button(JoystickConstants.LEFT_CONE).onTrue(new MoveBotTo(POSITION_TYPE.LEFT_CONE));
         operatorJoy2.button(JoystickConstants.CUBE).onTrue(new MoveBotTo(POSITION_TYPE.CUBE));
         operatorJoy2.button(JoystickConstants.RIGHT_CONE).onTrue(new MoveBotTo(POSITION_TYPE.RIGHT_CONE));
-        operatorJoy2.button(JoystickConstants.SS).onTrue(SubRoutineSheet.substationIntake);
+        joy.button(JoystickConstants.SS).onTrue(SubRoutineSheet.substationIntake);
     }
 
     private static void getSubsystems() {

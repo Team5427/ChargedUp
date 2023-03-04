@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.RoutineConstants;
 import frc.robot.commands.UseClaw;
+import frc.robot.commands.Wait;
 import frc.robot.commands.Routines.Balance;
 import frc.robot.commands.Routines.MoveClawTo;
 import frc.robot.commands.Routines.BasicMovement.MoveRobotOriented;
@@ -23,14 +24,19 @@ public class SubRoutineSheet {
         if (OdometryMath2023.isBlue()) {
             substationIntake = new ParallelDeadlineGroup(
                 new UseClaw(),
-                new TurnAndTranslate(0.0, 0.0, .5, 1),
+                new TurnAndTranslate(0.0, 0.0, 1),
                 new MoveClawTo(RoutineConstants.SUBSTATION_CLAW_STATE)
             );
         } else {
+            double heading = Math.PI;
+            double holonomic = Math.PI;
             substationIntake = new ParallelDeadlineGroup(
                 new UseClaw(),
-                new TurnAndTranslate(Math.PI, Math.PI, .5, 1),
-                new MoveClawTo(RoutineConstants.SUBSTATION_CLAW_STATE)
+                new TurnAndTranslate(heading, holonomic, 1),
+                new SequentialCommandGroup(
+                    new Wait(0.5, heading),
+                    new MoveClawTo(RoutineConstants.SUBSTATION_CLAW_STATE)
+                )
             );
         }
 

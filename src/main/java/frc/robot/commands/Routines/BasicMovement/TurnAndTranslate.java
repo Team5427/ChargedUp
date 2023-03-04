@@ -1,6 +1,7 @@
 package frc.robot.commands.Routines.BasicMovement;
 
 import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
@@ -12,6 +13,7 @@ import frc.robot.Constants.JoystickConstants;
 import frc.robot.Constants.RoutineConstants;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.subsystems.Swerve.SwerveDrive;
+import frc.robot.util.OdometryMath2023;
 
 public class TurnAndTranslate extends CommandBase {
 
@@ -51,23 +53,28 @@ public class TurnAndTranslate extends CommandBase {
             new Constraints(RoutineConstants.ROUTINE_MAX_ROTATION_SPEED_RAD_S, RoutineConstants.ROUTINE_MAX_ROTATION_ACCEL_RAD_S_S)
         );
 
+        Rotation2d rot = dt.getRotation2d();
+
         headingPID.setTolerance(RoutineConstants.ROTATION_TOLERANCE_RAD);
         headingPID.enableContinuousInput(-Math.PI, Math.PI);
-        headingPID.reset(dt.getPose().getRotation().getRadians());
+        headingPID.setGoal(headingRadians);
+        headingPID.reset(rot.getRadians());
         timer.reset();
         timer.start();
     }
     
     @Override
     public void execute() {
-        double calc = headingPID.calculate(dt.getPose().getRotation().getRadians());
+        Rotation2d rot = dt.getRotation2d();
+        double calc = headingPID.calculate(rot.getRadians());
         SwerveModuleState[] moduleStates;
+
         moduleStates = SwerveConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(
             ChassisSpeeds.fromFieldRelativeSpeeds(
                 speedMPS * Math.cos(holonomicRotationRadians),
                 speedMPS * Math.sin(holonomicRotationRadians),
                 calc,
-                dt.getPose().getRotation()
+                rot
             )
         );
         dt.setModules(moduleStates);
@@ -75,7 +82,8 @@ public class TurnAndTranslate extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        if (RobotContainer.getJoy().getHID().getRawButton(JoystickConstants.CANCEL_ALL_COMMANDS_D)) {
+        if (RobotContainer.getJoy().getHID().getRawButton(8)) {
+            System.out.println("FINISHING");
             return true;
         } else if (timer.get() > time && timed) {
             return true;
@@ -86,6 +94,7 @@ public class TurnAndTranslate extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
+        System.out.println("STOPPED");
         timer.stop();
     }
 

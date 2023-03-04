@@ -142,8 +142,8 @@ public final class Constants {
         public static final double MAX_ANGULAR_ACCEL_TELEOP_RAD_S_S = Math.PI * 4;
         public static final double REGULAR_SPEED_M_S = 4.25;
         public static final double REGULAR_ANGULAR_SPEED_RAD_S = Math.PI * 1.5;
-        public static final double DAMPEN_SPEED_M_S = 1.25;
-        public static final double DAMPEN_ANGULAR_SPEED_RAD_S = Math.PI / 2;
+        public static final double DAMPEN_SPEED_M_S = 0.75;
+        public static final double DAMPEN_ANGULAR_SPEED_RAD_S = Math.PI / 4;
 
         //Joystick IDs
         public static final int DRIVER_CONTROLLER = 0;
@@ -189,7 +189,7 @@ public final class Constants {
         public static final int LEFT_CONE = 3;
         public static final int CUBE = 4;
         public static final int RIGHT_CONE = 5;
-        public static final int SS = 6;
+        public static final int SS = 7;
         public static final int debugButton = 8;
     }
 
@@ -259,7 +259,7 @@ public final class Constants {
         public static final double kG = 0.6;
         public static final double kV = 2.93;
         public static final double kA = 1.168;
-        public static final double kP = 6.0;
+        public static final double kP = 7.0; //7
         public static final double kI = 0.1;
         public static final double kD = 0.1;
         public static final double MAX_SPEED_M_S = MiscConstants.MAX_NEO_SPEED_RPM * VELOCITY_CONVERSION_FACTOR_RPM_TO_MPS / 4;
@@ -275,7 +275,7 @@ public final class Constants {
         public static final int SOL_ID = 0;
         public static final int THROUGHBORE_ID = 5; //on DIO ports
         public static final double POSITION_OFFSET_RAD = 2.5871;
-        public static final int CURRENT_LIMIT_AMPS = 40;
+        public static final int CURRENT_LIMIT_AMPS = 27;
         public static final double kS = 2.0;
         public static final double kG = 2.0;
         public static final double kV = 2.0;

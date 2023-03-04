@@ -28,7 +28,7 @@ public class MoveClawTo extends CommandBase {
         pusher = RobotContainer.getRampPusher();
         timer = new Timer();
         startingAngle = arm.getAngle();
-        addRequirements(arm, elevator);
+        addRequirements(arm, elevator, pusher);
     }
 
     @Override
@@ -44,7 +44,7 @@ public class MoveClawTo extends CommandBase {
         }
         if (pusher.atSetpoint()) {
             arm.setAngle(setPoint.getAngle());
-            if (arm.getAngle() > 0) {
+            if (arm.getAngle() > (Math.PI / 16)) {
                 elevator.setHeight(setPoint.getHeight());
             }
     
@@ -54,8 +54,8 @@ public class MoveClawTo extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        if (RobotContainer.getJoy().getHID().getRawButton(JoystickConstants.CANCEL_ALL_COMMANDS_D)) {
-            return true;
+        if (RobotContainer.getJoy().getHID().getRawButton(8)) {
+            return false;
         } else if (elevator.atGoal(setPoint.getHeight()) && arm.atGoal(setPoint.getAngle())) {
             return true;
         } else {

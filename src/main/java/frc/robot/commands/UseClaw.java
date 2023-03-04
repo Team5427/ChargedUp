@@ -76,7 +76,10 @@ public class UseClaw extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return (finish || RobotContainer.getJoy().getHID().getRawButtonPressed(10));
+        if (finish) {
+            // CommandScheduler.getInstance().schedule(new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE));
+        }
+        return (finish || RobotContainer.getJoy().getHID().getRawButtonPressed(8));
     }
 
     @Override
@@ -85,6 +88,5 @@ public class UseClaw extends CommandBase {
         timer.stop();
         timer.reset();
         claw.stop();
-        // CommandScheduler.getInstance().schedule(new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE));
     }
 }

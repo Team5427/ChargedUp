@@ -6,18 +6,13 @@ import com.revrobotics.CANSparkMaxLowLevel.PeriodicFrame;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.RobotContainer;
-import frc.robot.Constants.JoystickConstants;
 import frc.robot.Constants.MiscConstants;
 import frc.robot.Constants.RoutineConstants;
-import frc.robot.Constants.SwerveConstants;
-import frc.robot.commands.Routines.MoveBotTo;
+import frc.robot.RobotContainer;
 
 public class OdometryMath2023 extends SubsystemBase {
 
@@ -43,8 +38,8 @@ public class OdometryMath2023 extends SubsystemBase {
 
     @Override
     public void periodic() {
-        limelightLeftPose = RobotContainer.getLimelightLeft().getEstimatedGlobalPose();
-        limelightRightPose = RobotContainer.getLimelightRight().getEstimatedGlobalPose();
+        limelightLeftPose = RobotContainer.getLimelightLeft().getAdjustedGlobalPose();
+        limelightRightPose = RobotContainer.getLimelightRight().getAdjustedGlobalPose();
         robotPose = RobotContainer.getSwerve().getPose();
 
         reseedOdometry();

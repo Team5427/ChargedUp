@@ -32,8 +32,8 @@ public class Elevator extends SubsystemBase {
         rightMotor = new CANSparkMax(ElevatorConstants.RIGHT_MOTOR_ID, MotorType.kBrushless);
         rightMotor.setInverted(true);
         leftMotor.setInverted(true);
-        leftMotor.setSmartCurrentLimit(ElevatorConstants.CURRENT_LIMIT_AMPS);
-        rightMotor.setSmartCurrentLimit(ElevatorConstants.CURRENT_LIMIT_AMPS);
+        // leftMotor.setSmartCurrentLimit(ElevatorConstants.CURRENT_LIMIT_AMPS);
+        // rightMotor.setSmartCurrentLimit(ElevatorConstants.CURRENT_LIMIT_AMPS);
         setBrake(true);
         throughbore = new Encoder(ElevatorConstants.THROUGHBORE_ID_A, ElevatorConstants.THROUGHBORE_ID_B);
         throughbore.reset();
@@ -153,11 +153,11 @@ public class Elevator extends SubsystemBase {
         Logger.post("elevator position", getHeight());
         Logger.post("left limit", limitLeft.get());
         Logger.post("right limit", limitRight.get());
-        // Logger.post("output left elevator", leftMotor.get());
+        Logger.post("output left elevator", leftMotor.get());
         // Logger.post("output left elevator applied", leftMotor.getAppliedOutput());
-        // Logger.post("output right elevator", rightMotor.get());
+        Logger.post("output right elevator", rightMotor.get());
         // Logger.post("output right elevator applied", rightMotor.getAppliedOutput());
-        Logger.post(" elevator error", elevatorController.getPositionError());
+        // Logger.post(" elevator error", elevatorController.getPositionError());
         // Logger.post("elevaotr calc", elevatorController.)
         // Logger.post("at Goal", elevatorController.atGoal());
         // Logger.post("output", elevatorController.calculate(getHeight()));
