@@ -13,6 +13,7 @@ public class SetColor extends CommandBase{
     @Override
     public void initialize(){
         led.togglePurple();
+        led.setState(led.LOADING);
     }
 
     @Override

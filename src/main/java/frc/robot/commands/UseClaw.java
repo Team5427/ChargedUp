@@ -84,6 +84,13 @@ public class UseClaw extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
+        if(intake && claw.getGrabber()){
+            led.setColor(led.WHITE);
+            led.setState(led.SOLID);
+        } else{
+            led.setState(led.LOADING);
+        }
+
         isRunning = false;
         timer.stop();
         timer.reset();

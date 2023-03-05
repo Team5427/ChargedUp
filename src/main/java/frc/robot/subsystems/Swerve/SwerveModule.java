@@ -77,7 +77,8 @@ public class SwerveModule {
             stop();
         } else {
             state = SwerveModuleState.optimize(state, getModState().angle);
-            speedMotor.setVoltage(speedPID.calculate(getDriveSpeed(), state.speedMetersPerSecond) + speedFF.calculate(state.speedMetersPerSecond));
+            // speedMotor.setVoltage(speedPID.calculate(getDriveSpeed(), state.speedMetersPerSecond) + speedFF.calculate(state.speedMetersPerSecond));
+            speedMotor.set(state.speedMetersPerSecond / SwerveConstants.MAX_PHYSICAL_SPEED_M_PER_SEC);
             turnMotor.setVoltage(turningPID.calculate(getAbsEncRad(), state.angle.getRadians()) + turningFF.calculate(turningPID.getSetpoint().velocity));
         }
     }
@@ -138,8 +139,8 @@ public class SwerveModule {
         turnMotor = new CANSparkMax(turnMotorID, MotorType.kBrushless);
         speedMotor.restoreFactoryDefaults();
         turnMotor.restoreFactoryDefaults();
-        speedMotor.setSmartCurrentLimit(35);
-        turnMotor.setSmartCurrentLimit(23);
+        speedMotor.setSmartCurrentLimit(32);
+        turnMotor.setSmartCurrentLimit(20);
         speedMotor.setInverted(speedInv);
         turnMotor.setInverted(turnInv);
         speedEnc = speedMotor.getEncoder();

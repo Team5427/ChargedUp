@@ -48,6 +48,10 @@ public class Claw extends SubsystemBase {
         }
     }
 
+    public boolean proxCovered(){
+        return sensor.getProximity() > ClawConstants.PROX_VALUE;
+    }
+
     public boolean isPurple() {
         return (this.sensor.getBlue() > ClawConstants.PURPLE_THRESH);
     }
@@ -77,7 +81,7 @@ public class Claw extends SubsystemBase {
         // Logger.post("debug blue abc", sensor.getBlue());
         Logger.post("claw debug prox", sensor.getProximity());
         if (UseClaw.isRunning == false) {
-            set(0.05);
+            set(0.025);
         }
 
         // Logger.post("sensor connected", sensor.isConnected());

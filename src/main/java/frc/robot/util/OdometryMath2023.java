@@ -1,5 +1,7 @@
 package frc.robot.util;
 
+import java.sql.Driver;
+
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.PeriodicFrame;
 
@@ -12,6 +14,7 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.MiscConstants;
 import frc.robot.Constants.RoutineConstants;
+import frc.robot.commands.Routines.MoveBotTo;
 import frc.robot.RobotContainer;
 
 public class OdometryMath2023 extends SubsystemBase {
@@ -42,7 +45,9 @@ public class OdometryMath2023 extends SubsystemBase {
         limelightRightPose = RobotContainer.getLimelightRight().getAdjustedGlobalPose();
         robotPose = RobotContainer.getSwerve().getPose();
 
-        reseedOdometry();
+        if (!MoveBotTo.isRunning && !DriverStation.isAutonomous()) {
+            reseedOdometry();
+        }
         log();
     }
 

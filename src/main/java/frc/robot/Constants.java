@@ -263,7 +263,7 @@ public final class Constants {
         public static final double kI = 0.1;
         public static final double kD = 0.1;
         public static final double MAX_SPEED_M_S = MiscConstants.MAX_NEO_SPEED_RPM * VELOCITY_CONVERSION_FACTOR_RPM_TO_MPS / 4;
-        public static final double MAX_ACCEL_M_S_S = MAX_SPEED_M_S / 6;
+        public static final double MAX_ACCEL_M_S_S = MAX_SPEED_M_S / 8;
         public static final double GOAL_TOLERANCE_METERS = .03;
         public static final int CURRENT_LIMIT_AMPS = 40;
 
@@ -326,7 +326,7 @@ public final class Constants {
 
         public static final double INTAKE_SPEED_DECIMAL = 0.3; //FIXME
         public static final double CUBE_INTAKE_EXCESS_TIME_S = 0.0; //FIXME
-        public static final double OUTTAKE_SPEED_DECIMAL = -0.3; //FIXME
+        public static final double OUTTAKE_SPEED_DECIMAL = -0.2; //FIXME
         public static final double CUBE_OUTTAKE_EXCESS_TIME_S = 0.5; //FIXME
 
         public static final double PROX_VALUE = 170.0;
@@ -347,10 +347,11 @@ public final class Constants {
     public static final class LedConstants {
 
         public static final int[] PURPLE = {255, 0, 255};
-        public static final int[] YELLOW = {255, 255, 0};
+        public static final int[] YELLOW = {255, 150, 0};
         public static final int[] GREEN = {0, 255, 0};
         public static final int[] RED = {255, 0, 0};
         public static final int[] WHITE = {255, 255, 255};
         public static final int[] CLEAR = {0, 0, 0};
     }
 }
+

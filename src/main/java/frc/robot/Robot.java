@@ -28,6 +28,7 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
+
     m_robotContainer = new RobotContainer();
 
   }
@@ -41,6 +42,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+
     // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
     // commands, running already-scheduled commands, removing finished or interrupted commands,
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
@@ -51,11 +53,15 @@ public class Robot extends TimedRobot {
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
   public void disabledInit() {
+    RobotContainer.getLed().setColor(RobotContainer.getLed().RED);
+    RobotContainer.getLed().setState(RobotContainer.getLed().SOLID);
     RobotContainer.getSwerve().setBrake(false, false);
   }
 
   @Override
-  public void disabledPeriodic() {}
+  public void disabledPeriodic() {
+
+  }
 
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
@@ -75,6 +81,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+    RobotContainer.getLed().setState(RobotContainer.getLed().LOADING);
+
     RobotContainer.getSwerve().setBrake(true, true);
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to

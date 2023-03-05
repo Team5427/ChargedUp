@@ -34,7 +34,7 @@ public class SubRoutineSheet {
                 new UseClaw(),
                 new TurnAndTranslate(heading, holonomic, 1),
                 new SequentialCommandGroup(
-                    new Wait(0.5, heading),
+                    new Wait(0.1, heading),
                     new MoveClawTo(RoutineConstants.SUBSTATION_CLAW_STATE)
                 )
             );

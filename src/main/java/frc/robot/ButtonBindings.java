@@ -66,6 +66,7 @@ public class ButtonBindings {
         operatorJoy2.button(JoystickConstants.LEFT_CONE).onTrue(new MoveBotTo(POSITION_TYPE.LEFT_CONE));
         operatorJoy2.button(JoystickConstants.CUBE).onTrue(new MoveBotTo(POSITION_TYPE.CUBE));
         operatorJoy2.button(JoystickConstants.RIGHT_CONE).onTrue(new MoveBotTo(POSITION_TYPE.RIGHT_CONE));
+
         joy.button(JoystickConstants.SS).onTrue(SubRoutineSheet.substationIntake);
     }
 
@@ -76,4 +77,6 @@ public class ButtonBindings {
         elevator = RobotContainer.getElevator();
         claw = RobotContainer.getClaw();
     }
+
+
 }
