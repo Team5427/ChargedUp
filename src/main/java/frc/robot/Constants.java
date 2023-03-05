@@ -91,11 +91,11 @@ public final class Constants {
         public static final double MAX_PHYSICAL_SPEED_M_PER_SEC = Units.feetToMeters(14.5); // do not touch, unless switching from L2
 
         // AUTON STUFF
-        public static final double MAX_AUTON_ACCEL_M_PER_S2 = .5;
+        public static final double MAX_AUTON_ACCEL_M_PER_S2 = 2;
         public static final double MAX_AUTON_ANGULAR_ACCEL_RAD_PER_S2 = Math.PI;
         public static final double AUTON_TRANSLATION_P = 1.5; // FIXME lmao these r bbq values for rn
         public static final double AUTON_THETA_P = 3; // FIXME
-        public static final double MAX_AUTON_SPEED_M_PER_S = 2;
+        public static final double MAX_AUTON_SPEED_M_PER_S = 3;
         public static final double MAX_AUTON_ANGULAR_SPEED_RAD_S = Math.PI * 2;
 
         public static final TrapezoidProfile.Constraints THETA_CONSTRAINTS = new TrapezoidProfile.Constraints(
@@ -190,7 +190,7 @@ public final class Constants {
         public static final int CUBE = 4;
         public static final int RIGHT_CONE = 5;
         public static final int SS = 7;
-        public static final int debugButton = 8;
+        public static final int BALANCE_BTN = 8;
     }
 
     public static final class RoutineConstants {
@@ -212,8 +212,8 @@ public final class Constants {
         public static final double ROTATION_P = 4.5;
 
         public static final double BALANCE_ACTIVATION_PITCH_DEG = 10;
-        public static final double BALANCE_ACTIVATION_SPEED_M_S = 0.5;
-        public static final double BALANCED_TIME = 1;
+        public static final double BALANCE_ACTIVATION_SPEED_M_S = 1;
+        public static final double BALANCED_TIME = 2;
 
         //PRESETS
         public static final Pose2d BOTTOM_CONE_SCORING_POSE_DEFAULT = new Pose2d(1.79, 0.5, new Rotation2d(Math.PI));

@@ -8,6 +8,7 @@ import frc.robot.Constants.RoutineConstants.POSITION_TYPE;
 import frc.robot.commands.SetColor;
 import frc.robot.commands.UseClaw;
 import frc.robot.commands.Auton.SubRoutineSheet;
+import frc.robot.commands.Routines.Balance;
 import frc.robot.commands.Routines.MoveBotTo;
 import frc.robot.commands.Routines.MoveClawTo;
 import frc.robot.commands.Routines.BasicMovement.TurnAndTranslate;
@@ -66,6 +67,7 @@ public class ButtonBindings {
         operatorJoy2.button(JoystickConstants.LEFT_CONE).onTrue(new MoveBotTo(POSITION_TYPE.LEFT_CONE));
         operatorJoy2.button(JoystickConstants.CUBE).onTrue(new MoveBotTo(POSITION_TYPE.CUBE));
         operatorJoy2.button(JoystickConstants.RIGHT_CONE).onTrue(new MoveBotTo(POSITION_TYPE.RIGHT_CONE));
+        operatorJoy2.button(JoystickConstants.BALANCE_BTN).onTrue(new Balance());
 
         joy.button(JoystickConstants.SS).onTrue(SubRoutineSheet.substationIntake);
     }

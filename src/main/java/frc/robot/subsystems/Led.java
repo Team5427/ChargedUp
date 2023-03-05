@@ -57,7 +57,7 @@ public class Led extends SubsystemBase{
         position = 1;
 
         blinkCount = 0;
-        isPurple = false;
+        isPurple = true;
     }
 
     public void togglePurple(){

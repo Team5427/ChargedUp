@@ -41,7 +41,7 @@ public class SubRoutineSheet {
         }
 
         stationBalance = new SequentialCommandGroup(
-            new MoveRobotOriented(1.25, 2, new Rotation2d(0)),
+            new MoveRobotOriented(2, 1, new Rotation2d(0)),
             new Balance(),
             new InstantCommand(() -> {
                 RobotContainer.getSwerve().setLocked(true);
