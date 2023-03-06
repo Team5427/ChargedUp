@@ -224,6 +224,7 @@ public final class Constants {
         public static final double BALANCE_ACTIVATION_PITCH_DEG = 8.5;
 
         public static final double BALANCED_TIME = 2;
+        public static final double DEBUG_INTEGRATE_DELAY_TIME = 1;
 
         //PRESETS
         public static final Pose2d BOTTOM_CONE_SCORING_POSE_DEFAULT = new Pose2d(1.82, 0.5, new Rotation2d(Math.PI));
