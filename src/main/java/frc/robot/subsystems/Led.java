@@ -110,7 +110,16 @@ public class Led extends SubsystemBase{
 
         fill(rgb);
 
-        led += LED_SPEED
+        // ledCount += LED_SPEED;
+        // for(int i = 0; i < 10; i++){
+        //     setLed(((int)(i + ledCount) % 120), rgb);
+        //     setLed(((int)(i + ledCount + 60) % 120), rgb);
+        // }
+
+        // if(ledCount > 120){
+        //     ledCount = 0;
+        // }
+
 
         led.setData(ledBuffer);
         led.start();
