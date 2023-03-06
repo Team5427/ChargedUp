@@ -191,6 +191,16 @@ public final class Constants {
         public static final int RIGHT_CONE = 5;
         public static final int SS = 7;
         public static final int BALANCE_BTN = 8;
+
+        public static final int TOP_LEFT_SCORE = 0; //FIXME
+        public static final int TOP_MIDDLE_SCORE = 0; //FIXME
+        public static final int TOP_RIGHT_SCORE = 0; //FIXME
+        public static final int MID_LEFT_SCORE = 0; //FIXME
+        public static final int MID_MIDDLE_SCORE = 0; //FIXME
+        public static final int MID_RIGHT_SCORE = 0; //FIXME
+        public static final int LOW_LEFT_SCORE = 0; //FIXME
+        public static final int LOW_MIDDLE_SCORE = 0; //FIXME
+        public static final int LOW_RIGHT_SCORE = 0; //FIXME
     }
 
     public static final class RoutineConstants {
@@ -211,8 +221,14 @@ public final class Constants {
         public static final double TRANSLATION_P = 3;
         public static final double ROTATION_P = 4.5;
 
-        public static final double BALANCE_ACTIVATION_PITCH_DEG = 10;
-        public static final double BALANCE_ACTIVATION_SPEED_M_S = .75;
+        public static final double BALANCE_ACTIVATION_PITCH_DEG1 = 10;
+        public static final double BALANCE_ACTIVATION_PITCH_DEG2 = 9.75;
+        public static final double BALANCE_ACTIVATION_PITCH_DEG3 = 8;
+
+        public static final double BALANCE_ACTIVATION_FAST_SPEED_M_S = .75;
+        public static final double BALANCE_ACTIVATION_MED_SPEED_M_S = .6;
+        public static final double BALANCE_ACTIVATION_SLOW_SPEED_M_S = .4;
+
         public static final double BALANCED_TIME = 2;
 
         //PRESETS
@@ -351,7 +367,7 @@ public final class Constants {
         public static final int[] GREEN_CODE = {0, 255, 0};
         public static final int[] BLUE_CODE = {0, 0, 255};
         public static final int[] RED_CODE = {255, 0, 0};
-        public static final int[] WHITE_CODE = {255, 255, 255};
+        public static final int[] WHITE_CODE = {150, 150, 150};
         public static final int[] CLEAR_CODE = {0, 0, 0};
     }
 }

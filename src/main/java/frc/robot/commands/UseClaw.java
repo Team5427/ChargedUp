@@ -83,6 +83,12 @@ public class UseClaw extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
+
+        if(intake){
+            led.setState(led.SCORING);
+        } else{
+            led.setState(led.INTAKE);
+        }
         CommandScheduler.getInstance().schedule(new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE));
 
         isRunning = false;

@@ -17,7 +17,12 @@ public class Led extends SubsystemBase{
     public static final int RED = 3;
     public static final int WHITE = 4;
 
+    public static final int INTAKE = 0;
+    public static final int SCORING = 1;
+
     private boolean isPurple;
+
+    private int state;
 
     public int[] rgb = new int[3];
 
@@ -38,6 +43,10 @@ public class Led extends SubsystemBase{
 
     public void togglePurple(){
         isPurple = !isPurple;
+    }
+
+    public void setState(int state){
+        this.state = state;
     }
 
     public void setPurple(boolean isPurple) {
@@ -80,18 +89,13 @@ public class Led extends SubsystemBase{
 
     @Override
     public void periodic() {        
-        if (
-            RobotContainer.getClaw().getState(isPurple).equals(ClawConstants.GAME_PIECE_STATE.NO_GP) && 
-            DriverStation.isEnabled()
-        ) {
+        if (state == INTAKE && DriverStation.isEnabled()) 
+        {
             if(isPurple)
                 setColor(PURPLE);
             else
                 setColor(YELLOW);
-        } else if (
-            !RobotContainer.getClaw().getState(isPurple).equals(ClawConstants.GAME_PIECE_STATE.NO_GP) &&
-            DriverStation.isEnabled()
-        ) {
+        } else if (state == SCORING &&DriverStation.isEnabled()) {
             setColor(WHITE);
         } else if (!DriverStation.isEnabled()) {
             setColor(RED);
