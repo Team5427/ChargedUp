@@ -221,13 +221,7 @@ public final class Constants {
         public static final double TRANSLATION_P = 3;
         public static final double ROTATION_P = 4.5;
 
-        public static final double BALANCE_ACTIVATION_PITCH_DEG1 = 10;
-        public static final double BALANCE_ACTIVATION_PITCH_DEG2 = 9.75;
-        public static final double BALANCE_ACTIVATION_PITCH_DEG3 = 8;
-
-        public static final double BALANCE_ACTIVATION_FAST_SPEED_M_S = .75;
-        public static final double BALANCE_ACTIVATION_MED_SPEED_M_S = .6;
-        public static final double BALANCE_ACTIVATION_SLOW_SPEED_M_S = .4;
+        public static final double BALANCE_ACTIVATION_PITCH_DEG = 8.5;
 
         public static final double BALANCED_TIME = 2;
 
