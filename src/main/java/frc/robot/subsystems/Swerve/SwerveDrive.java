@@ -86,7 +86,6 @@ public class SwerveDrive extends SubsystemBase {
     }
 
     public void resetOdometry(Pose2d pose) {
-        Logger.post("reset pose", pose.toString());
         odometer.resetPosition(getRotation2d(), getModulePositions(), pose);
     }
 
@@ -97,7 +96,7 @@ public class SwerveDrive extends SubsystemBase {
     public void setHeadingRad(double rad) {
         Rotation2d rot = new Rotation2d(rad);
         if (!OdometryMath2023.isBlue()) {
-            rot.plus(new Rotation2d(Math.PI));
+            rot = OdometryMath2023.flip(rot);
         }
         gyro.setYaw(rot.getDegrees());
     }

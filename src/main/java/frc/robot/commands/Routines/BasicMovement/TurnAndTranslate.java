@@ -11,19 +11,20 @@ import frc.robot.Constants.RoutineConstants;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Swerve.SwerveDrive;
+import frc.robot.util.OdometryMath2023;
 
 public class TurnAndTranslate extends CommandBase {
 
     private SwerveDrive dt;
-    private double headingRadians;
-    private double holonomicRotationRadians;
+    private Rotation2d headingRadians;
+    private Rotation2d holonomicRotationRadians;
     private double speedMPS;
     private ProfiledPIDController headingPID;
     private double time;
     private boolean timed;
     private Timer timer;
 
-    public TurnAndTranslate(double headingRadians, double holonomicRotationRadians, double speedMPS, double time) {
+    public TurnAndTranslate(Rotation2d headingRadians, Rotation2d holonomicRotationRadians, double speedMPS, double time) {
         dt = RobotContainer.getSwerve();
         addRequirements(dt);
         this.headingRadians = headingRadians;
@@ -34,7 +35,7 @@ public class TurnAndTranslate extends CommandBase {
         timer = new Timer();
     }
 
-    public TurnAndTranslate(double headingRadians, double holonomicRotationRadians, double speedMPS) {
+    public TurnAndTranslate(Rotation2d headingRadians, Rotation2d holonomicRotationRadians, double speedMPS) {
         dt = RobotContainer.getSwerve();
         addRequirements(dt);
         this.headingRadians = headingRadians;
@@ -50,11 +51,16 @@ public class TurnAndTranslate extends CommandBase {
             new Constraints(RoutineConstants.ROUTINE_MAX_ROTATION_SPEED_RAD_S, RoutineConstants.ROUTINE_MAX_ROTATION_ACCEL_RAD_S_S)
         );
 
+        if (!OdometryMath2023.isBlue()) {
+            this.headingRadians = OdometryMath2023.flip(this.headingRadians);
+            this.holonomicRotationRadians = OdometryMath2023.flip(this.holonomicRotationRadians);
+        }
+
         Rotation2d rot = dt.getRotation2d();
 
         headingPID.setTolerance(RoutineConstants.ROTATION_TOLERANCE_RAD);
         headingPID.enableContinuousInput(-Math.PI, Math.PI);
-        headingPID.setGoal(headingRadians);
+        headingPID.setGoal(headingRadians.getRadians());
         headingPID.reset(rot.getRadians());
         timer.reset();
         timer.start();
@@ -68,8 +74,8 @@ public class TurnAndTranslate extends CommandBase {
 
         moduleStates = SwerveConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(
             ChassisSpeeds.fromFieldRelativeSpeeds(
-                speedMPS * Math.cos(holonomicRotationRadians),
-                speedMPS * Math.sin(holonomicRotationRadians),
+                speedMPS * holonomicRotationRadians.getCos(),
+                speedMPS * holonomicRotationRadians.getSin(),
                 calc,
                 rot
             )
