@@ -53,8 +53,6 @@ public class Robot extends TimedRobot {
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
   public void disabledInit() {
-    RobotContainer.getLed().setColor(RobotContainer.getLed().RED);
-    RobotContainer.getLed().setState(RobotContainer.getLed().SOLID);
     RobotContainer.getSwerve().setBrake(false, false);
   }
 
@@ -81,8 +79,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    RobotContainer.getLed().setState(RobotContainer.getLed().LOADING);
-
     RobotContainer.getSwerve().setBrake(true, true);
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
@@ -114,5 +110,6 @@ public class Robot extends TimedRobot {
   /** This function is called periodically whilst in simulation. */
   @Override
   public void simulationPeriodic() {}
+
 
 }

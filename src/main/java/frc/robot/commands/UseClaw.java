@@ -5,7 +5,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.ClawConstants;
-import frc.robot.Constants.JoystickConstants;
 import frc.robot.Constants.RoutineConstants;
 import frc.robot.commands.Routines.MoveClawTo;
 import frc.robot.subsystems.Claw;
@@ -37,7 +36,7 @@ public class UseClaw extends CommandBase {
         isPurple = led.isPurple();
         // isPurple = claw.isPurple();
         initState = claw.getState(isPurple);
-        if (initState.equals(ClawConstants.GAME_PIECE_STATE.NO_GP)) {
+        if ((initState.equals(ClawConstants.GAME_PIECE_STATE.NO_GP)) || (initState.equals(ClawConstants.GAME_PIECE_STATE.CONE) && !claw.getGrabber())) {
             intake = true;
         } else {
             intake = false;
@@ -84,12 +83,7 @@ public class UseClaw extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        if(intake && claw.getGrabber()){
-            led.setColor(led.WHITE);
-            led.setState(led.SOLID);
-        } else{
-            led.setState(led.LOADING);
-        }
+        CommandScheduler.getInstance().schedule(new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE));
 
         isRunning = false;
         timer.stop();

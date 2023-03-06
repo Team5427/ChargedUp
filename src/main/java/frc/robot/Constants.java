@@ -212,13 +212,13 @@ public final class Constants {
         public static final double ROTATION_P = 4.5;
 
         public static final double BALANCE_ACTIVATION_PITCH_DEG = 10;
-        public static final double BALANCE_ACTIVATION_SPEED_M_S = 1;
+        public static final double BALANCE_ACTIVATION_SPEED_M_S = .75;
         public static final double BALANCED_TIME = 2;
 
         //PRESETS
-        public static final Pose2d BOTTOM_CONE_SCORING_POSE_DEFAULT = new Pose2d(1.79, 0.5, new Rotation2d(Math.PI));
-        public static final Pose2d CUBE_SCORING_POSE_DEFAULT = new Pose2d(1.79, 1.05, new Rotation2d(Math.PI));
-        public static final Pose2d TOP_CONE_SCORING_POSE_DEFAULT = new Pose2d(1.79, 1.63, new Rotation2d(Math.PI));
+        public static final Pose2d BOTTOM_CONE_SCORING_POSE_DEFAULT = new Pose2d(1.82, 0.5, new Rotation2d(Math.PI));
+        public static final Pose2d CUBE_SCORING_POSE_DEFAULT = new Pose2d(1.82, 1.05, new Rotation2d(Math.PI));
+        public static final Pose2d TOP_CONE_SCORING_POSE_DEFAULT = new Pose2d(1.82, 1.63, new Rotation2d(Math.PI));
         public static final Pose2d BOTTOM_SUBSTATION_POSE_DEFAULT = new Pose2d(15.39, 6, new Rotation2d(0));
         public static final Pose2d TOP_SUBSTATION_POSE_DEFAULT = new Pose2d(15.39, 7.5, new Rotation2d(0));
 
@@ -346,12 +346,13 @@ public final class Constants {
 
     public static final class LedConstants {
 
-        public static final int[] PURPLE = {255, 0, 255};
-        public static final int[] YELLOW = {255, 150, 0};
-        public static final int[] GREEN = {0, 255, 0};
-        public static final int[] RED = {255, 0, 0};
-        public static final int[] WHITE = {255, 255, 255};
-        public static final int[] CLEAR = {0, 0, 0};
+        public static final int[] PURPLE_CODE = {255, 0, 255};
+        public static final int[] YELLOW_CODE = {255, 150, 0};
+        public static final int[] GREEN_CODE = {0, 255, 0};
+        public static final int[] BLUE_CODE = {0, 0, 255};
+        public static final int[] RED_CODE = {255, 0, 0};
+        public static final int[] WHITE_CODE = {255, 255, 255};
+        public static final int[] CLEAR_CODE = {0, 0, 0};
     }
 }
 

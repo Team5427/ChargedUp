@@ -12,9 +12,8 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.RobotContainer;
+
 import frc.robot.Constants.*;
-import frc.robot.util.Logger;
 
 public class Elevator extends SubsystemBase {
 
@@ -32,8 +31,8 @@ public class Elevator extends SubsystemBase {
         rightMotor = new CANSparkMax(ElevatorConstants.RIGHT_MOTOR_ID, MotorType.kBrushless);
         rightMotor.setInverted(true);
         leftMotor.setInverted(true);
-        // leftMotor.setSmartCurrentLimit(ElevatorConstants.CURRENT_LIMIT_AMPS);
-        // rightMotor.setSmartCurrentLimit(ElevatorConstants.CURRENT_LIMIT_AMPS);
+        leftMotor.setSmartCurrentLimit(ElevatorConstants.CURRENT_LIMIT_AMPS);
+        rightMotor.setSmartCurrentLimit(ElevatorConstants.CURRENT_LIMIT_AMPS);
         setBrake(true);
         throughbore = new Encoder(ElevatorConstants.THROUGHBORE_ID_A, ElevatorConstants.THROUGHBORE_ID_B);
         throughbore.reset();
@@ -81,22 +80,8 @@ public class Elevator extends SubsystemBase {
     }
 
     public void set(double value) {
-        if (value <= 1) {
-            if (!atLowerLimit() && !atUpperLimit()) {
-                leftMotor.set(value);
-                rightMotor.set(value);
-            } else {
-                if (atLowerLimit()) {
-                    leftMotor.set(value <= 0 ? 0 : value);
-                    rightMotor.set(value <= 0 ? 0 : value);
-                } else {
-                    leftMotor.set(value >= 0 ? 0 : value);
-                    rightMotor.set(value >= 0 ? 0 : value);
-                }
-            }
-        } else {
-            stop();
-        }
+        leftMotor.set(value);
+        rightMotor.set(value);
     }
 
     public boolean atGoal() {
@@ -122,48 +107,23 @@ public class Elevator extends SubsystemBase {
 
     @Override
     public void periodic() {
-        double calc = elevatorController.calculate(getHeight());
-        set(calc);
-        Logger.post("elevator calc", calc);
-
-        // if (DriverStation.isEnabled()) {
-        //     if (getHeight() < ElevatorConstants.UPPER_LIMIT_METERS) {
-        //         elevatorController.setGoal(this.setPoint);
-        //     } else {
-        //         elevatorController.setGoal(getHeight() - 0.01);
-        //     }
-        // }
-
-        elevatorController.setGoal(this.setPoint);
+        if (!DriverStation.isEnabled()) {
+            elevatorController.reset(getHeight());
+            stop();
+        } else {
+            elevatorController.setGoal(this.setPoint);
+            double calc = elevatorController.calculate(getHeight());
+            set(calc);
+        }
 
         if (atLowerLimit()) {
             resetEncoder();
         }
 
-        // if (RobotContainer.getJoy().getHID().getRawButton(8)) {
-        //     setPoint = .6540754;
-        // } else {
-        //     setPoint = 0.0;
-        // }
-
         log();
     }
 
     private void log() {
-        Logger.post("elevator position", getHeight());
-        Logger.post("left limit", limitLeft.get());
-        Logger.post("right limit", limitRight.get());
-        Logger.post("output left elevator", leftMotor.get());
-        // Logger.post("output left elevator applied", leftMotor.getAppliedOutput());
-        Logger.post("output right elevator", rightMotor.get());
-        // Logger.post("output right elevator applied", rightMotor.getAppliedOutput());
-        // Logger.post(" elevator error", elevatorController.getPositionError());
-        // Logger.post("elevaotr calc", elevatorController.)
-        // Logger.post("at Goal", elevatorController.atGoal());
-        // Logger.post("output", elevatorController.calculate(getHeight()));
-        // Logger.post("elevator setpoint position", elevatorController.getSetpoint().position);
-        // Logger.post("elevator setpoint velocity", elevatorController.getSetpoint().velocity);
-        // Logger.post("FF output", elevatorFF.calculate(elevatorController.getSetpoint().velocity));
     }
     
 }

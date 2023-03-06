@@ -11,6 +11,7 @@ public class PositionState {
         switch(type) {
             case LEFT_CONE: {
                 if (OdometryMath2023.isBlue()) {
+                    System.out.println("IS BLUE CHILLING");
                     ret = RoutineConstants.TOP_CONE_SCORING_POSE_DEFAULT;
                 } else {
                     ret = RoutineConstants.BOTTOM_CONE_SCORING_POSE_DEFAULT;
@@ -56,6 +57,7 @@ public class PositionState {
         if (!OdometryMath2023.isBlue()) {
             ret = OdometryMath2023.flip(ret);
         }
+        System.out.println(ret.toString());
         return ret;
     }
 }

@@ -5,15 +5,12 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.RobotContainer;
-import frc.robot.Constants.JoystickConstants;
 import frc.robot.Constants.RoutineConstants;
 import frc.robot.Constants.SwerveConstants;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.Swerve.SwerveDrive;
-import frc.robot.util.OdometryMath2023;
 
 public class TurnAndTranslate extends CommandBase {
 
@@ -83,7 +80,6 @@ public class TurnAndTranslate extends CommandBase {
     @Override
     public boolean isFinished() {
         if (RobotContainer.getJoy().getHID().getRawButton(8)) {
-            System.out.println("FINISHING");
             return true;
         } else if (timer.get() > time && timed) {
             return true;
@@ -94,7 +90,6 @@ public class TurnAndTranslate extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        System.out.println("STOPPED");
         timer.stop();
     }
 

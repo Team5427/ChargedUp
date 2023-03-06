@@ -2,21 +2,16 @@ package frc.robot.subsystems.Swerve;
 
 import java.util.List;
 
-import com.ctre.phoenix.sensors.Pigeon2;
 import com.ctre.phoenix.sensors.WPI_Pigeon2;
 
-import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.RobotContainer;
 import frc.robot.Constants.MiscConstants;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.util.Logger;
@@ -99,8 +94,12 @@ public class SwerveDrive extends SubsystemBase {
         getEstimator().resetPosition(getRotation2d(), getModulePositions(), new Pose2d(pose.getX(), pose.getY(), getRotation2d()));
     }
 
-    public void setHeading(double deg) {
-        gyro.setYaw(deg);
+    public void setHeadingRad(double rad) {
+        Rotation2d rot = new Rotation2d(rad);
+        if (!OdometryMath2023.isBlue()) {
+            rot.plus(new Rotation2d(Math.PI));
+        }
+        gyro.setYaw(rot.getDegrees());
     }
 
     public void resetMods() {

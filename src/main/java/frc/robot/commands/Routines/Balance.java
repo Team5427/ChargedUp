@@ -17,8 +17,11 @@ public class Balance extends CommandBase {
     private ChassisSpeeds speeds = new ChassisSpeeds(RoutineConstants.BALANCE_ACTIVATION_SPEED_M_S, 0, 0);
     private ChassisSpeeds speeds2 = new ChassisSpeeds(-RoutineConstants.BALANCE_ACTIVATION_SPEED_M_S, 0, 0);
 
-    private ChassisSpeeds slowSpeeds = new ChassisSpeeds(.75, 0, 0);
-    private ChassisSpeeds slowSpeeds2 = new ChassisSpeeds(-.75, 0, 0);
+    private ChassisSpeeds slowSpeeds = new ChassisSpeeds(.6, 0, 0);
+    private ChassisSpeeds slowSpeeds2 = new ChassisSpeeds(-.6, 0, 0);
+    
+    private ChassisSpeeds slowerSpeeds = new ChassisSpeeds(.4, 0, 0);
+    private ChassisSpeeds slowerSpeeds2 = new ChassisSpeeds(-.4, 0, 0);
 
     public Balance() {
         dt = RobotContainer.getSwerve();
@@ -41,11 +44,17 @@ public class Balance extends CommandBase {
             dt.setModules(SwerveConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(speeds2));
             timer.stop();
             timer.reset();
-        } else if (dt.getPitchDeg() < -8){
+        } else if (dt.getPitchDeg() < -9.75){
             dt.setModules(SwerveConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(slowSpeeds));
-        } else if (dt.getPitchDeg() > 8){
+        } else if (dt.getPitchDeg() > 9.75){
             dt.setModules(SwerveConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(slowSpeeds2));
         }
+        else if (dt.getPitchDeg() < -8){
+            dt.setModules(SwerveConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(slowerSpeeds));
+        } else if (dt.getPitchDeg() > 8){
+            dt.setModules(SwerveConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(slowerSpeeds2));
+        }
+
         else {
             dt.stopMods();
             timer.start();

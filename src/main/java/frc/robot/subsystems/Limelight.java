@@ -1,18 +1,11 @@
 package frc.robot.subsystems;
 
-import com.pathplanner.lib.auto.PIDConstants;
-
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
-import frc.robot.Constants.JoystickConstants;
 import frc.robot.util.Logger;
-import frc.robot.util.OdometryMath2023;
 
 public class Limelight extends SubsystemBase {
     private NetworkTable table_m;
@@ -44,7 +37,6 @@ public class Limelight extends SubsystemBase {
         if(usingTarget()){
             double[] botPose = table_m.getEntry("botpose_wpiblue").getDoubleArray(new double[6]);
             Translation2d translation = new Translation2d(botPose[0], botPose[1]);
-            Rotation2d rotation2d = new Rotation2d(Math.toRadians(botPose[5]));
 
             return new Pose2d(translation, RobotContainer.getSwerve().getRotation2d());
         } else {

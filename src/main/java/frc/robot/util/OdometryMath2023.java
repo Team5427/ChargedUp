@@ -1,7 +1,5 @@
 package frc.robot.util;
 
-import java.sql.Driver;
-
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMaxLowLevel.PeriodicFrame;
 
@@ -29,14 +27,6 @@ public class OdometryMath2023 extends SubsystemBase {
     private static Pose2d limelightRightPose;
 
     private void log() {
-        // Logger.post("easiest turn", OdometryMath2023.robotAngleToTarget(new Translation2d(0, 0)));
-        // Logger.post("left using target", RobotContainer.getLimelightLeft().usingTarget());
-        // Logger.post("right using target", RobotContainer.getLimelightRight().usingTarget());
-        
-        if(limelightLeftPose != null)
-            Logger.post("LL Left position", limelightLeftPose.toString());
-        if(limelightRightPose != null)
-            Logger.post("LL Right position", limelightRightPose.toString());
     }
 
     @Override

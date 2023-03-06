@@ -11,12 +11,7 @@ import edu.wpi.first.wpilibj.PneumaticHub;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import frc.robot.Constants.JoystickConstants;
-import frc.robot.commands.ElevatorDebug;
-// import frc.robot.commands.ArmDebug;
-// import frc.robot.commands.ClawDebug;
-// import frc.robot.commands.ElevatorDebug;
 import frc.robot.commands.JoystickSwerve;
-import frc.robot.commands.RampPusherDebug;
 import frc.robot.commands.Auton.AutonSheet;
 import frc.robot.commands.Auton.SubRoutineSheet;
 import frc.robot.pathUtil.SwervePathMaker;
@@ -25,7 +20,6 @@ import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Led;
 import frc.robot.subsystems.Limelight;
-import frc.robot.subsystems.RampPusher;
 import frc.robot.subsystems.Swerve.SwerveDrive;
 import frc.robot.util.Logger;
 import frc.robot.util.OdometryMath2023;
@@ -33,7 +27,6 @@ import frc.robot.util.OdometryMath2023;
 public class RobotContainer {
 
   private static SwerveDrive swerveDrive;
-  private static RampPusher rampPusher;
   private static Elevator elevator;
   private static Arm arm;
   private static Claw claw;
@@ -62,13 +55,9 @@ public class RobotContainer {
     swerveDrive = new SwerveDrive(pigeon);
     swerveDrive.setDefaultCommand(new JoystickSwerve());
 
-    rampPusher = new RampPusher();
     elevator = new Elevator();
-    // elevator.setDefaultCommand(new ElevatorDebug());
     arm = new Arm();
-    // arm.setDefaultCommand(new ArmDebug());
     claw = new Claw();
-    // claw.setDefaultCommand(new ClawDebug());
 
     hub = new PneumaticHub(28);
     hub.enableCompressorDigital();
@@ -80,14 +69,14 @@ public class RobotContainer {
     led = new Led();
 
     //NEED TO BE AT END OF CONSTRUCTOR
-    SwervePathMaker.initPaths("ComplexPath", "StraightLinePath");
+    SwervePathMaker.initPaths("BottomSingleConeEngage1", "TopSingleConeEngage1");
     AutonSheet.initAutons();
     SubRoutineSheet.initSubRoutines();
     new ButtonBindings(getJoy(), getOperatorJoy1(), getOperatorJoy2());
   }
 
   public Command getAutonomousCommand() {
-    return AutonSheet.testAuton;
+    return AutonSheet.topSingleConeEngage;
   }
 
   public static SwerveDrive getSwerve() {return swerveDrive;}
@@ -98,7 +87,6 @@ public class RobotContainer {
   public static Limelight getLimelightRight() {return limelight_right;}
   public static Limelight getLimelightLeft() {return limelight_left;}
   public static OdometryMath2023 getOdomInstance() {return odom;}
-  public static RampPusher getRampPusher(){return rampPusher;}
   public static Elevator getElevator(){return elevator;}
   public static Arm getArm(){return arm;}
   public static Claw getClaw() {return claw;}

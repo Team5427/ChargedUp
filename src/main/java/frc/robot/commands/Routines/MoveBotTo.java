@@ -2,19 +2,17 @@ package frc.robot.commands.Routines;
 
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Constants.JoystickConstants;
+import frc.robot.Constants.RoutineConstants;
+import frc.robot.Constants.SwerveConstants;
 import frc.robot.RobotContainer;
-import frc.robot.Constants.*;
-import frc.robot.commands.Routines.BasicMovement.MoveRobotOriented;
 import frc.robot.commands.Routines.StateTypes.PositionState;
 import frc.robot.subsystems.Swerve.SwerveDrive;
-import frc.robot.util.Logger;
 
 public class MoveBotTo extends CommandBase {
 
@@ -48,8 +46,6 @@ public class MoveBotTo extends CommandBase {
         isJank = true;
         this.setpoint = type;
         isRunning = false;
-
-        // this.setType = type;
     }
 
     @Override
@@ -72,23 +68,27 @@ public class MoveBotTo extends CommandBase {
         double xCalc = xController.calculate(measurement.getX());
         double yCalc = yController.calculate(measurement.getY());
         double thetaCalc = thetaController.calculate(measurement.getRotation().getRadians());
+
         SwerveModuleState[] states;
         if (
             Math.abs(measurement.getRotation().minus(setpoint.getRotation()).getRadians()) < RoutineConstants.ROT_THRESH_RAD
         ) {
             states = SwerveConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(
-                new ChassisSpeeds(
-                    xCalc,
-                    yCalc,
-                    thetaCalc
+                ChassisSpeeds.fromFieldRelativeSpeeds(
+                    xCalc, 
+                    yCalc, 
+                    thetaCalc, 
+                    swerve.getRotation2d()
                 )
             );
             runningSpeed = Math.hypot(xCalc, yCalc);
         } else {
             states = SwerveConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(
-                new ChassisSpeeds(
-                    0, 0, 
-                    thetaCalc
+                ChassisSpeeds.fromFieldRelativeSpeeds(
+                    0, 
+                    0, 
+                    thetaCalc, 
+                    swerve.getRotation2d()
                 )
             );
             runningSpeed = 0;
@@ -97,12 +97,6 @@ public class MoveBotTo extends CommandBase {
         }
 
         swerve.setModules(states);
-        // Logger.post("calc", xCalc);
-        // Logger.post("error", xController.getPositionError());
-        // Logger.post("setpoint", xController.getSetpoint().position);
-        // Logger.post("setPoint", setpoint.toString());
-        // Logger.post("measurement", measurement.toString());
-        // System.out.println(runningSpeed);
     }
 
     @Override
@@ -127,7 +121,7 @@ public class MoveBotTo extends CommandBase {
         timer.reset();
         isRunning = false;
         runningSpeed = 0;
-        CommandScheduler.getInstance().schedule(new MoveRobotOriented(0.25, 0.5, new Rotation2d(0)));
+        // CommandScheduler.getInstance().schedule(new MoveRobotOriented(0.25, 0.5, new Rotation2d(0)));
     }
 
     private void initControllers() {

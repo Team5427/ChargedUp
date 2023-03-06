@@ -41,7 +41,11 @@ public class Claw extends SubsystemBase {
             if (isPurple) {
                 return ClawConstants.GAME_PIECE_STATE.CUBE;
             } else {
-                return ClawConstants.GAME_PIECE_STATE.CONE;
+                if (getGrabber()) {
+                    return ClawConstants.GAME_PIECE_STATE.CONE;
+                } else {
+                    return ClawConstants.GAME_PIECE_STATE.NO_GP;
+                }
             }
         } else {
             return ClawConstants.GAME_PIECE_STATE.NO_GP;
