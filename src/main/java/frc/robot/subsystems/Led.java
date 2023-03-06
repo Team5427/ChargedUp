@@ -17,6 +17,9 @@ public class Led extends SubsystemBase{
     public static final int RED = 3;
     public static final int WHITE = 4;
 
+    public static double ledCount = 0;
+    public static final double LED_SPEED = 1;
+
     public static final int INTAKE = 0;
     public static final int SCORING = 1;
 
@@ -62,8 +65,7 @@ public class Led extends SubsystemBase{
             ledBuffer.setRGB(i, color[0], color[1], color[2]);
             ledBuffer.setRGB(i + 60, color[0], color[1], color[2]);
         }
-        led.setData(ledBuffer);
-        led.start();
+        
     }
 
     public void setColor(int c) {
@@ -87,6 +89,11 @@ public class Led extends SubsystemBase{
         }
     }
 
+    public void setLed(int i, int[] color) {
+        ledBuffer.setRGB(i, color[0], color[1], color[2]);
+        ledBuffer.setRGB(i, color[0], color[1], color[2]);
+    }
+
     @Override
     public void periodic() {        
         if (state == INTAKE && DriverStation.isEnabled()) 
@@ -102,5 +109,10 @@ public class Led extends SubsystemBase{
         }
 
         fill(rgb);
+
+        led += LED_SPEED
+
+        led.setData(ledBuffer);
+        led.start();
     }
 }
