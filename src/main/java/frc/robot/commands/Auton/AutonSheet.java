@@ -34,7 +34,7 @@ public class AutonSheet {
                 new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE),
                 bottomSingleConeEngagePath1    
             ),
-            new StationBalance()
+            new StationBalance(true, false)
         ).andThen(() -> {
             SwervePathMaker.resetPaths();
         });
@@ -51,7 +51,7 @@ public class AutonSheet {
                 new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE),
                 topSingleConeEngagePath1    
             ),
-            new StationBalance()
+            new StationBalance(true, true)
         ).andThen(() -> {
             SwervePathMaker.resetPaths();
         });

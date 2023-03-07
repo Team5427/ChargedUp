@@ -18,6 +18,7 @@ public class AlignWithTape extends CommandBase {
     private SwerveDrive dt;
     private TapeLight light;
     private PIDController aligningPID;
+    private PIDController pushingPID;
     private ProfiledPIDController thetaController;
     private double thetaSetpoint;
 
@@ -25,6 +26,7 @@ public class AlignWithTape extends CommandBase {
         dt = RobotContainer.getSwerve();
         // light = RobotContainer.getTapeLight();
         aligningPID = new PIDController(RoutineConstants.TRANSLATION_P, 0, 0);
+        pushingPID = new PIDController(RoutineConstants.TRANSLATION_P, 0, 0);
         thetaController = new ProfiledPIDController(RoutineConstants.ROTATION_P, 0, 0, 
             new Constraints(RoutineConstants.ROUTINE_MAX_ROTATION_SPEED_RAD_S, RoutineConstants.ROUTINE_MAX_ROTATION_ACCEL_RAD_S_S)
         );
@@ -39,18 +41,28 @@ public class AlignWithTape extends CommandBase {
             thetaSetpoint = 0;
         }
         aligningPID.reset();
-        aligningPID.setTolerance(1);
+        aligningPID.setTolerance(1); //FIXME
+        pushingPID.reset();
+        pushingPID.setTolerance(1); //FIXME
         thetaController.reset(dt.getRotation2d().getRadians());
+        thetaController.setGoal(thetaSetpoint);
+        light.setLight(true);
     }
 
     @Override
     public void execute() {
 
-        double alignmentCalc = aligningPID.calculate(light.getHorizontal(), thetaSetpoint);
+        double alignmentCalc = aligningPID.calculate(light.getHorizontal(), 0);
+        double pushingCalc = pushingPID.calculate(light.getVertical(), RoutineConstants.TAPE_TY_SETPOINT);
         double thetaCalc = thetaController.calculate(dt.getRotation2d().getRadians());
 
         SwerveModuleState[] states = SwerveConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(
-            ChassisSpeeds.fromFieldRelativeSpeeds(0, alignmentCalc, thetaCalc, dt.getRotation2d())
+            ChassisSpeeds.fromFieldRelativeSpeeds(
+                pushingCalc, 
+                alignmentCalc, 
+                thetaCalc, 
+                dt.getRotation2d()
+            )
         );
 
         dt.setModules(states);
@@ -58,11 +70,12 @@ public class AlignWithTape extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return aligningPID.atSetpoint() || RobotContainer.getJoy().getHID().getRawButton(JoystickConstants.CANCEL_ALL_COMMANDS_D);
+        return (aligningPID.atSetpoint() && pushingPID.atSetpoint()) || RobotContainer.getJoy().getHID().getRawButton(JoystickConstants.CANCEL_ALL_COMMANDS_D);
     }
 
     @Override
     public void end(boolean interrupted) {
         dt.stopMods();
+        light.setLight(false);
     }
 }
