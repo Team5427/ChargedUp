@@ -56,6 +56,9 @@ public class TurnAndTranslate extends CommandBase {
             this.holonomicRotationRadians = OdometryMath2023.flip(this.holonomicRotationRadians);
         }
 
+        System.out.println("heading: " + headingRadians);
+        System.out.println("holonomic: " + holonomicRotationRadians);
+
         Rotation2d rot = dt.getRotation2d();
 
         headingPID.setTolerance(RoutineConstants.ROTATION_TOLERANCE_RAD);

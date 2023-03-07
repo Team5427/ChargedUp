@@ -7,7 +7,7 @@ import frc.robot.commands.Routines.BasicMovement.TurnAndTranslate;
 public class StationBalance extends SequentialCommandGroup {
     public StationBalance() {
         addCommands(
-            new TurnAndTranslate(new Rotation2d(Math.PI), new Rotation2d(Math.PI), 2.5, 1.25),
+            new TurnAndTranslate(new Rotation2d(0), new Rotation2d(Math.PI), 2.5, 1.75),
             new Balance()
         );
     }

@@ -93,9 +93,9 @@ public final class Constants {
         // AUTON STUFF
         public static final double MAX_AUTON_ACCEL_M_PER_S2 = 4;
         public static final double MAX_AUTON_ANGULAR_ACCEL_RAD_PER_S2 = Math.PI * 3;
-        public static final double AUTON_TRANSLATION_P = 1.5; // FIXME lmao these r bbq values for rn
-        public static final double AUTON_THETA_P = 3; // FIXME
-        public static final double MAX_AUTON_SPEED_M_PER_S = 4;
+        public static final double AUTON_TRANSLATION_P = 2; // FIXME lmao these r bbq values for rn
+        public static final double AUTON_THETA_P = 4; // FIXME
+        public static final double MAX_AUTON_SPEED_M_PER_S = 3;
         public static final double MAX_AUTON_ANGULAR_SPEED_RAD_S = Math.PI * 2;
 
         public static final TrapezoidProfile.Constraints THETA_CONSTRAINTS = new TrapezoidProfile.Constraints(
@@ -149,13 +149,13 @@ public final class Constants {
         public static final int DRIVER_CONTROLLER = 0;
         public static final int OPERATION_CONTROLLER = 1;
         public static final int OPERATION2_CONTROLLER = 2;
+        public static final int OPERATION_3_CONTROLLER = 3;
 
         //DRIVER bindings
         public static final int TOGGLE_FIELD_OP = 6;
         public static final int RESET_TELEMETRY = 5;
-        public static final int TOGGLE_RAMP_PUSHER = 2;
         public static final int CANCEL_ALL_COMMANDS_D = 10;
-        public static final int LOCK_SWERVE = 9;
+        public static final int LOCK_SWERVE = 2;
         public static final int DAMPEN = 3;
         public static final int CLAW_BTN = 1;
 
@@ -186,21 +186,23 @@ public final class Constants {
         //OPERATION 2 BINDINGS
         public static final int LOCK_SWERVE_O = 1;
         public static final int UNLOCK_SWERVE_O = 2;
-        public static final int LEFT_CONE = 3;
-        public static final int CUBE = 4;
-        public static final int RIGHT_CONE = 5;
         public static final int SS = 7;
         public static final int BALANCE_BTN = 8;
 
-        public static final int TOP_LEFT_SCORE = 0; //FIXME
-        public static final int TOP_MIDDLE_SCORE = 0; //FIXME
-        public static final int TOP_RIGHT_SCORE = 0; //FIXME
-        public static final int MID_LEFT_SCORE = 0; //FIXME
-        public static final int MID_MIDDLE_SCORE = 0; //FIXME
-        public static final int MID_RIGHT_SCORE = 0; //FIXME
-        public static final int LOW_LEFT_SCORE = 0; //FIXME
-        public static final int LOW_MIDDLE_SCORE = 0; //FIXME
-        public static final int LOW_RIGHT_SCORE = 0; //FIXME
+        public static final int TOP_LEFT_SCORE = 3; //FIXME
+        public static final int TOP_MIDDLE_SCORE = 4; //FIXME
+        public static final int TOP_RIGHT_SCORE = 5; //FIXME
+        public static final int MID_LEFT_SCORE = 6; //FIXME
+        public static final int MID_MIDDLE_SCORE = 9; //FIXME
+        public static final int MID_RIGHT_SCORE = 7; //FIXME
+        // public static final int LOW_LEFT_SCORE = 6; //FIXME
+        // public static final int LOW_MIDDLE_SCORE = 9; //FIXME
+        // public static final int LOW_RIGHT_SCORE = 0; //FIXME
+
+        //OPERTATION 3 BINDINGS
+        public static final int LEFT_CONE = 1;
+        public static final int CUBE = 2;
+        public static final int RIGHT_CONE = 3;
     }
 
     public static final class RoutineConstants {
@@ -211,8 +213,8 @@ public final class Constants {
 
         public static final double ROT_THRESH_RAD = Math.PI/4;
         public static final double SCORING_LEVEL_OFFSET_METERS = Units.inchesToMeters(66);
-        public static final double TRANSLATION_TOLERANCE_METERS = 0.01;
-        public static final double ROTATION_TOLERANCE_RAD = Units.degreesToRadians(1);
+        public static final double TRANSLATION_TOLERANCE_METERS = 0.03;
+        public static final double ROTATION_TOLERANCE_RAD = Units.degreesToRadians(2);
 
         public static final double Y_LEVEL_1_METERS = Units.inchesToMeters(75.34); 
         public static final double Y_LEVEL_2_METERS = Units.inchesToMeters(141.34);
@@ -227,9 +229,9 @@ public final class Constants {
         public static final double DEBUG_INTEGRATE_DELAY_TIME = 1;
 
         //PRESETS
-        public static final Pose2d BOTTOM_CONE_SCORING_POSE_DEFAULT = new Pose2d(1.82, 0.5, new Rotation2d(Math.PI));
-        public static final Pose2d CUBE_SCORING_POSE_DEFAULT = new Pose2d(1.82, 1.05, new Rotation2d(Math.PI));
-        public static final Pose2d TOP_CONE_SCORING_POSE_DEFAULT = new Pose2d(1.82, 1.63, new Rotation2d(Math.PI));
+        public static final Pose2d BOTTOM_CONE_SCORING_POSE_DEFAULT = new Pose2d(1.85, 0.5, new Rotation2d(Math.PI));
+        public static final Pose2d CUBE_SCORING_POSE_DEFAULT = new Pose2d(1.85, 1.05, new Rotation2d(Math.PI));
+        public static final Pose2d TOP_CONE_SCORING_POSE_DEFAULT = new Pose2d(1.85, 1.63, new Rotation2d(Math.PI));
         public static final Pose2d BOTTOM_SUBSTATION_POSE_DEFAULT = new Pose2d(15.39, 6, new Rotation2d(0));
         public static final Pose2d TOP_SUBSTATION_POSE_DEFAULT = new Pose2d(15.39, 7.5, new Rotation2d(0));
 

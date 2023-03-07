@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.Logger;
+
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -114,11 +116,14 @@ public class Led extends SubsystemBase{
         // for(int i = 0; i < 10; i++){
         //     setLed(((int)(i + ledCount) % 120), rgb);
         //     setLed(((int)(i + ledCount + 60) % 120), rgb);
+            // fill(LedConstants.CLEAR_CODE);
         // }
 
         // if(ledCount > 120){
         //     ledCount = 0;
         // }
+
+        frc.robot.util.Logger.post("isPurple", isPurple);
 
 
         led.setData(ledBuffer);

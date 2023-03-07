@@ -180,6 +180,7 @@ public class SwerveDrive extends SubsystemBase {
         // Logger.post("frontLeft", frontLeft.getErrors());
         // Logger.post("backRight", backRight.getErrors());
         // Logger.post("frontRight", frontRight.getErrors());
+        Logger.post("drivetrain heading", getRotation2d().toString());
         Logger.postComplex("Field5427", field);
 
         Logger.post("accerlation magnitude", getAccelerationMPS2()[0]);

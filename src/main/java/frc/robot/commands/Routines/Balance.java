@@ -30,16 +30,16 @@ public class Balance extends CommandBase {
     public void execute() {
 
         ChassisSpeeds speeds = new ChassisSpeeds(
-            Math.copySign((-.007 * (Math.pow((Math.abs(dt.getPitchDeg()) -12),2))) + .75 , -dt.getPitchDeg()),
+            Math.copySign((.03* (11.5 + Math.abs(dt.getPitchDeg()))) + .75 , -dt.getPitchDeg()),
             0,
             0
         );
 
-        if(Math.abs(dt.getPitchDeg()) > 12 ){
-            speeds = new ChassisSpeeds(.75,0,0);
+        if(Math.abs(dt.getPitchDeg()) > 11.5 ){
+            speeds = new ChassisSpeeds(Math.copySign(.75, -dt.getPitchDeg()),0,0);
         } 
 
-        if (Math.abs(dt.getPitchDeg()) < -RoutineConstants.BALANCE_ACTIVATION_PITCH_DEG) {
+        if (Math.abs(dt.getPitchDeg()) > RoutineConstants.BALANCE_ACTIVATION_PITCH_DEG) {
             dt.setModules(SwerveConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(speeds));
             timer.stop();
             timer.reset();

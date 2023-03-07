@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.*;
+import frc.robot.Constants.ClawConstants.GAME_PIECE_STATE;
 import frc.robot.commands.UseClaw;
 import frc.robot.util.Logger;
 import frc.robot.util.OdometryMath2023;
@@ -41,11 +42,7 @@ public class Claw extends SubsystemBase {
             if (isPurple) {
                 return ClawConstants.GAME_PIECE_STATE.CUBE;
             } else {
-                if (getGrabber()) {
-                    return ClawConstants.GAME_PIECE_STATE.CONE;
-                } else {
-                    return ClawConstants.GAME_PIECE_STATE.NO_GP;
-                }
+                return GAME_PIECE_STATE.CONE;
             }
         } else {
             return ClawConstants.GAME_PIECE_STATE.NO_GP;

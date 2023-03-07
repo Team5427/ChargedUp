@@ -30,7 +30,7 @@ public class ButtonBindings {
     private static Claw claw;
     private static Led led;
 
-    public ButtonBindings(CommandJoystick joy, CommandJoystick operatorJoy1, CommandJoystick operatorJoy2) {
+    public ButtonBindings(CommandJoystick joy, CommandJoystick operatorJoy1, CommandJoystick operatorJoy2, CommandJoystick operatorJoy3) {
         getSubsystems();
 
         joy.button(JoystickConstants.RESET_TELEMETRY).onTrue(new InstantCommand(() -> {
@@ -68,10 +68,6 @@ public class ButtonBindings {
         operatorJoy1.button(JoystickConstants.SUBSTATION_PRESET).onTrue(new MoveClawTo(RoutineConstants.SUBSTATION_CLAW_STATE));
         operatorJoy1.button(JoystickConstants.FLOOR_INTAKE_PRESET_CUBES).onTrue(new MoveClawTo(RoutineConstants.CUBE_INTAKE_CLAW_STATE));
         operatorJoy1.button(JoystickConstants.FLOOR_INTAKE_PRESET_CONES).onTrue(new MoveClawTo(RoutineConstants.CONE_INTAKE_CLAW_STATE));
-
-        operatorJoy2.button(JoystickConstants.LEFT_CONE).onTrue(new MoveBotTo(POSITION_TYPE.LEFT_CONE));
-        operatorJoy2.button(JoystickConstants.CUBE).onTrue(new MoveBotTo(POSITION_TYPE.CUBE));
-        operatorJoy2.button(JoystickConstants.RIGHT_CONE).onTrue(new MoveBotTo(POSITION_TYPE.RIGHT_CONE));
         operatorJoy2.button(JoystickConstants.BALANCE_BTN).onTrue(new Balance());
 
         operatorJoy2.button(JoystickConstants.TOP_LEFT_SCORE).onTrue(new ParallelCommandGroup(
@@ -116,27 +112,11 @@ public class ButtonBindings {
                 new MoveClawTo(RoutineConstants.MID_CONE_CLAW_STATE)
             )
         ));
-        operatorJoy2.button(JoystickConstants.LOW_LEFT_SCORE).onTrue(new ParallelCommandGroup(
-            new MoveBotTo(POSITION_TYPE.LEFT_CONE),
-            new SequentialCommandGroup(
-                new Wait(RoutineConstants.DEBUG_INTEGRATE_DELAY_TIME),
-                new MoveClawTo(RoutineConstants.LOW_CLAW_STATE)
-            )
-        ));
-        operatorJoy2.button(JoystickConstants.LOW_MIDDLE_SCORE).onTrue(new ParallelCommandGroup(
-            new MoveBotTo(POSITION_TYPE.CUBE),
-            new SequentialCommandGroup(
-                new Wait(RoutineConstants.DEBUG_INTEGRATE_DELAY_TIME),
-                new MoveClawTo(RoutineConstants.LOW_CLAW_STATE)
-            )
-        ));
-        operatorJoy2.button(JoystickConstants.LOW_RIGHT_SCORE).onTrue(new ParallelCommandGroup(
-            new MoveBotTo(POSITION_TYPE.RIGHT_CONE),
-            new SequentialCommandGroup(
-                new Wait(RoutineConstants.DEBUG_INTEGRATE_DELAY_TIME),
-                new MoveClawTo(RoutineConstants.LOW_CLAW_STATE)
-            )
-        ));
+
+        operatorJoy3.button(JoystickConstants.LEFT_CONE).onTrue(new MoveBotTo(POSITION_TYPE.LEFT_CONE));
+        operatorJoy3.button(JoystickConstants.CUBE).onTrue(new MoveBotTo(POSITION_TYPE.CUBE));
+        operatorJoy3.button(JoystickConstants.RIGHT_CONE).onTrue(new MoveBotTo(POSITION_TYPE.RIGHT_CONE));
+
     }
 
     private static void getSubsystems() {
