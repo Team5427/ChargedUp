@@ -5,6 +5,7 @@ import com.revrobotics.ColorSensorV3;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.I2C.Port;
@@ -20,7 +21,7 @@ public class Claw extends SubsystemBase {
 
     CANSparkMax left;
     CANSparkMax right;
-    ColorSensorV3 sensor;
+    AnalogInput sensor;
     Solenoid grabber;
 
     public Claw() {
@@ -33,12 +34,12 @@ public class Claw extends SubsystemBase {
         OdometryMath2023.doPeriodicFrame(left, right);
         right.setInverted(true);
         left.setInverted(false);
-        sensor = new ColorSensorV3(Port.kMXP);
+        sensor = new AnalogInput(ClawConstants.PROX_ID);
         grabber = new Solenoid(28, PneumaticsModuleType.REVPH, ClawConstants.SOL_ID);
     }
 
     public ClawConstants.GAME_PIECE_STATE getState(boolean isPurple) {
-        if (sensor.getProximity() > ClawConstants.PROX_VALUE) { //has game piece
+        if (sensor.getVoltage() > ClawConstants.PROX_VALUE) { //has game piece
             if (isPurple) {
                 return ClawConstants.GAME_PIECE_STATE.CUBE;
             } else {
@@ -50,11 +51,7 @@ public class Claw extends SubsystemBase {
     }
 
     public boolean proxCovered(){
-        return sensor.getProximity() > ClawConstants.PROX_VALUE;
-    }
-
-    public boolean isPurple() {
-        return (this.sensor.getBlue() > ClawConstants.PURPLE_THRESH);
+        return getProx() > ClawConstants.PROX_VALUE;
     }
 
     public void set(double speed) {
@@ -75,16 +72,27 @@ public class Claw extends SubsystemBase {
         return grabber.get();
     }
 
+    public void toggleGrabber(){
+        grabber.toggle();
+    }
+
+    public double getProx(){
+        return sensor.getVoltage();
+    }
+
     @Override
     public void periodic() {
         Logger.post("claw state", getState(RobotContainer.getLed().isPurple()).name());
         Logger.post("claw clamped", getGrabber());
         // Logger.post("debug blue abc", sensor.getBlue());
-        Logger.post("claw debug prox", sensor.getProximity());
+        Logger.post("claw debug prox", getProx());
         if (UseClaw.isRunning == false) {
             set(0.025);
         }
 
+        if(getProx() == 0){
+            RobotContainer.getLed().setError(true);
+        }
 
         // Logger.post("sensor connected", sensor.isConnected());
     }

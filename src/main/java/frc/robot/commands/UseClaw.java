@@ -76,6 +76,9 @@ public class UseClaw extends CommandBase {
 
     @Override
     public boolean isFinished() {
+        if(claw.getProx() == 0){
+            return true;
+        }
         if (finish) {
             // CommandScheduler.getInstance().schedule(new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE));
         }
@@ -84,6 +87,7 @@ public class UseClaw extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
+        
 
         if(intake){
             led.setState(led.SCORING);

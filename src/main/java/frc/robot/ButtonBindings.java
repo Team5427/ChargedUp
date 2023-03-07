@@ -6,9 +6,11 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
+import frc.robot.Constants.ClawConstants;
 import frc.robot.Constants.JoystickConstants;
 import frc.robot.Constants.RoutineConstants;
 import frc.robot.Constants.RoutineConstants.POSITION_TYPE;
+import frc.robot.commands.ManualClaw;
 import frc.robot.commands.UseClaw;
 import frc.robot.commands.Auton.SubRoutineSheet;
 import frc.robot.commands.Routines.MoveBotTo;
@@ -77,13 +79,6 @@ public class ButtonBindings {
                 new MoveClawTo(RoutineConstants.TOP_CONE_CLAW_STATE)
             )
         ));
-        operatorJoy2.button(JoystickConstants.TOP_MIDDLE_SCORE).onTrue(new ParallelCommandGroup(
-            new MoveBotTo(POSITION_TYPE.CUBE),
-            new SequentialCommandGroup(
-                new Wait(RoutineConstants.DEBUG_INTEGRATE_DELAY_TIME),
-                new MoveClawTo(RoutineConstants.TOP_CUBE_CLAW_STATE)
-            )
-        ));
         operatorJoy2.button(JoystickConstants.TOP_RIGHT_SCORE).onTrue(new ParallelCommandGroup(
             new MoveBotTo(POSITION_TYPE.RIGHT_CONE),
             new SequentialCommandGroup(
@@ -98,13 +93,7 @@ public class ButtonBindings {
                 new MoveClawTo(RoutineConstants.MID_CONE_CLAW_STATE)
             )
         ));
-        operatorJoy2.button(JoystickConstants.MID_MIDDLE_SCORE).onTrue(new ParallelCommandGroup(
-            new MoveBotTo(POSITION_TYPE.CUBE),
-            new SequentialCommandGroup(
-                new Wait(RoutineConstants.DEBUG_INTEGRATE_DELAY_TIME),
-                new MoveClawTo(RoutineConstants.MID_CUBE_CLAW_STATE)
-            )
-        ));
+
         operatorJoy2.button(JoystickConstants.MID_RIGHT_SCORE).onTrue(new ParallelCommandGroup(
             new MoveBotTo(POSITION_TYPE.RIGHT_CONE),
             new SequentialCommandGroup(
@@ -116,6 +105,12 @@ public class ButtonBindings {
         operatorJoy3.button(JoystickConstants.LEFT_CONE).onTrue(new MoveBotTo(POSITION_TYPE.LEFT_CONE));
         operatorJoy3.button(JoystickConstants.CUBE).onTrue(new MoveBotTo(POSITION_TYPE.CUBE));
         operatorJoy3.button(JoystickConstants.RIGHT_CONE).onTrue(new MoveBotTo(POSITION_TYPE.RIGHT_CONE));
+
+        operatorJoy3.button(JoystickConstants.CLAW_INTAKE).whileTrue(new ManualClaw(ClawConstants.INTAKE_SPEED_DECIMAL));
+        operatorJoy3.button(JoystickConstants.CLAW_OUTTAKE).whileTrue(new ManualClaw(ClawConstants.OUTTAKE_SPEED_DECIMAL));
+        operatorJoy3.button(JoystickConstants.CLAW_CLAMP).onTrue(new InstantCommand(() ->{
+            claw.toggleGrabber();
+        }, claw));
 
     }
 

@@ -159,18 +159,6 @@ public final class Constants {
         public static final int DAMPEN = 3;
         public static final int CLAW_BTN = 1;
 
-        public static final int debugArmUp = 12;
-        public static final int debugArmDown = 11;
-
-        public static final int debugElevatorUp = 8;
-        public static final int debugElevatorDown = 7;
-
-        public static final int debugArmExtend = 1;
-
-        public static final int debugClawUp = 10;
-        public static final int debugClawDown = 9;
-        public static final int debugClawExtend = 4;
-
         //OPERATION bindings
         public static final int CANCEL_ALL_COMMANDS_O = 1;
         public static final int HIGH_CONE_PRESET = 2;
@@ -184,17 +172,17 @@ public final class Constants {
         public static final int debugMovement = 10;
 
         //OPERATION 2 BINDINGS
+        // USED BUTTONS: 1, 2, 3, -, 5, 6, 7, 8, 9
         public static final int LOCK_SWERVE_O = 1;
         public static final int UNLOCK_SWERVE_O = 2;
         public static final int SS = 7;
         public static final int BALANCE_BTN = 8;
 
         public static final int TOP_LEFT_SCORE = 3; //FIXME
-        public static final int TOP_MIDDLE_SCORE = 4; //FIXME
         public static final int TOP_RIGHT_SCORE = 5; //FIXME
         public static final int MID_LEFT_SCORE = 6; //FIXME
-        public static final int MID_MIDDLE_SCORE = 9; //FIXME
-        public static final int MID_RIGHT_SCORE = 7; //FIXME
+        public static final int MID_RIGHT_SCORE = 9; //FIXME
+
         // public static final int LOW_LEFT_SCORE = 6; //FIXME
         // public static final int LOW_MIDDLE_SCORE = 9; //FIXME
         // public static final int LOW_RIGHT_SCORE = 0; //FIXME
@@ -207,6 +195,10 @@ public final class Constants {
         public static final int OPERATOR_STRAFE_BACK = 5;
         public static final int OPERATOR_STRAFE_LEFT = 6;
         public static final int OPERATOR_STRAFE_RIGHT = 7;
+        public static final int CLAW_INTAKE = 8;
+        public static final int CLAW_OUTTAKE = 9;
+        public static final int CLAW_CLAMP = 10;
+
     }
 
     public static final class RoutineConstants {
@@ -332,6 +324,7 @@ public final class Constants {
     }
 
     public static final class ClawConstants {
+        public static final int PROX_ID = 0; // FIXME
         public static final int LEFT_ID = 24;
         public static final int RIGHT_ID = 25;
         public static final int CURRENT_LIMIT_AMPS = 20;
