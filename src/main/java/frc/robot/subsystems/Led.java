@@ -34,9 +34,12 @@ public class Led extends SubsystemBase{
     private AddressableLED led;
     private AddressableLEDBuffer ledBuffer;
 
+    private boolean error;
+
     public Led(){
         led = new AddressableLED(0);
         ledBuffer = new AddressableLEDBuffer(120);
+        error = false;
         led.setLength(ledBuffer.getLength());
         led.setData(ledBuffer);
         led.start();
@@ -58,16 +61,26 @@ public class Led extends SubsystemBase{
         this.isPurple = isPurple;
     }
 
+    public void setError(boolean error){
+        this.error = error;
+    }
     public boolean isPurple(){
         return isPurple;
     }
 
     public void fill(int[] color) {
-        for (int i = 0; i < ledBuffer.getLength() / 2; i++) {
-            ledBuffer.setRGB(i, color[0], color[1], color[2]);
-            ledBuffer.setRGB(i + 60, color[0], color[1], color[2]);
-        }
+        // for (int i = 0; i < ledBuffer.getLength() / 2; i++) {
+        //     ledBuffer.setRGB(i, color[0], color[1], color[2]);
+        //     ledBuffer.setRGB(i + 60, color[0], color[1], color[2]);
+        // }
+        fillRange(0, 120, color);
         
+    }
+
+    public void fillRange(int first, int last, int[] color){
+        for (int i = first; i < ledBuffer.getLength() && i < last; i++) {
+            ledBuffer.setRGB(i, color[0], color[1], color[2]);
+        }
     }
 
     public void setColor(int c) {
@@ -110,7 +123,14 @@ public class Led extends SubsystemBase{
             setColor(RED);
         }
 
-        fill(rgb);
+        if(!error){
+            fill(rgb);
+        } else {
+            fillRange(30, 90, rgb);
+            fillRange(0, 30, LedConstants.RED_CODE);
+            fillRange(90, 120, LedConstants.RED_CODE);
+
+        }
 
         // ledCount += LED_SPEED;
         // for(int i = 0; i < 10; i++){

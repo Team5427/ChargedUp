@@ -203,6 +203,10 @@ public final class Constants {
         public static final int LEFT_CONE = 1;
         public static final int CUBE = 2;
         public static final int RIGHT_CONE = 3;
+        public static final int OPERATOR_STRAFE_FWD = 4;
+        public static final int OPERATOR_STRAFE_BACK = 5;
+        public static final int OPERATOR_STRAFE_LEFT = 6;
+        public static final int OPERATOR_STRAFE_RIGHT = 7;
     }
 
     public static final class RoutineConstants {

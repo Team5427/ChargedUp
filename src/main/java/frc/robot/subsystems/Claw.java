@@ -85,6 +85,7 @@ public class Claw extends SubsystemBase {
             set(0.025);
         }
 
+
         // Logger.post("sensor connected", sensor.isConnected());
     }
 }
