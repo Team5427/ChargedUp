@@ -223,6 +223,8 @@ public final class Constants {
         public static final double TRANSLATION_P = 3;
         public static final double ROTATION_P = 4.5;
 
+        public static final double TAPE_TY_SETPOINT = 0.0; //FIXME
+
         public static final double BALANCE_ACTIVATION_PITCH_DEG = 8.5;
 
         public static final double BALANCED_TIME = 2;

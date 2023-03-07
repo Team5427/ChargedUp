@@ -1,7 +1,7 @@
-package frc.robot.commands.Routines;
+package frc.robot.commands.Routines.Balancing;
 
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
@@ -10,12 +10,15 @@ import frc.robot.Constants.RoutineConstants;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.subsystems.Swerve.SwerveDrive;
 
-public class Balance extends CommandBase {
+public class BalanceBinary extends CommandBase {
 
     private SwerveDrive dt;
     private Timer timer;
 
-    public Balance() {
+    private final double BINARY_MOVEMENT_THRESH_DEG = 10;
+    private final double BINARY_MOVEMENT_SPEED_M_S = 0.5;
+
+    public BalanceBinary() {
         dt = RobotContainer.getSwerve();
         addRequirements(dt);
         timer = new Timer();
@@ -28,26 +31,27 @@ public class Balance extends CommandBase {
 
     @Override
     public void execute() {
+        double xCalc;
+        double pitch = dt.getPitchDeg();
 
-        ChassisSpeeds speeds = new ChassisSpeeds(
-            Math.copySign((.03* (11.5 + Math.abs(dt.getPitchDeg()))) + .75 , -dt.getPitchDeg()),
-            0,
-            0
-        );
-
-        if(Math.abs(dt.getPitchDeg()) > 11.5 ){
-            speeds = new ChassisSpeeds(Math.copySign(.75, -dt.getPitchDeg()),0,0);
-        } 
-
-        if (Math.abs(dt.getPitchDeg()) > RoutineConstants.BALANCE_ACTIVATION_PITCH_DEG) {
-            dt.setModules(SwerveConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(speeds));
+        if (pitch < -BINARY_MOVEMENT_THRESH_DEG) {
+            xCalc = BINARY_MOVEMENT_SPEED_M_S;
             timer.stop();
             timer.reset();
-        }
-        else {
-            dt.stopMods();
+        } else if (pitch > BINARY_MOVEMENT_THRESH_DEG) {
+            timer.stop();
+            timer.reset();
+            xCalc = -BINARY_MOVEMENT_SPEED_M_S;
+        } else {
+            xCalc = 0.0;
             timer.start();
         }
+
+        dt.setModules(SwerveConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(new ChassisSpeeds(
+            xCalc,
+            0,
+            0
+        )));
     }
 
     @Override

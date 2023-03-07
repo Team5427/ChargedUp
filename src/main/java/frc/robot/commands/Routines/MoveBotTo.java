@@ -7,9 +7,11 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Constants.JoystickConstants;
 import frc.robot.Constants.RoutineConstants;
 import frc.robot.Constants.SwerveConstants;
+import frc.robot.Constants.RoutineConstants.POSITION_TYPE;
 import frc.robot.RobotContainer;
 import frc.robot.commands.Routines.StateTypes.PositionState;
 import frc.robot.subsystems.Swerve.SwerveDrive;
@@ -122,6 +124,9 @@ public class MoveBotTo extends CommandBase {
         isRunning = false;
         runningSpeed = 0;
         // CommandScheduler.getInstance().schedule(new MoveRobotOriented(0.25, 0.5, new Rotation2d(0)));
+        // if (setType.equals(POSITION_TYPE.LEFT_CONE) || setType.equals(POSITION_TYPE.RIGHT_CONE)) {
+        //     CommandScheduler.getInstance().schedule(new AlignWithTape());
+        // }
     }
 
     private void initControllers() {

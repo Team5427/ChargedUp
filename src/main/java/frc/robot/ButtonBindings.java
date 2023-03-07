@@ -11,9 +11,9 @@ import frc.robot.Constants.RoutineConstants;
 import frc.robot.Constants.RoutineConstants.POSITION_TYPE;
 import frc.robot.commands.UseClaw;
 import frc.robot.commands.Auton.SubRoutineSheet;
-import frc.robot.commands.Routines.Balance;
 import frc.robot.commands.Routines.MoveBotTo;
 import frc.robot.commands.Routines.MoveClawTo;
+import frc.robot.commands.Routines.Balancing.BalanceQuadratic;
 import frc.robot.commands.Routines.BasicMovement.Wait;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Claw;
@@ -68,7 +68,7 @@ public class ButtonBindings {
         operatorJoy1.button(JoystickConstants.SUBSTATION_PRESET).onTrue(new MoveClawTo(RoutineConstants.SUBSTATION_CLAW_STATE));
         operatorJoy1.button(JoystickConstants.FLOOR_INTAKE_PRESET_CUBES).onTrue(new MoveClawTo(RoutineConstants.CUBE_INTAKE_CLAW_STATE));
         operatorJoy1.button(JoystickConstants.FLOOR_INTAKE_PRESET_CONES).onTrue(new MoveClawTo(RoutineConstants.CONE_INTAKE_CLAW_STATE));
-        operatorJoy2.button(JoystickConstants.BALANCE_BTN).onTrue(new Balance());
+        operatorJoy2.button(JoystickConstants.BALANCE_BTN).onTrue(new BalanceQuadratic());
 
         operatorJoy2.button(JoystickConstants.TOP_LEFT_SCORE).onTrue(new ParallelCommandGroup(
             new MoveBotTo(POSITION_TYPE.LEFT_CONE),
