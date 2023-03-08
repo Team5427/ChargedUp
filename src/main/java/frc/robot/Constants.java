@@ -92,7 +92,7 @@ public final class Constants {
 
         // AUTON STUFF
         public static final double MAX_AUTON_ACCEL_M_PER_S2 = 4;
-        public static final double MAX_AUTON_ANGULAR_ACCEL_RAD_PER_S2 = Math.PI * 3;
+        public static final double MAX_AUTON_ANGULAR_ACCEL_RAD_PER_S2 = Math.PI * 1.5;
         public static final double AUTON_TRANSLATION_P = 2; // FIXME lmao these r bbq values for rn
         public static final double AUTON_THETA_P = 4; // FIXME
         public static final double MAX_AUTON_SPEED_M_PER_S = 3;
@@ -270,8 +270,8 @@ public final class Constants {
         public static final double kP = 7.0; //7
         public static final double kI = 0.1;
         public static final double kD = 0.1;
-        public static final double MAX_SPEED_M_S = MiscConstants.MAX_NEO_SPEED_RPM * VELOCITY_CONVERSION_FACTOR_RPM_TO_MPS / 4;
-        public static final double MAX_ACCEL_M_S_S = MAX_SPEED_M_S / 8;
+        public static final double MAX_SPEED_M_S = MiscConstants.MAX_NEO_SPEED_RPM * VELOCITY_CONVERSION_FACTOR_RPM_TO_MPS / 3;
+        public static final double MAX_ACCEL_M_S_S = MAX_SPEED_M_S / 6;
         public static final double GOAL_TOLERANCE_METERS = .03;
         public static final int CURRENT_LIMIT_AMPS = 40;
 
