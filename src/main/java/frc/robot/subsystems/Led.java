@@ -35,11 +35,13 @@ public class Led extends SubsystemBase{
     private AddressableLEDBuffer ledBuffer;
 
     private boolean error;
+    private boolean armError;
 
     public Led(){
         led = new AddressableLED(0);
         ledBuffer = new AddressableLEDBuffer(120);
         error = false;
+        armError = false;
         led.setLength(ledBuffer.getLength());
         led.setData(ledBuffer);
         led.start();
@@ -64,6 +66,11 @@ public class Led extends SubsystemBase{
     public void setError(boolean error){
         this.error = error;
     }
+    
+    public void setArmError(boolean error){
+        this.armError = error;
+    }
+
     public boolean isPurple(){
         return isPurple;
     }
@@ -123,13 +130,12 @@ public class Led extends SubsystemBase{
             setColor(RED);
         }
 
-        if(!error){
+        if(!error && !armError){
             fill(rgb);
         } else {
             fillRange(30, 90, rgb);
             fillRange(0, 30, LedConstants.RED_CODE);
             fillRange(90, 120, LedConstants.RED_CODE);
-
         }
 
         // ledCount += LED_SPEED;

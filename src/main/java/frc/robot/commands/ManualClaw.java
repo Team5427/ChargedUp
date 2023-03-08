@@ -27,8 +27,8 @@ public class ManualClaw extends CommandBase{
 
     @Override
     public boolean isFinished(){
-        return (!RobotContainer.getOperatorJoy3().getHID().getRawButton(JoystickConstants.CLAW_INTAKE) && 
-        !RobotContainer.getOperatorJoy3().getHID().getRawButton(JoystickConstants.CLAW_OUTTAKE));
+        return (!RobotContainer.getJoy().getHID().getRawButton(JoystickConstants.CLAW_INTAKE) && 
+        !RobotContainer.getJoy().getHID().getRawButton(JoystickConstants.CLAW_OUTTAKE));
     }
 
     @Override

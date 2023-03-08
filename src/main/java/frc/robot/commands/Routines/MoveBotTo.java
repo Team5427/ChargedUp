@@ -114,10 +114,7 @@ public class MoveBotTo extends CommandBase {
         // Also Try this VVV Cancel command if driver pov or operator pov pressed
         if(
             RobotContainer.getJoy().getHID().getPOV() != 0 ||
-            RobotContainer.getOperatorJoy1().getHID().getRawButton(JoystickConstants.OPERATOR_STRAFE_FWD) ||
-            RobotContainer.getOperatorJoy1().getHID().getRawButton(JoystickConstants.OPERATOR_STRAFE_BACK) ||
-            RobotContainer.getOperatorJoy1().getHID().getRawButton(JoystickConstants.OPERATOR_STRAFE_LEFT) ||
-            RobotContainer.getOperatorJoy1().getHID().getRawButton(JoystickConstants.OPERATOR_STRAFE_RIGHT)
+            RobotContainer.getOperatorJoy1().getHID().getPOV() != 0
         ){
             return true;
         }

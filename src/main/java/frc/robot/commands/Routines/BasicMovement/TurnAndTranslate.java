@@ -7,6 +7,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants.JoystickConstants;
 import frc.robot.Constants.RoutineConstants;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.RobotContainer;
@@ -88,7 +89,7 @@ public class TurnAndTranslate extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        if (RobotContainer.getJoy().getHID().getRawButton(8)) {
+        if (RobotContainer.getJoy().getHID().getRawButton(JoystickConstants.SS_CANCEL)) {
             return true;
         } else if (timer.get() > time && timed) {
             return true;

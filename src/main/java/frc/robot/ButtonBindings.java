@@ -32,7 +32,7 @@ public class ButtonBindings {
     private static Claw claw;
     private static Led led;
 
-    public ButtonBindings(CommandJoystick joy, CommandJoystick operatorJoy1, CommandJoystick operatorJoy2, CommandJoystick operatorJoy3) {
+    public ButtonBindings(CommandJoystick joy, CommandJoystick operatorJoy1, CommandJoystick operatorJoy2) {
         getSubsystems();
 
         joy.button(JoystickConstants.RESET_TELEMETRY).onTrue(new InstantCommand(() -> {
@@ -57,6 +57,12 @@ public class ButtonBindings {
 
         joy.button(JoystickConstants.CLAW_BTN).onTrue(new UseClaw());
         joy.button(JoystickConstants.SS).onTrue(SubRoutineSheet.substationIntake);
+
+        joy.button(JoystickConstants.CLAW_INTAKE).whileTrue(new ManualClaw(ClawConstants.INTAKE_SPEED_DECIMAL));
+        joy.button(JoystickConstants.CLAW_OUTTAKE).whileTrue(new ManualClaw(ClawConstants.OUTTAKE_SPEED_DECIMAL));
+        joy.button(JoystickConstants.CLAW_CLAMP).onTrue(new InstantCommand(() ->{
+            claw.toggleGrabber();
+        }, claw));
 
         operatorJoy1.button(JoystickConstants.CANCEL_ALL_COMMANDS_O).onTrue(new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE));
         operatorJoy1.button(JoystickConstants.HIGH_CONE_PRESET).onTrue(new MoveClawTo(RoutineConstants.TOP_CONE_CLAW_STATE));
@@ -101,17 +107,6 @@ public class ButtonBindings {
                 new MoveClawTo(RoutineConstants.MID_CONE_CLAW_STATE)
             )
         ));
-
-        operatorJoy3.button(JoystickConstants.LEFT_CONE).onTrue(new MoveBotTo(POSITION_TYPE.LEFT_CONE));
-        operatorJoy3.button(JoystickConstants.CUBE).onTrue(new MoveBotTo(POSITION_TYPE.CUBE));
-        operatorJoy3.button(JoystickConstants.RIGHT_CONE).onTrue(new MoveBotTo(POSITION_TYPE.RIGHT_CONE));
-
-        operatorJoy3.button(JoystickConstants.CLAW_INTAKE).whileTrue(new ManualClaw(ClawConstants.INTAKE_SPEED_DECIMAL));
-        operatorJoy3.button(JoystickConstants.CLAW_OUTTAKE).whileTrue(new ManualClaw(ClawConstants.OUTTAKE_SPEED_DECIMAL));
-        operatorJoy3.button(JoystickConstants.CLAW_CLAMP).onTrue(new InstantCommand(() ->{
-            claw.toggleGrabber();
-        }, claw));
-
     }
 
     private static void getSubsystems() {

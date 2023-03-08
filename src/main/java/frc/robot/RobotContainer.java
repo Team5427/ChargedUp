@@ -74,7 +74,7 @@ public class RobotContainer {
     SwervePathMaker.initPaths("BottomSingleConeEngage1", "TopSingleConeEngage1");
     AutonSheet.initAutons();
     SubRoutineSheet.initSubRoutines();
-    new ButtonBindings(getJoy(), getOperatorJoy1(), getOperatorJoy2(), getOperatorJoy3());
+    new ButtonBindings(getJoy(), getOperatorJoy1(), getOperatorJoy2());
   }
 
   public Command getAutonomousCommand() {
@@ -86,7 +86,7 @@ public class RobotContainer {
   public static CommandJoystick getJoy() {return joy;}
   public static CommandJoystick getOperatorJoy1() {return operatorJoy1;}
   public static CommandJoystick getOperatorJoy2() {return operatorJoy2;}
-  public static CommandJoystick getOperatorJoy3() {return operatorJoy3;}
+  // public static CommandJoystick getOperatorJoy3() {return operatorJoy3;}
   public static Limelight getLimelightRight() {return limelight_right;}
   public static Limelight getLimelightLeft() {return limelight_left;}
   public static OdometryMath2023 getOdomInstance() {return odom;}

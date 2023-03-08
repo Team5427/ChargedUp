@@ -21,7 +21,7 @@ public class JoystickSwerve extends CommandBase {
 
     public JoystickSwerve () {
         joy = RobotContainer.getJoy();
-        operatorJoy = RobotContainer.getOperatorJoy3();
+        operatorJoy = RobotContainer.getOperatorJoy1();
         swerve = RobotContainer.getSwerve();
         addRequirements(swerve);
         translationRateLimiterX = new SlewRateLimiter(JoystickConstants.MAX_ACCEL_TELEOP_M_S_S);
@@ -69,18 +69,10 @@ public class JoystickSwerve extends CommandBase {
 
         // ALLOW OPERATOR POV IF DRIVER NOT DRIVING
         if(x2Speed == 0 && ySpeed == 0 && xSpeed == 0){
-            if (operatorJoy.getHID().getRawButton(JoystickConstants.OPERATOR_STRAFE_FWD)){
-                xSpeed = .1;
-            } 
-            if (operatorJoy.getHID().getRawButton(JoystickConstants.OPERATOR_STRAFE_BACK)){
-                xSpeed = -.1;
-            } 
-            if (operatorJoy.getHID().getRawButton(JoystickConstants.OPERATOR_STRAFE_LEFT)){
-                ySpeed = -.1;
-            } 
-            if (operatorJoy.getHID().getRawButton(JoystickConstants.OPERATOR_STRAFE_RIGHT)){
-                ySpeed = .1;
-            } 
+            if (operatorJoy.getHID().getPOV() != -1) {
+                ySpeed = Math.cos(Math.toRadians(360 - joy.getHID().getPOV())) * .1;
+                xSpeed = Math.sin(Math.toRadians(360 - joy.getHID().getPOV())) * .1;
+            }
         }
 
         

@@ -152,52 +152,47 @@ public final class Constants {
         public static final int OPERATION_3_CONTROLLER = 3;
 
         //DRIVER bindings
+        
         public static final int TOGGLE_FIELD_OP = 6;
         public static final int RESET_TELEMETRY = 5;
         public static final int CANCEL_ALL_COMMANDS_D = 10;
         public static final int LOCK_SWERVE = 2;
         public static final int DAMPEN = 3;
         public static final int CLAW_BTN = 1;
+        public static final int SUBSTATION_PRESET = 7;
+        public static final int SS_CANCEL = 8;
+        public static final int CLAW_INTAKE = 11;
+        public static final int CLAW_OUTTAKE = 12;
+        public static final int CLAW_CLAMP = 4;
 
         //OPERATION bindings
+        // Buttons not in use: 7, 10
         public static final int CANCEL_ALL_COMMANDS_O = 1;
         public static final int HIGH_CONE_PRESET = 2;
         public static final int MID_CONE_PRESET = 3;
         public static final int HIGH_CUBE_PRESET = 4;
         public static final int MID_CUBE_PRESET = 5;
         public static final int FLIP_COLOR = 6;
-        public static final int SUBSTATION_PRESET = 7;
         public static final int FLOOR_INTAKE_PRESET_CUBES = 8;
         public static final int FLOOR_INTAKE_PRESET_CONES = 9;
-        public static final int debugMovement = 10;
 
         //OPERATION 2 BINDINGS
-        // USED BUTTONS: 1, 2, 3, -, 5, 6, 7, 8, 9
+        // Buttons not in use: 4, 10
         public static final int LOCK_SWERVE_O = 1;
         public static final int UNLOCK_SWERVE_O = 2;
         public static final int SS = 7;
         public static final int BALANCE_BTN = 8;
 
         public static final int TOP_LEFT_SCORE = 3; //FIXME
-        public static final int TOP_RIGHT_SCORE = 5; //FIXME
-        public static final int MID_LEFT_SCORE = 6; //FIXME
-        public static final int MID_RIGHT_SCORE = 9; //FIXME
+        public static final int TOP_RIGHT_SCORE = 4; //FIXME
+        public static final int MID_LEFT_SCORE = 5; //FIXME
+        public static final int MID_RIGHT_SCORE = 6; //FIXME
 
-        // public static final int LOW_LEFT_SCORE = 6; //FIXME
-        // public static final int LOW_MIDDLE_SCORE = 9; //FIXME
-        // public static final int LOW_RIGHT_SCORE = 0; //FIXME
+
 
         //OPERTATION 3 BINDINGS
-        public static final int LEFT_CONE = 1;
-        public static final int CUBE = 2;
-        public static final int RIGHT_CONE = 3;
-        public static final int OPERATOR_STRAFE_FWD = 4;
-        public static final int OPERATOR_STRAFE_BACK = 5;
-        public static final int OPERATOR_STRAFE_LEFT = 6;
-        public static final int OPERATOR_STRAFE_RIGHT = 7;
-        public static final int CLAW_INTAKE = 8;
-        public static final int CLAW_OUTTAKE = 9;
-        public static final int CLAW_CLAMP = 10;
+
+        
 
     }
 
