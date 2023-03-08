@@ -111,7 +111,7 @@ public class Led extends SubsystemBase{
             rgb = LedConstants.BLUE_CODE;
         }
         if(c == CYAN){
-            rgb = new int[] {0, 200,200};
+            rgb = new int[] {0, 200,100};
         }
     }
 

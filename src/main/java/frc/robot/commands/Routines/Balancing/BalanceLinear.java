@@ -14,8 +14,8 @@ public class BalanceLinear extends CommandBase {
 
     private SwerveDrive dt;
     private Timer timer;
-    private final double MULTIPLIER = -0.0725;
-    private final double TIMER_TOLERANCE_DEG = 11;
+    private final double MULTIPLIER = -0.04;
+    private final double TIMER_TOLERANCE_DEG = 7;
 
     public BalanceLinear() {
         dt = RobotContainer.getSwerve();
@@ -34,13 +34,17 @@ public class BalanceLinear extends CommandBase {
         double pitch = dt.getPitchDeg();
 
         if (Math.abs(pitch) < TIMER_TOLERANCE_DEG) {
-            xCalc = 0; //SHUT_OFF TOLERANCE
+            // xCalc = 0; //SHUT_OFF TOLERANCE
             timer.start();
         } else {
-            xCalc = MULTIPLIER * pitch;
+            // xCalc = MULTIPLIER * pitch;
             timer.stop();
             timer.reset();
         }
+
+        xCalc = MULTIPLIER * pitch;
+        timer.stop();
+        timer.reset();
 
         dt.setModules(SwerveConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(new ChassisSpeeds(
             xCalc,

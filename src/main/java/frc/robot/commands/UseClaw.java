@@ -21,6 +21,7 @@ public class UseClaw extends CommandBase {
     private boolean finish = false;
     private boolean intake;
     private boolean isPurple;
+    private boolean overrideBoolean;
     private Timer timer;
     public static boolean isRunning;
 
@@ -29,6 +30,16 @@ public class UseClaw extends CommandBase {
         led = RobotContainer.getLed();
         addRequirements(claw);
         timer = new Timer();
+        this.overrideBoolean = false;
+    }
+
+    public UseClaw(boolean intake) {
+        claw = RobotContainer.getClaw();
+        led = RobotContainer.getLed();
+        addRequirements(claw);
+        timer = new Timer();
+        this.overrideBoolean = true;
+        this.intake = intake;
     }
 
     @Override
@@ -45,6 +56,8 @@ public class UseClaw extends CommandBase {
         } else {
             intake = false;
         }
+
+        System.out.println("CLAW STARTED: " + intake);
     }
 
     @Override
@@ -101,6 +114,8 @@ public class UseClaw extends CommandBase {
         if (!DriverStation.isAutonomous()) {
             CommandScheduler.getInstance().schedule(new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE));
         }
+
+        System.out.println("CLAW ENDED");
 
         isRunning = false;
         timer.stop();

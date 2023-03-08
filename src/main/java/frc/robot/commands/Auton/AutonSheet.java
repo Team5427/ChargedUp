@@ -85,10 +85,10 @@ public class AutonSheet {
             new UseClaw(),
             new ParallelCommandGroup(
                 new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE),
-                new TurnAndTranslate(new Rotation2d(Math.PI), new Rotation2d(0), 3, 2), //FIXME
-                new TurnAndTranslate(new Rotation2d(Math.PI), new Rotation2d(0), 1.5, 3), //FIXME
-                new StationBalance(true, true)    
-            )
+                new TurnAndTranslate(new Rotation2d(Math.PI), new Rotation2d(0), 3, 2) //FIXME
+            ),
+            new TurnAndTranslate(new Rotation2d(Math.PI), new Rotation2d(0), 1.5, 3), //FIXME
+            new StationBalance(true, true)    
         ).andThen(() -> {
             SwervePathMaker.resetPaths();
         });
@@ -104,18 +104,20 @@ public class AutonSheet {
             new ParallelCommandGroup(
                 topSingleConeIntakeEngage1,
                 new SequentialCommandGroup(
-                    new WaitCommand(2), //FIXME
                     new InstantCommand(() -> {
                         RobotContainer.getLed().setPurple(true);
                     }),
                     new ParallelCommandGroup(
-                        new MoveClawTo(RoutineConstants.CUBE_INTAKE_CLAW_STATE),
-                        new UseClaw()
+                        new SequentialCommandGroup(
+                            new WaitCommand(0.5),
+                            new UseClaw()
+                        ),
+                        new MoveClawTo(RoutineConstants.CUBE_INTAKE_CLAW_STATE)
                     ),
                     new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE)
                 )
             ),
-            new StationBalance(true, true)
+            new StationBalance(true, false)
         ).andThen(() -> {
             SwervePathMaker.resetPaths();
         });

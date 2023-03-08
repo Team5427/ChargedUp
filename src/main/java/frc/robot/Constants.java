@@ -91,12 +91,12 @@ public final class Constants {
         public static final double MAX_PHYSICAL_SPEED_M_PER_SEC = Units.feetToMeters(14.5); // do not touch, unless switching from L2
 
         // AUTON STUFF
-        public static final double MAX_AUTON_ACCEL_M_PER_S2 = 4;
-        public static final double MAX_AUTON_ANGULAR_ACCEL_RAD_PER_S2 = Math.PI * 1.5;
+        public static final double MAX_AUTON_ACCEL_M_PER_S2 = 2;
+        public static final double MAX_AUTON_ANGULAR_ACCEL_RAD_PER_S2 = Math.PI * 1;
         public static final double AUTON_TRANSLATION_P = 2; // FIXME lmao these r bbq values for rn
-        public static final double AUTON_THETA_P = 4; // FIXME
+        public static final double AUTON_THETA_P = 2; // FIXME
         public static final double MAX_AUTON_SPEED_M_PER_S = 3;
-        public static final double MAX_AUTON_ANGULAR_SPEED_RAD_S = Math.PI * 2;
+        public static final double MAX_AUTON_ANGULAR_SPEED_RAD_S = Math.PI * 1.75;
 
         public static final TrapezoidProfile.Constraints THETA_CONSTRAINTS = new TrapezoidProfile.Constraints(
                 MAX_AUTON_ANGULAR_SPEED_RAD_S, MAX_AUTON_ANGULAR_ACCEL_RAD_PER_S2);
@@ -336,7 +336,7 @@ public final class Constants {
         public static final double OUTTAKE_SPEED_DECIMAL = -0.3; //FIXME
         public static final double CUBE_OUTTAKE_EXCESS_TIME_S = 0.5; //FIXME
 
-        public static final double PROX_VALUE = .6;
+        public static final double PROX_VALUE = .875;
         public static final double PURPLE_THRESH = 600.0;
     }
 
@@ -355,7 +355,7 @@ public final class Constants {
 
         public static final int[] PURPLE_CODE = {255, 0, 255};
         public static final int[] YELLOW_CODE = {255, 150, 0};
-        public static final int[] GREEN_CODE = {0, 255, 100};
+        public static final int[] GREEN_CODE = {0, 155, 100};
         public static final int[] BLUE_CODE = {0, 0, 255};
         public static final int[] RED_CODE = {255, 0, 0};
         public static final int[] WHITE_CODE = {150, 150, 150};
