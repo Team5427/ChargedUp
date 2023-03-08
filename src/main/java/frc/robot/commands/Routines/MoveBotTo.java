@@ -104,17 +104,17 @@ public class MoveBotTo extends CommandBase {
     @Override
     public boolean isFinished() {
         // Try this VVV Cancel command if driver joystick moved
-        if(
-            Math.abs(RobotContainer.getJoy().getHID().getX()) > JoystickConstants.CONTROLLER_DEADBAND ||
-            Math.abs(RobotContainer.getJoy().getHID().getY()) > JoystickConstants.CONTROLLER_DEADBAND ||
-            Math.abs(RobotContainer.getJoy().getHID().getX()) > JoystickConstants.CONTROLLER_DEADBAND
-        ){
-            return true;
-        }
+        // if(
+        //     Math.abs(RobotContainer.getJoy().getHID().getX()) > JoystickConstants.CONTROLLER_DEADBAND + .1 ||
+        //     Math.abs(RobotContainer.getJoy().getHID().getY()) > JoystickConstants.CONTROLLER_DEADBAND + .1||
+        //     Math.abs(RobotContainer.getJoy().getHID().getZ()) > JoystickConstants.CONTROLLER_DEADBAND
+        // ){
+        //     return true;
+        // }
         // Also Try this VVV Cancel command if driver pov or operator pov pressed
         if(
-            RobotContainer.getJoy().getHID().getPOV() != 0 ||
-            RobotContainer.getOperatorJoy1().getHID().getPOV() != 0
+            RobotContainer.getJoy().getHID().getPOV() != -1 ||
+            RobotContainer.getOperatorJoy1().getHID().getPOV() != -1
         ){
             return true;
         }

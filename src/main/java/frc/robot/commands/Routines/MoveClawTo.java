@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.commands.Routines.StateTypes.ClawState;
 import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.Elevator;
 
 public class MoveClawTo extends CommandBase {
@@ -26,6 +27,7 @@ public class MoveClawTo extends CommandBase {
     public void initialize() {
         timer.reset();
         timer.start();
+        
     }
 
     @Override

@@ -14,8 +14,8 @@ public class BalanceLinear extends CommandBase {
 
     private SwerveDrive dt;
     private Timer timer;
-    private final double MULTIPLIER = -0.05;
-    private final double TIMER_TOLERANCE_DEG = 5.0;
+    private final double MULTIPLIER = -0.0725;
+    private final double TIMER_TOLERANCE_DEG = 11;
 
     public BalanceLinear() {
         dt = RobotContainer.getSwerve();

@@ -160,6 +160,10 @@ public class SwerveDrive extends SubsystemBase {
         isFieldRelative = MiscConstants.FIELD_RELATIVE_SWITCHABLE ? !isFieldRelative : isFieldRelative;
     }
 
+    public void setFieldRelative(boolean op) {
+        isFieldRelative = op;
+    }
+
     public boolean getLocked() {
         return locked;
     }

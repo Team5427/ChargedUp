@@ -64,14 +64,14 @@ public class JoystickSwerve extends CommandBase {
 
         if (joy.getHID().getPOV() != -1) {
             ySpeed = Math.cos(Math.toRadians(360 - joy.getHID().getPOV())) * .1;
-            xSpeed = Math.sin(Math.toRadians(360 - joy.getHID().getPOV())) * .1;
+            xSpeed = Math.sin(Math.toRadians(360 - joy.getHID().getPOV())) * -.1;
         }
 
         // ALLOW OPERATOR POV IF DRIVER NOT DRIVING
         if(x2Speed == 0 && ySpeed == 0 && xSpeed == 0){
             if (operatorJoy.getHID().getPOV() != -1) {
-                ySpeed = Math.cos(Math.toRadians(360 - joy.getHID().getPOV())) * .1;
-                xSpeed = Math.sin(Math.toRadians(360 - joy.getHID().getPOV())) * .1;
+                ySpeed = Math.cos(Math.toRadians(360 - operatorJoy.getHID().getPOV())) * .1;
+                xSpeed = Math.sin(Math.toRadians(360 - operatorJoy.getHID().getPOV())) * .1;
             }
         }
 

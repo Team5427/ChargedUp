@@ -18,6 +18,7 @@ public class Led extends SubsystemBase{
     public static final int GREEN = 2;
     public static final int RED = 3;
     public static final int WHITE = 4;
+    public static final int CYAN = 6;
 
     public static double ledCount = 0;
     public static final double LED_SPEED = 1;
@@ -109,6 +110,9 @@ public class Led extends SubsystemBase{
         if(c == BLUE){
             rgb = LedConstants.BLUE_CODE;
         }
+        if(c == CYAN){
+            rgb = new int[] {0, 200,200};
+        }
     }
 
     public void setLed(int i, int[] color) {
@@ -125,29 +129,40 @@ public class Led extends SubsystemBase{
             else
                 setColor(YELLOW);
         } else if (state == SCORING &&DriverStation.isEnabled()) {
-            setColor(WHITE);
+            setColor(GREEN);
         } else if (!DriverStation.isEnabled()) {
             setColor(RED);
         }
 
-        if(!error && !armError){
-            fill(rgb);
-        } else {
-            fillRange(30, 90, rgb);
-            fillRange(0, 30, LedConstants.RED_CODE);
-            fillRange(90, 120, LedConstants.RED_CODE);
+        // if(!error && !armError){
+        //     fill(rgb);
+        // } else {
+        //     fillRange(30, 90, rgb);
+        //     fillRange(0, 30, LedConstants.RED_CODE);
+        //     fillRange(90, 120, LedConstants.RED_CODE);
+        // }
+
+        ledCount += LED_SPEED;
+        for(int i = 0; i < 20; i++){
+            setLed(((int)(i + ledCount) % 120), rgb);
+            setLed(((int)(i + ledCount + 40) % 120), rgb);
+            setLed(((int)(i + ledCount + 80) % 120), rgb);
+
+        }
+        if((ledCount - LED_SPEED)% 120 >= 0 && (ledCount - LED_SPEED)% 120 < 120){
+            setLed((int) (ledCount - LED_SPEED)% 120, LedConstants.WHITE_CODE);
+        }
+        if((ledCount + 40 - LED_SPEED)% 120 >= 0 && (ledCount + 40 - LED_SPEED)% 120 < 120){
+            setLed((int) (ledCount + 40 - LED_SPEED)% 120, LedConstants.WHITE_CODE);
+        }
+        if((ledCount + 80 - LED_SPEED)% 120 >= 0 && (ledCount + 80 - LED_SPEED)% 120 < 120){
+            setLed((int) (ledCount + 80 - LED_SPEED)% 120, LedConstants.WHITE_CODE);
         }
 
-        // ledCount += LED_SPEED;
-        // for(int i = 0; i < 10; i++){
-        //     setLed(((int)(i + ledCount) % 120), rgb);
-        //     setLed(((int)(i + ledCount + 60) % 120), rgb);
-            // fill(LedConstants.CLEAR_CODE);
-        // }
 
-        // if(ledCount > 120){
-        //     ledCount = 0;
-        // }
+        if(ledCount > 120){
+            ledCount = 0;
+        }
 
         frc.robot.util.Logger.post("isPurple", isPurple);
 

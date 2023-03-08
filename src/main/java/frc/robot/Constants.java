@@ -244,7 +244,7 @@ public final class Constants {
         public static final ClawState TOP_CUBE_CLAW_STATE = new ClawState(0.654, (Math.PI / 6));
         public static final ClawState MID_CUBE_CLAW_STATE = new ClawState(.6540754, 0);
         public static final ClawState LOW_CLAW_STATE = new ClawState(0.9, -0.925);
-        public static final ClawState SUBSTATION_CLAW_STATE = new ClawState(.8540754 - 0.03, 0);
+        public static final ClawState SUBSTATION_CLAW_STATE = new ClawState(.8540754 - 0.05, 0);
         public static final ClawState CUBE_INTAKE_CLAW_STATE = new ClawState(0.654, -0.925, false);
         public static final ClawState CONE_INTAKE_CLAW_STATE = new ClawState(0, -0.13);
     }
@@ -319,7 +319,7 @@ public final class Constants {
     }
 
     public static final class ClawConstants {
-        public static final int PROX_ID = 0; // FIXME
+        public static final int PROX_ID = 1; 
         public static final int LEFT_ID = 24;
         public static final int RIGHT_ID = 25;
         public static final int CURRENT_LIMIT_AMPS = 20;
@@ -332,11 +332,11 @@ public final class Constants {
         }
 
         public static final double INTAKE_SPEED_DECIMAL = 0.3; //FIXME
-        public static final double CUBE_INTAKE_EXCESS_TIME_S = 0.0; //FIXME
-        public static final double OUTTAKE_SPEED_DECIMAL = -0.2; //FIXME
+        public static final double CUBE_INTAKE_EXCESS_TIME_S = 0.15; //FIXME
+        public static final double OUTTAKE_SPEED_DECIMAL = -0.3; //FIXME
         public static final double CUBE_OUTTAKE_EXCESS_TIME_S = 0.5; //FIXME
 
-        public static final double PROX_VALUE = 170.0;
+        public static final double PROX_VALUE = .6;
         public static final double PURPLE_THRESH = 600.0;
     }
 
@@ -355,7 +355,7 @@ public final class Constants {
 
         public static final int[] PURPLE_CODE = {255, 0, 255};
         public static final int[] YELLOW_CODE = {255, 150, 0};
-        public static final int[] GREEN_CODE = {0, 255, 0};
+        public static final int[] GREEN_CODE = {0, 255, 100};
         public static final int[] BLUE_CODE = {0, 0, 255};
         public static final int[] RED_CODE = {255, 0, 0};
         public static final int[] WHITE_CODE = {150, 150, 150};

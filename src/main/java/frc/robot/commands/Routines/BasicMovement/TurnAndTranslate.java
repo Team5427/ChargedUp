@@ -34,6 +34,12 @@ public class TurnAndTranslate extends CommandBase {
         this.time = time;
         this.timed = true;
         timer = new Timer();
+
+        
+        if (!OdometryMath2023.isBlue()) {
+            this.headingRadians = OdometryMath2023.flip(this.headingRadians);
+            this.holonomicRotationRadians = OdometryMath2023.flip(this.holonomicRotationRadians);
+        }
     }
 
     public TurnAndTranslate(Rotation2d headingRadians, Rotation2d holonomicRotationRadians, double speedMPS) {
@@ -44,6 +50,11 @@ public class TurnAndTranslate extends CommandBase {
         this.speedMPS = speedMPS;
         this.timed = false;
         timer = new Timer();
+        
+        if (!OdometryMath2023.isBlue()) {
+            this.headingRadians = OdometryMath2023.flip(this.headingRadians);
+            this.holonomicRotationRadians = OdometryMath2023.flip(this.holonomicRotationRadians);
+        }
     }
 
     @Override
@@ -51,11 +62,6 @@ public class TurnAndTranslate extends CommandBase {
         headingPID = new ProfiledPIDController(RoutineConstants.ROTATION_P, 0, 0, 
             new Constraints(RoutineConstants.ROUTINE_MAX_ROTATION_SPEED_RAD_S, RoutineConstants.ROUTINE_MAX_ROTATION_ACCEL_RAD_S_S)
         );
-
-        if (!OdometryMath2023.isBlue()) {
-            this.headingRadians = OdometryMath2023.flip(this.headingRadians);
-            this.holonomicRotationRadians = OdometryMath2023.flip(this.holonomicRotationRadians);
-        }
 
         System.out.println("heading: " + headingRadians);
         System.out.println("holonomic: " + holonomicRotationRadians);

@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
 import frc.robot.Constants.*;
 import frc.robot.util.Logger;
 
@@ -110,6 +111,13 @@ public class Arm extends SubsystemBase {
 
     @Override
     public void periodic() {
+
+        if (getAngle() == -ArmConstants.POSITION_OFFSET_RAD) {
+            RobotContainer.getLed().setArmError(true);
+        } else {
+            RobotContainer.getLed().setArmError(false);
+        }
+
         if (atJankGoal() && (setPoint == ArmConstants.UPPER_LIMIT_RAD)) {
             set(0.025);
             armController.reset(getAngle());

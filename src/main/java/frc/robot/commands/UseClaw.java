@@ -6,10 +6,12 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.ClawConstants;
+import frc.robot.Constants.JoystickConstants;
 import frc.robot.Constants.RoutineConstants;
 import frc.robot.commands.Routines.MoveClawTo;
 import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.Led;
+import frc.robot.util.Logger;
 
 public class UseClaw extends CommandBase {
 
@@ -35,6 +37,7 @@ public class UseClaw extends CommandBase {
         timer.reset();
         finish = false;
         isPurple = led.isPurple();
+        claw.grab(false);
         // isPurple = claw.isPurple();
         initState = claw.getState(isPurple);
         if ((initState.equals(ClawConstants.GAME_PIECE_STATE.NO_GP)) || (initState.equals(ClawConstants.GAME_PIECE_STATE.CONE) && !claw.getGrabber())) {
@@ -76,13 +79,14 @@ public class UseClaw extends CommandBase {
 
     @Override
     public boolean isFinished() {
+        Logger.post("test", (finish || RobotContainer.getJoy().getHID().getRawButtonPressed(JoystickConstants.SS_CANCEL)));
         if(claw.getProx() == 0){
             return true;
         }
         if (finish) {
             // CommandScheduler.getInstance().schedule(new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE));
         }
-        return (finish || RobotContainer.getJoy().getHID().getRawButtonPressed(8));
+        return (finish || RobotContainer.getJoy().getHID().getRawButtonPressed(JoystickConstants.SS_CANCEL));
     }
 
     @Override
