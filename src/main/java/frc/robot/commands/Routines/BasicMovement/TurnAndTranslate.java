@@ -18,7 +18,9 @@ public class TurnAndTranslate extends CommandBase {
 
     private SwerveDrive dt;
     private Rotation2d headingRadians;
+    private Rotation2d flippedHeadingRadians;
     private Rotation2d holonomicRotationRadians;
+    private Rotation2d flippedHolonomicRotationRadians;
     private double speedMPS;
     private ProfiledPIDController headingPID;
     private double time;
@@ -29,32 +31,25 @@ public class TurnAndTranslate extends CommandBase {
         dt = RobotContainer.getSwerve();
         addRequirements(dt);
         this.headingRadians = headingRadians;
+        this.flippedHeadingRadians = OdometryMath2023.flip(headingRadians);
         this.holonomicRotationRadians = holonomicRotationRadians;
+        this.flippedHolonomicRotationRadians = OdometryMath2023.flip(holonomicRotationRadians);
         this.speedMPS = speedMPS;
         this.time = time;
         this.timed = true;
         timer = new Timer();
-
-        
-        if (!OdometryMath2023.isBlue()) {
-            this.headingRadians = OdometryMath2023.flip(this.headingRadians);
-            this.holonomicRotationRadians = OdometryMath2023.flip(this.holonomicRotationRadians);
-        }
     }
 
     public TurnAndTranslate(Rotation2d headingRadians, Rotation2d holonomicRotationRadians, double speedMPS) {
         dt = RobotContainer.getSwerve();
         addRequirements(dt);
         this.headingRadians = headingRadians;
+        this.flippedHeadingRadians = OdometryMath2023.flip(headingRadians);
         this.holonomicRotationRadians = holonomicRotationRadians;
+        this.flippedHolonomicRotationRadians = OdometryMath2023.flip(holonomicRotationRadians);
         this.speedMPS = speedMPS;
         this.timed = false;
         timer = new Timer();
-        
-        if (!OdometryMath2023.isBlue()) {
-            this.headingRadians = OdometryMath2023.flip(this.headingRadians);
-            this.holonomicRotationRadians = OdometryMath2023.flip(this.holonomicRotationRadians);
-        }
     }
 
     @Override
@@ -65,6 +60,11 @@ public class TurnAndTranslate extends CommandBase {
 
         System.out.println("heading: " + headingRadians);
         System.out.println("holonomic: " + holonomicRotationRadians);
+
+        if (!OdometryMath2023.isBlue()) {
+            this.headingRadians = flippedHeadingRadians;
+            this.holonomicRotationRadians = flippedHolonomicRotationRadians;
+        }
 
         Rotation2d rot = dt.getRotation2d();
 
