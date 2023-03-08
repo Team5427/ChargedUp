@@ -166,15 +166,17 @@ public final class Constants {
         public static final int CLAW_CLAMP = 4;
 
         //OPERATION bindings
-        // Buttons not in use: 7, 10
+        // Buttons not in use: NONE
         public static final int CANCEL_ALL_COMMANDS_O = 1;
         public static final int HIGH_CONE_PRESET = 2;
         public static final int MID_CONE_PRESET = 3;
         public static final int HIGH_CUBE_PRESET = 4;
         public static final int MID_CUBE_PRESET = 5;
         public static final int FLIP_COLOR = 6;
+        public static final int ELEVATOR_RESET = 7; // BIND
         public static final int FLOOR_INTAKE_PRESET_CUBES = 8;
         public static final int FLOOR_INTAKE_PRESET_CONES = 9;
+        public static final int ARM_RESET = 10;
 
         //OPERATION 2 BINDINGS
         // Buttons not in use: 4, 10
@@ -296,6 +298,8 @@ public final class Constants {
         public static final double MAX_ACCEL_RAD_S_S = MAX_SPEED_RAD_S;
         public static final double UPPER_LIMIT_RAD = 1.45;
         public static final double LOWER_LIMIT_RAD = -1;
+
+        public static final double MANUAL_ARM_SPEED = .2;
     }
 
     public static final class RampPusherConstants {
@@ -358,7 +362,7 @@ public final class Constants {
         public static final int[] GREEN_CODE = {0, 155, 100};
         public static final int[] BLUE_CODE = {0, 0, 255};
         public static final int[] RED_CODE = {255, 0, 0};
-        public static final int[] WHITE_CODE = {150, 150, 150};
+        public static final int[] WHITE_CODE = {100, 100, 100};
         public static final int[] CLEAR_CODE = {0, 0, 0};
     }
 }

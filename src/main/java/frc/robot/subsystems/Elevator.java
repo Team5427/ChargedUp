@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
+import frc.robot.RobotContainer;
 import frc.robot.Constants.*;
 
 public class Elevator extends SubsystemBase {
@@ -107,7 +107,7 @@ public class Elevator extends SubsystemBase {
 
     @Override
     public void periodic() {
-        if (!DriverStation.isEnabled()) {
+        if (!DriverStation.isEnabled() || RobotContainer.getOperatorJoy1().getHID().getRawButton(JoystickConstants.ELEVATOR_RESET)) {
             elevatorController.reset(getHeight());
             stop();
         } else {
