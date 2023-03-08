@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.RoutineConstants;
 import frc.robot.RobotContainer;
 import frc.robot.commands.UseClaw;
@@ -16,14 +17,29 @@ import frc.robot.pathUtil.SwervePathMaker;
 
 public class AutonSheet {
     public static SequentialCommandGroup bottomSingleConeEngage;
-    private static Command bottomSingleConeEngagePath1;
+    private static Command bottomSingleConeEngage1;
     public static SequentialCommandGroup topSingleConeEngage;
-    private static Command topSingleConeEngagePath1;
+    private static Command topSingleConeEngage1;
     public static SequentialCommandGroup chargeStationThroughAndBack;
+    public static SequentialCommandGroup topSingleConeIntakeEngage;
+    private static Command topSingleConeIntakeEngage1;
+    public static SequentialCommandGroup bottomSingleCone;
+    private static Command bottomSingleCone1;
+    public static SequentialCommandGroup topDoubleConeEngage;
+    private static Command topDoubleConeEngage1;
+    private static Command topDoubleConeEngage2;
+    public static SequentialCommandGroup topSingleConeIntake;
+    private static Command topSingleConeIntake1;
+    public static SequentialCommandGroup justScore;
 
     public static void initAutons() {
-        bottomSingleConeEngagePath1 = SwervePathMaker.getCommand("BottomSingleConeEngage1");
-        topSingleConeEngagePath1 = SwervePathMaker.getCommand("TopSingleConeEngage1");
+        bottomSingleConeEngage1 = SwervePathMaker.getCommand("BottomSingleConeEngage1");
+        topSingleConeEngage1 = SwervePathMaker.getCommand("TopSingleConeEngage1");
+        topSingleConeIntakeEngage1 = SwervePathMaker.getCommand("TopSingleConeIntakeEngage1");
+        bottomSingleCone1 = SwervePathMaker.getCommand("BottomSingleCone1");
+        topDoubleConeEngage1 = SwervePathMaker.getCommand("TopDoubleConeEngage1");
+        topDoubleConeEngage2 = SwervePathMaker.getCommand("TopDoubleConeEngage2");
+        topSingleConeIntake1 = SwervePathMaker.getCommand("TopSingleConeIntake1");
 
         bottomSingleConeEngage = new SequentialCommandGroup(
             new InstantCommand(() -> {
@@ -35,7 +51,7 @@ public class AutonSheet {
             new UseClaw(),
             new ParallelCommandGroup(
                 new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE),
-                bottomSingleConeEngagePath1    
+                bottomSingleConeEngage1    
             ),
             new StationBalance(true, false)
         ).andThen(() -> {
@@ -52,7 +68,7 @@ public class AutonSheet {
             new UseClaw(),
             new ParallelCommandGroup(
                 new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE),
-                topSingleConeEngagePath1    
+                topSingleConeEngage1    
             ),
             new StationBalance(true, true)
         ).andThen(() -> {
@@ -67,8 +83,128 @@ public class AutonSheet {
             new UseClaw(),
             new MoveClawTo(RoutineConstants.TOP_CONE_CLAW_STATE),
             new UseClaw(),
-            new TurnAndTranslate(new Rotation2d(Math.PI), new Rotation2d(0), 3, 4.0),
+            new ParallelCommandGroup(
+                new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE),
+                new TurnAndTranslate(new Rotation2d(Math.PI), new Rotation2d(0), 3, 2), //FIXME
+                new TurnAndTranslate(new Rotation2d(Math.PI), new Rotation2d(0), 1.5, 3), //FIXME
+                new StationBalance(true, true)    
+            )
+        ).andThen(() -> {
+            SwervePathMaker.resetPaths();
+        });
+
+        topSingleConeIntakeEngage = new SequentialCommandGroup(
+            new InstantCommand(() -> {
+                RobotContainer.getSwerve().setHeadingRad(Math.PI);
+                RobotContainer.getLed().setPurple(false);
+            }),
+            new UseClaw(),
+            new MoveClawTo(RoutineConstants.TOP_CONE_CLAW_STATE),
+            new UseClaw(),
+            new ParallelCommandGroup(
+                topSingleConeIntakeEngage1,
+                new SequentialCommandGroup(
+                    new WaitCommand(2), //FIXME
+                    new InstantCommand(() -> {
+                        RobotContainer.getLed().setPurple(true);
+                    }),
+                    new ParallelCommandGroup(
+                        new MoveClawTo(RoutineConstants.CUBE_INTAKE_CLAW_STATE),
+                        new UseClaw()
+                    ),
+                    new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE)
+                )
+            ),
             new StationBalance(true, true)
+        ).andThen(() -> {
+            SwervePathMaker.resetPaths();
+        });
+
+        bottomSingleCone = new SequentialCommandGroup(
+            new InstantCommand(() -> {
+                RobotContainer.getSwerve().setHeadingRad(Math.PI);
+                RobotContainer.getLed().setPurple(false);
+            }),
+            new UseClaw(),
+            new MoveClawTo(RoutineConstants.TOP_CONE_CLAW_STATE),
+            new UseClaw(),
+            new ParallelCommandGroup(
+                bottomSingleCone1,
+                new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE)
+            ),
+            new InstantCommand(() -> {
+                RobotContainer.getLed().setPurple(true);
+            })
+        ).andThen(() -> {
+            SwervePathMaker.resetPaths();
+        });
+
+        topDoubleConeEngage = new SequentialCommandGroup(
+            new InstantCommand(() -> {
+                RobotContainer.getSwerve().setHeadingRad(Math.PI);
+                RobotContainer.getLed().setPurple(false);
+            }),
+            new UseClaw(),
+            new MoveClawTo(RoutineConstants.TOP_CONE_CLAW_STATE),
+            new UseClaw(),
+            new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE),
+            new ParallelCommandGroup(
+                topDoubleConeEngage1,
+                new SequentialCommandGroup(
+                    new WaitCommand(2),
+                    new ParallelCommandGroup(
+                        new MoveClawTo(RoutineConstants.CUBE_INTAKE_CLAW_STATE),
+                        new UseClaw()
+                    ),
+                    new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE)
+                )
+            ),
+            new MoveClawTo(RoutineConstants.TOP_CUBE_CLAW_STATE),
+            new UseClaw(),
+            new ParallelCommandGroup(
+                topDoubleConeEngage2,
+                new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE)
+            ),
+            new StationBalance(false, true)
+        ).andThen(() -> {
+            SwervePathMaker.resetPaths();
+        });
+
+        topSingleConeIntake = new SequentialCommandGroup(
+            new InstantCommand(() -> {
+                RobotContainer.getSwerve().setHeadingRad(Math.PI);
+                RobotContainer.getLed().setPurple(false);
+            }),
+            new UseClaw(),
+            new MoveClawTo(RoutineConstants.TOP_CONE_CLAW_STATE),
+            new UseClaw(),
+            new ParallelCommandGroup(
+                topSingleConeIntake1,
+                new SequentialCommandGroup(
+                    new InstantCommand(() -> {
+                        RobotContainer.getLed().setPurple(true);
+                    }),
+                    new WaitCommand(2),
+                    new ParallelCommandGroup(
+                        new UseClaw(),
+                        new MoveClawTo(RoutineConstants.CUBE_INTAKE_CLAW_STATE)                        
+                    )
+                )
+            ),
+            new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE)
+        ).andThen(() -> {
+            SwervePathMaker.resetPaths();
+        });
+
+        justScore = new SequentialCommandGroup(
+            new InstantCommand(() -> {
+                RobotContainer.getSwerve().setHeadingRad(Math.PI);
+                RobotContainer.getLed().setPurple(false);
+            }),
+            new UseClaw(),
+            new MoveClawTo(RoutineConstants.TOP_CONE_CLAW_STATE),
+            new UseClaw(),
+            new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE)
         ).andThen(() -> {
             SwervePathMaker.resetPaths();
         });

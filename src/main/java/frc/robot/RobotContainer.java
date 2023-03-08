@@ -38,7 +38,6 @@ public class RobotContainer {
   private static CommandJoystick joy;
   private static CommandJoystick operatorJoy1;
   private static CommandJoystick operatorJoy2;
-  private static CommandJoystick operatorJoy3;
   private static Limelight limelight_right, limelight_left;
   private static OdometryMath2023 odom;
 
@@ -51,8 +50,6 @@ public class RobotContainer {
     joy = new CommandJoystick(Constants.JoystickConstants.DRIVER_CONTROLLER);
     operatorJoy1 = new CommandJoystick(Constants.JoystickConstants.OPERATION_CONTROLLER);
     operatorJoy2 = new CommandJoystick(JoystickConstants.OPERATION2_CONTROLLER);
-    operatorJoy3 = new CommandJoystick(JoystickConstants.OPERATION_3_CONTROLLER);
-
 
     swerveDrive = new SwerveDrive(pigeon);
     swerveDrive.setDefaultCommand(new JoystickSwerve());
@@ -71,7 +68,15 @@ public class RobotContainer {
     led = new Led();
 
     //NEED TO BE AT END OF CONSTRUCTOR
-    SwervePathMaker.initPaths("BottomSingleConeEngage1", "TopSingleConeEngage1");
+    SwervePathMaker.initPaths(
+      "BottomSingleConeEngage1", 
+      "TopSingleConeEngage1", 
+      "TopSingleConeIntakeEngage1", 
+      "BottomSingleCone1", 
+      "TopDoubleConeEngage1", 
+      "TopDoubleConeEngage2",
+      "TopSingleConeIntake1"
+    );
     AutonSheet.initAutons();
     SubRoutineSheet.initSubRoutines();
     new ButtonBindings(getJoy(), getOperatorJoy1(), getOperatorJoy2());

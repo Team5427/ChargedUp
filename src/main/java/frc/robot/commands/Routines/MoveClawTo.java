@@ -33,7 +33,7 @@ public class MoveClawTo extends CommandBase {
     @Override
     public void execute() {
         arm.setAngle(setPoint.getAngle());
-        if (arm.getAngle() > (Math.PI / 16)) {
+        if (arm.getAngle() > -(Math.PI / 6)) {
             elevator.setHeight(setPoint.getHeight());
         }
 
