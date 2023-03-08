@@ -6,10 +6,12 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
+import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.ClawConstants;
 import frc.robot.Constants.JoystickConstants;
 import frc.robot.Constants.RoutineConstants;
 import frc.robot.Constants.RoutineConstants.POSITION_TYPE;
+import frc.robot.commands.ManualArm;
 import frc.robot.commands.ManualClaw;
 import frc.robot.commands.UseClaw;
 import frc.robot.commands.Auton.SubRoutineSheet;
@@ -83,6 +85,8 @@ public class ButtonBindings {
         operatorJoy1.button(JoystickConstants.FLOOR_INTAKE_PRESET_CONES).onTrue(new MoveClawTo(RoutineConstants.CONE_INTAKE_CLAW_STATE));
         operatorJoy2.button(JoystickConstants.BALANCE_BTN).onTrue(new BalanceLinear());
 
+        operatorJoy1.button(JoystickConstants.ARM_RESET).whileTrue(new ManualArm(ArmConstants.MANUAL_ARM_SPEED));
+
         operatorJoy2.button(JoystickConstants.TOP_LEFT_SCORE).onTrue(new ParallelCommandGroup(
             new MoveBotTo(POSITION_TYPE.LEFT_CONE),
             new SequentialCommandGroup(
@@ -112,6 +116,8 @@ public class ButtonBindings {
                 new MoveClawTo(RoutineConstants.MID_CONE_CLAW_STATE)
             )
         ));
+
+    
     }
 
     private static void getSubsystems() {
