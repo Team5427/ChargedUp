@@ -8,7 +8,10 @@ import com.ctre.phoenix.sensors.WPI_Pigeon2;
 
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.PneumaticHub;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import frc.robot.Constants.JoystickConstants;
 import frc.robot.commands.JoystickSwerve;
@@ -40,6 +43,7 @@ public class RobotContainer {
   private static CommandJoystick operatorJoy2;
   private static Limelight limelight_right, limelight_left;
   private static OdometryMath2023 odom;
+  private static SendableChooser<SequentialCommandGroup> autonSelector;
 
 
   public RobotContainer() {
@@ -67,6 +71,8 @@ public class RobotContainer {
 
     led = new Led();
 
+    autonSelector = new SendableChooser<>();
+
     //NEED TO BE AT END OF CONSTRUCTOR
     SwervePathMaker.initPaths(
       "BottomSingleConeEngage1", 
@@ -80,11 +86,21 @@ public class RobotContainer {
     );
     AutonSheet.initAutons();
     SubRoutineSheet.initSubRoutines();
+
+    autonSelector.addOption("BottomSingleConeEngage",AutonSheet.bottomSingleConeEngage); 
+    autonSelector.addOption("TopSingleConeEngage",AutonSheet.topSingleConeEngage); 
+    autonSelector.addOption("TopSingleConeIntakeEngage",AutonSheet.topSingleConeIntakeEngage); 
+    autonSelector.addOption("BottomSingleCone",AutonSheet.bottomSingleCone); 
+    autonSelector.setDefaultOption("TopDoubleConeEngage",AutonSheet.topDoubleConeEngage); 
+    autonSelector.addOption("TopSingleConeIntake",AutonSheet.topSingleConeIntake);
+    autonSelector.addOption("BottomSingleConeIntakeEngage",AutonSheet.bottomSingleConeIntakeEngage);    
+
+    Logger.postComplex("Auton Paths", autonSelector);
     new ButtonBindings(getJoy(), getOperatorJoy1(), getOperatorJoy2());
   }
 
   public Command getAutonomousCommand() {
-    return AutonSheet.topSingleConeIntakeEngage;
+    return autonSelector.getSelected();
   }
 
   public static SwerveDrive getSwerve() {return swerveDrive;}
