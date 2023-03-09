@@ -244,8 +244,8 @@ public final class Constants {
         public static final ClawState TOP_CUBE_CLAW_STATE = new ClawState(0.654, (Math.PI / 6));
         public static final ClawState MID_CUBE_CLAW_STATE = new ClawState(.6540754, 0);
         public static final ClawState LOW_CLAW_STATE = new ClawState(0.9, -0.925);
-        public static final ClawState SUBSTATION_CLAW_STATE = new ClawState(.8540754 - 0.05, 0);
-        public static final ClawState CUBE_INTAKE_CLAW_STATE = new ClawState(0.654, -0.925, false);
+        public static final ClawState SUBSTATION_CLAW_STATE = new ClawState(.8540754 - 0.07, 0);
+        public static final ClawState CUBE_INTAKE_CLAW_STATE = new ClawState(0.621, -0.925, false);
         public static final ClawState CONE_INTAKE_CLAW_STATE = new ClawState(0, -0.13);
     }
 
