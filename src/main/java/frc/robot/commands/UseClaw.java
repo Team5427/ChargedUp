@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.ClawConstants;
+import frc.robot.Constants.JoystickConstants;
 import frc.robot.Constants.RoutineConstants;
 import frc.robot.commands.Routines.MoveClawTo;
 import frc.robot.subsystems.Claw;
@@ -89,15 +90,10 @@ public class UseClaw extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        // in case prox breaks
-        if(claw.getProx() == 0){
-            return true;
-        }
-
         if (finish) {
             // CommandScheduler.getInstance().schedule(new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE));
         }
-        return (finish || RobotContainer.getJoy().getHID().getRawButtonPressed(8));
+        return (finish || RobotContainer.getJoy().getHID().getRawButtonPressed(JoystickConstants.SS_CANCEL));
     }
 
     @Override
@@ -112,8 +108,6 @@ public class UseClaw extends CommandBase {
         if (!DriverStation.isAutonomous()) {
             CommandScheduler.getInstance().schedule(new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE));
         }
-
-        System.out.println("CLAW ENDED");
 
         isRunning = false;
         timer.stop();

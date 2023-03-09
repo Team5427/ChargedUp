@@ -1,18 +1,16 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.ColorSensorV3;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.RobotContainer;
-import frc.robot.Constants.*;
+import frc.robot.Constants.ClawConstants;
 import frc.robot.Constants.ClawConstants.GAME_PIECE_STATE;
+import frc.robot.RobotContainer;
 import frc.robot.commands.UseClaw;
 import frc.robot.util.Logger;
 import frc.robot.util.OdometryMath2023;

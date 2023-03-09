@@ -1,14 +1,10 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.Logger;
-
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.ClawConstants;
 import frc.robot.Constants.LedConstants;
-import frc.robot.RobotContainer;
 
 public class Led extends SubsystemBase{
 

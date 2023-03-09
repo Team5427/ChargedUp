@@ -7,7 +7,6 @@ import frc.robot.RobotContainer;
 import frc.robot.Constants.RoutineConstants;
 import frc.robot.commands.Routines.StateTypes.ClawState;
 import frc.robot.subsystems.Arm;
-import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.Elevator;
 import frc.robot.util.OdometryMath2023;
 

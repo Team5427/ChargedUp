@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.MiscConstants;
 import frc.robot.Constants.RoutineConstants;
-import frc.robot.commands.Routines.MoveBotTo;
 import frc.robot.RobotContainer;
 
 public class OdometryMath2023 extends SubsystemBase {
@@ -31,11 +30,11 @@ public class OdometryMath2023 extends SubsystemBase {
 
     @Override
     public void periodic() {
-        limelightLeftPose = RobotContainer.getLimelightLeft().getAdjustedGlobalPose();
-        limelightRightPose = RobotContainer.getLimelightRight().getAdjustedGlobalPose();
+        limelightLeftPose = RobotContainer.getLimelightLeft().getEstimatedGlobalPose();
+        limelightRightPose = RobotContainer.getLimelightRight().getEstimatedGlobalPose();
         robotPose = RobotContainer.getSwerve().getPose();
 
-        if (!MoveBotTo.isRunning && !DriverStation.isAutonomous()) {
+        if (!DriverStation.isAutonomous()) {
             reseedOdometry();
         }
         log();

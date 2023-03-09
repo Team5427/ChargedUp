@@ -3,7 +3,6 @@ package frc.robot.commands.Routines;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.Routines.Balancing.BalanceLinear;
-import frc.robot.commands.Routines.Balancing.BalanceQuadratic;
 import frc.robot.commands.Routines.BasicMovement.TurnAndTranslate;
 
 public class StationBalance extends SequentialCommandGroup {

@@ -7,11 +7,9 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Constants.JoystickConstants;
 import frc.robot.Constants.RoutineConstants;
 import frc.robot.Constants.SwerveConstants;
-import frc.robot.Constants.RoutineConstants.POSITION_TYPE;
 import frc.robot.RobotContainer;
 import frc.robot.commands.Routines.StateTypes.PositionState;
 import frc.robot.subsystems.Swerve.SwerveDrive;
@@ -136,6 +134,7 @@ public class MoveBotTo extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
+        swerve.stopMods();
         timer.stop();
         timer.reset();
         isRunning = false;

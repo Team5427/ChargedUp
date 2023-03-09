@@ -5,7 +5,6 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -24,7 +23,6 @@ public class Arm extends SubsystemBase {
     private DutyCycleEncoder throughbore;
     private double setPoint;
     private double calc;
-    private ArmFeedforward armFF;
     private ProfiledPIDController armController;
     private Solenoid sol;
 
@@ -39,7 +37,6 @@ public class Arm extends SubsystemBase {
         throughbore = new DutyCycleEncoder(ArmConstants.THROUGHBORE_ID);
         throughbore.reset();
         throughbore.setPositionOffset(0);
-        armFF = new ArmFeedforward(ArmConstants.kS, ArmConstants.kG, ArmConstants.kV, ArmConstants.kA);
         armController = new ProfiledPIDController(ArmConstants.kP, ArmConstants.kI, ArmConstants.kD,
             new Constraints(ArmConstants.MAX_SPEED_RAD_S, ArmConstants.MAX_ACCEL_RAD_S_S)
         );
