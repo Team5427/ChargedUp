@@ -280,7 +280,7 @@ public final class Constants {
     public static final class ArmConstants {
         public static final int TOP_ID = 26;
         public static final int BTM_ID = 27;
-        public static final int SOL_ID = 0;
+        public static final int SOL_ID = 2;
         public static final int THROUGHBORE_ID = 5; //on DIO ports
         public static final double POSITION_OFFSET_RAD = 2.5871;
         public static final int CURRENT_LIMIT_AMPS = 27;

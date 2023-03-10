@@ -145,9 +145,11 @@ public class Led extends SubsystemBase{
         }
         
         if(error){
+            setLed((int) (ledCount - LED_SPEED)% 120, LedConstants.RED_CODE);
             setLed((int) (ledCount + 40 - LED_SPEED)% 120, LedConstants.RED_CODE);
             setLed((int) (ledCount + 80 - LED_SPEED)% 120, LedConstants.RED_CODE); 
         } else{
+            setLed((int) (ledCount - LED_SPEED)% 120, LedConstants.WHITE_CODE);
             setLed((int) (ledCount + 40 - LED_SPEED)% 120, LedConstants.WHITE_CODE);
             setLed((int) (ledCount + 80 - LED_SPEED)% 120, LedConstants.WHITE_CODE);
         }
