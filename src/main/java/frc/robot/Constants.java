@@ -338,7 +338,7 @@ public final class Constants {
         public static final double INTAKE_SPEED_DECIMAL = 0.3; //FIXME
         public static final double CUBE_INTAKE_EXCESS_TIME_S = 0.15; //FIXME
         public static final double OUTTAKE_SPEED_DECIMAL = -0.3; //FIXME
-        public static final double CUBE_OUTTAKE_EXCESS_TIME_S = 0.5; //FIXME
+        public static final double CUBE_OUTTAKE_EXCESS_TIME_S = 0.4; //FIXME
 
         public static final double PROX_VALUE = .875;
         public static final double PURPLE_THRESH = 600.0;

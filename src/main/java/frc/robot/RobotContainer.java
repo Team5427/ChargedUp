@@ -89,9 +89,9 @@ public class RobotContainer {
 
     autonSelector.addOption("BottomSingleConeEngage",AutonSheet.bottomSingleConeEngage); 
     autonSelector.addOption("TopSingleConeEngage",AutonSheet.topSingleConeEngage); 
-    autonSelector.addOption("TopSingleConeIntakeEngage",AutonSheet.topSingleConeIntakeEngage); 
+    autonSelector.setDefaultOption("TopSingleConeIntakeEngage",AutonSheet.topSingleConeIntakeEngage); 
     autonSelector.addOption("BottomSingleCone",AutonSheet.bottomSingleCone); 
-    autonSelector.setDefaultOption("TopDoubleConeEngage",AutonSheet.topDoubleConeEngage); 
+    autonSelector.addOption("TopDoubleConeEngage",AutonSheet.topDoubleConeEngage); 
     autonSelector.addOption("TopSingleConeIntake",AutonSheet.topSingleConeIntake);
     autonSelector.addOption("BottomSingleConeIntakeEngage",AutonSheet.bottomSingleConeIntakeEngage);    
 

@@ -194,14 +194,19 @@ public class AutonSheet {
             new UseClaw(),
             new MoveClawTo(RoutineConstants.TOP_CONE_CLAW_STATE),
             new UseClaw(),
-            new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE),
             new ParallelCommandGroup(
                 topDoubleConeEngage1,
                 new SequentialCommandGroup(
-                    new WaitCommand(2),
-                    new ParallelCommandGroup(
-                        new MoveClawTo(RoutineConstants.CUBE_INTAKE_CLAW_STATE),
-                        new UseClaw()
+                    new WaitCommand(0.50),
+                    new ParallelRaceGroup(
+                        new ParallelCommandGroup(
+                            new MoveClawTo(RoutineConstants.CUBE_INTAKE_CLAW_STATE),
+                            new InstantCommand(() -> {
+                                RobotContainer.getLed().setPurple(true);
+                            }),
+                            new UseClaw()
+                        ),
+                        new WaitCommand(5)
                     ),
                     new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE)
                 )
