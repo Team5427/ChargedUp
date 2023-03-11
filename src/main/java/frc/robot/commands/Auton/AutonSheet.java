@@ -236,10 +236,12 @@ public class AutonSheet {
                     new InstantCommand(() -> {
                         RobotContainer.getLed().setPurple(true);
                     }),
-                    new WaitCommand(2),
-                    new ParallelCommandGroup(
-                        new UseClaw(),
-                        new MoveClawTo(RoutineConstants.CUBE_INTAKE_CLAW_STATE)                        
+                    new ParallelRaceGroup(
+                        new ParallelCommandGroup(
+                            new UseClaw(),
+                            new MoveClawTo(RoutineConstants.CUBE_INTAKE_CLAW_STATE)                        
+                        ),
+                        new WaitCommand(5)
                     )
                 )
             ),

@@ -87,13 +87,13 @@ public class RobotContainer {
     AutonSheet.initAutons();
     SubRoutineSheet.initSubRoutines();
 
-    autonSelector.addOption("BottomSingleConeEngage",AutonSheet.bottomSingleConeEngage); 
-    autonSelector.addOption("TopSingleConeEngage",AutonSheet.topSingleConeEngage); 
-    autonSelector.setDefaultOption("TopSingleConeIntakeEngage",AutonSheet.topSingleConeIntakeEngage); 
-    autonSelector.addOption("BottomSingleCone",AutonSheet.bottomSingleCone); 
-    autonSelector.addOption("TopDoubleConeEngage",AutonSheet.topDoubleConeEngage); 
-    autonSelector.addOption("TopSingleConeIntake",AutonSheet.topSingleConeIntake);
-    autonSelector.addOption("BottomSingleConeIntakeEngage",AutonSheet.bottomSingleConeIntakeEngage);    
+    // autonSelector.addOption("BottomSingleConeEngage",AutonSheet.bottomSingleConeEngage); 
+    // autonSelector.addOption("TopSingleConeEngage",AutonSheet.topSingleConeEngage); 
+    autonSelector.setDefaultOption("Engage",AutonSheet.topSingleConeIntakeEngage); 
+    // autonSelector.addOption("BottomSingleCone",AutonSheet.bottomSingleCone); 
+    // autonSelector.addOption("TopDoubleConeEngage",AutonSheet.topDoubleConeEngage); 
+    autonSelector.addOption("Pickup NO ENGAGE",AutonSheet.topSingleConeIntake);
+    // autonSelector.addOption("BottomSingleConeIntakeEngage",AutonSheet.bottomSingleConeIntakeEngage);    
 
     Logger.postComplex("Auton Paths", autonSelector);
     new ButtonBindings(getJoy(), getOperatorJoy1(), getOperatorJoy2());
