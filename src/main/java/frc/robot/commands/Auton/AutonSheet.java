@@ -238,10 +238,13 @@ public class AutonSheet {
                     }),
                     new ParallelRaceGroup(
                         new ParallelCommandGroup(
-                            new UseClaw(),
+                            new SequentialCommandGroup(
+                                new WaitCommand(0.5),
+                                new UseClaw()
+                            ),
                             new MoveClawTo(RoutineConstants.CUBE_INTAKE_CLAW_STATE)                        
                         ),
-                        new WaitCommand(7)
+                        new WaitCommand(3)
                     )
                 )
             ),
