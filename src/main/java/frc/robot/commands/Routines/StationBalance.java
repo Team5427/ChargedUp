@@ -24,7 +24,7 @@ public class StationBalance extends SequentialCommandGroup {
         }
 
         addCommands(
-            new TurnAndTranslate(heading, movementDirection, 2.5, 1.75),
+            new TurnAndTranslate(heading, movementDirection, 2.5, 2.1),
             new BalanceLinear()
         );
     }

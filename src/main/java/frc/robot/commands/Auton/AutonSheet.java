@@ -120,7 +120,7 @@ public class AutonSheet {
                             ),
                             new MoveClawTo(RoutineConstants.CUBE_INTAKE_CLAW_STATE)
                         ),
-                        new WaitCommand(5)
+                        new WaitCommand(3.275)
                     )
                     ,
                     new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE)
@@ -156,7 +156,7 @@ public class AutonSheet {
                                 new MoveClawTo(RoutineConstants.CUBE_INTAKE_CLAW_STATE)
                             )
                         ),
-                        new WaitCommand(5)
+                        new WaitCommand(3.275)
                     )
                     ,
                     new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE)
@@ -206,7 +206,7 @@ public class AutonSheet {
                             }),
                             new UseClaw()
                         ),
-                        new WaitCommand(5)
+                        new WaitCommand(3.275)
                     ),
                     new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE)
                 )
@@ -241,7 +241,7 @@ public class AutonSheet {
                             new UseClaw(),
                             new MoveClawTo(RoutineConstants.CUBE_INTAKE_CLAW_STATE)                        
                         ),
-                        new WaitCommand(5)
+                        new WaitCommand(7)
                     )
                 )
             ),
