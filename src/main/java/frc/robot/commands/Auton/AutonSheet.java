@@ -5,6 +5,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -34,6 +35,9 @@ public class AutonSheet {
     public static SequentialCommandGroup justScore;
     public static SequentialCommandGroup bottomSingleConeIntakeEngage;
     private static Command bottomSingleConeIntakeEngage1;
+    public static SequentialCommandGroup topDoubleConeScore;
+    private static Command topDoubleConeScore1;
+    private static Command topDoubleConeScore2;
 
     public static void initAutons() {
         bottomSingleConeEngage1 = SwervePathMaker.getCommand("BottomSingleConeEngage1");
@@ -44,7 +48,8 @@ public class AutonSheet {
         topDoubleConeEngage2 = SwervePathMaker.getCommand("TopDoubleConeEngage2");
         topSingleConeIntake1 = SwervePathMaker.getCommand("TopSingleConeIntake1");
         bottomSingleConeIntakeEngage1 = SwervePathMaker.getCommand("BottomSingleConeIntakeEngage1");
-        
+        topDoubleConeScore1 = SwervePathMaker.getCommand("TopDoubleConeScore2");
+        topDoubleConeScore2 = SwervePathMaker.getCommand("TopDoubleConeScore1");
 
         bottomSingleConeEngage = new SequentialCommandGroup(
             new InstantCommand(() -> {
@@ -113,7 +118,7 @@ public class AutonSheet {
                         RobotContainer.getLed().setPurple(true);
                     }),
                     new ParallelRaceGroup(
-                        new ParallelCommandGroup(
+                        new ParallelDeadlineGroup(
                             new SequentialCommandGroup(
                                 new WaitCommand(0.5),
                                 new UseClaw()
@@ -121,6 +126,7 @@ public class AutonSheet {
                             new MoveClawTo(RoutineConstants.CUBE_INTAKE_CLAW_STATE)
                         ),
                         new WaitCommand(3.275)
+
                     )
                     ,
                     new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE)
@@ -244,11 +250,56 @@ public class AutonSheet {
                             ),
                             new MoveClawTo(RoutineConstants.CUBE_INTAKE_CLAW_STATE)                        
                         ),
-                        new WaitCommand(3)
-                    )
+                        new WaitCommand(3.275)
+                    ),
+                    new MoveClawTo(RoutineConstants.TOP_CUBE_CLAW_STATE)
                 )
             ),
+            new ParallelRaceGroup(
+                new UseClaw(),
+                new WaitCommand(1.5)
+            ),
             new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE)
+        ).andThen(() -> {
+            SwervePathMaker.resetPaths();
+        });
+
+        topDoubleConeScore = new SequentialCommandGroup(
+            new InstantCommand(() -> {
+                RobotContainer.getSwerve().setHeadingRad(Math.PI);
+                RobotContainer.getLed().setPurple(false);
+            }),
+            new UseClaw(),
+            new MoveClawTo(RoutineConstants.TOP_CONE_CLAW_STATE),
+            new UseClaw(),
+            new ParallelCommandGroup(
+                topDoubleConeScore1,
+                new SequentialCommandGroup(
+                    new InstantCommand(() -> {
+                        RobotContainer.getLed().setPurple(true);
+                    }),
+                    new ParallelRaceGroup(
+                        new ParallelCommandGroup(
+                            new SequentialCommandGroup(
+                                new WaitCommand(0.5),
+                                new UseClaw()
+                            ),
+                            new MoveClawTo(RoutineConstants.CUBE_INTAKE_CLAW_STATE)                        
+                        ),
+                        new WaitCommand(3.275)
+                    ),
+                    new MoveClawTo(RoutineConstants.TOP_CUBE_CLAW_STATE)
+                )
+            ),
+            new ParallelRaceGroup(
+                new UseClaw(),
+                new WaitCommand(1.5)
+            ),
+            new ParallelCommandGroup(
+                new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE),
+                topDoubleConeScore2
+            ),
+            new MoveClawTo(RoutineConstants.CONE_INTAKE_CLAW_STATE)
         ).andThen(() -> {
             SwervePathMaker.resetPaths();
         });

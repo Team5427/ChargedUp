@@ -8,6 +8,7 @@ import frc.robot.Constants.RoutineConstants;
 import frc.robot.commands.Routines.StateTypes.ClawState;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Elevator;
+import frc.robot.util.Logger;
 import frc.robot.util.OdometryMath2023;
 
 public class MoveClawTo extends CommandBase {
@@ -29,7 +30,8 @@ public class MoveClawTo extends CommandBase {
     public void initialize() {
         timer.reset();
         timer.start();
-        
+        Logger.post("Arm Finished", false);
+
     }
 
     @Override
@@ -65,7 +67,7 @@ public class MoveClawTo extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        System.out.println("Finished Arm");
+        Logger.post("Arm Finished", true);
         timer.stop();
         timer.reset();
     }

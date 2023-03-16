@@ -11,6 +11,7 @@ import frc.robot.Constants.RoutineConstants;
 import frc.robot.commands.Routines.MoveClawTo;
 import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.Led;
+import frc.robot.util.Logger;
 
 public class UseClaw extends CommandBase {
 
@@ -54,6 +55,7 @@ public class UseClaw extends CommandBase {
         } else {
             intake = false;
         }
+        Logger.post("Claw finished", false);
 
         System.out.println("CLAW STARTED: " + intake);
     }
@@ -99,7 +101,8 @@ public class UseClaw extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         
-
+        System.out.println("CLAW FINISHED: ============================================================");
+        Logger.post("Claw finished", true);
         if(intake){
             led.setState(led.SCORING);
         } else{
