@@ -206,7 +206,7 @@ public final class Constants {
 
         public static final double ROT_THRESH_RAD = Math.PI/4;
         public static final double SCORING_LEVEL_OFFSET_METERS = Units.inchesToMeters(66);
-        public static final double TRANSLATION_TOLERANCE_METERS = 0.03;
+        public static final double TRANSLATION_TOLERANCE_METERS = 0.025;
         public static final double ROTATION_TOLERANCE_RAD = Units.degreesToRadians(2);
 
         public static final double Y_LEVEL_1_METERS = Units.inchesToMeters(75.34); 
@@ -248,7 +248,7 @@ public final class Constants {
         public static final ClawState LOW_CLAW_STATE = new ClawState(0.9, -0.925);
         public static final ClawState SUBSTATION_CLAW_STATE = new ClawState(.8540754 - 0.07, 0);
         public static final ClawState CUBE_INTAKE_CLAW_STATE = new ClawState(0.621, -0.925, false);
-        public static final ClawState CONE_INTAKE_CLAW_STATE = new ClawState(0, -0.13);
+        public static final ClawState CONE_INTAKE_CLAW_STATE = new ClawState(0.521, -0.925, false);
     }
 
     public static final class ElevatorConstants {
@@ -270,7 +270,7 @@ public final class Constants {
         public static final double kP = 7.0; //7
         public static final double kI = 0.1;
         public static final double kD = 0.1;
-        public static final double MAX_SPEED_M_S = MiscConstants.MAX_NEO_SPEED_RPM * VELOCITY_CONVERSION_FACTOR_RPM_TO_MPS / 3;
+        public static final double MAX_SPEED_M_S = MiscConstants.MAX_NEO_SPEED_RPM * VELOCITY_CONVERSION_FACTOR_RPM_TO_MPS / 2;
         public static final double MAX_ACCEL_M_S_S = MAX_SPEED_M_S / 6;
         public static final double GOAL_TOLERANCE_METERS = .03;
         public static final int CURRENT_LIMIT_AMPS = 40;
@@ -292,10 +292,11 @@ public final class Constants {
         public static final double kI = 0.0;
         public static final double kD = 0.0;
         public static final double ARM_CONTROLLER_TOLERANCE_RAD = Units.degreesToRadians(3);
-        public static final double ARM_CONTROLLER_TOLERANCE_RAD_JANK = Units.degreesToRadians(4);
+        public static final double ARM_CONTROLLER_TOLERANCE_RAD_JANK = Units.degreesToRadians(6);
         public static final double GEARBOX_GEARING = (1.0 / 100.0) * (17.0 / 20.0) * (20.0 / 32.0);
         public static final double MAX_SPEED_RAD_S = Units.rotationsPerMinuteToRadiansPerSecond(MiscConstants.MAX_NEO_SPEED_RPM * GEARBOX_GEARING);
-        public static final double MAX_ACCEL_RAD_S_S = MAX_SPEED_RAD_S;
+        public static final double MAX_ACCEL_RAD_S_S = MAX_SPEED_RAD_S * 3;
+        public static final double MAX_ACCEL_RAD_S_S_EXTENDED = MAX_SPEED_RAD_S;
         public static final double UPPER_LIMIT_RAD = 1.45;
         public static final double LOWER_LIMIT_RAD = -1;
 
@@ -337,7 +338,7 @@ public final class Constants {
 
         public static final double INTAKE_SPEED_DECIMAL = 0.3; //FIXME
         public static final double CUBE_INTAKE_EXCESS_TIME_S = 0.15; //FIXME
-        public static final double OUTTAKE_SPEED_DECIMAL = -0.3; //FIXME
+        public static final double OUTTAKE_SPEED_DECIMAL = -.3; //FIXME
         public static final double CUBE_OUTTAKE_EXCESS_TIME_S = 0.4; //FIXME
 
         public static final double PROX_VALUE = .875;

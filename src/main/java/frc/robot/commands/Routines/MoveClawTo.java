@@ -52,7 +52,7 @@ public class MoveClawTo extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        System.out.println("Elevator Error: " + (elevator.getHeight() - setPoint.getHeight()) + "   Arm Error: " + (arm.getAngle() - setPoint.getAngle()));
+        // System.out.println("Elevator Error: " + (elevator.getHeight() - setPoint.getHeight()) + "   Arm Error: " + (arm.getAngle() - setPoint.getAngle()));
 
         if (RobotContainer.getJoy().getHID().getRawButton(8)) {
             return false;

@@ -1,3 +1,4 @@
+
 package frc.robot.commands.Auton;
 
 
@@ -284,7 +285,10 @@ public class AutonSheet {
                                 new WaitCommand(0.5),
                                 new UseClaw()
                             ),
-                            new MoveClawTo(RoutineConstants.CUBE_INTAKE_CLAW_STATE)                        
+                            new SequentialCommandGroup(
+                                new WaitCommand(.5),
+                                new MoveClawTo(RoutineConstants.CUBE_INTAKE_CLAW_STATE) 
+                            )                      
                         ),
                         new WaitCommand(3.275)
                     ),
@@ -293,13 +297,28 @@ public class AutonSheet {
             ),
             new ParallelRaceGroup(
                 new UseClaw(),
-                new WaitCommand(1.5)
+                new WaitCommand(1)
             ),
             new ParallelCommandGroup(
-                new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE),
+                new SequentialCommandGroup(
+                    new ParallelCommandGroup(
+                        new MoveClawTo(RoutineConstants.CONE_INTAKE_CLAW_STATE),
+                        new InstantCommand(()->{
+                            RobotContainer.getLed().setPurple(false);
+                        }),
+                        new ParallelRaceGroup(
+                            new SequentialCommandGroup(
+                                new WaitCommand(.5),
+                                new UseClaw()        
+                            ),
+                            new WaitCommand(5)
+                        )
+                    ),
+                    new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE)
+
+                ),
                 topDoubleConeScore2
-            ),
-            new MoveClawTo(RoutineConstants.CONE_INTAKE_CLAW_STATE)
+            )
         ).andThen(() -> {
             SwervePathMaker.resetPaths();
         });

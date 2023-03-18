@@ -16,6 +16,7 @@ public class Led extends SubsystemBase{
     public static final int WHITE = 4;
     public static final int CYAN = 6;
 
+
     public static double ledCount = 0;
     public static final double LED_SPEED = 1;
 
@@ -136,23 +137,23 @@ public class Led extends SubsystemBase{
             setColor(RED);
         }
 
-        ledCount += LED_SPEED;
-        for(int i = 0; i < 20; i++){
-            setLed(((int)(i + ledCount) % 120), rgb);
-            setLed(((int)(i + ledCount + 40) % 120), rgb);
-            setLed(((int)(i + ledCount + 80) % 120), rgb);
+        // ledCount += LED_SPEED;
+        // for(int i = 0; i < 20; i++){
+        //     setLed(((int)(i + ledCount) % 120), rgb);
+        //     setLed(((int)(i + ledCount + 40) % 120), rgb);
+        //     setLed(((int)(i + ledCount + 80) % 120), rgb);
 
-        }
+        // }
         
-        if(error){
-            setLed((int) (ledCount - LED_SPEED)% 120, LedConstants.RED_CODE);
-            setLed((int) (ledCount + 40 - LED_SPEED)% 120, LedConstants.RED_CODE);
-            setLed((int) (ledCount + 80 - LED_SPEED)% 120, LedConstants.RED_CODE); 
-        } else{
-            setLed((int) (ledCount - LED_SPEED)% 120, LedConstants.WHITE_CODE);
-            setLed((int) (ledCount + 40 - LED_SPEED)% 120, LedConstants.WHITE_CODE);
-            setLed((int) (ledCount + 80 - LED_SPEED)% 120, LedConstants.WHITE_CODE);
-        }
+        // if(error){
+        //     setLed((int) (ledCount - LED_SPEED)% 120, LedConstants.RED_CODE);
+        //     setLed((int) (ledCount + 40 - LED_SPEED)% 120, LedConstants.RED_CODE);
+        //     setLed((int) (ledCount + 80 - LED_SPEED)% 120, LedConstants.RED_CODE); 
+        // } else{
+        //     setLed((int) (ledCount - LED_SPEED)% 120, LedConstants.WHITE_CODE);
+        //     setLed((int) (ledCount + 40 - LED_SPEED)% 120, LedConstants.WHITE_CODE);
+        //     setLed((int) (ledCount + 80 - LED_SPEED)% 120, LedConstants.WHITE_CODE);
+        // }
 
 
         if(ledCount > 120){
@@ -160,22 +161,22 @@ public class Led extends SubsystemBase{
         }
 
         // Cooler LED
-        // ledCount += LED_SPEED;
-        // for(int i = 0; i < 20; i++){
-        //     int ledNum = (60 - Math.abs((int)(i + ledCount) % 60));
-        //     setLed(ledNum, rgb);
-        //     setLed(119 - ledNum, rgb);
-        // }
+        ledCount += LED_SPEED;
+        for(int i = 0; i < 20; i++){
+            int ledNum = (60 - Math.abs((int)(i + ledCount) % 60));
+            setLed(ledNum, rgb);
+            setLed(119 - ledNum, rgb);
+        }
 
-        // if((int)(ledCount - LED_SPEED) != (int) ledCount){
-        //     if(error){
-        //         setLed((60 - Math.abs((int)(ledCount - LED_SPEED) % 60)), LedConstants.RED_CODE);
-        //         setLed(119 - (60 - Math.abs((int)(ledCount - LED_SPEED) % 60)), LedConstants.RED_CODE);
-        //     } else{
-        //         setLed((60 - Math.abs((int)(ledCount - LED_SPEED) % 60)), LedConstants.WHITE_CODE);
-        //         setLed(119 - (60 - Math.abs((int)(ledCount - LED_SPEED) % 60)), LedConstants.WHITE_CODE);
-        //     }
-        // }
+        if((int)(ledCount - LED_SPEED) != (int) ledCount){
+            if(error){
+                setLed((60 - Math.abs((int)(ledCount - LED_SPEED) % 60)), LedConstants.RED_CODE);
+                setLed(119 - (60 - Math.abs((int)(ledCount - LED_SPEED) % 60)), LedConstants.RED_CODE);
+            } else{
+                setLed((60 - Math.abs((int)(ledCount - LED_SPEED) % 60)), LedConstants.WHITE_CODE);
+                setLed(119 - (60 - Math.abs((int)(ledCount - LED_SPEED) % 60)), LedConstants.WHITE_CODE);
+            }
+        }
 
         frc.robot.util.Logger.post("isPurple", isPurple);
 

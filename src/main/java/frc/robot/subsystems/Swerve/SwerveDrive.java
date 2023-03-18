@@ -67,18 +67,11 @@ public class SwerveDrive extends SubsystemBase {
     }
 
     public void setModules(SwerveModuleState[] desiredStates) {
-        if (!locked) {
-            SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, SwerveConstants.MAX_PHYSICAL_SPEED_M_PER_SEC); //dampens a little
-            frontLeft.setModState(desiredStates[0]);
-            frontRight.setModState(desiredStates[1]);
-            backLeft.setModState(desiredStates[2]);
-            backRight.setModState(desiredStates[3]);
-        } else {
-            frontLeft.setModState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
-            frontRight.setModState(new SwerveModuleState(0, Rotation2d.fromDegrees(-45)));
-            backLeft.setModState(new SwerveModuleState(0, Rotation2d.fromDegrees(-45)));
-            backRight.setModState(new SwerveModuleState(0, Rotation2d.fromDegrees(45)));
-        }
+        SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, SwerveConstants.MAX_PHYSICAL_SPEED_M_PER_SEC); //dampens a little
+        frontLeft.setModState(desiredStates[0], locked, false);
+        frontRight.setModState(desiredStates[1], locked, true);
+        backLeft.setModState(desiredStates[2], locked, true);
+        backRight.setModState(desiredStates[3], locked, false);
     }
 
     public Pose2d getPose() {

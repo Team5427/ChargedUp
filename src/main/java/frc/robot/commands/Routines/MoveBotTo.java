@@ -7,6 +7,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Constants.JoystickConstants;
 import frc.robot.Constants.RoutineConstants;
 import frc.robot.Constants.SwerveConstants;
@@ -20,6 +21,7 @@ public class MoveBotTo extends CommandBase {
     private Pose2d measurement;
     private SwerveDrive swerve;
     public static boolean isRunning = false;
+    public static int runNum = 0;
     public static double runningSpeed = 0;
     private static ProfiledPIDController xController, yController, thetaController;
     private Timer timer;
@@ -55,6 +57,7 @@ public class MoveBotTo extends CommandBase {
             this.setpoint = PositionState.getPositionPose(type);
         }
         initControllers();
+        // runNum = 0;
         timer.reset();
         timer.start();
         xController.setGoal(setpoint.getX());
@@ -120,8 +123,8 @@ public class MoveBotTo extends CommandBase {
 
         if (
             (Math.abs(xController.getPositionError()) < RoutineConstants.TRANSLATION_TOLERANCE_METERS && xController.getSetpoint().equals(xController.getGoal())) && 
-            (Math.abs(yController.getPositionError()) < RoutineConstants.TRANSLATION_TOLERANCE_METERS && xController.getSetpoint().equals(xController.getGoal())) && 
-            (Math.abs(thetaController.getPositionError()) < RoutineConstants.TRANSLATION_TOLERANCE_METERS && xController.getSetpoint().equals(xController.getGoal()))
+            (Math.abs(yController.getPositionError()) < RoutineConstants.TRANSLATION_TOLERANCE_METERS && yController.getSetpoint().equals(yController.getGoal())) && 
+            (Math.abs(thetaController.getPositionError()) < RoutineConstants.TRANSLATION_TOLERANCE_METERS && thetaController.getSetpoint().equals(thetaController.getGoal()))
         ) {
             lastPositionType = this.setType;
             return true;
@@ -139,6 +142,13 @@ public class MoveBotTo extends CommandBase {
         timer.reset();
         isRunning = false;
         runningSpeed = 0;
+        if (runNum == 0) {
+            System.out.println("TRYING AGAIN");
+            CommandScheduler.getInstance().schedule(new MoveBotTo(this.type));
+            runNum = 1;
+        } else {
+            runNum = 0;
+        }
         // CommandScheduler.getInstance().schedule(new MoveRobotOriented(0.25, 0.5, new Rotation2d(0)));
         // if (setType.equals(POSITION_TYPE.LEFT_CONE) || setType.equals(POSITION_TYPE.RIGHT_CONE)) {
         //     CommandScheduler.getInstance().schedule(new AlignWithTape());

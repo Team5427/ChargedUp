@@ -17,8 +17,8 @@ public class Limelight extends SubsystemBase {
 
     public Limelight(NetworkTable table) {
         this.table_m = table;
-        filterx = new MedianFilter(10);
-        filtery = new MedianFilter(10);
+        filterx = new MedianFilter(20);
+        filtery = new MedianFilter(20);
     }
 
     @Override

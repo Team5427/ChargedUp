@@ -132,6 +132,12 @@ public class Arm extends SubsystemBase {
             armController.setGoal(getAngle());
         }
         log();
+
+        if (getExtended()) {
+            armController.setConstraints(new Constraints(ArmConstants.MAX_SPEED_RAD_S, ArmConstants.MAX_ACCEL_RAD_S_S_EXTENDED));
+        } else {
+            armController.setConstraints(new Constraints(ArmConstants.MAX_SPEED_RAD_S, ArmConstants.MAX_ACCEL_RAD_S_S));
+        }
     }
 
     public void log() {
