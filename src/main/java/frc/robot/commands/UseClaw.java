@@ -12,6 +12,7 @@ import frc.robot.commands.Routines.MoveClawTo;
 import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.Led;
 import frc.robot.util.Logger;
+import frc.robot.util.OdometryMath2023;
 
 public class UseClaw extends CommandBase {
 
@@ -81,7 +82,11 @@ public class UseClaw extends CommandBase {
             claw.grab(false);
             finish = true;
         } else {
-            claw.set(ClawConstants.OUTTAKE_SPEED_DECIMAL);
+            if (OdometryMath2023.inScoringSpot()) {
+                claw.set(ClawConstants.OUTTAKE_SPEED_DECIMAL);
+            } else {
+                claw.set(ClawConstants.OUTTAKE_SPEED_DECIMAL_SHOOTING);
+            }
             timer.start();
             if (timer.get() > ClawConstants.CUBE_OUTTAKE_EXCESS_TIME_S) {
                 finish = true;
@@ -92,17 +97,11 @@ public class UseClaw extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        if (finish) {
-            // CommandScheduler.getInstance().schedule(new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE));
-        }
         return (finish || RobotContainer.getJoy().getHID().getRawButtonPressed(JoystickConstants.SS_CANCEL));
     }
 
     @Override
     public void end(boolean interrupted) {
-        
-        System.out.println("CLAW FINISHED: ============================================================");
-        Logger.post("Claw finished", true);
         if(intake){
             led.setState(led.SCORING);
         } else{

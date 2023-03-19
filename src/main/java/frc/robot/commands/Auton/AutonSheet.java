@@ -49,8 +49,8 @@ public class AutonSheet {
         topDoubleConeEngage2 = SwervePathMaker.getCommand("TopDoubleConeEngage2");
         topSingleConeIntake1 = SwervePathMaker.getCommand("TopSingleConeIntake1");
         bottomSingleConeIntakeEngage1 = SwervePathMaker.getCommand("BottomSingleConeIntakeEngage1");
-        topDoubleConeScore1 = SwervePathMaker.getCommand("TopDoubleConeScore2");
-        topDoubleConeScore2 = SwervePathMaker.getCommand("TopDoubleConeScore1");
+        topDoubleConeScore1 = SwervePathMaker.getCommand("TopDoubleConeScore1");
+        topDoubleConeScore2 = SwervePathMaker.getCommand("TopDoubleConeScore2");
 
         bottomSingleConeEngage = new SequentialCommandGroup(
             new InstantCommand(() -> {

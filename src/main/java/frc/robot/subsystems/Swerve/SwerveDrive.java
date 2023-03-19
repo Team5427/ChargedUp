@@ -5,7 +5,9 @@ import java.util.List;
 import com.ctre.phoenix.sensors.WPI_Pigeon2;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Quaternion;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
@@ -53,6 +55,24 @@ public class SwerveDrive extends SubsystemBase {
 
     public double getRollDeg() {
         return gyro.getRoll();
+    }
+
+    //basically returns how much it has tilted on charge station regardless of what
+    //what the yaw is; this way we can go on at an angle and get the same value as if we
+    //were straight
+    public double getRobotTiltGlobalYAxisDeg() {
+        Rotation2d yawThetaRad = getRotation2d();
+        Rotation2d pitchThetaRad = Rotation2d.fromDegrees(getPitchDeg());
+        Rotation2d rollThetaRad = Rotation2d.fromDegrees(getRollDeg());
+        double x_g = yawThetaRad.getCos() * pitchThetaRad.getRadians();
+        double y_g = yawThetaRad.getSin() * rollThetaRad.getRadians();
+        double sign = Math.max(
+                Math.abs(x_g), 
+                Math.abs(y_g)
+            ) == Math.abs(x_g) ? 
+                Math.signum(x_g) : 
+                Math.signum(y_g);
+        return Math.toDegrees(Math.hypot(x_g, y_g) * sign);
     }
 
     public Rotation2d getRotation2d() {

@@ -14,6 +14,7 @@ import frc.robot.Constants.SwerveConstants;
 import frc.robot.RobotContainer;
 import frc.robot.commands.Routines.StateTypes.PositionState;
 import frc.robot.subsystems.Swerve.SwerveDrive;
+import frc.robot.util.OdometryMath2023;
 
 public class MoveBotTo extends CommandBase {
 
@@ -21,7 +22,7 @@ public class MoveBotTo extends CommandBase {
     private Pose2d measurement;
     private SwerveDrive swerve;
     public static boolean isRunning = false;
-    public static int runNum = 0;
+    public static double runTime = 0;
     public static double runningSpeed = 0;
     private static ProfiledPIDController xController, yController, thetaController;
     private Timer timer;
@@ -57,9 +58,10 @@ public class MoveBotTo extends CommandBase {
             this.setpoint = PositionState.getPositionPose(type);
         }
         initControllers();
-        // runNum = 0;
+        // runTime = 0;
         timer.reset();
         timer.start();
+        OdometryMath2023.reseedOdometry();
         xController.setGoal(setpoint.getX());
         yController.setGoal(setpoint.getY());
         thetaController.setGoal(setpoint.getRotation().getRadians());
@@ -104,15 +106,6 @@ public class MoveBotTo extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        // Try this VVV Cancel command if driver joystick moved
-        // if(
-        //     Math.abs(RobotContainer.getJoy().getHID().getX()) > JoystickConstants.CONTROLLER_DEADBAND + .1 ||
-        //     Math.abs(RobotContainer.getJoy().getHID().getY()) > JoystickConstants.CONTROLLER_DEADBAND + .1||
-        //     Math.abs(RobotContainer.getJoy().getHID().getZ()) > JoystickConstants.CONTROLLER_DEADBAND
-        // ){
-        //     return true;
-        // }
-        // Also Try this VVV Cancel command if driver pov or operator pov pressed
         if(
             RobotContainer.getJoy().getHID().getPOV() != -1 ||
             RobotContainer.getOperatorJoy1().getHID().getPOV() != -1
@@ -137,22 +130,17 @@ public class MoveBotTo extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
+        OdometryMath2023.reseedOdometry();
         swerve.stopMods();
+        runTime = timer.get();
         timer.stop();
         timer.reset();
         isRunning = false;
         runningSpeed = 0;
-        if (runNum == 0) {
+        if (runTime > RoutineConstants.MOVE_BOT_TO_REPEAT_THRESHOLD_SEC) {
             System.out.println("TRYING AGAIN");
             CommandScheduler.getInstance().schedule(new MoveBotTo(this.type));
-            runNum = 1;
-        } else {
-            runNum = 0;
         }
-        // CommandScheduler.getInstance().schedule(new MoveRobotOriented(0.25, 0.5, new Rotation2d(0)));
-        // if (setType.equals(POSITION_TYPE.LEFT_CONE) || setType.equals(POSITION_TYPE.RIGHT_CONE)) {
-        //     CommandScheduler.getInstance().schedule(new AlignWithTape());
-        // }
     }
 
     private void initControllers() {

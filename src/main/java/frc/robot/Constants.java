@@ -190,24 +190,20 @@ public final class Constants {
         public static final int MID_LEFT_SCORE = 5; //FIXME
         public static final int MID_RIGHT_SCORE = 6; //FIXME
 
-
-
-        //OPERTATION 3 BINDINGS
-
-        
-
     }
 
     public static final class RoutineConstants {
         public static final double ROUTINE_MAX_TRANSLATION_SPEED_M_S = 4.0;
         public static final double ROUTINE_MAX_ROTATION_SPEED_RAD_S = Math.PI * 1.5;
-        public static final double ROUTINE_MAX_TRANSLATION_ACCEL_M_S_S = 3.0;
+        public static final double ROUTINE_MAX_TRANSLATION_ACCEL_M_S_S = 2.5;
         public static final double ROUTINE_MAX_ROTATION_ACCEL_RAD_S_S = Math.PI * 2;
 
         public static final double ROT_THRESH_RAD = Math.PI/4;
         public static final double SCORING_LEVEL_OFFSET_METERS = Units.inchesToMeters(66);
         public static final double TRANSLATION_TOLERANCE_METERS = 0.025;
         public static final double ROTATION_TOLERANCE_RAD = Units.degreesToRadians(2);
+
+        public static final double MOVE_BOT_TO_REPEAT_THRESHOLD_SEC = 0.25;
 
         public static final double Y_LEVEL_1_METERS = Units.inchesToMeters(75.34); 
         public static final double Y_LEVEL_2_METERS = Units.inchesToMeters(141.34);
@@ -222,6 +218,8 @@ public final class Constants {
 
         public static final double BALANCED_TIME = 2;
         public static final double DEBUG_INTEGRATE_DELAY_TIME = 1;
+
+        public static final double CLOSE_COMMUNITY_X_METERS = 2.25;
 
         //PRESETS
         public static final Pose2d BOTTOM_CONE_SCORING_POSE_DEFAULT = new Pose2d(1.85, 0.5, new Rotation2d(Math.PI));
@@ -336,10 +334,11 @@ public final class Constants {
             NO_GP
         }
 
-        public static final double INTAKE_SPEED_DECIMAL = 0.3; //FIXME
-        public static final double CUBE_INTAKE_EXCESS_TIME_S = 0.15; //FIXME
-        public static final double OUTTAKE_SPEED_DECIMAL = -.3; //FIXME
-        public static final double CUBE_OUTTAKE_EXCESS_TIME_S = 0.4; //FIXME
+        public static final double INTAKE_SPEED_DECIMAL = 0.3;
+        public static final double CUBE_INTAKE_EXCESS_TIME_S = 0.15;
+        public static final double OUTTAKE_SPEED_DECIMAL = -.3;
+        public static final double OUTTAKE_SPEED_DECIMAL_SHOOTING = -1.0;
+        public static final double CUBE_OUTTAKE_EXCESS_TIME_S = 0.4;
 
         public static final double PROX_VALUE = .875;
         public static final double PURPLE_THRESH = 600.0;

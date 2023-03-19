@@ -122,4 +122,12 @@ public class OdometryMath2023 extends SubsystemBase {
             m.setPeriodicFramePeriod(PeriodicFrame.kStatus6, MiscConstants.MAX_SMAX_PERIODIC_FRAME_MS);
         }
     }
+
+    public static boolean inScoringSpot() {
+        if (isBlue()) {
+            return robotPose.getX() < RoutineConstants.CLOSE_COMMUNITY_X_METERS;
+        } else {
+            return robotPose.getX() > (fieldWidth - RoutineConstants.CLOSE_COMMUNITY_X_METERS);
+        }
+    }
 }
