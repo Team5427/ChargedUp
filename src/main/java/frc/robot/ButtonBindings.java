@@ -54,7 +54,7 @@ public class ButtonBindings {
         }));
 
         joy.button(JoystickConstants.LOCK_SWERVE).onTrue(new InstantCommand(() -> {
-            swerve.setLocked(!swerve.getLocked());
+            swerve.lock();
         }, swerve));
 
         joy.button(JoystickConstants.CLAW_BTN).onTrue(new UseClaw());

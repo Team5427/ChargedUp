@@ -72,21 +72,25 @@ public class SwerveModule {
         return getDriveSpeed()/SwerveConstants.SWERVE_CONVERSION_FACTOR_RPM_TO_METER_PER_S;
     }
 
-    public void setModState(SwerveModuleState state, boolean lock, boolean flip) {
-        if (Math.abs(state.speedMetersPerSecond) <= 0.02 && !lock) {
+    public void setModState(SwerveModuleState state) {
+        if (Math.abs(state.speedMetersPerSecond) <= 0.02) {
             stop();
         } else {
             SwerveModuleState newState;
-            if (lock) {
-                newState = new SwerveModuleState(0, !flip ? Rotation2d.fromDegrees(45) : Rotation2d.fromDegrees(-45));
-            } else {
-                newState = state;
-            }
-            newState = SwerveModuleState.optimize(newState, getModState().angle);
+            
+            newState = SwerveModuleState.optimize(state, getModState().angle);
             // speedMotor.setVoltage(speedPID.calculate(getDriveSpeed(), state.speedMetersPerSecond) + speedFF.calculate(state.speedMetersPerSecond));
             speedMotor.set(newState.speedMetersPerSecond / SwerveConstants.MAX_PHYSICAL_SPEED_M_PER_SEC);
             turnMotor.setVoltage(turningPID.calculate(getAbsEncRad(), newState.angle.getRadians()) + turningFF.calculate(turningPID.getSetpoint().velocity));
         }
+    }
+
+    public void hardSetModState(SwerveModuleState state){
+        SwerveModuleState newState;
+        newState = SwerveModuleState.optimize(state, getModState().angle);
+            // speedMotor.setVoltage(speedPID.calculate(getDriveSpeed(), state.speedMetersPerSecond) + speedFF.calculate(state.speedMetersPerSecond));
+            speedMotor.set(newState.speedMetersPerSecond / SwerveConstants.MAX_PHYSICAL_SPEED_M_PER_SEC);
+            turnMotor.setVoltage(turningPID.calculate(getAbsEncRad(), newState.angle.getRadians()) + turningFF.calculate(turningPID.getSetpoint().velocity));
     }
 
     public void stop() {

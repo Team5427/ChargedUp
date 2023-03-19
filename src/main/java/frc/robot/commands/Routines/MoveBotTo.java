@@ -2,6 +2,7 @@ package frc.robot.commands.Routines;
 
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
@@ -141,6 +142,13 @@ public class MoveBotTo extends CommandBase {
             System.out.println("TRYING AGAIN");
             CommandScheduler.getInstance().schedule(new MoveBotTo(this.type));
         }
+
+        swerve.hardSetModules(new SwerveModuleState[]{
+            new SwerveModuleState(0, Rotation2d.fromDegrees(0)),
+            new SwerveModuleState(0, Rotation2d.fromDegrees(0)),
+            new SwerveModuleState(0, Rotation2d.fromDegrees(0)),
+            new SwerveModuleState(0, Rotation2d.fromDegrees(0))
+        });
     }
 
     private void initControllers() {

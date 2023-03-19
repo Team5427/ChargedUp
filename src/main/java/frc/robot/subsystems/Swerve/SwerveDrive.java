@@ -88,10 +88,17 @@ public class SwerveDrive extends SubsystemBase {
 
     public void setModules(SwerveModuleState[] desiredStates) {
         SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, SwerveConstants.MAX_PHYSICAL_SPEED_M_PER_SEC); //dampens a little
-        frontLeft.setModState(desiredStates[0], locked, false);
-        frontRight.setModState(desiredStates[1], locked, true);
-        backLeft.setModState(desiredStates[2], locked, true);
-        backRight.setModState(desiredStates[3], locked, false);
+        frontLeft.setModState(desiredStates[0]);
+        frontRight.setModState(desiredStates[1]);
+        backLeft.setModState(desiredStates[2]);
+        backRight.setModState(desiredStates[3]);
+    }
+
+    public void hardSetModules(SwerveModuleState[] desiredStates){
+        frontLeft.hardSetModState(desiredStates[0]);
+        frontRight.hardSetModState(desiredStates[1]);
+        backLeft.hardSetModState(desiredStates[2]);
+        backRight.hardSetModState(desiredStates[3]);
     }
 
     public Pose2d getPose() {
@@ -177,12 +184,13 @@ public class SwerveDrive extends SubsystemBase {
         isFieldRelative = op;
     }
 
-    public boolean getLocked() {
-        return locked;
-    }
-
-    public void setLocked(boolean lock) {
-        this.locked = lock;
+    public void lock(){
+        hardSetModules(new SwerveModuleState[]{
+            new SwerveModuleState(0, Rotation2d.fromDegrees(-45)),
+            new SwerveModuleState(0, Rotation2d.fromDegrees(45)),
+            new SwerveModuleState(0, Rotation2d.fromDegrees(45)),
+            new SwerveModuleState(0, Rotation2d.fromDegrees(-45))
+        });
     }
     
     private void log() {
