@@ -17,6 +17,7 @@ public class MoveClawTo extends CommandBase {
     private Timer timer;
     private Arm arm;
     private Elevator elevator;
+    public static boolean goodToRelease;
 
     public MoveClawTo(ClawState setPoint) {
         this.setPoint = setPoint;
@@ -28,6 +29,7 @@ public class MoveClawTo extends CommandBase {
 
     @Override
     public void initialize() {
+        goodToRelease = false;
         timer.reset();
         timer.start();
         Logger.post("Arm Finished", false);
@@ -57,6 +59,7 @@ public class MoveClawTo extends CommandBase {
         if (RobotContainer.getJoy().getHID().getRawButton(8)) {
             return false;
         } else if (elevator.atGoal(setPoint.getHeight()) && arm.atGoal(setPoint.getAngle())) {
+            goodToRelease = true;
             return true;
         } else if (setPoint.equals(RoutineConstants.DEFAULT_CLAW_STATE) && elevator.atGoal(setPoint.getHeight()) && arm.atJankGoal()) {
             return true;

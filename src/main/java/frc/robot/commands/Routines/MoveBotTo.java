@@ -31,6 +31,7 @@ public class MoveBotTo extends CommandBase {
     private RoutineConstants.POSITION_TYPE setType;
     private boolean isJank;
     private RoutineConstants.POSITION_TYPE type;
+    public static boolean goodToRelease;
 
     public MoveBotTo(RoutineConstants.POSITION_TYPE type) {
         swerve = RobotContainer.getSwerve();
@@ -54,6 +55,7 @@ public class MoveBotTo extends CommandBase {
 
     @Override
     public void initialize() {
+        goodToRelease = false;
         isRunning = true;
         if (!isJank) {
             this.setpoint = PositionState.getPositionPose(type);
@@ -120,6 +122,7 @@ public class MoveBotTo extends CommandBase {
             (Math.abs(yController.getPositionError()) < RoutineConstants.TRANSLATION_TOLERANCE_METERS && yController.getSetpoint().equals(yController.getGoal())) && 
             (Math.abs(thetaController.getPositionError()) < RoutineConstants.TRANSLATION_TOLERANCE_METERS && thetaController.getSetpoint().equals(thetaController.getGoal()))
         ) {
+            goodToRelease = true;
             lastPositionType = this.setType;
             return true;
         } else if (RobotContainer.getJoy().getHID().getRawButton(JoystickConstants.CANCEL_ALL_COMMANDS_D) || RobotContainer.getJoy().getHID().getRawButton(JoystickConstants.CANCEL_ALL_COMMANDS_O)) {

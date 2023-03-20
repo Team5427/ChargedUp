@@ -73,6 +73,12 @@ public class SwerveDrive extends SubsystemBase {
                 Math.signum(x_g) : 
                 Math.signum(y_g);
         return Math.toDegrees(Math.hypot(x_g, y_g) * sign);
+        // double[] gravityVec = new double[3];
+        // gyro.getGravityVector(gravityVec);
+        // double gravityVecXY = Math.hypot(gravityVec[0], gravityVec[1]); //I TRUST MINE MORE
+        // double gravityVecZ = gravityVec[2];
+        // double tiltAngle = Math.atan2(gravityVecXY, gravityVecZ);
+        // return Math.toDegrees(tiltAngle);
     }
 
     public Rotation2d getRotation2d() {

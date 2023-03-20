@@ -27,33 +27,32 @@ import frc.robot.commands.Routines.StateTypes.ClawState;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    //EVERYTHING IN METERS AND RADIANS
+    //EVERYTHING IN METERS AND RADIANS...well that was a fucking lie
     public static final class SwerveConstants {
 
         // Robot Ports
-        public static final int FRONT_LEFT_DRIVE_MOTOR = 3; //FIXME
-        public static final int FRONT_RIGHT_DRIVE_MOTOR = 9; //FIXME
-        public static final int BACK_LEFT_DRIVE_MOTOR = 5; //FIXME
-        public static final int BACK_RIGHT_DRIVE_MOTOR = 7; //FIXME
+        public static final int FRONT_LEFT_DRIVE_MOTOR = 3;
+        public static final int FRONT_RIGHT_DRIVE_MOTOR = 9;
+        public static final int BACK_LEFT_DRIVE_MOTOR = 5;
+        public static final int BACK_RIGHT_DRIVE_MOTOR = 7;
 
-        public static final int FRONT_LEFT_STEER_MOTOR = 2; //FIXME
-        public static final int FRONT_RIGHT_STEER_MOTOR = 8; //FIXME
-        public static final int BACK_LEFT_STEER_MOTOR = 4; //FIXME
-        public static final int BACK_RIGHT_STEER_MOTOR = 6; //FIXME
+        public static final int FRONT_LEFT_STEER_MOTOR = 2;
+        public static final int FRONT_RIGHT_STEER_MOTOR = 8;
+        public static final int BACK_LEFT_STEER_MOTOR = 4;
+        public static final int BACK_RIGHT_STEER_MOTOR = 6;
 
-        public static final int FRONT_LEFT_CANCODER = 13; //FIXME
-        public static final int FRONT_RIGHT_CANCODER = 10; //FIXME
-        public static final int BACK_LEFT_CANCODER = 11; //FIXME
-        public static final int BACK_RIGHT_CANCODER = 12; //FIXME
+        public static final int FRONT_LEFT_CANCODER = 13;
+        public static final int FRONT_RIGHT_CANCODER = 10;
+        public static final int BACK_LEFT_CANCODER = 11;
+        public static final int BACK_RIGHT_CANCODER = 12;
 
-
-        public static final double FRONT_LEFT_OFFSET = 2.192; //FIXME
-        public static final double FRONT_RIGHT_OFFSET = -1.5769; //FIXME
-        public static final double BACK_LEFT_OFFSET = 2.325; //FIXME
-        public static final double BACK_RIGHT_OFFSET = -.8590; //FIXME
+        public static final double FRONT_LEFT_OFFSET = 2.192;
+        public static final double FRONT_RIGHT_OFFSET = -1.5769;
+        public static final double BACK_LEFT_OFFSET = 2.325;
+        public static final double BACK_RIGHT_OFFSET = -.8590;
 
         // Inversions
-        public static final boolean FRONT_LEFT_TURNING_INVERT = false; //might change but shouldnt vvv
+        public static final boolean FRONT_LEFT_TURNING_INVERT = false;
         public static final boolean FRONT_RIGHT_TURNING_INVERT = false;
         public static final boolean BACK_LEFT_TURNING_INVERT = false;
         public static final boolean BACK_RIGHT_TURNING_INVERT = false;
@@ -66,7 +65,7 @@ public final class Constants {
         public static final boolean FRONT_LEFT_CANCODER_INVERT = false;
         public static final boolean FRONT_RIGHT_CANCODER_INVERT = false;
         public static final boolean BACK_LEFT_CANCODER_INVERT = false;
-        public static final boolean BACK_RIGHT_CANCODER_INVERT = false; //^^^
+        public static final boolean BACK_RIGHT_CANCODER_INVERT = false;
 
         public static final int PIGEON_ID = 16;
 
@@ -127,13 +126,6 @@ public final class Constants {
         }
     }
 
-    public static final class VisionConstants {
-        public static final Translation3d RIGHT_CAMERA_TRANSLATION = new Translation3d(0, 0, 0); // FIXME
-        public static final Rotation3d RIGHT_CAMERA_ROTATION = new Rotation3d(0, 0, 0); // FIXME
-        public static final Translation3d LEFT_CAMERA_TRANSLATION = new Translation3d(0, 0, 0); // FIXME
-        public static final Rotation3d LEFT_CAMERA_ROTATION = new Rotation3d(0, 0, 0); // FIXME
-    }
-
     public static final class JoystickConstants {
 
         public static final double CONTROLLER_DEADBAND = 0.08;
@@ -185,17 +177,17 @@ public final class Constants {
         public static final int SS = 7;
         public static final int BALANCE_BTN = 8;
 
-        public static final int TOP_LEFT_SCORE = 3; //FIXME
-        public static final int TOP_RIGHT_SCORE = 4; //FIXME
-        public static final int MID_LEFT_SCORE = 5; //FIXME
-        public static final int MID_RIGHT_SCORE = 6; //FIXME
+        public static final int TOP_LEFT_SCORE = 3;
+        public static final int TOP_RIGHT_SCORE = 4;
+        public static final int MID_LEFT_SCORE = 5;
+        public static final int MID_RIGHT_SCORE = 6;
 
         public static final int PARTY_MODE = 9;
     }
 
     public static final class RoutineConstants {
         public static final double ROUTINE_MAX_TRANSLATION_SPEED_M_S = 4.0;
-        public static final double ROUTINE_MAX_ROTATION_SPEED_RAD_S = Math.PI * 1.5;
+        public static final double ROUTINE_MAX_ROTATION_SPEED_RAD_S = Math.PI * 2;
         public static final double ROUTINE_MAX_TRANSLATION_ACCEL_M_S_S = 2.5;
         public static final double ROUTINE_MAX_ROTATION_ACCEL_RAD_S_S = Math.PI * 2;
 
@@ -273,7 +265,6 @@ public final class Constants {
         public static final double MAX_ACCEL_M_S_S = MAX_SPEED_M_S / 6;
         public static final double GOAL_TOLERANCE_METERS = .03;
         public static final int CURRENT_LIMIT_AMPS = 40;
-
     }
     
     public static final class ArmConstants {

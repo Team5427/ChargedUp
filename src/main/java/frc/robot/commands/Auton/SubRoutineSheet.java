@@ -15,7 +15,7 @@ public class SubRoutineSheet {
     public static void initSubRoutines() {
         substationIntake = new ParallelDeadlineGroup(
             new UseClaw(),
-            new TurnAndTranslate(new Rotation2d(0), new Rotation2d(0), 1),
+            new TurnAndTranslate(new Rotation2d(0), new Rotation2d(0), 1.75),
             new SequentialCommandGroup(
                 new WaitCommand(0.1),
                 new MoveClawTo(RoutineConstants.SUBSTATION_CLAW_STATE)
