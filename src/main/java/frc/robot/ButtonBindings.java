@@ -14,6 +14,7 @@ import frc.robot.Constants.RoutineConstants;
 import frc.robot.Constants.RoutineConstants.POSITION_TYPE;
 import frc.robot.commands.ManualArm;
 import frc.robot.commands.ManualClaw;
+import frc.robot.commands.PartyMode;
 import frc.robot.commands.UseClaw;
 import frc.robot.commands.Auton.SubRoutineSheet;
 import frc.robot.commands.Routines.MoveBotTo;
@@ -112,6 +113,8 @@ public class ButtonBindings {
                 new MoveClawTo(RoutineConstants.MID_CONE_CLAW_STATE)
             )
         ));
+
+        operatorJoy2.button(JoystickConstants.PARTY_MODE).onTrue(new PartyMode());
 
     
     }

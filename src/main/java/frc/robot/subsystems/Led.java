@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.LedConstants;
+import frc.robot.commands.PartyMode;
 
 public class Led extends SubsystemBase{
 
@@ -120,70 +121,73 @@ public class Led extends SubsystemBase{
     }
 
     @Override
-    public void periodic() {        
-        if (state == INTAKE && DriverStation.isEnabled()) 
-        {
-            if(isPurple)
-                setColor(PURPLE);
-            else
-                setColor(YELLOW);
-        } else if (state == SCORING &&DriverStation.isEnabled()) {
-            setColor(GREEN);
-        } else if (!DriverStation.isEnabled()) {
-            setColor(RED);
-        }
-
-        if(error){
-            setColor(RED);
-        }
-
-
-        if(ledCount > 120){
-            ledCount = 0;
-        }
-
-        // Cooler LED
-        // ledCount += LED_SPEED;
-        // for(int i = 0; i < 20; i++){
-        //     int ledNum = (60 - Math.abs((int)(i + ledCount) % 60));
-        //     setLed(ledNum, rgb);
-        //     setLed(119 - ledNum, rgb);
-        // }
-
-        // if((int)(ledCount - LED_SPEED) != (int) ledCount){
-        //     if(error){
-        //         setLed((60 - Math.abs((int)(ledCount - LED_SPEED) % 60)), LedConstants.RED_CODE);
-        //         setLed(119 - (60 - Math.abs((int)(ledCount - LED_SPEED) % 60)), LedConstants.RED_CODE);
-        //     } else{
-        //         setLed((60 - Math.abs((int)(ledCount - LED_SPEED) % 60)), LedConstants.WHITE_CODE);
-        //         setLed(119 - (60 - Math.abs((int)(ledCount - LED_SPEED) % 60)), LedConstants.WHITE_CODE);
-        //     }
-        // }
-
-        // cooler led
-        ledCount += LED_SPEED;
-        for(int j = 0; j < 6; j++){
-            for(int i = 0; i < 5; i++){
-                int ledNum = (60 - Math.abs((int)(i + ledCount + (j * 10)) % 60));
-                setLed(ledNum, rgb);
-                setLed(119 - ledNum, rgb);
+    public void periodic() {  
+        if(!PartyMode.running){    
+            if (state == INTAKE && DriverStation.isEnabled()) 
+            {
+                if(isPurple)
+                    setColor(PURPLE);
+                else
+                    setColor(YELLOW);
+            } else if (state == SCORING &&DriverStation.isEnabled()) {
+                setColor(GREEN);
+            } else if (!DriverStation.isEnabled()) {
+                setColor(RED);
             }
-        }
 
-        for(int j = 0; j < 6; j++){
-            if((int)(ledCount - LED_SPEED) != (int) ledCount){
-                if(error){
-                    setLed((60 - Math.abs((int)(ledCount + (j * 10) - LED_SPEED) % 60)), LedConstants.RED_CODE);
-                    setLed(119 - (60 - Math.abs((int)(ledCount + (j * 10) - LED_SPEED) % 60)), LedConstants.RED_CODE);
-                } else{
-                    setLed((60 - Math.abs((int)(ledCount + (j * 10) - LED_SPEED) % 60)), LedConstants.WHITE_CODE);
-                    setLed(119 - (60 - Math.abs((int)(ledCount + (j * 10) - LED_SPEED) % 60)), LedConstants.WHITE_CODE);
+            if(error){
+                setColor(RED);
+            }
+
+
+            if(ledCount > 120){
+                ledCount = 0;
+            }
+
+            // Cooler LED
+            // ledCount += LED_SPEED;
+            // for(int i = 0; i < 20; i++){
+            //     int ledNum = (60 - Math.abs((int)(i + ledCount) % 60));
+            //     setLed(ledNum, rgb);
+            //     setLed(119 - ledNum, rgb);
+            // }
+
+            // if((int)(ledCount - LED_SPEED) != (int) ledCount){
+            //     if(error){
+            //         setLed((60 - Math.abs((int)(ledCount - LED_SPEED) % 60)), LedConstants.RED_CODE);
+            //         setLed(119 - (60 - Math.abs((int)(ledCount - LED_SPEED) % 60)), LedConstants.RED_CODE);
+            //     } else{
+            //         setLed((60 - Math.abs((int)(ledCount - LED_SPEED) % 60)), LedConstants.WHITE_CODE);
+            //         setLed(119 - (60 - Math.abs((int)(ledCount - LED_SPEED) % 60)), LedConstants.WHITE_CODE);
+            //     }
+            // }
+
+            // cooler led
+            ledCount += LED_SPEED;
+            for(int j = 0; j < 6; j++){
+                for(int i = 0; i < 5; i++){
+                    int ledNum = (60 - Math.abs((int)(i + ledCount + (j * 10)) % 60));
+                    setLed(ledNum, rgb);
+                    setLed(119 - ledNum, rgb);
                 }
             }
+
+            for(int j = 0; j < 6; j++){
+                if((int)(ledCount - LED_SPEED) != (int) ledCount){
+                    if(error){
+                        setLed((60 - Math.abs((int)(ledCount + (j * 10) - LED_SPEED) % 60)), LedConstants.RED_CODE);
+                        setLed(119 - (60 - Math.abs((int)(ledCount + (j * 10) - LED_SPEED) % 60)), LedConstants.RED_CODE);
+                    } else{
+                        setLed((60 - Math.abs((int)(ledCount + (j * 10) - LED_SPEED) % 60)), LedConstants.WHITE_CODE);
+                        setLed(119 - (60 - Math.abs((int)(ledCount + (j * 10) - LED_SPEED) % 60)), LedConstants.WHITE_CODE);
+                    }
+                }
+            }
+
+
+            
         }
         frc.robot.util.Logger.post("isPurple", isPurple);
-
-
         led.setData(ledBuffer);
         led.start();
     }

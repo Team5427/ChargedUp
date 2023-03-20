@@ -179,7 +179,7 @@ public final class Constants {
         public static final int ARM_RESET = 10;
 
         //OPERATION 2 BINDINGS
-        // Buttons not in use: 4, 10
+        // Buttons not in use:  10
         public static final int LOCK_SWERVE_O = 1;
         public static final int UNLOCK_SWERVE_O = 2;
         public static final int SS = 7;
@@ -190,6 +190,7 @@ public final class Constants {
         public static final int MID_LEFT_SCORE = 5; //FIXME
         public static final int MID_RIGHT_SCORE = 6; //FIXME
 
+        public static final int PARTY_MODE = 9;
     }
 
     public static final class RoutineConstants {
