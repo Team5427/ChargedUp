@@ -43,9 +43,9 @@ public class BalanceDoubleP extends CommandBase {
             weakerPID.calculate(measurement) :
             strongerPID.calculate(measurement);
 
-        if (!OdometryMath2023.isBlue()) {
-            calc *= -1;
-        }
+        // if (!OdometryMath2023.isBlue()) {
+        //     calc *= -1;
+        // } //prolly dont need this but brain dont work at night
 
         dt.setModules(
             SwerveConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(ChassisSpeeds.fromFieldRelativeSpeeds(
