@@ -72,7 +72,7 @@ public class SwerveDrive extends SubsystemBase {
             ) == Math.abs(x_g) ? 
                 Math.signum(x_g) : 
                 Math.signum(y_g);
-        return Math.toDegrees(Math.hypot(x_g, y_g) * sign);
+        return -Math.toDegrees(Math.hypot(x_g, y_g) * sign);
         // double[] gravityVec = new double[3];
         // gyro.getGravityVector(gravityVec);
         // double gravityVecXY = Math.hypot(gravityVec[0], gravityVec[1]); //I TRUST MINE MORE
@@ -192,10 +192,10 @@ public class SwerveDrive extends SubsystemBase {
 
     public void lock(){
         hardSetModules(new SwerveModuleState[]{
+            new SwerveModuleState(0, Rotation2d.fromDegrees(45)),
             new SwerveModuleState(0, Rotation2d.fromDegrees(-45)),
-            new SwerveModuleState(0, Rotation2d.fromDegrees(45)),
-            new SwerveModuleState(0, Rotation2d.fromDegrees(45)),
-            new SwerveModuleState(0, Rotation2d.fromDegrees(-45))
+            new SwerveModuleState(0, Rotation2d.fromDegrees(-45)),
+            new SwerveModuleState(0, Rotation2d.fromDegrees(45))
         });
     }
     
@@ -213,6 +213,7 @@ public class SwerveDrive extends SubsystemBase {
         // Logger.post("frontRight", frontRight.getErrors());
         Logger.post("drivetrain heading", getRotation2d().toString());
         Logger.postComplex("Field5427", field);
+        Logger.post("charge station angle", getRobotTiltGlobalYAxisDeg());
 
         Logger.post("accerlation magnitude", getAccelerationMPS2()[0]);
         Logger.post("accerlation direction", getAccelerationMPS2()[1]);

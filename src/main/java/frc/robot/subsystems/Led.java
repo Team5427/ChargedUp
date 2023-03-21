@@ -19,7 +19,7 @@ public class Led extends SubsystemBase{
 
 
     public static double ledCount = 0;
-    public static final double LED_SPEED = 1;
+    public static final double LED_SPEED = .5;
 
     public static final int INTAKE = 0;
     public static final int SCORING = 1;
@@ -164,22 +164,22 @@ public class Led extends SubsystemBase{
 
             // cooler led
             ledCount += LED_SPEED;
-            for(int j = 0; j < 6; j++){
-                for(int i = 0; i < 5; i++){
-                    int ledNum = (60 - Math.abs((int)(i + ledCount + (j * 10)) % 60));
+            for(int j = 0; j < 3; j++){
+                for(int i = 0; i < 8; i++){
+                    int ledNum = (60 - Math.abs((int)(i + ledCount + (j * 20)) % 60));
                     setLed(ledNum, rgb);
                     setLed(119 - ledNum, rgb);
                 }
             }
 
-            for(int j = 0; j < 6; j++){
+            for(int j = 0; j < 3; j++){
                 if((int)(ledCount - LED_SPEED) != (int) ledCount){
                     if(error){
-                        setLed((60 - Math.abs((int)(ledCount + (j * 10) - LED_SPEED) % 60)), LedConstants.RED_CODE);
-                        setLed(119 - (60 - Math.abs((int)(ledCount + (j * 10) - LED_SPEED) % 60)), LedConstants.RED_CODE);
+                        setLed((60 - Math.abs((int)(ledCount + (j * 20) - LED_SPEED) % 60)), LedConstants.RED_CODE);
+                        setLed(119 - (60 - Math.abs((int)(ledCount + (j * 20) - LED_SPEED) % 60)), LedConstants.RED_CODE);
                     } else{
-                        setLed((60 - Math.abs((int)(ledCount + (j * 10) - LED_SPEED) % 60)), LedConstants.WHITE_CODE);
-                        setLed(119 - (60 - Math.abs((int)(ledCount + (j * 10) - LED_SPEED) % 60)), LedConstants.WHITE_CODE);
+                        setLed((60 - Math.abs((int)(ledCount + (j * 20) - LED_SPEED) % 60)), LedConstants.WHITE_CODE);
+                        setLed(119 - (60 - Math.abs((int)(ledCount + (j * 20) - LED_SPEED) % 60)), LedConstants.WHITE_CODE);
                     }
                 }
             }

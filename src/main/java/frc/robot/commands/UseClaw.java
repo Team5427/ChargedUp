@@ -4,6 +4,8 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.ClawConstants;
 import frc.robot.Constants.JoystickConstants;
@@ -108,7 +110,11 @@ public class UseClaw extends CommandBase {
             led.setState(led.INTAKE);
         }
         if (!DriverStation.isAutonomous()) {
-            CommandScheduler.getInstance().schedule(new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE));
+            CommandScheduler.getInstance().schedule(new SequentialCommandGroup(
+                new WaitCommand(.3),
+                new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE)
+
+                ));
         }
 
         isRunning = false;

@@ -4,6 +4,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
@@ -19,6 +20,7 @@ import frc.robot.commands.UseClaw;
 import frc.robot.commands.Auton.SubRoutineSheet;
 import frc.robot.commands.Routines.MoveBotTo;
 import frc.robot.commands.Routines.MoveClawTo;
+import frc.robot.commands.Routines.Balancing.BalanceDoubleP;
 import frc.robot.commands.Routines.Balancing.BalanceLinear;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Claw;
@@ -54,7 +56,7 @@ public class ButtonBindings {
             swerve.toggleFieldRelative();
         }));
 
-        joy.button(JoystickConstants.LOCK_SWERVE).onTrue(new InstantCommand(() -> {
+        joy.button(JoystickConstants.LOCK_SWERVE).whileTrue(new RunCommand(() -> {
             swerve.lock();
         }, swerve));
 
@@ -82,7 +84,7 @@ public class ButtonBindings {
         operatorJoy1.button(JoystickConstants.SUBSTATION_PRESET).onTrue(new MoveClawTo(RoutineConstants.SUBSTATION_CLAW_STATE));
         operatorJoy1.button(JoystickConstants.FLOOR_INTAKE_PRESET_CUBES).onTrue(new MoveClawTo(RoutineConstants.CUBE_INTAKE_CLAW_STATE));
         operatorJoy1.button(JoystickConstants.FLOOR_INTAKE_PRESET_CONES).onTrue(new MoveClawTo(RoutineConstants.CONE_INTAKE_CLAW_STATE));
-        operatorJoy2.button(JoystickConstants.BALANCE_BTN).onTrue(new BalanceLinear());
+        operatorJoy2.button(JoystickConstants.BALANCE_BTN).onTrue(new BalanceDoubleP());
 
         operatorJoy1.button(JoystickConstants.ARM_RESET).whileTrue(new ManualArm(ArmConstants.MANUAL_ARM_SPEED));
 

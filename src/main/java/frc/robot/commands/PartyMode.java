@@ -17,7 +17,7 @@ public class PartyMode extends CommandBase{
 
     public boolean explode = false;
     public double locationMultiplier = 0.4;
-    public double locationAcc =  1.2;
+    public double locationAcc =  1.1;
 
     public int[][] colors;
 
@@ -27,13 +27,13 @@ public class PartyMode extends CommandBase{
             {255, 119, 0},
             {255, 42, 0},
             {255, 130, 100},
-            {255, 100, 148},
-            {230, 0, 255},
+            {255, 100, 0},
+            {230, 50, 105},
             {255, 0, 100},
             {255, 155, 125},
             {180, 0, 255},
-            {255, 0, 0},
-            {155, 0, 130}
+            {255, 255, 0},
+            {155, 130, 0}
         };
     }
 
@@ -52,7 +52,7 @@ public class PartyMode extends CommandBase{
 
             ledCount += LED_SPEED;
 
-            for(int i = 0; i < 3; i++){
+            for(int i = 0; i < 5; i++){
                 int ledNum = (Math.abs((int)(i + ledCount) % 60));
                 led.setLed(ledNum, LedConstants.WHITE_CODE);
                 led.setLed(119 - ledNum, LedConstants.WHITE_CODE);
@@ -79,6 +79,8 @@ public class PartyMode extends CommandBase{
                 if((int)(i * locationMultiplier * locationAcc) <= 60){
                     led.setLed(60 - ((int)(i * locationMultiplier * locationAcc)), colors[i]);
                     led.setLed(119 - (60 - ((int)(i * locationMultiplier * locationAcc))), colors[i]);
+                    led.setLed(60 - ((int)(i * locationMultiplier * locationAcc) + 1), colors[i]);
+                    led.setLed(119 - (60 - ((int)(i * locationMultiplier * locationAcc) + 1)), colors[i]);
                 }
             }
 

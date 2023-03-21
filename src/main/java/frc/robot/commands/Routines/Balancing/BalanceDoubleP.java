@@ -4,6 +4,8 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.subsystems.Swerve.SwerveDrive;
@@ -15,10 +17,10 @@ public class BalanceDoubleP extends CommandBase {
     private PIDController weakerPID;
     private PIDController strongerPID;
     private Timer timer;
-    private static final double WEAKER_P = 2; //FIXME may need to negate
-    private static final double STRONGER_P = 2; //FIXME may need to negate
-    private static final double SWITCH_THRESHHOLD_DEG = 5; //FIXME
-    private static final double ERROR_THRESHHOLD_DEG = 2; //FIXME
+    private static final double WEAKER_P = -0.015; //FIXME may need to negate
+    private static final double STRONGER_P = -0.045; //FIXME may need to negate
+    private static final double SWITCH_THRESHHOLD_DEG = 10.5; //FIXME
+    private static final double ERROR_THRESHHOLD_DEG = 7.5; //FIXME
     private static final double TIME_AT_GOAL_SEC = 2;
 
     public BalanceDoubleP() {
@@ -71,5 +73,14 @@ public class BalanceDoubleP extends CommandBase {
         } else {
             return false;
         }
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        CommandScheduler.getInstance().schedule(
+            new RunCommand(() -> {
+                dt.lock();
+            }, dt)
+        );
     }
 }

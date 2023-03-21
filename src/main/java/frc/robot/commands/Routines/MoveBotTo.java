@@ -141,10 +141,10 @@ public class MoveBotTo extends CommandBase {
         timer.reset();
         isRunning = false;
         runningSpeed = 0;
-        if (runTime > RoutineConstants.MOVE_BOT_TO_REPEAT_THRESHOLD_SEC) {
-            System.out.println("TRYING AGAIN");
-            CommandScheduler.getInstance().schedule(new MoveBotTo(this.type));
-        }
+        // if (runTime > RoutineConstants.MOVE_BOT_TO_REPEAT_THRESHOLD_SEC) {
+        //     System.out.println("TRYING AGAIN");
+        //     CommandScheduler.getInstance().schedule(new MoveBotTo(this.type));
+        // }
 
         swerve.hardSetModules(new SwerveModuleState[]{
             new SwerveModuleState(0, Rotation2d.fromDegrees(0)),

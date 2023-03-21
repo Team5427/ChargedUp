@@ -124,7 +124,7 @@ public class AutonSheet {
                     new ParallelRaceGroup(
                         new ParallelCommandGroup(
                             new SequentialCommandGroup(
-                                new WaitCommand(0.5),
+                                new WaitCommand(0.7),
                                 new UseClaw()
                             ),
                             new SequentialCommandGroup(

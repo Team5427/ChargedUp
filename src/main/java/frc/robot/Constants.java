@@ -262,7 +262,7 @@ public final class Constants {
         public static final double kI = 0.1;
         public static final double kD = 0.1;
         public static final double MAX_SPEED_M_S = MiscConstants.MAX_NEO_SPEED_RPM * VELOCITY_CONVERSION_FACTOR_RPM_TO_MPS / 2;
-        public static final double MAX_ACCEL_M_S_S = MAX_SPEED_M_S / 6;
+        public static final double MAX_ACCEL_M_S_S = MAX_SPEED_M_S / 8;
         public static final double GOAL_TOLERANCE_METERS = .03;
         public static final int CURRENT_LIMIT_AMPS = 40;
     }
@@ -285,7 +285,7 @@ public final class Constants {
         public static final double ARM_CONTROLLER_TOLERANCE_RAD_JANK = Units.degreesToRadians(6);
         public static final double GEARBOX_GEARING = (1.0 / 100.0) * (17.0 / 20.0) * (20.0 / 32.0);
         public static final double MAX_SPEED_RAD_S = Units.rotationsPerMinuteToRadiansPerSecond(MiscConstants.MAX_NEO_SPEED_RPM * GEARBOX_GEARING);
-        public static final double MAX_ACCEL_RAD_S_S = MAX_SPEED_RAD_S * 3;
+        public static final double MAX_ACCEL_RAD_S_S = MAX_SPEED_RAD_S * 2;
         public static final double MAX_ACCEL_RAD_S_S_EXTENDED = MAX_SPEED_RAD_S;
         public static final double UPPER_LIMIT_RAD = 1.45;
         public static final double LOWER_LIMIT_RAD = -1;
