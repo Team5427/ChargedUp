@@ -66,11 +66,11 @@ public class Claw extends SubsystemBase {
     }
 
     public void grab(boolean closed) {
-        grabber.set(closed);
+        grabber.set(!closed);
     }
 
     public boolean getGrabber() {
-        return grabber.get();
+        return !grabber.get();
     }
 
     public void toggleGrabber(){
