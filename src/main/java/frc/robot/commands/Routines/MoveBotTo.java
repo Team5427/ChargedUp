@@ -13,6 +13,7 @@ import frc.robot.Constants.JoystickConstants;
 import frc.robot.Constants.RoutineConstants;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.RobotContainer;
+import frc.robot.commands.JoystickSwerve;
 import frc.robot.commands.Routines.StateTypes.PositionState;
 import frc.robot.subsystems.Swerve.SwerveDrive;
 import frc.robot.util.OdometryMath2023;
@@ -27,6 +28,7 @@ public class MoveBotTo extends CommandBase {
     public static double runningSpeed = 0;
     private static ProfiledPIDController xController, yController, thetaController;
     private Timer timer;
+    private Timer timer2;
     private static RoutineConstants.POSITION_TYPE lastPositionType;
     private RoutineConstants.POSITION_TYPE setType;
     private boolean isJank;
@@ -37,6 +39,7 @@ public class MoveBotTo extends CommandBase {
         swerve = RobotContainer.getSwerve();
         addRequirements(swerve);
         timer = new Timer();
+        timer2 = new Timer();
         isJank = false;
         this.type = type;
         // initControllers();
@@ -48,6 +51,7 @@ public class MoveBotTo extends CommandBase {
         swerve = RobotContainer.getSwerve();
         addRequirements(swerve);
         timer = new Timer();
+        timer2 = new Timer();
         isJank = true;
         this.setpoint = type;
         isRunning = false;
@@ -64,6 +68,8 @@ public class MoveBotTo extends CommandBase {
         // runTime = 0;
         timer.reset();
         timer.start();
+        timer2.reset();
+        timer2.start();
         OdometryMath2023.reseedOdometry();
         xController.setGoal(setpoint.getX());
         yController.setGoal(setpoint.getY());
@@ -109,23 +115,25 @@ public class MoveBotTo extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        if(
-            RobotContainer.getJoy().getHID().getPOV() != -1 ||
-            RobotContainer.getOperatorJoy1().getHID().getPOV() != -1
-        ){
-            return true;
-        }
+        // if(
+        //     RobotContainer.getJoy().getHID().getPOV() != -1 ||
+        //     RobotContainer.getOperatorJoy1().getHID().getPOV() != -1
+        // ){
+        //     return true;
+        // }
 
 
         if (
             (Math.abs(xController.getPositionError()) < RoutineConstants.TRANSLATION_TOLERANCE_METERS && xController.getSetpoint().equals(xController.getGoal())) && 
             (Math.abs(yController.getPositionError()) < RoutineConstants.TRANSLATION_TOLERANCE_METERS && yController.getSetpoint().equals(yController.getGoal())) && 
-            (Math.abs(thetaController.getPositionError()) < RoutineConstants.TRANSLATION_TOLERANCE_METERS && thetaController.getSetpoint().equals(thetaController.getGoal()))
+            (Math.abs(thetaController.getPositionError()) < RoutineConstants.ROTATION_TOLERANCE_RAD && thetaController.getSetpoint().equals(thetaController.getGoal()))
         ) {
             goodToRelease = true;
             lastPositionType = this.setType;
+            // System.out.println("++++++++++++++++++++FINISHED FUCKING THING+++++++++++++++++++++++++");
+            // CommandScheduler.getInstance().schedule(new JoystickSwerve());
             return true;
-        } else if (RobotContainer.getJoy().getHID().getRawButton(JoystickConstants.CANCEL_ALL_COMMANDS_D) || RobotContainer.getJoy().getHID().getRawButton(JoystickConstants.CANCEL_ALL_COMMANDS_O)) {
+        } else if (RobotContainer.getJoy().getHID().getRawButton(JoystickConstants.CANCEL_ALL_COMMANDS_D)) {
             return true;
         } else {
             return false;
@@ -141,25 +149,20 @@ public class MoveBotTo extends CommandBase {
         timer.reset();
         isRunning = false;
         runningSpeed = 0;
-        // if (runTime > RoutineConstants.MOVE_BOT_TO_REPEAT_THRESHOLD_SEC) {
-        //     System.out.println("TRYING AGAIN");
-        //     CommandScheduler.getInstance().schedule(new MoveBotTo(this.type));
-        // }
-
-        swerve.hardSetModules(new SwerveModuleState[]{
-            new SwerveModuleState(0, Rotation2d.fromDegrees(0)),
-            new SwerveModuleState(0, Rotation2d.fromDegrees(0)),
-            new SwerveModuleState(0, Rotation2d.fromDegrees(0)),
-            new SwerveModuleState(0, Rotation2d.fromDegrees(0))
-        });
+        if (runTime > RoutineConstants.MOVE_BOT_TO_REPEAT_THRESHOLD_SEC) {
+            System.out.println("TRYING AGAIN");
+            CommandScheduler.getInstance().schedule(new MoveBotTo(this.type));
+        } else {
+            CommandScheduler.getInstance().schedule(new JoystickSwerve());
+        }
     }
 
     private void initControllers() {
         xController = new ProfiledPIDController(
             RoutineConstants.TRANSLATION_P, 0, 0, 
             new Constraints(
-                RoutineConstants.ROUTINE_MAX_TRANSLATION_SPEED_M_S, 
-                RoutineConstants.ROUTINE_MAX_TRANSLATION_ACCEL_M_S_S
+                RoutineConstants.ROUTINE_MAX_TRANSLATION_SPEED_M_S/1.25, 
+                RoutineConstants.ROUTINE_MAX_TRANSLATION_ACCEL_M_S_S/1.25
             )
         );
         xController.setTolerance(RoutineConstants.TRANSLATION_TOLERANCE_METERS);

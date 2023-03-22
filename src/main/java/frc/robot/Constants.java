@@ -196,10 +196,10 @@ public final class Constants {
 
         public static final double ROT_THRESH_RAD = Math.PI/4;
         public static final double SCORING_LEVEL_OFFSET_METERS = Units.inchesToMeters(66);
-        public static final double TRANSLATION_TOLERANCE_METERS = 0.025;
+        public static final double TRANSLATION_TOLERANCE_METERS = 0.02;
         public static final double ROTATION_TOLERANCE_RAD = Units.degreesToRadians(2);
 
-        public static final double MOVE_BOT_TO_REPEAT_THRESHOLD_SEC = 0.25;
+        public static final double MOVE_BOT_TO_REPEAT_THRESHOLD_SEC = 1;
 
         public static final double Y_LEVEL_1_METERS = Units.inchesToMeters(75.34); 
         public static final double Y_LEVEL_2_METERS = Units.inchesToMeters(141.34);
@@ -335,7 +335,7 @@ public final class Constants {
         public static final double OUTTAKE_SPEED_DECIMAL_SHOOTING = -1.0;
         public static final double CUBE_OUTTAKE_EXCESS_TIME_S = 0.4;
 
-        public static final double PROX_VALUE = .875;
+        public static final double PROX_VALUE = 1;
         public static final double PURPLE_THRESH = 600.0;
     }
 

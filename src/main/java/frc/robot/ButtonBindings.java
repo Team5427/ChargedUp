@@ -119,7 +119,7 @@ public class ButtonBindings {
 
         operatorJoy2.button(JoystickConstants.PARTY_MODE).onTrue(new PartyMode());
 
-        operatorJoy2.button(JoystickConstants.INTAKE).onTrue(new UseIntake());
+        // operatorJoy2.button(JoystickConstants.INTAKE).onTrue(new UseIntake());
 
     
     }

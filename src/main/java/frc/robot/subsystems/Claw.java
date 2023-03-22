@@ -100,8 +100,9 @@ public class Claw extends SubsystemBase {
         }
 
         if (MoveBotTo.goodToRelease && MoveClawTo.goodToRelease) {
-            // MoveBotTo.goodToRelease = false; //will uncomment when we trust vision enough
-            // MoveClawTo.goodToRelease = false;
+            MoveBotTo.goodToRelease = false; //will uncomment when we trust vision enough
+            MoveClawTo.goodToRelease = false;
+            System.out.println("RELEASE");
             // CommandScheduler.getInstance().schedule(new UseClaw());
         }
 
