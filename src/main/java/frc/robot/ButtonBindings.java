@@ -17,6 +17,7 @@ import frc.robot.commands.ManualArm;
 import frc.robot.commands.ManualClaw;
 import frc.robot.commands.PartyMode;
 import frc.robot.commands.UseClaw;
+import frc.robot.commands.UseIntake;
 import frc.robot.commands.Auton.SubRoutineSheet;
 import frc.robot.commands.Routines.MoveBotTo;
 import frc.robot.commands.Routines.MoveClawTo;
@@ -117,6 +118,8 @@ public class ButtonBindings {
         ));
 
         operatorJoy2.button(JoystickConstants.PARTY_MODE).onTrue(new PartyMode());
+
+        operatorJoy2.button(JoystickConstants.INTAKE).onTrue(new UseIntake());
 
     
     }

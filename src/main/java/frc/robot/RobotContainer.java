@@ -13,14 +13,17 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
+import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.JoystickConstants;
 import frc.robot.commands.JoystickSwerve;
+import frc.robot.commands.SetIntakeTilt;
 import frc.robot.commands.Auton.AutonSheet;
 import frc.robot.commands.Auton.SubRoutineSheet;
 import frc.robot.pathUtil.SwervePathMaker;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Led;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Swerve.SwerveDrive;
@@ -34,6 +37,7 @@ public class RobotContainer {
   private static Arm arm;
   private static Claw claw;
   private static Led led;
+  private static Intake intake;
 
   private static PneumaticHub hub;
 
@@ -61,6 +65,8 @@ public class RobotContainer {
     elevator = new Elevator();
     arm = new Arm();
     claw = new Claw();
+    // intake = new Intake();
+    // intake.setDefaultCommand(new SetIntakeTilt(IntakeConstants.UNDEPLOYED_POS_RAD));
 
     hub = new PneumaticHub(28);
     hub.enableCompressorDigital();
@@ -111,4 +117,5 @@ public class RobotContainer {
   public static Arm getArm(){return arm;}
   public static Claw getClaw() {return claw;}
   public static Led getLed(){return led;}
+  public static Intake getIntake(){return intake;}
 }

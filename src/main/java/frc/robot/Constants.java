@@ -183,6 +183,7 @@ public final class Constants {
         public static final int MID_RIGHT_SCORE = 6;
 
         public static final int PARTY_MODE = 9;
+        public static final int INTAKE = 10; //FIXME BIND THIS
     }
 
     public static final class RoutineConstants {
@@ -334,6 +335,26 @@ public final class Constants {
 
         public static final double PROX_VALUE = .875;
         public static final double PURPLE_THRESH = 600.0;
+    }
+
+    public static final class IntakeConstants{
+        public static final int TILT_ID = 0;
+        public static final int INTAKE_ID = 0;
+        public static final int THROUGHBORE_ID = 0;
+        public static final int PROX_ID = 0;
+
+        public static final double TILT_SPEED = .2;
+        public static final double INTAKE_SPEED = .3;
+        public static final double OUTTAKE_SPEED = -1;
+
+        public static final double ENCODER_OFFSET_RAD = 4.22;
+        public static final double DEPLOYED_POS_RAD = 0; 
+        public static final double UNDEPLOYED_POS_RAD = 5.85 - ENCODER_OFFSET_RAD;
+        public static final double TOLERANCE_RAD = Units.degreesToRadians(5);
+
+        public static final double INTAKE_COVERED = .3;
+        public static final double OUTTAKE_TIME = .5;
+
     }
 
     public static final class MiscConstants {
