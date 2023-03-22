@@ -7,6 +7,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.util.Logger;
 
@@ -76,12 +77,31 @@ public class Intake extends SubsystemBase{
 
     @Override
     public void periodic(){
+
+        if(RobotContainer.getOperatorJoy3().getHID().getRawButton(1)){
+            setIntake(IntakeConstants.INTAKE_SPEED);
+        } else if(RobotContainer.getOperatorJoy3().getHID().getRawButton(2)){
+            setIntake(-IntakeConstants.OUTTAKE_SPEED);
+        } else{
+            stopIntake();
+        }
+        if(RobotContainer.getOperatorJoy3().getHID().getRawButton(3)){
+            setTilt(IntakeConstants.TILT_SPEED);
+        } else if(RobotContainer.getOperatorJoy3().getHID().getRawButton(4)){
+            setTilt(-IntakeConstants.TILT_SPEED);
+        } else{
+            stopTilt();
+        }
+
         log();
     }
     
     private void log(){
         Logger.post("deployed", deployed);
         Logger.post("intake angle", getAngle());
+
+        Logger.post("intake Prox", getProximity());
+        
     }
     
 }

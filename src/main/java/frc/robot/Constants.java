@@ -141,7 +141,7 @@ public final class Constants {
         public static final int DRIVER_CONTROLLER = 0;
         public static final int OPERATION_CONTROLLER = 1;
         public static final int OPERATION2_CONTROLLER = 2;
-        public static final int OPERATION_3_CONTROLLER = 3;
+        public static final int OPERATION3_CONTROLLER = 3;
 
         //DRIVER bindings
         
@@ -171,7 +171,7 @@ public final class Constants {
         public static final int ARM_RESET = 10;
 
         //OPERATION 2 BINDINGS
-        // Buttons not in use:  10
+        // Buttons not in use:  none
         public static final int LOCK_SWERVE_O = 1;
         public static final int UNLOCK_SWERVE_O = 2;
         public static final int SS = 7;
@@ -184,6 +184,8 @@ public final class Constants {
 
         public static final int PARTY_MODE = 9;
         public static final int INTAKE = 10; //FIXME BIND THIS
+
+        //OPERATION 3 BINDINGS
     }
 
     public static final class RoutineConstants {
