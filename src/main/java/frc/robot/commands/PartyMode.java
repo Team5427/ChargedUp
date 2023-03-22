@@ -13,84 +13,42 @@ public class PartyMode extends CommandBase{
     public static boolean running = false;
 
     public double ledCount = 0;
-    public final double LED_SPEED = 1;
-
-    public boolean explode = false;
-    public double locationMultiplier = 0.4;
-    public double locationAcc =  1.1;
+    public final double LED_SPEED = 5;
 
     public int[][] colors;
 
     public PartyMode(){
         addRequirements(led);
         colors = new int[][]{
-            {255, 119, 0},
-            {255, 42, 0},
-            {255, 130, 100},
-            {255, 100, 0},
-            {230, 50, 105},
-            {255, 0, 100},
-            {255, 155, 125},
+            {255, 130, 130},
+            {255, 180, 90},
+            {255, 230, 100},
+            {170, 255, 90},
+            {90, 250, 205},
+            {90, 190, 240},
+            {155, 95, 225},
             {180, 0, 255},
-            {255, 255, 0},
-            {155, 130, 0}
+            {225, 95, 240},
+            {255, 130, 200}
         };
     }
 
     @Override
     public void initialize(){
         ledCount = 0;
-        explode = false;
-        locationMultiplier = 0.4;
-
         running = true;
     }
 
     @Override
     public void execute(){
-        if(!explode){
+        ledCount++;
 
-            for(int i = 0; i <  colors.length; i++){
-                if((int)(i * locationMultiplier) <= 60){
-                    led.setLed(((int)(i * locationMultiplier)), LedConstants.CLEAR_CODE);
-                    led.setLed(119 - (((int)(i * locationMultiplier))), LedConstants.CLEAR_CODE);
-                }
-
-                if((int)(i * locationMultiplier * locationAcc) <= 60){
-                    led.setLed(((int)(i * locationMultiplier * locationAcc)), colors[i]);
-                    led.setLed(119 - (((int)(i * locationMultiplier * locationAcc))), colors[i]);
-                    led.setLed(((int)(i * locationMultiplier * locationAcc) + 1), colors[i]);
-                    led.setLed(119 - (((int)(i * locationMultiplier * locationAcc) + 1)), colors[i]);
-                }
+        if(ledCount >= LED_SPEED){
+            for(int i = 0; i < 60; i++){
+                led.setLed(i, colors[(int)(Math.random() * 10)]);
+                led.setLed(i + 1, colors[(int)(Math.random() * 10)]);
             }
-
-            locationMultiplier *= locationAcc;
-            if(locationMultiplier > 15){
-                explode = true;
-                led.fill(LedConstants.CLEAR_CODE);
-                locationMultiplier = .4;
-            }
-        } else{
-            for(int i = 0; i <  colors.length; i++){
-                if((int)(i * locationMultiplier) <= 60){
-                    led.setLed(60 - ((int)(i * locationMultiplier)), LedConstants.CLEAR_CODE);
-                    led.setLed(119 - (60 - ((int)(i * locationMultiplier))), LedConstants.CLEAR_CODE);
-                }
-
-                if((int)(i * locationMultiplier * locationAcc) <= 60){
-                    led.setLed(60 - ((int)(i * locationMultiplier * locationAcc)), colors[i]);
-                    led.setLed(119 - (60 - ((int)(i * locationMultiplier * locationAcc))), colors[i]);
-                    led.setLed(60 - ((int)(i * locationMultiplier * locationAcc) + 1), colors[i]);
-                    led.setLed(119 - (60 - ((int)(i * locationMultiplier * locationAcc) + 1)), colors[i]);
-                }
-            }
-
-            locationMultiplier *= locationAcc;
-            if(locationMultiplier > 15){
-                explode = false;
-                led.fill(LedConstants.CLEAR_CODE);
-                locationMultiplier = .4;
-            }
+            ledCount = 0;
         }
     }
 
