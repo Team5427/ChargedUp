@@ -50,24 +50,25 @@ public class PartyMode extends CommandBase{
     public void execute(){
         if(!explode){
 
-            ledCount += LED_SPEED;
+            for(int i = 0; i <  colors.length; i++){
+                if((int)(i * locationMultiplier) <= 60){
+                    led.setLed(((int)(i * locationMultiplier)), LedConstants.CLEAR_CODE);
+                    led.setLed(119 - (((int)(i * locationMultiplier))), LedConstants.CLEAR_CODE);
+                }
 
-            for(int i = 0; i < 5; i++){
-                int ledNum = (Math.abs((int)(i + ledCount) % 60));
-                led.setLed(ledNum, LedConstants.WHITE_CODE);
-                led.setLed(119 - ledNum, LedConstants.WHITE_CODE);
+                if((int)(i * locationMultiplier * locationAcc) <= 60){
+                    led.setLed(((int)(i * locationMultiplier * locationAcc)), colors[i]);
+                    led.setLed(119 - (((int)(i * locationMultiplier * locationAcc))), colors[i]);
+                    led.setLed(((int)(i * locationMultiplier * locationAcc) + 1), colors[i]);
+                    led.setLed(119 - (((int)(i * locationMultiplier * locationAcc) + 1)), colors[i]);
+                }
             }
 
-            if((int)(ledCount - LED_SPEED) != (int) ledCount){
-                led.setLed((Math.abs((int)(ledCount - LED_SPEED) % 60)), LedConstants.CLEAR_CODE);
-                led.setLed(119 - (Math.abs((int)(ledCount - LED_SPEED) % 60)), LedConstants.CLEAR_CODE);
-                
-            }
-
-            if(ledCount > 60){
-                ledCount = 0;
-
+            locationMultiplier *= locationAcc;
+            if(locationMultiplier > 15){
                 explode = true;
+                led.fill(LedConstants.CLEAR_CODE);
+                locationMultiplier = .4;
             }
         } else{
             for(int i = 0; i <  colors.length; i++){

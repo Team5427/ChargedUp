@@ -78,7 +78,8 @@ public class RobotContainer {
       "TopSingleConeIntakeEngage1", 
       "TopSingleConeIntake1",
       "TopDoubleConeScore1",
-      "TopDoubleConeScore2"
+      "TopDoubleConeScore2",
+      "BottomSingleConeIntakeEngage1"
     );
     AutonSheet.initAutons();
     SubRoutineSheet.initSubRoutines();
@@ -87,6 +88,7 @@ public class RobotContainer {
     autonSelector.setDefaultOption("Engage",AutonSheet.topSingleConeIntakeEngage); 
     autonSelector.addOption("Pickup NO ENGAGE",AutonSheet.topSingleConeIntake);
     autonSelector.addOption("Pickup 2 NO ENGAGE",AutonSheet.topDoubleConeScore);
+    autonSelector.addOption("BOTTOM SIDE INTAKE ENGAGE", AutonSheet.bottomSingleConeIntakeEngage);
 
     Logger.postComplex("Auton Paths", autonSelector);
     new ButtonBindings(getJoy(), getOperatorJoy1(), getOperatorJoy2());

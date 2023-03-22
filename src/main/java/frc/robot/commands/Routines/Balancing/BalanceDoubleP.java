@@ -17,7 +17,7 @@ public class BalanceDoubleP extends CommandBase {
     private PIDController weakerPID;
     private PIDController strongerPID;
     private Timer timer;
-    private static final double WEAKER_P = -0.015; //FIXME may need to negate
+    private static final double WEAKER_P = -0.02; //FIXME may need to negate
     private static final double STRONGER_P = -0.045; //FIXME may need to negate
     private static final double SWITCH_THRESHHOLD_DEG = 10.5; //FIXME
     private static final double ERROR_THRESHHOLD_DEG = 7.5; //FIXME

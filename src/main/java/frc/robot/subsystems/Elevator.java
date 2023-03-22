@@ -14,6 +14,7 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.*;
+import frc.robot.util.Logger;
 
 public class Elevator extends SubsystemBase {
 
@@ -124,6 +125,7 @@ public class Elevator extends SubsystemBase {
     }
 
     private void log() {
+        Logger.post("Elevator Encoder", getHeight());
     }
     
 }
