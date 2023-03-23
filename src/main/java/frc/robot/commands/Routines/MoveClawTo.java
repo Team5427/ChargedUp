@@ -30,6 +30,8 @@ public class MoveClawTo extends CommandBase {
     @Override
     public void initialize() {
         goodToRelease = false;
+        arm.resetPIDs();
+        elevator.resetPIDs();
         timer.reset();
         timer.start();
         Logger.post("Arm Finished", false);
@@ -54,8 +56,6 @@ public class MoveClawTo extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        // System.out.println("Elevator Error: " + (elevator.getHeight() - setPoint.getHeight()) + "   Arm Error: " + (arm.getAngle() - setPoint.getAngle()));
-
         if (RobotContainer.getJoy().getHID().getRawButton(8)) {
             return false;
         } else if (elevator.atGoal(setPoint.getHeight()) && arm.atGoal(setPoint.getAngle())) {

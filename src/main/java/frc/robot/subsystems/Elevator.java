@@ -106,6 +106,10 @@ public class Elevator extends SubsystemBase {
         return (getHeight() >= ElevatorConstants.UPPER_LIMIT_METERS);
     }
 
+    public void resetPIDs() {
+        elevatorController.reset(getHeight());
+    }
+
     @Override
     public void periodic() {
         if (!DriverStation.isEnabled() || RobotContainer.getOperatorJoy1().getHID().getRawButton(JoystickConstants.ELEVATOR_RESET)) {

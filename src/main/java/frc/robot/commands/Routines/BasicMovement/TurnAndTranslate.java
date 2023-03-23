@@ -72,6 +72,7 @@ public class TurnAndTranslate extends CommandBase {
         headingPID.enableContinuousInput(-Math.PI, Math.PI);
         headingPID.setGoal(headingRadians.getRadians());
         headingPID.reset(rot.getRadians());
+        dt.resetLimiters();
         timer.reset();
         timer.start();
     }
@@ -80,9 +81,8 @@ public class TurnAndTranslate extends CommandBase {
     public void execute() {
         Rotation2d rot = dt.getRotation2d();
         double calc = headingPID.calculate(rot.getRadians());
-        SwerveModuleState[] moduleStates;
 
-        moduleStates = SwerveConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(
+        dt.setChassisSpeeds(
             ChassisSpeeds.fromFieldRelativeSpeeds(
                 speedMPS * holonomicRotationRadians.getCos(),
                 speedMPS * holonomicRotationRadians.getSin(),
@@ -90,7 +90,6 @@ public class TurnAndTranslate extends CommandBase {
                 rot
             )
         );
-        dt.setModules(moduleStates);
     }
 
     @Override

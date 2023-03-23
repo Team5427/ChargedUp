@@ -4,10 +4,12 @@ import java.util.List;
 
 import com.ctre.phoenix.sensors.WPI_Pigeon2;
 
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Quaternion;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
@@ -15,6 +17,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.MiscConstants;
+import frc.robot.Constants.RoutineConstants;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.util.Logger;
 import frc.robot.util.OdometryMath2023;
@@ -27,12 +30,19 @@ public class SwerveDrive extends SubsystemBase {
     private boolean locked;
     private SwerveDriveOdometry odometer;
     private Field2d field;
+    private SlewRateLimiter xLimiter;
+    private SlewRateLimiter yLimiter;
+    private SlewRateLimiter thetaLimiter;
 
     public SwerveDrive (WPI_Pigeon2 m_gyro) {
         this.frontLeft = new SwerveModule(SwerveConstants.SwerveModuleType.FRONT_LEFT);
         this.frontRight = new SwerveModule(SwerveConstants.SwerveModuleType.FRONT_RIGHT);
         this.backLeft = new SwerveModule(SwerveConstants.SwerveModuleType.BACK_LEFT);
         this.backRight = new SwerveModule(SwerveConstants.SwerveModuleType.BACK_RIGHT);
+        xLimiter = new SlewRateLimiter(RoutineConstants.ROUTINE_MAX_TRANSLATION_ACCEL_M_S_S);
+        yLimiter = new SlewRateLimiter(RoutineConstants.ROUTINE_MAX_TRANSLATION_ACCEL_M_S_S);
+        thetaLimiter = new SlewRateLimiter(RoutineConstants.ROUTINE_MAX_ROTATION_ACCEL_RAD_S_S);
+        resetLimiters();
         this.gyro = m_gyro;
         isFieldRelative = MiscConstants.FIELD_RELATIVE_ON_START;
         locked = false;
@@ -51,6 +61,12 @@ public class SwerveDrive extends SubsystemBase {
 
     public void resetGyro() {
         gyro.reset();
+    }
+
+    public void resetLimiters() {
+        xLimiter.reset(0);
+        yLimiter.reset(0);
+        thetaLimiter.reset(0);
     }
 
     public double getRollDeg() {
@@ -105,6 +121,14 @@ public class SwerveDrive extends SubsystemBase {
         frontRight.hardSetModState(desiredStates[1]);
         backLeft.hardSetModState(desiredStates[2]);
         backRight.hardSetModState(desiredStates[3]);
+    }
+
+    public void setChassisSpeeds(ChassisSpeeds speeds) {
+        double xSpeed = xLimiter.calculate(speeds.vxMetersPerSecond);
+        double ySpeed = yLimiter.calculate(speeds.vyMetersPerSecond);
+        double thetaSpeed = thetaLimiter.calculate(speeds.omegaRadiansPerSecond);
+        ChassisSpeeds setSpeeds = new ChassisSpeeds(xSpeed, ySpeed, thetaSpeed);
+        setModules(SwerveConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(speeds));
     }
 
     public Pose2d getPose() {

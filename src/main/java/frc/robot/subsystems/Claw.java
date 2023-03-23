@@ -40,7 +40,7 @@ public class Claw extends SubsystemBase {
     }
 
     public ClawConstants.GAME_PIECE_STATE getState(boolean isPurple) {
-        if (sensor.getVoltage() > ClawConstants.PROX_VALUE) { //has game piece
+        if (sensor.getAverageVoltage() > ClawConstants.PROX_VALUE) { //has game piece
             if (isPurple) {
                 return ClawConstants.GAME_PIECE_STATE.CUBE;
             } else {

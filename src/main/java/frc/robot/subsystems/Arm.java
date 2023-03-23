@@ -106,6 +106,10 @@ public class Arm extends SubsystemBase {
         btmMotor.stopMotor();
     }
 
+    public void resetPIDs() {
+        armController.reset(getAngle());
+    }
+
     @Override
     public void periodic() {
 
@@ -120,7 +124,7 @@ public class Arm extends SubsystemBase {
 
             if (atJankGoal() && (setPoint == ArmConstants.UPPER_LIMIT_RAD)) {
                 set(0.025);
-                armController.reset(getAngle());
+                resetPIDs();
             } else {
                 calc = armController.calculate(getAngle());
                 set(calc);    

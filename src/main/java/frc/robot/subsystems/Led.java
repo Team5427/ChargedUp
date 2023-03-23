@@ -4,8 +4,10 @@ import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
 import frc.robot.Constants.LedConstants;
 import frc.robot.commands.PartyMode;
+import frc.robot.util.Logger;
 
 public class Led extends SubsystemBase{
 
@@ -187,7 +189,14 @@ public class Led extends SubsystemBase{
 
             
         }
-        frc.robot.util.Logger.post("isPurple", isPurple);
+        Logger.post("isPurple", isPurple);
+
+        if (RobotContainer.getClaw().proxCovered()) {
+            setState(SCORING);
+        } else {
+            setState(INTAKE);
+        }
+
         led.setData(ledBuffer);
         led.start();
     }

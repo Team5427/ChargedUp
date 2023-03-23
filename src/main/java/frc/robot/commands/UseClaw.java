@@ -104,11 +104,6 @@ public class UseClaw extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        if(intake){
-            led.setState(led.SCORING);
-        } else{
-            led.setState(led.INTAKE);
-        }
         if (!DriverStation.isAutonomous()) {
             CommandScheduler.getInstance().schedule(new SequentialCommandGroup(
                 new WaitCommand(.3),
