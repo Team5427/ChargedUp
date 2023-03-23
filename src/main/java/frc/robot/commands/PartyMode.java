@@ -13,23 +13,18 @@ public class PartyMode extends CommandBase{
     public static boolean running = false;
 
     public double ledCount = 0;
-    public final double LED_SPEED = 5;
+    public final double LED_SPEED = .1;
 
     public int[][] colors;
 
     public PartyMode(){
         addRequirements(led);
         colors = new int[][]{
-            {255, 130, 130},
-            {255, 180, 90},
-            {255, 230, 100},
-            {170, 255, 90},
-            {90, 250, 205},
-            {90, 190, 240},
-            {155, 95, 225},
-            {180, 0, 255},
-            {225, 95, 240},
-            {255, 130, 200}
+            {255, 255, 255},
+            {255, 224, 23},
+            {255, 33, 204},
+            {76, 22, 255},
+            {43, 19, 69}
         };
     }
 
@@ -41,15 +36,23 @@ public class PartyMode extends CommandBase{
 
     @Override
     public void execute(){
-        ledCount++;
+        ledCount += LED_SPEED;
 
-        if(ledCount >= LED_SPEED){
-            for(int i = 0; i < 60; i++){
-                led.setLed(i, colors[(int)(Math.random() * 10)]);
-                led.setLed(i + 1, colors[(int)(Math.random() * 10)]);
+            for(int i = 0; i < 6; i++){
+                for(int j = 0; j < 5; j++){
+                    led.setLed((i * 30) + (j * 6), colors[((int)ledCount + j)%5]);
+                    led.setLed((i * 30) + (j * 6) + 1, colors[((int)ledCount + j)%5]);
+                    led.setLed((i * 30) + (j * 6) + 2, colors[((int)ledCount + j)%5]);
+                    led.setLed((i * 30) + (j * 6) + 3, colors[((int)ledCount + j)%5]);
+                    led.setLed((i * 30) + (j * 6) + 4, colors[((int)ledCount + j)%5]);
+                    led.setLed((i * 30) + (j * 6) + 5, colors[((int)ledCount + j)%5]);
+
+                }
             }
-            ledCount = 0;
-        }
+        
+            if(ledCount > 4){
+                ledCount = 0;
+            }
     }
 
     @Override

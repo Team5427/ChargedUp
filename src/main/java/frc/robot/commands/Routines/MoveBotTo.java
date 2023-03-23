@@ -6,6 +6,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -152,7 +153,7 @@ public class MoveBotTo extends CommandBase {
         if (runTime > RoutineConstants.MOVE_BOT_TO_REPEAT_THRESHOLD_SEC) {
             System.out.println("TRYING AGAIN");
             CommandScheduler.getInstance().schedule(new MoveBotTo(this.type));
-        } else {
+        } else if(DriverStation.isTeleop()){
             CommandScheduler.getInstance().schedule(new JoystickSwerve());
         }
     }
