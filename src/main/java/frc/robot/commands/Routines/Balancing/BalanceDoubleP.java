@@ -18,10 +18,10 @@ public class BalanceDoubleP extends CommandBase {
     private PIDController strongerPID;
     private Timer timer;
     private static final double WEAKER_P = -0.02; //FIXME may need to negate
-    private static final double STRONGER_P = -0.045; //FIXME may need to negate
-    private static final double SWITCH_THRESHHOLD_DEG = 10.5; //FIXME
-    private static final double ERROR_THRESHHOLD_DEG = 7.5; //FIXME
-    private static final double TIME_AT_GOAL_SEC = 2;
+    private static final double STRONGER_P = -0.05; //FIXME may need to negate
+    private static final double SWITCH_THRESHHOLD_DEG = 9.5; //FIXME
+    private static final double ERROR_THRESHHOLD_DEG = 5; //FIXME
+    private static final double TIME_AT_GOAL_SEC = 3;
 
     public BalanceDoubleP() {
         dt = RobotContainer.getSwerve();
@@ -57,16 +57,18 @@ public class BalanceDoubleP extends CommandBase {
                 dt.getRotation2d()
             ))
         );
-    }
 
-    @Override
-    public boolean isFinished() {
         if (Math.abs(dt.getRobotTiltGlobalYAxisDeg()) < ERROR_THRESHHOLD_DEG) {
             timer.start();
         } else {
             timer.stop();
             timer.reset();
         }
+    }
+
+    @Override
+    public boolean isFinished() {
+
 
         if (timer.get() > TIME_AT_GOAL_SEC) {
             return true;
@@ -77,10 +79,10 @@ public class BalanceDoubleP extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        CommandScheduler.getInstance().schedule(
-            new RunCommand(() -> {
-                dt.lock();
-            }, dt)
-        );
+        // CommandScheduler.getInstance().schedule(
+        //     new RunCommand(() -> {
+        //         dt.lock();
+        //     }, dt)
+        // );
     }
 }

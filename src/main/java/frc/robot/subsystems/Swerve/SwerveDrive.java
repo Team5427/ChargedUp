@@ -128,7 +128,7 @@ public class SwerveDrive extends SubsystemBase {
         double ySpeed = yLimiter.calculate(speeds.vyMetersPerSecond);
         double thetaSpeed = thetaLimiter.calculate(speeds.omegaRadiansPerSecond);
         ChassisSpeeds setSpeeds = new ChassisSpeeds(xSpeed, ySpeed, thetaSpeed);
-        setModules(SwerveConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(speeds));
+        setModules(SwerveConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(setSpeeds));
     }
 
     public Pose2d getPose() {
@@ -148,7 +148,6 @@ public class SwerveDrive extends SubsystemBase {
         if (!OdometryMath2023.isBlue()) {
             rot = OdometryMath2023.flip(rot);
         }
-        System.out.println("==============================" + gyro.setYaw(rot.getDegrees()));
     }
 
     public void resetMods() {

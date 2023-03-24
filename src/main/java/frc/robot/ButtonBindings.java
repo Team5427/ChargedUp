@@ -68,7 +68,10 @@ public class ButtonBindings {
         joy.button(JoystickConstants.CLAW_OUTTAKE).whileTrue(new ManualClaw(ClawConstants.OUTTAKE_SPEED_DECIMAL));
         joy.button(JoystickConstants.CLAW_CLAMP).onTrue(new InstantCommand(() ->{
             claw.toggleGrabber();
-        }, claw));
+            if(!claw.getGrabber()){
+                led.setState(led.INTAKE);
+            }
+        }, claw, led));
 
         joy.button(JoystickConstants.SS_CANCEL).onTrue(new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE));
 

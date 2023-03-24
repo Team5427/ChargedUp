@@ -75,7 +75,6 @@ public class MoveBotTo extends CommandBase {
         xController.setGoal(setpoint.getX());
         yController.setGoal(setpoint.getY());
         thetaController.setGoal(setpoint.getRotation().getRadians());
-        swerve.resetLimiters();
     }
 
     @Override
@@ -85,10 +84,11 @@ public class MoveBotTo extends CommandBase {
         double yCalc = yController.calculate(measurement.getY());
         double thetaCalc = thetaController.calculate(measurement.getRotation().getRadians());
 
+        SwerveModuleState[] states;
         if (
             Math.abs(measurement.getRotation().minus(setpoint.getRotation()).getRadians()) < RoutineConstants.ROT_THRESH_RAD
         ) {
-            swerve.setChassisSpeeds(
+            states = SwerveConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(
                 ChassisSpeeds.fromFieldRelativeSpeeds(
                     xCalc, 
                     yCalc, 
@@ -98,7 +98,7 @@ public class MoveBotTo extends CommandBase {
             );
             runningSpeed = Math.hypot(xCalc, yCalc);
         } else {
-            swerve.setChassisSpeeds(
+            states = SwerveConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(
                 ChassisSpeeds.fromFieldRelativeSpeeds(
                     0, 
                     0, 
@@ -110,10 +110,19 @@ public class MoveBotTo extends CommandBase {
             xController.reset(measurement.getX());
             yController.reset(measurement.getY());
         }
+
+        swerve.setModules(states);
     }
 
     @Override
     public boolean isFinished() {
+        // if(
+        //     RobotContainer.getJoy().getHID().getPOV() != -1 ||
+        //     RobotContainer.getOperatorJoy1().getHID().getPOV() != -1
+        // ){
+        //     return true;
+        // }
+
 
         if (
             (Math.abs(xController.getPositionError()) < RoutineConstants.TRANSLATION_TOLERANCE_METERS && xController.getSetpoint().equals(xController.getGoal())) && 
@@ -142,9 +151,9 @@ public class MoveBotTo extends CommandBase {
         isRunning = false;
         runningSpeed = 0;
         if (runTime > RoutineConstants.MOVE_BOT_TO_REPEAT_THRESHOLD_SEC) {
-            System.out.println("TRYING AGAIN");
             CommandScheduler.getInstance().schedule(new MoveBotTo(this.type));
-        } else if(DriverStation.isTeleop()){
+        } 
+        else if(DriverStation.isTeleop() || DriverStation.isTeleopEnabled()){
             CommandScheduler.getInstance().schedule(new JoystickSwerve());
         }
     }
@@ -153,8 +162,8 @@ public class MoveBotTo extends CommandBase {
         xController = new ProfiledPIDController(
             RoutineConstants.TRANSLATION_P, 0, 0, 
             new Constraints(
-                RoutineConstants.ROUTINE_MAX_TRANSLATION_SPEED_M_S/1.75, 
-                RoutineConstants.ROUTINE_MAX_TRANSLATION_ACCEL_M_S_S
+                RoutineConstants.ROUTINE_MAX_TRANSLATION_SPEED_M_S/1.25, 
+                RoutineConstants.ROUTINE_MAX_TRANSLATION_ACCEL_M_S_S/1.25
             )
         );
         xController.setTolerance(RoutineConstants.TRANSLATION_TOLERANCE_METERS);

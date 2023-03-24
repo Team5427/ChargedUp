@@ -10,14 +10,17 @@ public class ManualClaw extends CommandBase{
     private Claw claw;
     private double speed;
 
+    public static boolean isRunning;
+
     public ManualClaw(double speed){
         claw = RobotContainer.getClaw();
         this.speed = speed;
+        isRunning = false;
     }
 
     @Override
     public void initialize(){
-
+        isRunning = true;
     }
 
     @Override
@@ -33,6 +36,13 @@ public class ManualClaw extends CommandBase{
 
     @Override
     public void end(boolean interrupted){
+
+        if(claw.proxCovered()){
+            RobotContainer.getLed().setState(RobotContainer.getLed().SCORING);
+        } else{
+            RobotContainer.getLed().setState(RobotContainer.getLed().INTAKE);
+        }
+        isRunning = false;
         claw.stop();
     }
     

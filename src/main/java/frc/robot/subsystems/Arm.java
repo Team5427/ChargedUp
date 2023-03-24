@@ -69,7 +69,6 @@ public class Arm extends SubsystemBase {
     public void set(double speed) {
         if (getAngle() == ArmConstants.POSITION_OFFSET_RAD) {
             stopMotors();
-            System.out.println("DANGER ARM ENCODER NOT PLUGGED IN");
         } else {
             topMotor.set(speed);
             btmMotor.set(speed);    

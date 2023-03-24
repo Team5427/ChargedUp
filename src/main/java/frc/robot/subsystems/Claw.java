@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ClawConstants;
 import frc.robot.Constants.ClawConstants.GAME_PIECE_STATE;
 import frc.robot.RobotContainer;
+import frc.robot.commands.ManualClaw;
 import frc.robot.commands.UseClaw;
 import frc.robot.commands.Routines.MoveBotTo;
 import frc.robot.commands.Routines.MoveClawTo;
@@ -40,7 +41,7 @@ public class Claw extends SubsystemBase {
     }
 
     public ClawConstants.GAME_PIECE_STATE getState(boolean isPurple) {
-        if (sensor.getAverageVoltage() > ClawConstants.PROX_VALUE) { //has game piece
+        if (sensor.getVoltage() > ClawConstants.PROX_VALUE) { //has game piece
             if (isPurple) {
                 return ClawConstants.GAME_PIECE_STATE.CUBE;
             } else {
@@ -89,7 +90,7 @@ public class Claw extends SubsystemBase {
         Logger.post("claw debug prox", getProx());
 
         // Logger.post("claw sensor average voltage", sensor.getAverageVoltage());
-        if (UseClaw.isRunning == false) {
+        if (!UseClaw.isRunning && !ManualClaw.isRunning) {
             set(0.025);
         }
 

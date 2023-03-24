@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.LedConstants;
 import frc.robot.commands.PartyMode;
@@ -132,7 +133,7 @@ public class Led extends SubsystemBase{
                 else
                     setColor(YELLOW);
             } else if (state == SCORING &&DriverStation.isEnabled()) {
-                setColor(GREEN);
+                setColor(CYAN);
             } else if (!DriverStation.isEnabled()) {
                 setColor(RED);
             }
@@ -180,8 +181,14 @@ public class Led extends SubsystemBase{
                         setLed((60 - Math.abs((int)(ledCount + (j * 20) - LED_SPEED) % 60)), LedConstants.RED_CODE);
                         setLed(119 - (60 - Math.abs((int)(ledCount + (j * 20) - LED_SPEED) % 60)), LedConstants.RED_CODE);
                     } else{
-                        setLed((60 - Math.abs((int)(ledCount + (j * 20) - LED_SPEED) % 60)), LedConstants.WHITE_CODE);
-                        setLed(119 - (60 - Math.abs((int)(ledCount + (j * 20) - LED_SPEED) % 60)), LedConstants.WHITE_CODE);
+
+                        if(RobotContainer.getLimelightLeft().targetVisible() || RobotContainer.getLimelightRight().targetVisible()){
+                            setLed((60 - Math.abs((int)(ledCount + (j * 20) - LED_SPEED) % 60)), LedConstants.GREEN_CODE);
+                            setLed(119 - (60 - Math.abs((int)(ledCount + (j * 20) - LED_SPEED) % 60)), LedConstants.GREEN_CODE);
+                        } else{
+                            setLed((60 - Math.abs((int)(ledCount + (j * 20) - LED_SPEED) % 60)), LedConstants.WHITE_CODE);
+                            setLed(119 - (60 - Math.abs((int)(ledCount + (j * 20) - LED_SPEED) % 60)), LedConstants.WHITE_CODE);
+                        }
                     }
                 }
             }
@@ -191,11 +198,7 @@ public class Led extends SubsystemBase{
         }
         Logger.post("isPurple", isPurple);
 
-        if (RobotContainer.getClaw().proxCovered()) {
-            setState(SCORING);
-        } else {
-            setState(INTAKE);
-        }
+        
 
         led.setData(ledBuffer);
         led.start();
