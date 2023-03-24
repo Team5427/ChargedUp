@@ -30,6 +30,8 @@ public class Elevator extends SubsystemBase {
     public Elevator() {
         leftMotor = new CANSparkMax(ElevatorConstants.LEFT_MOTOR_ID, MotorType.kBrushless);
         rightMotor = new CANSparkMax(ElevatorConstants.RIGHT_MOTOR_ID, MotorType.kBrushless);
+        leftMotor.restoreFactoryDefaults();
+        rightMotor.restoreFactoryDefaults();
         rightMotor.setInverted(true);
         leftMotor.setInverted(true);
         leftMotor.setSmartCurrentLimit(ElevatorConstants.CURRENT_LIMIT_AMPS);
