@@ -8,20 +8,10 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Led;
 
 public class IntakeGP extends CommandBase{
-    public Intake intake;
-    public Claw claw;
+
     public Led led;
 
     public IntakeGP(){
-        intake = RobotContainer.getIntake();
-        claw = RobotContainer.getClaw();
-        led = RobotContainer.getLed();
-        addRequirements(intake, claw);
-    }
-
-    @Override
-    public void initialize(){
-        
     }
 
     @Override

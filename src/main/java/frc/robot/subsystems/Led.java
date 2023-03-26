@@ -145,7 +145,7 @@ public class Led extends SubsystemBase{
                 setColor(CYAN);
             } else if (!DriverStation.isEnabled()) {
                 setColor(RED);
-            } else if(state = INTAKE_FLOOR && DriverStation.isEnabled()){
+            } else if(state == INTAKE_FLOOR && DriverStation.isEnabled()){
                 setColor(ORANGE);
             }
 
