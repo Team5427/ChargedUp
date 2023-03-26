@@ -64,6 +64,7 @@ public class UseClaw extends CommandBase {
 
     @Override
     public void execute() {
+        
         isPurple = led.isPurple();
         // isPurple = claw.isPurple();
         if (intake) {
@@ -93,6 +94,7 @@ public class UseClaw extends CommandBase {
                 finish = true;
             }
         }
+        
 
     }
 

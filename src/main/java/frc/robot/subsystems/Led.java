@@ -19,12 +19,14 @@ public class Led extends SubsystemBase{
     public static final int RED = 3;
     public static final int WHITE = 4;
     public static final int CYAN = 6;
+    public static final int ORANGE = 7;
 
 
     public static double ledCount = 0;
     public static final double LED_SPEED = .5;
 
     public static final int INTAKE = 0;
+    public static final int INTAKE_FLOOR = 2;
     public static final int SCORING = 1;
 
     private boolean isPurple;
@@ -59,6 +61,10 @@ public class Led extends SubsystemBase{
 
     public void setState(int state){
         this.state = state;
+    }
+
+    public int getState(){
+        return state;
     }
 
     public void setPurple(boolean isPurple) {
@@ -114,6 +120,9 @@ public class Led extends SubsystemBase{
         if(c == CYAN){
             rgb = new int[] {0, 200,100};
         }
+        if(c == ORANGE){
+            rgb = LedConstants.ORANGE_CODE;
+        }
     }
 
     public void setLed(int i, int[] color) {
@@ -136,6 +145,8 @@ public class Led extends SubsystemBase{
                 setColor(CYAN);
             } else if (!DriverStation.isEnabled()) {
                 setColor(RED);
+            } else if(state = INTAKE_FLOOR && DriverStation.isEnabled()){
+                setColor(ORANGE);
             }
 
             if(error){

@@ -357,6 +357,8 @@ public final class Constants {
         public static final double INTAKE_COVERED = .3;
         public static final double OUTTAKE_TIME = .5;
 
+        public static final double MAX_DELTA_VOLTAGE = 0.25;
+
     }
 
     public static final class MiscConstants {
@@ -379,6 +381,7 @@ public final class Constants {
         public static final int[] RED_CODE = {255, 0, 0};
         public static final int[] WHITE_CODE = {100, 100, 100};
         public static final int[] CLEAR_CODE = {0, 0, 0};
+        public static final int[] ORANGE_CODE = {255, 150, 0};
     }
 }
 

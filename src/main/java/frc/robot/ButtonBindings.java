@@ -13,6 +13,7 @@ import frc.robot.Constants.ClawConstants;
 import frc.robot.Constants.JoystickConstants;
 import frc.robot.Constants.RoutineConstants;
 import frc.robot.Constants.RoutineConstants.POSITION_TYPE;
+import frc.robot.commands.IntakeGP;
 import frc.robot.commands.ManualArm;
 import frc.robot.commands.ManualClaw;
 import frc.robot.commands.PartyMode;
@@ -61,7 +62,7 @@ public class ButtonBindings {
             swerve.lock();
         }, swerve));
 
-        joy.button(JoystickConstants.CLAW_BTN).onTrue(new UseClaw());
+        joy.button(JoystickConstants.CLAW_BTN).onTrue(new IntakeGP());
         joy.button(JoystickConstants.SS).onTrue(SubRoutineSheet.substationIntake);
 
         joy.button(JoystickConstants.CLAW_INTAKE).whileTrue(new ManualClaw(ClawConstants.INTAKE_SPEED_DECIMAL));
@@ -120,7 +121,9 @@ public class ButtonBindings {
             )
         ));
 
-        operatorJoy2.button(JoystickConstants.PARTY_MODE).onTrue(new PartyMode());
+        operatorJoy2.button(JoystickConstants.PARTY_MODE).onTrue(new InstantCommand(() -> {
+            led.setState(led.INTAKE_FLOOR);
+        }));
 
         // operatorJoy2.button(JoystickConstants.INTAKE).onTrue(new UseIntake());
 

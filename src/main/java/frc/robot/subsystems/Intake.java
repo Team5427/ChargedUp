@@ -4,6 +4,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -15,6 +16,8 @@ public class Intake extends SubsystemBase{
 
     public CANSparkMax intakeMotor;
     public AnalogInput prox;
+
+    public SlewRateLimiter limiter;
     
     public CANSparkMax tiltMotor;
     private DutyCycleEncoder throughbore;
@@ -25,6 +28,8 @@ public class Intake extends SubsystemBase{
         intakeMotor = new CANSparkMax(IntakeConstants.INTAKE_ID, MotorType.kBrushless);
         intakeMotor.setInverted(false);
         intakeMotor.setIdleMode(IdleMode.kCoast);
+        
+        limiter = new SlewRateLimiter(IntakeConstants.MAX_DELTA_VOLTAGE);
 
         prox = new AnalogInput(IntakeConstants.PROX_ID);
 
@@ -44,7 +49,7 @@ public class Intake extends SubsystemBase{
     }
 
     public void setTilt(double speed){
-        tiltMotor.set(speed);
+        tiltMotor.set(limiter.calculate(speed));
     }
 
     public void stopTilt(){
