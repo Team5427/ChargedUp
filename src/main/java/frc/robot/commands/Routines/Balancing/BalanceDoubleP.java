@@ -4,12 +4,9 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.subsystems.Swerve.SwerveDrive;
-import frc.robot.util.OdometryMath2023;
 
 public class BalanceDoubleP extends CommandBase {
 
@@ -75,14 +72,5 @@ public class BalanceDoubleP extends CommandBase {
         } else {
             return false;
         }
-    }
-
-    @Override
-    public void end(boolean interrupted) {
-        // CommandScheduler.getInstance().schedule(
-        //     new RunCommand(() -> {
-        //         dt.lock();
-        //     }, dt)
-        // );
     }
 }

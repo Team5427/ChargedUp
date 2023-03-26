@@ -2,6 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -13,7 +14,6 @@ import frc.robot.Constants.ClawConstants;
 import frc.robot.Constants.JoystickConstants;
 import frc.robot.Constants.RoutineConstants;
 import frc.robot.Constants.RoutineConstants.POSITION_TYPE;
-import frc.robot.commands.IntakeGP;
 import frc.robot.commands.ManualArm;
 import frc.robot.commands.ManualClaw;
 import frc.robot.commands.PartyMode;
@@ -23,7 +23,6 @@ import frc.robot.commands.Auton.SubRoutineSheet;
 import frc.robot.commands.Routines.MoveBotTo;
 import frc.robot.commands.Routines.MoveClawTo;
 import frc.robot.commands.Routines.Balancing.BalanceDoubleP;
-import frc.robot.commands.Routines.Balancing.BalanceLinear;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.Elevator;
@@ -60,9 +59,20 @@ public class ButtonBindings {
 
         joy.button(JoystickConstants.LOCK_SWERVE).whileTrue(new RunCommand(() -> {
             swerve.lock();
-        }, swerve));
+        }, swerve).andThen(() -> {
+            swerve.stopMods();
+        }));
 
-        joy.button(JoystickConstants.CLAW_BTN).onTrue(new IntakeGP());
+        joy.button(JoystickConstants.LOCK_SWERVE).toggleOnTrue(new PartyMode());
+
+        joy.button(JoystickConstants.GAMEPIECE_BUTTON).onTrue(new InstantCommand(() -> {
+            if(led.getState() == led.INTAKE_FLOOR){
+                CommandScheduler.getInstance().schedule(new UseIntake());
+            } else{
+                CommandScheduler.getInstance().schedule(new UseClaw());
+            }
+        }));
+
         joy.button(JoystickConstants.SS).onTrue(SubRoutineSheet.substationIntake);
 
         joy.button(JoystickConstants.CLAW_INTAKE).whileTrue(new ManualClaw(ClawConstants.INTAKE_SPEED_DECIMAL));
@@ -125,8 +135,7 @@ public class ButtonBindings {
             led.setState(led.INTAKE_FLOOR);
         }));
 
-        // operatorJoy2.button(JoystickConstants.INTAKE).onTrue(new UseIntake());
-
+        operatorJoy2.button(JoystickConstants.INTAKE).onTrue(new UseIntake());
     
     }
 

@@ -6,17 +6,27 @@ public class ClawState {
     private double angle;
     private boolean extended;
     private double armDelay;
+    private boolean retracted;
 
     public ClawState(double h, double a) {
         this.height = h;
         this.angle = a;
         this.extended = false;
+        this.retracted = false;
     }
 
     public ClawState(double h, double a, boolean e) {
         this.height = h;
         this.angle = a;
         this.extended = e;
+        this.retracted = false;
+    }
+
+    public ClawState(double h, double a, boolean e, boolean r) {
+        this.height = h;
+        this.angle = a;
+        this.extended = e;
+        this.retracted = r;
     }
 
     public double getHeight() {
@@ -33,5 +43,9 @@ public class ClawState {
 
     public double getArmDelay(){
         return armDelay;
+    }
+
+    public boolean getRetracted() {
+        return retracted;
     }
 }

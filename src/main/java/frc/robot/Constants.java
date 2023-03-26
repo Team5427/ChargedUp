@@ -148,9 +148,10 @@ public final class Constants {
         public static final int TOGGLE_FIELD_OP = 6;
         public static final int RESET_TELEMETRY = 5;
         public static final int CANCEL_ALL_COMMANDS_D = 10;
-        public static final int LOCK_SWERVE = 2;
+        public static final int LOCK_SWERVE = 9;
+        public static final int LOCK_FORWARD = 2;
         public static final int DAMPEN = 3;
-        public static final int CLAW_BTN = 1;
+        public static final int GAMEPIECE_BUTTON = 1;
         public static final int SUBSTATION_PRESET = 7;
         public static final int SS_CANCEL = 8;
         public static final int CLAW_INTAKE = 11;
@@ -183,7 +184,7 @@ public final class Constants {
         public static final int MID_RIGHT_SCORE = 6;
 
         public static final int PARTY_MODE = 9;
-        public static final int INTAKE = 10; //FIXME BIND THIS
+        public static final int INTAKE = 10;
 
         //OPERATION 3 BINDINGS
     }
@@ -239,10 +240,9 @@ public final class Constants {
         public static final ClawState MID_CONE_CLAW_STATE = new ClawState(.8540754, 0);
         public static final ClawState TOP_CUBE_CLAW_STATE = new ClawState(0.654, (Math.PI / 6));
         public static final ClawState MID_CUBE_CLAW_STATE = new ClawState(.6540754, 0);
-        public static final ClawState LOW_CLAW_STATE = new ClawState(0.9, -0.925);
-        public static final ClawState SUBSTATION_CLAW_STATE = new ClawState(.8540754 - 0.07, 0);
-        public static final ClawState CUBE_INTAKE_CLAW_STATE = new ClawState(0.621, -0.925, false);
-        public static final ClawState CONE_INTAKE_CLAW_STATE = new ClawState(0.521, -0.925, false);
+        public static final ClawState SUBSTATION_CLAW_STATE = new ClawState(.7840754, 0);
+        public static final ClawState CUBE_INTAKE_CLAW_STATE = new ClawState(0.621, -0.925, false, true);
+        public static final ClawState CONE_INTAKE_CLAW_STATE = new ClawState(0.521, -0.925, false, true);
     }
 
     public static final class ElevatorConstants {
@@ -331,7 +331,7 @@ public final class Constants {
 
         public static final double INTAKE_SPEED_DECIMAL = 0.3;
         public static final double CUBE_INTAKE_EXCESS_TIME_S = 0.15;
-        public static final double OUTTAKE_SPEED_DECIMAL = -.3;
+        public static final double OUTTAKE_SPEED_DECIMAL = -.1;
         public static final double OUTTAKE_SPEED_DECIMAL_SHOOTING = -1.0;
         public static final double CUBE_OUTTAKE_EXCESS_TIME_S = 0.4;
 
@@ -340,25 +340,34 @@ public final class Constants {
     }
 
     public static final class IntakeConstants{
-        public static final int TILT_ID = 0;
-        public static final int INTAKE_ID = 0;
-        public static final int THROUGHBORE_ID = 0;
-        public static final int PROX_ID = 0;
+        public static final int TILT_ID = 0; //FIXME
+        public static final int INTAKE_ID = 0; //FIXME
+        public static final int THROUGHBORE_ID = 0; //FIXME
+        public static final int PROX_ID = 0; //FIXME
 
         public static final double TILT_SPEED = .2;
+        public static final double TILT_COEF = .5; //may need to invert
         public static final double INTAKE_SPEED = .3;
         public static final double OUTTAKE_SPEED = -1;
+        public static final double OUTTAKE_SPEED_SLOW = -0.2;
 
-        public static final double ENCODER_OFFSET_RAD = 4.22;
-        public static final double DEPLOYED_POS_RAD = 0; 
-        public static final double UNDEPLOYED_POS_RAD = 5.85 - ENCODER_OFFSET_RAD;
+        public static final double ENCODER_OFFSET_RAD = 4.22; //FIXME
+        public static final double DEPLOYED_POS_RAD = 0.0; //FIXME
+        public static final double UNDEPLOYED_POS_RAD = 0.0; //FIXME
+        public static final double RETRACTED_POS_RAD = 0.0; //FIXME
+        public static final double ARM_CLEARANCE_RAD = Math.PI/80;
         public static final double TOLERANCE_RAD = Units.degreesToRadians(5);
 
         public static final double INTAKE_COVERED = .3;
         public static final double OUTTAKE_TIME = .5;
 
-        public static final double MAX_DELTA_VOLTAGE = 0.25;
+        public static final double ACCEL_PERCENT = 3;
 
+        public static enum TILT_POS {
+            DEPLOYED,
+            UNDEPLOYED,
+            RETRACTED
+        }
     }
 
     public static final class MiscConstants {

@@ -5,97 +5,146 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.IntakeConstants;
+import frc.robot.Constants.IntakeConstants.TILT_POS;
 import frc.robot.util.Logger;
+import frc.robot.util.OdometryMath2023;
 
 public class Intake extends SubsystemBase{
 
-    public CANSparkMax intakeMotor;
-    public AnalogInput prox;
-
-    public SlewRateLimiter limiter;
+    private CANSparkMax intakeMotor;
+    private AnalogInput prox;
+    private SlewRateLimiter limiter;
     
-    public CANSparkMax tiltMotor;
+    private CANSparkMax tiltMotorLeft;
+    private CANSparkMax tiltMotorRight;
     private DutyCycleEncoder throughbore;
 
+    private Rotation2d setPointRad;
+
+    public boolean retracted;
     public boolean deployed;
+    private double error;
 
     public Intake(){
         intakeMotor = new CANSparkMax(IntakeConstants.INTAKE_ID, MotorType.kBrushless);
+        intakeMotor.restoreFactoryDefaults();
+        intakeMotor.setSmartCurrentLimit(10);
         intakeMotor.setInverted(false);
         intakeMotor.setIdleMode(IdleMode.kCoast);
+        OdometryMath2023.doPeriodicFrame(intakeMotor);
         
-        limiter = new SlewRateLimiter(IntakeConstants.MAX_DELTA_VOLTAGE);
+        limiter = new SlewRateLimiter(IntakeConstants.ACCEL_PERCENT);
+        limiter.reset(0);
 
         prox = new AnalogInput(IntakeConstants.PROX_ID);
 
-        tiltMotor = new CANSparkMax(IntakeConstants.TILT_ID, MotorType.kBrushless);
-        tiltMotor.setInverted(false);
-        tiltMotor.setIdleMode(IdleMode.kCoast);
+        tiltMotorLeft = new CANSparkMax(IntakeConstants.TILT_ID, MotorType.kBrushless);
+        tiltMotorLeft.restoreFactoryDefaults();
+        tiltMotorLeft.setSmartCurrentLimit(20);
+        tiltMotorLeft.setInverted(true);
+        tiltMotorLeft.setIdleMode(IdleMode.kBrake); //FIXME
+
+        tiltMotorRight = new CANSparkMax(IntakeConstants.TILT_ID, MotorType.kBrushless);
+        tiltMotorRight.restoreFactoryDefaults();
+        tiltMotorRight.setSmartCurrentLimit(20);
+        tiltMotorRight.setInverted(false);
+        tiltMotorRight.setIdleMode(IdleMode.kBrake); //FIXME
+
+        retracted = false;
+        deployed = false;
 
         throughbore = new DutyCycleEncoder(IntakeConstants.THROUGHBORE_ID);
         throughbore.reset();
         throughbore.setPositionOffset(0);
-
-        deployed = false;
     }
     
     public double getAngle() {
         return ((throughbore.getAbsolutePosition() * Math.PI * 2) - IntakeConstants.ENCODER_OFFSET_RAD);
     }
 
+    public Rotation2d getRotation2d() {
+        return new Rotation2d(getAngle());
+    }
+
     public void setTilt(double speed){
-        tiltMotor.set(limiter.calculate(speed));
+        double calc = limiter.calculate(speed);
+        tiltMotorLeft.set(calc);
+        tiltMotorRight.set(calc);
     }
 
     public void stopTilt(){
-        tiltMotor.stopMotor();
+        tiltMotorLeft.stopMotor();
+        tiltMotorRight.stopMotor();
     }
 
-    public void setDeployed(boolean deployed){
-        this.deployed = deployed;
+    public void intake() {
+        intakeMotor.set(IntakeConstants.INTAKE_SPEED);
     }
 
-    public boolean getDeployed(){
-        return deployed;
-    }
-
-    public void setIntake(double speed){
-        intakeMotor.set(speed);
+    public void outtake() {
+        if (OdometryMath2023.inScoringSpot()) {
+            intakeMotor.set(IntakeConstants.OUTTAKE_SPEED_SLOW);
+        } else {
+            intakeMotor.set(IntakeConstants.OUTTAKE_SPEED);
+        }
     }
 
     public void stopIntake(){
         intakeMotor.stopMotor();
     }
 
-    public double getProximity(){
-        return prox.getAverageVoltage();
+    public boolean getProxCovered(){
+        return prox.getAverageVoltage() < IntakeConstants.INTAKE_COVERED;
     }
 
-    public boolean getProxCovered(){
-        return getProximity() < IntakeConstants.INTAKE_COVERED;
+    public void setRetracted(boolean r) {
+        this.retracted = r;
+    }
+
+    public void setDeployed(boolean d) {
+        this.deployed = d;
+    }
+
+    public boolean getRetracted() {
+        return retracted;
+    }
+
+    public boolean getDeployed() {
+        return deployed;
+    }
+
+    public boolean atSetpoint() {
+        return error < IntakeConstants.TOLERANCE_RAD;
     }
 
     @Override
     public void periodic(){
+        error = setPointRad.minus(getRotation2d()).getRadians();
 
-        if(RobotContainer.getOperatorJoy3().getHID().getRawButton(1)){
-            setIntake(IntakeConstants.INTAKE_SPEED);
-        } else if(RobotContainer.getOperatorJoy3().getHID().getRawButton(2)){
-            setIntake(-IntakeConstants.OUTTAKE_SPEED);
-        } else{
-            stopIntake();
+        if (retracted) {
+            setPointRad = new Rotation2d(IntakeConstants.RETRACTED_POS_RAD);
+        } else {
+            if (deployed) {
+                setPointRad = new Rotation2d(IntakeConstants.DEPLOYED_POS_RAD);
+            } else {
+                setPointRad = new Rotation2d(IntakeConstants.UNDEPLOYED_POS_RAD);
+            }
         }
-        if(RobotContainer.getOperatorJoy3().getHID().getRawButton(3)){
-            setTilt(IntakeConstants.TILT_SPEED);
-        } else if(RobotContainer.getOperatorJoy3().getHID().getRawButton(4)){
-            setTilt(-IntakeConstants.TILT_SPEED);
-        } else{
-            stopTilt();
+
+        if (Math.abs(RobotContainer.getArm().getAngle()) < IntakeConstants.ARM_CLEARANCE_RAD) {
+            if (Math.abs(error) > IntakeConstants.TOLERANCE_RAD) {
+                setTilt(IntakeConstants.TILT_COEF * Math.signum(error));
+            } else {
+                stopIntake();
+            }
+        } else {
+            stopIntake();
         }
 
         log();
@@ -105,7 +154,8 @@ public class Intake extends SubsystemBase{
         Logger.post("deployed", deployed);
         Logger.post("intake angle", getAngle());
 
-        Logger.post("intake Prox", getProximity());
+        Logger.post("intake Prox", prox.getAverageVoltage());
+        Logger.post("intake erro", error);
         
     }
     

@@ -8,6 +8,7 @@ import frc.robot.Constants.RoutineConstants;
 import frc.robot.commands.Routines.StateTypes.ClawState;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.Intake;
 import frc.robot.util.Logger;
 import frc.robot.util.OdometryMath2023;
 
@@ -17,14 +18,16 @@ public class MoveClawTo extends CommandBase {
     private Timer timer;
     private Arm arm;
     private Elevator elevator;
+    private Intake intake;
     public static boolean goodToRelease;
 
     public MoveClawTo(ClawState setPoint) {
         this.setPoint = setPoint;
-        arm = RobotContainer.getArm(); //commenting out since havent implemented in robotcontainer yet
+        arm = RobotContainer.getArm();
         elevator = RobotContainer.getElevator();
+        intake = RobotContainer.getIntake();
         timer = new Timer();
-        addRequirements(arm, elevator);
+        addRequirements(arm, elevator, intake);
     }
 
     @Override
@@ -34,12 +37,11 @@ public class MoveClawTo extends CommandBase {
         elevator.resetPIDs();
         timer.reset();
         timer.start();
-        Logger.post("Arm Finished", false);
-
     }
 
     @Override
     public void execute() {
+        intake.setRetracted(setPoint.getRetracted());
         arm.setAngle(setPoint.getAngle());
         if ((RobotContainer.getSwerve().getPose().getX() > Units.feetToMeters(33) && OdometryMath2023.isBlue()) || (RobotContainer.getSwerve().getPose().getX() < Units.feetToMeters(21) && !OdometryMath2023.isBlue())) {
             if (arm.getAngle() > (Math.PI / 8)) {
@@ -70,7 +72,6 @@ public class MoveClawTo extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        Logger.post("Arm Finished", true);
         timer.stop();
         timer.reset();
     }

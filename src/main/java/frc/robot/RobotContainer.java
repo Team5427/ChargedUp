@@ -16,7 +16,6 @@ import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.JoystickConstants;
 import frc.robot.commands.JoystickSwerve;
-import frc.robot.commands.SetIntakeTilt;
 import frc.robot.commands.Auton.AutonSheet;
 import frc.robot.commands.Auton.SubRoutineSheet;
 import frc.robot.pathUtil.SwervePathMaker;
@@ -67,8 +66,7 @@ public class RobotContainer {
     elevator = new Elevator();
     arm = new Arm();
     claw = new Claw();
-    // intake = new Intake();
-    // intake.setDefaultCommand(new SetIntakeTilt(IntakeConstants.UNDEPLOYED_POS_RAD));
+    intake = new Intake();
 
     hub = new PneumaticHub(28);
     hub.enableCompressorDigital();

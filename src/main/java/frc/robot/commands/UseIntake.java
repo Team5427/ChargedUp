@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Led;
 
 public class UseIntake extends CommandBase{
     private Intake intake;
@@ -27,37 +28,42 @@ public class UseIntake extends CommandBase{
             timer.reset();
             timer.start();
         } else{
+            RobotContainer.getLed().setState(Led.INTAKE_FLOOR);
+            intake.setDeployed(true);
             intaking = true;
         }
     }
 
     @Override
     public void execute(){
-
-        if(intake.getAngle() > IntakeConstants.DEPLOYED_POS_RAD){ //FIXME
-            intake.setTilt(IntakeConstants.TILT_SPEED);
-        } else{
-            intake.stopTilt();
-        }
-
         if(intaking && !intake.getProxCovered()){
-            intake.setIntake(IntakeConstants.INTAKE_SPEED);
+            intake.intake();
         } else if(!intaking && timer.get() < IntakeConstants.OUTTAKE_TIME){
-            intake.setIntake(IntakeConstants.OUTTAKE_SPEED);
+            intake.outtake();
         }
     }
 
     @Override 
     public boolean isFinished(){
-        if(intaking){
-            return intake.getProxCovered();
-        } else{
-            return timer.get() >= IntakeConstants.OUTTAKE_TIME;
+        if (intake.getRetracted()) {
+            return true;
+        } else {
+            if(intaking){
+                return intake.getProxCovered();
+            } else{
+                return timer.get() >= IntakeConstants.OUTTAKE_TIME;
+            }    
         }
     }
 
     @Override
     public void end(boolean interrupted){
+        if (!intaking) {
+            RobotContainer.getLed().setState(Led.INTAKE_FLOOR);
+            intake.setDeployed(false);
+        } else {
+            RobotContainer.getLed().setState(Led.SCORING);
+        }
         intake.stopIntake();
         intake.stopTilt();
         timer.stop();

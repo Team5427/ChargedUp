@@ -2,7 +2,6 @@
 package frc.robot.commands.Auton;
 
 
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -14,9 +13,7 @@ import frc.robot.Constants.RoutineConstants;
 import frc.robot.RobotContainer;
 import frc.robot.commands.UseClaw;
 import frc.robot.commands.Routines.MoveClawTo;
-import frc.robot.commands.Routines.StationBalance;
 import frc.robot.commands.Routines.Balancing.BalanceDoubleP;
-import frc.robot.commands.Routines.BasicMovement.TurnAndTranslate;
 import frc.robot.pathUtil.SwervePathMaker;
 
 public class AutonSheet {
@@ -29,6 +26,8 @@ public class AutonSheet {
     private static Command topDoubleConeScore2;
     public static SequentialCommandGroup bottomSingleConeIntakeEngage;
     private static Command bottomSingleConeIntakeEngage1;
+    public static SequentialCommandGroup topDoubleConeEngage;
+    private static Command topDoubleConeEngage1;
 
     public static void initAutons() {
         topSingleConeIntakeEngage1 = SwervePathMaker.getCommand("TopSingleConeIntakeEngage1");
@@ -36,12 +35,9 @@ public class AutonSheet {
         topDoubleConeScore1 = SwervePathMaker.getCommand("TopDoubleConeScore1");
         topDoubleConeScore2 = SwervePathMaker.getCommand("TopDoubleConeScore2");
         bottomSingleConeIntakeEngage1 = SwervePathMaker.getCommand("BottomSingleConeIntakeEngage1");
+        topDoubleConeEngage1 = SwervePathMaker.getCommand("TopDoubleConeEngage1");
     
         topSingleConeIntakeEngage = new SequentialCommandGroup(
-            new InstantCommand(() -> {
-                RobotContainer.getSwerve().setHeadingRad(Math.PI);
-                RobotContainer.getLed().setPurple(false);
-            }),
             new MoveClawTo(RoutineConstants.TOP_CONE_CLAW_STATE),
             new UseClaw(),
             new ParallelCommandGroup(
@@ -65,16 +61,10 @@ public class AutonSheet {
                     new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE)
                 )
             ),
-            new StationBalance(true, false)
-        ).andThen(() -> {
-            SwervePathMaker.resetPaths();
-        });
+            new BalanceDoubleP()
+        );
 
         topSingleConeIntake = new SequentialCommandGroup(
-            new InstantCommand(() -> {
-                RobotContainer.getSwerve().setHeadingRad(Math.PI);
-                RobotContainer.getLed().setPurple(false);
-            }),
             new UseClaw(),
             new MoveClawTo(RoutineConstants.TOP_CONE_CLAW_STATE),
             new UseClaw(),
@@ -102,16 +92,9 @@ public class AutonSheet {
                 new WaitCommand(1.5)
             ),
             new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE)
-        ).andThen(() -> {
-            SwervePathMaker.resetPaths();
-        });
+        );
 
         topDoubleConeScore = new SequentialCommandGroup(
-            new InstantCommand(() -> {
-                RobotContainer.getSwerve().setHeadingRad(Math.PI);
-                RobotContainer.getLed().setPurple(false);
-                RobotContainer.getClaw().grab(true);
-            }),
             new MoveClawTo(RoutineConstants.TOP_CONE_CLAW_STATE),
             new UseClaw(),
             new ParallelCommandGroup(
@@ -131,7 +114,7 @@ public class AutonSheet {
                                 new MoveClawTo(RoutineConstants.CUBE_INTAKE_CLAW_STATE) 
                             )                      
                         ),
-                        new WaitCommand(3.275)
+                        new WaitCommand(3.5)
                     ),
                     new MoveClawTo(RoutineConstants.TOP_CUBE_CLAW_STATE)
                 )
@@ -160,17 +143,9 @@ public class AutonSheet {
                 ),
                 topDoubleConeScore2
             )
-        ).andThen(() -> {
-            SwervePathMaker.resetPaths();
-        });
+        );
 
         bottomSingleConeIntakeEngage = new SequentialCommandGroup(
-            new InstantCommand(() -> {
-                RobotContainer.getSwerve().setHeadingRad(Math.PI);
-                RobotContainer.getLed().setPurple(false);
-                RobotContainer.getClaw().grab(true);
-                RobotContainer.getSwerve().stopMods();
-            }),
             new MoveClawTo(RoutineConstants.TOP_CONE_CLAW_STATE),
             new UseClaw(),
             new ParallelCommandGroup(
@@ -198,9 +173,39 @@ public class AutonSheet {
                 )
             ),
             new BalanceDoubleP()
-        ).andThen(() -> {
-            SwervePathMaker.resetPaths();
-        });
+        );
        
+        topDoubleConeEngage = new SequentialCommandGroup(
+            new MoveClawTo(RoutineConstants.TOP_CONE_CLAW_STATE),
+            new UseClaw(),
+            new ParallelCommandGroup(
+                topDoubleConeScore1,
+                new SequentialCommandGroup(
+                    new InstantCommand(() -> {
+                        RobotContainer.getLed().setPurple(true);
+                    }),
+                    new ParallelRaceGroup(
+                        new ParallelCommandGroup(
+                            new SequentialCommandGroup(
+                                new WaitCommand(0.7),
+                                new UseClaw()
+                            ),
+                            new SequentialCommandGroup(
+                                new WaitCommand(.5),
+                                new MoveClawTo(RoutineConstants.CUBE_INTAKE_CLAW_STATE) 
+                            )                      
+                        ),
+                        new WaitCommand(3.5)
+                    ),
+                    new MoveClawTo(RoutineConstants.TOP_CUBE_CLAW_STATE)
+                )
+            ),
+            new ParallelRaceGroup(
+                new UseClaw(),
+                new WaitCommand(1)
+            ),
+            topDoubleConeEngage1,
+            new BalanceDoubleP()
+        );
     }
 }

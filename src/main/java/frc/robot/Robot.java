@@ -4,14 +4,12 @@
 
 package frc.robot;
 
-import org.opencv.video.Video;
-
-import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
-import edu.wpi.first.cscore.VideoMode.PixelFormat;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.pathUtil.SwervePathMaker;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -20,8 +18,6 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  * project.
  */
 public class Robot extends TimedRobot {
-  private static UsbCamera cam;
-
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
@@ -36,9 +32,6 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
 
-    // cam = CameraServer.startAutomaticCapture();
-    // cam.setFPS(15);
-    // cam.setVideoMode(PixelFormat.kGray, 320, 240, 10);
     m_robotContainer = new RobotContainer();
 
   }
@@ -76,7 +69,14 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     RobotContainer.getSwerve().setBrake(true, true);
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    RobotContainer.getSwerve().setHeadingRad(Math.PI);
+    RobotContainer.getLed().setPurple(false);
+    RobotContainer.getClaw().grab(true);
+    RobotContainer.getSwerve().stopMods();
+    RobotContainer.getIntake().setRetracted(false);
+    RobotContainer.getIntake().setDeployed(false);
+
+    m_autonomousCommand = m_robotContainer.getAutonomousCommand().andThen(() -> {SwervePathMaker.resetPaths();});
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
@@ -86,7 +86,11 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during autonomous. */
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+    if (DriverStation.getMatchTime() < 0.5) {
+      RobotContainer.getSwerve().lock();
+    }
+  }
 
   @Override
   public void teleopInit() {

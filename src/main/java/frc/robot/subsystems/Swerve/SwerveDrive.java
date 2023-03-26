@@ -116,13 +116,6 @@ public class SwerveDrive extends SubsystemBase {
         backRight.setModState(desiredStates[3]);
     }
 
-    public void hardSetModules(SwerveModuleState[] desiredStates){
-        frontLeft.hardSetModState(desiredStates[0]);
-        frontRight.hardSetModState(desiredStates[1]);
-        backLeft.hardSetModState(desiredStates[2]);
-        backRight.hardSetModState(desiredStates[3]);
-    }
-
     public void setChassisSpeeds(ChassisSpeeds speeds) {
         double xSpeed = xLimiter.calculate(speeds.vxMetersPerSecond);
         double ySpeed = yLimiter.calculate(speeds.vyMetersPerSecond);
@@ -215,7 +208,7 @@ public class SwerveDrive extends SubsystemBase {
     }
 
     public void lock(){
-        hardSetModules(new SwerveModuleState[]{
+        setModules(new SwerveModuleState[]{
             new SwerveModuleState(0, Rotation2d.fromDegrees(45)),
             new SwerveModuleState(0, Rotation2d.fromDegrees(-45)),
             new SwerveModuleState(0, Rotation2d.fromDegrees(-45)),
