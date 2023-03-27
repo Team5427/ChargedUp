@@ -6,9 +6,7 @@ import com.ctre.phoenix.sensors.WPI_Pigeon2;
 
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Quaternion;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
@@ -27,7 +25,6 @@ public class SwerveDrive extends SubsystemBase {
     private SwerveModule frontLeft, frontRight, backLeft, backRight;
     private WPI_Pigeon2 gyro;
     private boolean isFieldRelative;
-    private boolean locked;
     private SwerveDriveOdometry odometer;
     private Field2d field;
     private SlewRateLimiter xLimiter;
@@ -45,7 +42,6 @@ public class SwerveDrive extends SubsystemBase {
         resetLimiters();
         this.gyro = m_gyro;
         isFieldRelative = MiscConstants.FIELD_RELATIVE_ON_START;
-        locked = false;
         odometer = new SwerveDriveOdometry(SwerveConstants.SWERVE_DRIVE_KINEMATICS, getRotation2d(), getModulePositions(), new Pose2d(0, 0, new Rotation2d(0)));
         field = new Field2d();
         gyro.reset();

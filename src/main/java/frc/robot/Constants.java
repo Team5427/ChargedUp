@@ -6,9 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
@@ -344,12 +342,6 @@ public final class Constants {
         public static final double OUTTAKE_TIME = .5;
 
         public static final double ACCEL_PERCENT = 3;
-
-        public static enum TILT_POS {
-            DEPLOYED,
-            UNDEPLOYED,
-            RETRACTED
-        }
     }
 
     public static final class MiscConstants {

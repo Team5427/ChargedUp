@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.LedConstants;
 import frc.robot.commands.PartyMode;
@@ -39,13 +38,11 @@ public class Led extends SubsystemBase{
     private AddressableLEDBuffer ledBuffer;
 
     private boolean error;
-    private boolean armError;
 
     public Led(){
         led = new AddressableLED(0);
         ledBuffer = new AddressableLEDBuffer(120);
         error = false;
-        armError = false;
         led.setLength(ledBuffer.getLength());
         led.setData(ledBuffer);
         led.start();
@@ -75,10 +72,6 @@ public class Led extends SubsystemBase{
         this.error = error;
     }
     
-    public void setArmError(boolean error){
-        this.armError = error;
-    }
-
     public boolean isPurple(){
         return isPurple;
     }

@@ -7,15 +7,12 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ClawConstants;
 import frc.robot.Constants.ClawConstants.GAME_PIECE_STATE;
 import frc.robot.RobotContainer;
 import frc.robot.commands.ManualClaw;
 import frc.robot.commands.UseClaw;
-import frc.robot.commands.Routines.MoveBotTo;
-import frc.robot.commands.Routines.MoveClawTo;
 import frc.robot.util.Logger;
 import frc.robot.util.OdometryMath2023;
 

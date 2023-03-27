@@ -115,14 +115,10 @@ public class Arm extends SubsystemBase {
     public void periodic() {
 
         if (getAngle() == -ArmConstants.POSITION_OFFSET_RAD) {
-            RobotContainer.getLed().setArmError(true);
             if(!RobotContainer.getOperatorJoy1().getHID().getRawButton(JoystickConstants.ARM_RESET)){
                 set(0.025);
             }
         } else {
-            RobotContainer.getLed().setArmError(false);
-        
-
             if (atJankGoal() && (setPoint == ArmConstants.UPPER_LIMIT_RAD)) {
                 set(0.025);
                 resetPIDs();
