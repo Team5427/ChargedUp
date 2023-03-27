@@ -2,11 +2,9 @@ package frc.robot;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
@@ -14,8 +12,8 @@ import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.ClawConstants;
 import frc.robot.Constants.JoystickConstants;
 import frc.robot.Constants.RoutineConstants;
-import frc.robot.Constants.SwerveConstants;
 import frc.robot.Constants.RoutineConstants.POSITION_TYPE;
+import frc.robot.Constants.SwerveConstants;
 import frc.robot.commands.ManualArm;
 import frc.robot.commands.ManualClaw;
 import frc.robot.commands.PartyMode;
@@ -26,9 +24,8 @@ import frc.robot.commands.Routines.MoveBotTo;
 import frc.robot.commands.Routines.MoveClawTo;
 import frc.robot.commands.Routines.Balancing.BalanceDoubleP;
 import frc.robot.commands.Routines.BasicMovement.TiltWheels;
-import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Claw;
-import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Led;
 import frc.robot.subsystems.Swerve.SwerveDrive;
 import frc.robot.util.OdometryMath2023;
@@ -36,10 +33,11 @@ import frc.robot.util.OdometryMath2023;
 public class ButtonBindings {
 
     private static SwerveDrive swerve;
-    private static Arm arm;
-    private static Elevator elevator;
+    // private static Arm arm;
+    // private static Elevator elevator;
     private static Claw claw;
     private static Led led;
+    private static Intake intake;
 
     public ButtonBindings(CommandJoystick joy, CommandJoystick operatorJoy1, CommandJoystick operatorJoy2) {
         getSubsystems();
@@ -65,9 +63,9 @@ public class ButtonBindings {
         joy.button(JoystickConstants.LOCK_SWERVE).toggleOnTrue(new PartyMode());
 
         joy.button(JoystickConstants.GAMEPIECE_BUTTON).onTrue(new InstantCommand(() -> {
-            if(led.getState() == led.INTAKE_FLOOR){
+            if(led.getState() == Led.INTAKE_FLOOR || intake.getProxCovered()){
                 CommandScheduler.getInstance().schedule(new UseIntake());
-            } else{
+            } else {
                 CommandScheduler.getInstance().schedule(new UseClaw());
             }
         }));
@@ -79,7 +77,7 @@ public class ButtonBindings {
         joy.button(JoystickConstants.CLAW_CLAMP).onTrue(new InstantCommand(() ->{
             claw.toggleGrabber();
             if(!claw.getGrabber()){
-                led.setState(led.INTAKE);
+                led.setState(Led.INTAKE);
             }
         }, claw, led));
 
@@ -93,7 +91,7 @@ public class ButtonBindings {
         operatorJoy1.button(JoystickConstants.MID_CUBE_PRESET).onTrue(new MoveClawTo(RoutineConstants.MID_CUBE_CLAW_STATE));
         operatorJoy1.button(JoystickConstants.FLIP_COLOR).onTrue(new InstantCommand(() -> {
             led.togglePurple();
-            led.setState(led.INTAKE);
+            led.setState(Led.INTAKE);
         }));
         operatorJoy1.button(JoystickConstants.SUBSTATION_PRESET).onTrue(new MoveClawTo(RoutineConstants.SUBSTATION_CLAW_STATE));
         operatorJoy1.button(JoystickConstants.FLOOR_INTAKE_PRESET_CUBES).onTrue(new MoveClawTo(RoutineConstants.CUBE_INTAKE_CLAW_STATE));
@@ -131,7 +129,7 @@ public class ButtonBindings {
         ));
 
         operatorJoy2.button(JoystickConstants.PARTY_MODE).onTrue(new InstantCommand(() -> {
-            led.setState(led.INTAKE_FLOOR);
+            led.setState(Led.INTAKE_FLOOR);
         }));
 
         operatorJoy2.button(JoystickConstants.INTAKE).onTrue(new UseIntake());
@@ -140,10 +138,11 @@ public class ButtonBindings {
 
     private static void getSubsystems() {
         swerve = RobotContainer.getSwerve();
-        arm = RobotContainer.getArm();
-        elevator = RobotContainer.getElevator();
+        // arm = RobotContainer.getArm();
+        // elevator = RobotContainer.getElevator();
         claw = RobotContainer.getClaw();
         led = RobotContainer.getLed();
+        intake = RobotContainer.getIntake();
     }
 
 

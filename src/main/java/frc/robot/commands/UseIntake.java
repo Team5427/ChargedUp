@@ -24,6 +24,7 @@ public class UseIntake extends CommandBase{
     @Override
     public void initialize(){
         if(intake.getProxCovered()){
+            RobotContainer.getLed().setState(Led.INTAKE_FLOOR);
             intaking = false;
             timer.reset();
             timer.start();
@@ -36,9 +37,9 @@ public class UseIntake extends CommandBase{
 
     @Override
     public void execute(){
-        if(intaking && !intake.getProxCovered()){
+        if(intaking){
             intake.intake();
-        } else if(!intaking && timer.get() < IntakeConstants.OUTTAKE_TIME){
+        } else if(!intaking){
             intake.outtake();
         }
     }

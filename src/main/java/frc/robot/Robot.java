@@ -4,8 +4,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.cscore.UsbCamera;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -13,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.commands.Routines.BasicMovement.TiltWheels;
 import frc.robot.pathUtil.SwervePathMaker;
+import frc.robot.subsystems.Led;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -103,7 +102,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
     RobotContainer.getSwerve().setFieldRelative(true);
-    RobotContainer.getLed().setState(RobotContainer.getLed().INTAKE);
+    RobotContainer.getLed().setState(Led.INTAKE);
     RobotContainer.getSwerve().setBrake(true, true);
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to

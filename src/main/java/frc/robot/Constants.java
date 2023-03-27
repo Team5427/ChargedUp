@@ -336,12 +336,12 @@ public final class Constants {
         public static final double UNDEPLOYED_POS_RAD = 0.0; //FIXME
         public static final double RETRACTED_POS_RAD = 0.0; //FIXME
         public static final double ARM_CLEARANCE_RAD = Math.PI/80;
-        public static final double TOLERANCE_RAD = Units.degreesToRadians(5);
+        public static final double TOLERANCE_RAD = Units.degreesToRadians(3);
 
         public static final double INTAKE_COVERED = .3;
         public static final double OUTTAKE_TIME = .5;
 
-        public static final double ACCEL_PERCENT = 3;
+        public static final double ACCEL_PERCENT = 6;
     }
 
     public static final class MiscConstants {

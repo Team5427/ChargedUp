@@ -1,10 +1,8 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.RobotContainer;
 import frc.robot.Constants.JoystickConstants;
-import frc.robot.Constants.LedConstants;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.Led;
 
 public class PartyMode extends CommandBase{
@@ -41,7 +39,7 @@ public class PartyMode extends CommandBase{
         // if(ledCount >= 1){
             for(int i = 0; i < 6; i++){
                 for(int j = 0; j < 5; j++){
-                    int color = (int)(Math.random() * 5);
+                    // int color = (int)(Math.random() * 5);
                     led.setLed((i * 30) + (j * 6), colors[(int)(ledCount + j) % 5]);
                     led.setLed((i * 30) + (j * 6) + 1, colors[(int)(ledCount + j) % 5]);
                     led.setLed((i * 30) + (j * 6) + 2, colors[(int)(ledCount + j) % 5]);

@@ -24,7 +24,6 @@ public class UseClaw extends CommandBase {
     private boolean finish = false;
     private boolean intake;
     private boolean isPurple;
-    private boolean overrideBoolean;
     private Timer timer;
     public static boolean isRunning;
 
@@ -33,7 +32,6 @@ public class UseClaw extends CommandBase {
         led = RobotContainer.getLed();
         addRequirements(claw);
         timer = new Timer();
-        this.overrideBoolean = false;
     }
 
     public UseClaw(boolean intake) {
@@ -41,7 +39,6 @@ public class UseClaw extends CommandBase {
         led = RobotContainer.getLed();
         addRequirements(claw);
         timer = new Timer();
-        this.overrideBoolean = true;
         this.intake = intake;
     }
 
@@ -106,9 +103,9 @@ public class UseClaw extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         if(intake){
-            led.setState(led.SCORING);
+            led.setState(Led.SCORING);
         } else{
-            led.setState(led.INTAKE);
+            led.setState(Led.INTAKE);
         }
 
         if (!DriverStation.isAutonomous()) {

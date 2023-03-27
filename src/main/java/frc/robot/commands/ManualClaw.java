@@ -2,9 +2,9 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
-import frc.robot.Constants.ClawConstants;
 import frc.robot.Constants.JoystickConstants;
 import frc.robot.subsystems.Claw;
+import frc.robot.subsystems.Led;
 
 public class ManualClaw extends CommandBase{
     private Claw claw;
@@ -38,9 +38,9 @@ public class ManualClaw extends CommandBase{
     public void end(boolean interrupted){
 
         if(claw.proxCovered()){
-            RobotContainer.getLed().setState(RobotContainer.getLed().SCORING);
+            RobotContainer.getLed().setState(Led.SCORING);
         } else{
-            RobotContainer.getLed().setState(RobotContainer.getLed().INTAKE);
+            RobotContainer.getLed().setState(Led.INTAKE);
         }
         isRunning = false;
         claw.stop();

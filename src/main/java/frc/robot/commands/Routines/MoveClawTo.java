@@ -9,7 +9,6 @@ import frc.robot.commands.Routines.StateTypes.ClawState;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
-import frc.robot.util.Logger;
 import frc.robot.util.OdometryMath2023;
 
 public class MoveClawTo extends CommandBase {

@@ -33,7 +33,7 @@ public class Intake extends SubsystemBase{
     public Intake(){
         intakeMotor = new CANSparkMax(IntakeConstants.INTAKE_ID, MotorType.kBrushless);
         intakeMotor.restoreFactoryDefaults();
-        intakeMotor.setSmartCurrentLimit(10);
+        intakeMotor.setSmartCurrentLimit(35);
         intakeMotor.setInverted(false);
         intakeMotor.setIdleMode(IdleMode.kCoast);
         OdometryMath2023.doPeriodicFrame(intakeMotor);
@@ -45,15 +45,15 @@ public class Intake extends SubsystemBase{
 
         tiltMotorLeft = new CANSparkMax(IntakeConstants.TILT_ID, MotorType.kBrushless);
         tiltMotorLeft.restoreFactoryDefaults();
-        tiltMotorLeft.setSmartCurrentLimit(20);
+        tiltMotorLeft.setSmartCurrentLimit(25);
         tiltMotorLeft.setInverted(true);
-        tiltMotorLeft.setIdleMode(IdleMode.kBrake); //FIXME
+        tiltMotorLeft.setIdleMode(IdleMode.kBrake);
 
         tiltMotorRight = new CANSparkMax(IntakeConstants.TILT_ID, MotorType.kBrushless);
         tiltMotorRight.restoreFactoryDefaults();
-        tiltMotorRight.setSmartCurrentLimit(20);
+        tiltMotorRight.setSmartCurrentLimit(25);
         tiltMotorRight.setInverted(false);
-        tiltMotorRight.setIdleMode(IdleMode.kBrake); //FIXME
+        tiltMotorRight.setIdleMode(IdleMode.kBrake);
 
         retracted = false;
         deployed = false;
