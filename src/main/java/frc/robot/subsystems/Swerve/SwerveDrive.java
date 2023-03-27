@@ -89,12 +89,6 @@ public class SwerveDrive extends SubsystemBase {
                 Math.signum(x_g) : 
                 Math.signum(y_g);
         return -Math.toDegrees(Math.hypot(x_g, y_g) * sign);
-        // double[] gravityVec = new double[3];
-        // gyro.getGravityVector(gravityVec);
-        // double gravityVecXY = Math.hypot(gravityVec[0], gravityVec[1]); //I TRUST MINE MORE
-        // double gravityVecZ = gravityVec[2];
-        // double tiltAngle = Math.atan2(gravityVecXY, gravityVecZ);
-        // return Math.toDegrees(tiltAngle);
     }
 
     public Rotation2d getRotation2d() {
@@ -108,7 +102,7 @@ public class SwerveDrive extends SubsystemBase {
         backRight.stop();
     }
 
-    public void setModules(SwerveModuleState[] desiredStates) {
+    public void setModules(SwerveModuleState... desiredStates) {
         SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, SwerveConstants.MAX_PHYSICAL_SPEED_M_PER_SEC); //dampens a little
         frontLeft.setModState(desiredStates[0]);
         frontRight.setModState(desiredStates[1]);
@@ -206,63 +200,10 @@ public class SwerveDrive extends SubsystemBase {
     public void setFieldRelative(boolean op) {
         isFieldRelative = op;
     }
-
-    public void lock(){
-        setModules(new SwerveModuleState[]{
-            new SwerveModuleState(0, Rotation2d.fromDegrees(45)),
-            new SwerveModuleState(0, Rotation2d.fromDegrees(-45)),
-            new SwerveModuleState(0, Rotation2d.fromDegrees(-45)),
-            new SwerveModuleState(0, Rotation2d.fromDegrees(45))
-        });
-    }
-    
     private void log() {
         Logger.post("FieldRelative", getFieldRelative());
-        // // Logger.post("GyroCalibrating", gyro.isCalibrating());
-        // Logger.post("odom", getPose().toString());
-        // // Logger.post("estimator pose", poseEstimator.getEstimatedPosition());
-        // // Logger.post("key", backLeft.getTurnPosRad());
-        // Logger.post("gyro", getHeading());
-
-        // Logger.post("backLeft", backLeft.getErrors());
-        // Logger.post("frontLeft", frontLeft.getErrors());
-        // Logger.post("backRight", backRight.getErrors());
-        // Logger.post("frontRight", frontRight.getErrors());
         Logger.post("drivetrain heading", getRotation2d().toString());
         Logger.postComplex("Field5427", field);
         Logger.post("charge station angle", getRobotTiltGlobalYAxisDeg());
-
-        Logger.post("accerlation magnitude", getAccelerationMPS2()[0]);
-        Logger.post("accerlation direction", getAccelerationMPS2()[1]);
-        // Logger.post("abs FR", frontRight.getAbsEncRaw());
-        // Logger.post("abs FL", frontLeft.getAbsEncRaw());
-        // Logger.post("abs BR", backRight.getAbsEncRaw());
-        // Logger.post("abs BL", backLeft.getAbsEncRaw());
-
-        // Logger.post("abs rad FR", frontRight.getAbsEncRad());
-        // Logger.post("abs rad FL", frontLeft.getAbsEncRad());
-        // Logger.post("abs rad BR", backRight.getAbsEncRad());
-        // Logger.post("abs rad BL", backLeft.getAbsEncRad());
-
-        // Logger.post("frontLeft.getModPosition()", frontLeft.getModPosition().toString());
-        // Logger.post("frontRight.getModPosition()", frontRight.getModPosition().toString());
-        // Logger.post("bakcLeft.getModPosition()", backLeft.getModPosition().toString());
-        // Logger.post("backRight.getModPosition()", backRight.getModPosition().toString());
-        // Logger.post("speeds", frontRight.getDriveSpeed());
-
-        // Logger.post("speed RPM", frontRight.backToRPM());
-
-        // Logger.post("state", frontRight.getModState().toString());
-
-        // // Logger.post("gyro yaw", OdometryMath2022.gyroTargetOffset());
-        // Logger.post("x2speed", x2Speed);
-        // Logger.post("usingOdom", usingOdometryTargeting);   
-        
-        // SmartDashboard.putString("AprilTag Info", aprilTagPi.getTarget().toString());
-        // SmartDashboard.putBoolean("has tag", aprilTagPi.hasTarget());
-
-        Logger.post("drivetrain Pitch", getPitchDeg());
-        Logger.post("drivetrain Roll", getRollDeg());
-
     }
 }

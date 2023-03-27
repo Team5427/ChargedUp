@@ -92,8 +92,8 @@ public final class Constants {
         // AUTON STUFF
         public static final double MAX_AUTON_ACCEL_M_PER_S2 = 2;
         public static final double MAX_AUTON_ANGULAR_ACCEL_RAD_PER_S2 = Math.PI * 1;
-        public static final double AUTON_TRANSLATION_P = 2; // FIXME lmao these r bbq values for rn
-        public static final double AUTON_THETA_P = 2; // FIXME
+        public static final double AUTON_TRANSLATION_P = 3;
+        public static final double AUTON_THETA_P = 4.5;
         public static final double MAX_AUTON_SPEED_M_PER_S = 3.5;
         public static final double MAX_AUTON_ANGULAR_SPEED_RAD_S = Math.PI * 1.75;
 
@@ -124,6 +124,9 @@ public final class Constants {
             BACK_LEFT,
             BACK_RIGHT
         }
+
+        public static final double[] FORWARD_WHEEL_ANGLES = {0, 0, 0, 0};
+        public static final double[] X_WHEEL_ANGLES = {45, -45, -45, 45};
     }
 
     public static final class JoystickConstants {
@@ -209,14 +212,14 @@ public final class Constants {
         public static final double TRANSLATION_P = 3;
         public static final double ROTATION_P = 4.5;
 
-        public static final double TAPE_TY_SETPOINT = 0.0; //FIXME
-
         public static final double BALANCE_ACTIVATION_PITCH_DEG = 8.5;
 
         public static final double BALANCED_TIME = 2;
         public static final double DEBUG_INTEGRATE_DELAY_TIME = 1;
 
         public static final double CLOSE_COMMUNITY_X_METERS = 2.25;
+
+        public static final double MODULE_TILT_SPEED = 0.5;
 
         //PRESETS
         public static final Pose2d BOTTOM_CONE_SCORING_POSE_DEFAULT = new Pose2d(1.85, 0.5, new Rotation2d(Math.PI));
@@ -296,26 +299,6 @@ public final class Constants {
         public static final double MANUAL_ARM_SPEED = .2;
     }
 
-    public static final class RampPusherConstants {
-        public static final int LEFT_ID = 13;
-        public static final int RIGHT_ID = 16;
-        public static final int THROUGHBORE_ID = 2;
-        public static final int CURRENT_LIMIT_AMPS = 40;
-
-        public static final double GEARING = (1.0 / 100.0);
-        public static final double ENCODER_OFFSET_RAD = 4.22;
-        public static final double P = 1;
-        public static final double I = 0;
-        public static final double D = 0;
-        public static final double MAX_SPEED_RAD_S = Units.rotationsPerMinuteToRadiansPerSecond(MiscConstants.MAX_550_SPEED_RPM * GEARING) / 2;
-        public static final double MAX_ACCEL_RAD_S_S = MAX_SPEED_RAD_S / 4;
-
-        public static final double DEPLOYED_POS_RAD = 0; //HAS TO BE 0
-        public static final double UNDEPLOYED_POS_RAD = 5.85 - ENCODER_OFFSET_RAD;
-        public static final double CONTROLLER_TOLERANCE_RAD = Units.degreesToRadians(5);
-        
-    }
-
     public static final class ClawConstants {
         public static final int PROX_ID = 1; 
         public static final int LEFT_ID = 24;
@@ -336,7 +319,6 @@ public final class Constants {
         public static final double CUBE_OUTTAKE_EXCESS_TIME_S = 0.4;
 
         public static final double PROX_VALUE = 1;
-        public static final double PURPLE_THRESH = 600.0;
     }
 
     public static final class IntakeConstants{

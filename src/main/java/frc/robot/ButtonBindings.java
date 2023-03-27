@@ -2,6 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -13,6 +14,7 @@ import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.ClawConstants;
 import frc.robot.Constants.JoystickConstants;
 import frc.robot.Constants.RoutineConstants;
+import frc.robot.Constants.SwerveConstants;
 import frc.robot.Constants.RoutineConstants.POSITION_TYPE;
 import frc.robot.commands.ManualArm;
 import frc.robot.commands.ManualClaw;
@@ -23,6 +25,7 @@ import frc.robot.commands.Auton.SubRoutineSheet;
 import frc.robot.commands.Routines.MoveBotTo;
 import frc.robot.commands.Routines.MoveClawTo;
 import frc.robot.commands.Routines.Balancing.BalanceDoubleP;
+import frc.robot.commands.Routines.BasicMovement.TiltWheels;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.Elevator;
@@ -57,11 +60,7 @@ public class ButtonBindings {
             swerve.toggleFieldRelative();
         }));
 
-        joy.button(JoystickConstants.LOCK_SWERVE).whileTrue(new RunCommand(() -> {
-            swerve.lock();
-        }, swerve).andThen(() -> {
-            swerve.stopMods();
-        }));
+        joy.button(JoystickConstants.LOCK_SWERVE).onTrue(new TiltWheels(SwerveConstants.X_WHEEL_ANGLES));
 
         joy.button(JoystickConstants.LOCK_SWERVE).toggleOnTrue(new PartyMode());
 

@@ -7,8 +7,11 @@ package frc.robot;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Constants.SwerveConstants;
+import frc.robot.commands.Routines.BasicMovement.TiltWheels;
 import frc.robot.pathUtil.SwervePathMaker;
 
 /**
@@ -22,6 +25,8 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
 
+  private Timer matchTimer;
+
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -31,6 +36,7 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
+    matchTimer = new Timer();
 
     m_robotContainer = new RobotContainer();
 
@@ -57,7 +63,6 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledInit() {
     RobotContainer.getSwerve().setBrake(true, true);
-    RobotContainer.getSwerve().lock();
   }
 
   @Override
@@ -76,6 +81,9 @@ public class Robot extends TimedRobot {
     RobotContainer.getIntake().setRetracted(false);
     RobotContainer.getIntake().setDeployed(false);
 
+    matchTimer.reset();
+    matchTimer.start();
+
     m_autonomousCommand = m_robotContainer.getAutonomousCommand().andThen(() -> {SwervePathMaker.resetPaths();});
 
     // schedule the autonomous command (example)
@@ -87,8 +95,8 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
-    if (DriverStation.getMatchTime() < 0.5) {
-      RobotContainer.getSwerve().lock();
+    if (matchTimer.get() >= 14.5) {
+      CommandScheduler.getInstance().schedule(new TiltWheels(SwerveConstants.X_WHEEL_ANGLES));
     }
   }
 

@@ -15,6 +15,7 @@ import frc.robot.Constants.RoutineConstants;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.RobotContainer;
 import frc.robot.commands.JoystickSwerve;
+import frc.robot.commands.Routines.BasicMovement.TiltWheels;
 import frc.robot.commands.Routines.StateTypes.PositionState;
 import frc.robot.subsystems.Swerve.SwerveDrive;
 import frc.robot.util.OdometryMath2023;
@@ -152,9 +153,8 @@ public class MoveBotTo extends CommandBase {
         runningSpeed = 0;
         if (runTime > RoutineConstants.MOVE_BOT_TO_REPEAT_THRESHOLD_SEC) {
             CommandScheduler.getInstance().schedule(new MoveBotTo(this.type));
-        } 
-        else if(DriverStation.isTeleop() || DriverStation.isTeleopEnabled()){
-            CommandScheduler.getInstance().schedule(new JoystickSwerve());
+        } else if(DriverStation.isTeleop() || DriverStation.isTeleopEnabled()){
+            CommandScheduler.getInstance().schedule(new TiltWheels(SwerveConstants.FORWARD_WHEEL_ANGLES));
         }
     }
 
