@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.IntakeConstants;
+import frc.robot.commands.UseIntake;
 import frc.robot.util.Logger;
 import frc.robot.util.OdometryMath2023;
 
@@ -43,13 +44,13 @@ public class Intake extends SubsystemBase{
 
         prox = new AnalogInput(IntakeConstants.PROX_ID);
 
-        tiltMotorLeft = new CANSparkMax(IntakeConstants.TILT_ID, MotorType.kBrushless);
+        tiltMotorLeft = new CANSparkMax(IntakeConstants.TILT_ID_LEFT, MotorType.kBrushless);
         tiltMotorLeft.restoreFactoryDefaults();
         tiltMotorLeft.setSmartCurrentLimit(25);
         tiltMotorLeft.setInverted(true);
         tiltMotorLeft.setIdleMode(IdleMode.kBrake);
 
-        tiltMotorRight = new CANSparkMax(IntakeConstants.TILT_ID, MotorType.kBrushless);
+        tiltMotorRight = new CANSparkMax(IntakeConstants.TILT_ID_RIGHT, MotorType.kBrushless);
         tiltMotorRight.restoreFactoryDefaults();
         tiltMotorRight.setSmartCurrentLimit(25);
         tiltMotorRight.setInverted(false);
@@ -99,7 +100,7 @@ public class Intake extends SubsystemBase{
     }
 
     public boolean getProxCovered(){
-        return prox.getAverageVoltage() < IntakeConstants.INTAKE_COVERED;
+        return prox.getAverageVoltage() > IntakeConstants.INTAKE_COVERED;
     }
 
     public void setRetracted(boolean r) {
@@ -119,13 +120,11 @@ public class Intake extends SubsystemBase{
     }
 
     public boolean atSetpoint() {
-        return error < IntakeConstants.TOLERANCE_RAD;
+        return Math.abs(error) < IntakeConstants.TOLERANCE_RAD;
     }
 
     @Override
     public void periodic(){
-        error = setPointRad.minus(getRotation2d()).getRadians();
-
         if (retracted) {
             setPointRad = new Rotation2d(IntakeConstants.RETRACTED_POS_RAD);
         } else {
@@ -135,15 +134,21 @@ public class Intake extends SubsystemBase{
                 setPointRad = new Rotation2d(IntakeConstants.UNDEPLOYED_POS_RAD);
             }
         }
+        error = setPointRad.minus(getRotation2d()).getRadians();
 
-        if (Math.abs(RobotContainer.getArm().getAngle()) < IntakeConstants.ARM_CLEARANCE_RAD) {
+
+        if (Math.abs(RobotContainer.getArm().getAngle()) < IntakeConstants.ARM_CLEARANCE_RAD || RobotContainer.getArm().atJankGoal()) {
             if (Math.abs(error) > IntakeConstants.TOLERANCE_RAD) {
                 setTilt(IntakeConstants.TILT_COEF * Math.signum(error));
             } else {
-                stopIntake();
+                stopTilt();
             }
         } else {
-            stopIntake();
+            stopTilt();
+        }
+
+        if (!UseIntake.isRunning) {
+            intakeMotor.set(0.01);
         }
 
         log();

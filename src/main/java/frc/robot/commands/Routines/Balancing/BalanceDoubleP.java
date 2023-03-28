@@ -14,10 +14,10 @@ public class BalanceDoubleP extends CommandBase {
     private PIDController weakerPID;
     private PIDController strongerPID;
     private Timer timer;
-    private static final double WEAKER_P = -0.02; //FIXME may need to negate
-    private static final double STRONGER_P = -0.05; //FIXME may need to negate
-    private static final double SWITCH_THRESHHOLD_DEG = 9.5; //FIXME
-    private static final double ERROR_THRESHHOLD_DEG = 5; //FIXME
+    private static final double WEAKER_P = -0.02;
+    private static final double STRONGER_P = -0.06;
+    private static final double SWITCH_THRESHHOLD_DEG = 9.5;
+    private static final double ERROR_THRESHHOLD_DEG = 5;
     private static final double TIME_AT_GOAL_SEC = 3;
 
     public BalanceDoubleP() {
@@ -51,7 +51,7 @@ public class BalanceDoubleP extends CommandBase {
             ))
         );
 
-        if (Math.abs(dt.getRobotTiltGlobalYAxisDeg()) < ERROR_THRESHHOLD_DEG) {
+        if (Math.abs(measurement) < ERROR_THRESHHOLD_DEG) {
             timer.start();
         } else {
             timer.stop();
@@ -61,8 +61,6 @@ public class BalanceDoubleP extends CommandBase {
 
     @Override
     public boolean isFinished() {
-
-
         if (timer.get() > TIME_AT_GOAL_SEC) {
             return true;
         } else {

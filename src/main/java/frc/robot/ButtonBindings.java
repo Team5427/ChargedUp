@@ -63,7 +63,7 @@ public class ButtonBindings {
         joy.button(JoystickConstants.LOCK_SWERVE).toggleOnTrue(new PartyMode());
 
         joy.button(JoystickConstants.GAMEPIECE_BUTTON).onTrue(new InstantCommand(() -> {
-            if(led.getState() == Led.INTAKE_FLOOR || intake.getProxCovered()){
+            if(led.getState() == Led.INTAKE_FLOOR || led.getState() == Led.SCORING_FLOOR || intake.getProxCovered()){
                 CommandScheduler.getInstance().schedule(new UseIntake());
             } else {
                 CommandScheduler.getInstance().schedule(new UseClaw());
@@ -82,6 +82,7 @@ public class ButtonBindings {
         }, claw, led));
 
         joy.button(JoystickConstants.SS_CANCEL).onTrue(new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE));
+        joy.button(JoystickConstants.LOCK_FORWARD).onTrue(new ParallelCommandGroup(new UseClaw(), new MoveClawTo(RoutineConstants.SUBSTATION_CLAW_STATE)));
 
 
         operatorJoy1.button(JoystickConstants.CANCEL_ALL_COMMANDS_O).onTrue(new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE));

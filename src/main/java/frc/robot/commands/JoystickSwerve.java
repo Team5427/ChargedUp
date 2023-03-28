@@ -64,7 +64,7 @@ public class JoystickSwerve extends CommandBase {
     }
 
     private double rotationCalc(double joyRotSpeed, boolean usePID) {
-        if (usePID) {
+        if (!usePID) {
             rotPID.reset(swerve.getRotation2d().getRadians());
             return joyRotSpeed;
         } else {

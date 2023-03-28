@@ -258,13 +258,9 @@ public final class Constants {
         public static final double POSITION_CONVERSION_FACTOR_ROT_TO_METERS = Math.PI * SPROCKET_PD * 2.0;
         public static final double VELOCITY_CONVERSION_FACTOR_RPM_TO_MPS = POSITION_CONVERSION_FACTOR_ROT_TO_METERS / 60.0;
         public static final double UPPER_LIMIT_METERS = Units.inchesToMeters(19.0 * 2.0);
-        public static final double kS = 0.5;
-        public static final double kG = 0.6;
-        public static final double kV = 2.93;
-        public static final double kA = 1.168;
         public static final double kP = 7.0; //7
-        public static final double kI = 0.1;
-        public static final double kD = 0.1;
+        public static final double kI = 0.0;
+        public static final double kD = 0.0;
         public static final double MAX_SPEED_M_S = MiscConstants.MAX_NEO_SPEED_RPM * VELOCITY_CONVERSION_FACTOR_RPM_TO_MPS / 2;
         public static final double MAX_ACCEL_M_S_S = MAX_SPEED_M_S / 10;
         public static final double GOAL_TOLERANCE_METERS = .03;
@@ -274,14 +270,10 @@ public final class Constants {
     public static final class ArmConstants {
         public static final int TOP_ID = 26;
         public static final int BTM_ID = 27;
-        public static final int SOL_ID = 2;
+        public static final int SOL_ID = 9;
         public static final int THROUGHBORE_ID = 5; //on DIO ports
         public static final double POSITION_OFFSET_RAD = 2.5871;
         public static final int CURRENT_LIMIT_AMPS = 40;
-        public static final double kS = 2.0;
-        public static final double kG = 2.0;
-        public static final double kV = 2.0;
-        public static final double kA = 2.0;
         public static final double kP = 0.8;
         public static final double kI = 0.0;
         public static final double kD = 0.0;
@@ -302,7 +294,7 @@ public final class Constants {
         public static final int LEFT_ID = 24;
         public static final int RIGHT_ID = 25;
         public static final int CURRENT_LIMIT_AMPS = 20;
-        public static final int SOL_ID = 3;
+        public static final int SOL_ID = 8;
 
         public static enum GAME_PIECE_STATE {
             CONE,
@@ -320,25 +312,26 @@ public final class Constants {
     }
 
     public static final class IntakeConstants{
-        public static final int TILT_ID = 0; //FIXME
-        public static final int INTAKE_ID = 0; //FIXME
-        public static final int THROUGHBORE_ID = 0; //FIXME
-        public static final int PROX_ID = 0; //FIXME
+        public static final int TILT_ID_LEFT = 30;
+        public static final int TILT_ID_RIGHT = 31;
+        public static final int INTAKE_ID = 32;
+        public static final int THROUGHBORE_ID = 8;
+        public static final int PROX_ID = 0;
 
         public static final double TILT_SPEED = .2;
-        public static final double TILT_COEF = .5; //may need to invert
+        public static final double TILT_COEF = .8; //may need to invert
         public static final double INTAKE_SPEED = .3;
         public static final double OUTTAKE_SPEED = -1;
         public static final double OUTTAKE_SPEED_SLOW = -0.2;
 
-        public static final double ENCODER_OFFSET_RAD = 4.22; //FIXME
-        public static final double DEPLOYED_POS_RAD = 0.0; //FIXME
-        public static final double UNDEPLOYED_POS_RAD = 0.0; //FIXME
-        public static final double RETRACTED_POS_RAD = 0.0; //FIXME
-        public static final double ARM_CLEARANCE_RAD = Math.PI/80;
-        public static final double TOLERANCE_RAD = Units.degreesToRadians(3);
+        public static final double ENCODER_OFFSET_RAD = 1.985;
+        public static final double DEPLOYED_POS_RAD = -.05;
+        public static final double UNDEPLOYED_POS_RAD = 3.121 - ENCODER_OFFSET_RAD;
+        public static final double RETRACTED_POS_RAD = 3.915 - ENCODER_OFFSET_RAD;
+        public static final double ARM_CLEARANCE_RAD = Math.PI/8;
+        public static final double TOLERANCE_RAD = Units.degreesToRadians(10);
 
-        public static final double INTAKE_COVERED = .3;
+        public static final double INTAKE_COVERED = 1;
         public static final double OUTTAKE_TIME = .5;
 
         public static final double ACCEL_PERCENT = 6;
@@ -364,7 +357,7 @@ public final class Constants {
         public static final int[] RED_CODE = {255, 0, 0};
         public static final int[] WHITE_CODE = {100, 100, 100};
         public static final int[] CLEAR_CODE = {0, 0, 0};
-        public static final int[] ORANGE_CODE = {255, 150, 0};
+        public static final int[] ORANGE_CODE = {0, 0, 255};
     }
 }
 

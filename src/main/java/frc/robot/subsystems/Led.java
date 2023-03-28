@@ -27,6 +27,7 @@ public class Led extends SubsystemBase{
     public static final int INTAKE = 0;
     public static final int INTAKE_FLOOR = 2;
     public static final int SCORING = 1;
+    public static final int SCORING_FLOOR = 3;
 
     private boolean isPurple;
 
@@ -127,19 +128,18 @@ public class Led extends SubsystemBase{
 
     @Override
     public void periodic() {  
-        if(!PartyMode.running){    
             if (state == INTAKE && DriverStation.isEnabled()) 
             {
                 if(isPurple)
                     setColor(PURPLE);
                 else
                     setColor(YELLOW);
-            } else if (state == SCORING &&DriverStation.isEnabled()) {
+            } else if ((state == SCORING || state == SCORING_FLOOR) &&DriverStation.isEnabled()) {
                 setColor(CYAN);
-            } else if (!DriverStation.isEnabled()) {
-                setColor(RED);
             } else if(state == INTAKE_FLOOR && DriverStation.isEnabled()){
                 setColor(ORANGE);
+            } else if (!DriverStation.isEnabled()) {
+                setColor(RED);
             }
 
             if(error){
@@ -199,10 +199,11 @@ public class Led extends SubsystemBase{
 
 
             
-        }
+        
         Logger.post("isPurple", isPurple);
 
-        
+        Logger.post("led state", state);
+        Logger.post("rgb", rgb.toString());
 
         led.setData(ledBuffer);
         led.start();
