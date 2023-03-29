@@ -83,7 +83,9 @@ public class RobotContainer {
       "TopSingleConeIntake1",
       "TopDoubleConeScore1",
       "TopDoubleConeScore2",
-      "BottomSingleConeIntakeEngage1"
+      "BottomSingleConeIntakeEngage1",
+      "TopDoubleConeEngage1",
+      "TopDoubleConeEngage2"
     );
     AutonSheet.initAutons();
     SubRoutineSheet.initSubRoutines();

@@ -4,6 +4,7 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
+import frc.robot.Constants.JoystickConstants;
 import frc.robot.Constants.RoutineConstants;
 import frc.robot.commands.Routines.StateTypes.ClawState;
 import frc.robot.subsystems.Arm;
@@ -42,22 +43,23 @@ public class MoveClawTo extends CommandBase {
     public void execute() {
         intake.setRetracted(setPoint.getRetracted());
         arm.setAngle(setPoint.getAngle());
-        if ((RobotContainer.getSwerve().getPose().getX() > Units.feetToMeters(33) && OdometryMath2023.isBlue()) || (RobotContainer.getSwerve().getPose().getX() < Units.feetToMeters(21) && !OdometryMath2023.isBlue())) {
-            if (arm.getAngle() > (Math.PI / 8)) {
-                elevator.setHeight(setPoint.getHeight());
+        if (!arm.atTop()) {
+            if ((RobotContainer.getSwerve().getPose().getX() > Units.feetToMeters(33) && OdometryMath2023.isBlue()) || (RobotContainer.getSwerve().getPose().getX() < Units.feetToMeters(21) && !OdometryMath2023.isBlue())) {
+                if (arm.getAngle() > (Math.PI / 8)) {
+                    elevator.setHeight(setPoint.getHeight());
+                }    
+            } else {
+                if (arm.getAngle() > -(Math.PI / 6)) {
+                    elevator.setHeight(setPoint.getHeight());
+                }
             }    
-        } else {
-            if (arm.getAngle() > -(Math.PI / 6)) {
-                elevator.setHeight(setPoint.getHeight());
-            }
         }
-
         arm.extend(setPoint.getExtended());
     }
 
     @Override
     public boolean isFinished() {
-        if (RobotContainer.getJoy().getHID().getRawButton(8)) {
+        if (RobotContainer.getJoy().getHID().getRawButton(JoystickConstants.SS_CANCEL)) {
             return false;
         } else if (elevator.atGoal(setPoint.getHeight()) && arm.atGoal(setPoint.getAngle())) {
             goodToRelease = true;

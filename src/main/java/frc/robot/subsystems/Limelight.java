@@ -10,6 +10,7 @@ import frc.robot.RobotContainer;
 public class Limelight extends SubsystemBase {
     private NetworkTable table_m;
     private boolean tv;
+    private int tag;
     private MedianFilter filterx;
     private MedianFilter filtery;
 
@@ -23,11 +24,13 @@ public class Limelight extends SubsystemBase {
 
     @Override
     public void periodic() {
+        tag = (int)table_m.getEntry("tid").getDouble(-1);
         tv = table_m.getEntry("tv").getDouble(0) == 1;
     }
 
+
     public boolean targetVisible() {
-        return tv;
+        return tv && tag != 4 && tag != 5;
     }
 
     public boolean lightOn() {

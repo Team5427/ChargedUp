@@ -27,8 +27,8 @@ public class AutonSheet {
     public static SequentialCommandGroup bottomSingleConeIntakeEngage;
     private static Command bottomSingleConeIntakeEngage1;
     public static SequentialCommandGroup topDoubleConeEngage;
-    private static Command topDoubleConeEngage2;
     private static Command topDoubleConeEngage1;
+    private static Command topDoubleConeEngage2;
 
     public static void initAutons() {
         topSingleConeIntakeEngage1 = SwervePathMaker.getCommand("TopSingleConeIntakeEngage1");
@@ -37,7 +37,7 @@ public class AutonSheet {
         topDoubleConeScore2 = SwervePathMaker.getCommand("TopDoubleConeScore2");
         bottomSingleConeIntakeEngage1 = SwervePathMaker.getCommand("BottomSingleConeIntakeEngage1");
         topDoubleConeEngage1 = SwervePathMaker.getCommand("TopDoubleConeEngage1");
-        // topDoubleConeEngage2 = 
+        topDoubleConeEngage2 = SwervePathMaker.getCommand("TopDoubleConeEngage2");
     
         topSingleConeIntakeEngage = new SequentialCommandGroup(
             new MoveClawTo(RoutineConstants.TOP_CONE_CLAW_STATE),
@@ -177,37 +177,37 @@ public class AutonSheet {
             new BalanceDoubleP()
         );
        
-        // topDoubleConeEngage = new SequentialCommandGroup(
-        //     new MoveClawTo(RoutineConstants.TOP_CONE_CLAW_STATE),
-        //     new UseClaw(),
-        //     new ParallelCommandGroup(
-        //         topDoubleConeScore1,
-        //         new SequentialCommandGroup(
-        //             new InstantCommand(() -> {
-        //                 RobotContainer.getLed().setPurple(true);
-        //             }),
-        //             new ParallelRaceGroup(
-        //                 new ParallelCommandGroup(
-        //                     new SequentialCommandGroup(
-        //                         new WaitCommand(0.7),
-        //                         new UseClaw()
-        //                     ),
-        //                     new SequentialCommandGroup(
-        //                         new WaitCommand(.5),
-        //                         new MoveClawTo(RoutineConstants.CUBE_INTAKE_CLAW_STATE) 
-        //                     )                      
-        //                 ),
-        //                 new WaitCommand(3.5)
-        //             ),
-        //             new MoveClawTo(RoutineConstants.TOP_CUBE_CLAW_STATE)
-        //         )
-        //     ),
-        //     new ParallelRaceGroup(
-        //         new UseClaw(),
-        //         new WaitCommand(1)
-        //     ),
-        //     topDoubleConeEngage1,
-        //     new BalanceDoubleP()
-        // );
+        topDoubleConeEngage = new SequentialCommandGroup(
+            new MoveClawTo(RoutineConstants.TOP_CONE_CLAW_STATE),
+            new UseClaw(),
+            new ParallelCommandGroup(
+                topDoubleConeEngage1,
+                new SequentialCommandGroup(
+                    new InstantCommand(() -> {
+                        RobotContainer.getLed().setPurple(true);
+                    }),
+                    new ParallelRaceGroup(
+                        new ParallelCommandGroup(
+                            new SequentialCommandGroup(
+                                new WaitCommand(0.7),
+                                new UseClaw()
+                            ),
+                            new SequentialCommandGroup(
+                                new WaitCommand(.5),
+                                new MoveClawTo(RoutineConstants.CUBE_INTAKE_CLAW_STATE) 
+                            )                      
+                        ),
+                        new WaitCommand(3.5)
+                    ),
+                    new MoveClawTo(RoutineConstants.TOP_CUBE_CLAW_STATE)
+                )
+            ),
+            new ParallelRaceGroup(
+                new UseClaw(),
+                new WaitCommand(1)
+            ),
+            topDoubleConeEngage2,
+            new BalanceDoubleP()
+        );
     }
 }

@@ -148,7 +148,7 @@ public class Intake extends SubsystemBase{
         }
 
         if (!UseIntake.isRunning) {
-            intakeMotor.set(0.01);
+            intakeMotor.set(IntakeConstants.STATIC_HOLD_SPEED);
         }
 
         log();

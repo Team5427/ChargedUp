@@ -19,10 +19,12 @@ public class Led extends SubsystemBase{
     public static final int WHITE = 4;
     public static final int CYAN = 6;
     public static final int ORANGE = 7;
+    public static final int PINK = 8;
 
 
     public static double ledCount = 0;
     public static final double LED_SPEED = .5;
+    public static final double APRILTAG_LED_SPEED = 2;
 
     public static final int INTAKE = 0;
     public static final int INTAKE_FLOOR = 2;
@@ -117,6 +119,9 @@ public class Led extends SubsystemBase{
         if(c == ORANGE){
             rgb = LedConstants.ORANGE_CODE;
         }
+        if (c == PINK) {
+            rgb = LedConstants.PINK_CODE;
+        }
     }
 
     public void setLed(int i, int[] color) {
@@ -134,8 +139,10 @@ public class Led extends SubsystemBase{
                     setColor(PURPLE);
                 else
                     setColor(YELLOW);
-            } else if ((state == SCORING || state == SCORING_FLOOR) &&DriverStation.isEnabled()) {
+            } else if (state == SCORING && DriverStation.isEnabled()) {
                 setColor(CYAN);
+            } else if (state == SCORING_FLOOR && DriverStation.isEnabled()) {
+                setColor(PINK);
             } else if(state == INTAKE_FLOOR && DriverStation.isEnabled()){
                 setColor(ORANGE);
             } else if (!DriverStation.isEnabled()) {
@@ -187,11 +194,11 @@ public class Led extends SubsystemBase{
                     } else{
 
                         if(RobotContainer.getLimelightLeft().targetVisible() || RobotContainer.getLimelightRight().targetVisible()){
-                            setLed((60 - Math.abs((int)(ledCount + (j * 20) - LED_SPEED) % 60)), LedConstants.GREEN_CODE);
-                            setLed(119 - (60 - Math.abs((int)(ledCount + (j * 20) - LED_SPEED) % 60)), LedConstants.GREEN_CODE);
+                            setLed((60 - Math.abs((int)(ledCount + (j * 20) - APRILTAG_LED_SPEED) % 60)), LedConstants.GREEN_CODE);
+                            setLed(119 - (60 - Math.abs((int)(ledCount + (j * 20) - APRILTAG_LED_SPEED) % 60)), LedConstants.GREEN_CODE);
                         } else{
-                            setLed((60 - Math.abs((int)(ledCount + (j * 20) - LED_SPEED) % 60)), LedConstants.WHITE_CODE);
-                            setLed(119 - (60 - Math.abs((int)(ledCount + (j * 20) - LED_SPEED) % 60)), LedConstants.WHITE_CODE);
+                            setLed((60 - Math.abs((int)(ledCount + (j * 20) - APRILTAG_LED_SPEED) % 60)), LedConstants.WHITE_CODE);
+                            setLed(119 - (60 - Math.abs((int)(ledCount + (j * 20) - APRILTAG_LED_SPEED) % 60)), LedConstants.WHITE_CODE);
                         }
                     }
                 }
