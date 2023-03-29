@@ -286,6 +286,7 @@ public final class Constants {
         public static final double MAX_ACCEL_RAD_S_S_EXTENDED = MAX_SPEED_RAD_S;
         public static final double UPPER_LIMIT_RAD = 1.45;
         public static final double LOWER_LIMIT_RAD = -1;
+        public static final double LODGED_ARM_VALUE_RAD = 1.45; //FIXME
 
         public static final double MANUAL_ARM_SPEED = .2;
     }

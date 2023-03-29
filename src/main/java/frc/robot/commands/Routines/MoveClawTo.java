@@ -19,6 +19,7 @@ public class MoveClawTo extends CommandBase {
     private Arm arm;
     private Elevator elevator;
     private Intake intake;
+    public static boolean isRunning;
     public static boolean goodToRelease;
 
     public MoveClawTo(ClawState setPoint) {
@@ -27,6 +28,7 @@ public class MoveClawTo extends CommandBase {
         elevator = RobotContainer.getElevator();
         intake = RobotContainer.getIntake();
         timer = new Timer();
+        isRunning = false;
         addRequirements(arm, elevator, intake);
     }
 
@@ -37,13 +39,14 @@ public class MoveClawTo extends CommandBase {
         elevator.resetPIDs();
         timer.reset();
         timer.start();
+        isRunning = true;
     }
 
     @Override
     public void execute() {
         intake.setRetracted(setPoint.getRetracted());
         arm.setAngle(setPoint.getAngle());
-        if (!arm.atTop()) {
+        if (!arm.lodged()) {
             if ((RobotContainer.getSwerve().getPose().getX() > Units.feetToMeters(33) && OdometryMath2023.isBlue()) || (RobotContainer.getSwerve().getPose().getX() < Units.feetToMeters(21) && !OdometryMath2023.isBlue())) {
                 if (arm.getAngle() > (Math.PI / 8)) {
                     elevator.setHeight(setPoint.getHeight());
@@ -73,6 +76,7 @@ public class MoveClawTo extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
+        isRunning = false;
         timer.stop();
         timer.reset();
     }

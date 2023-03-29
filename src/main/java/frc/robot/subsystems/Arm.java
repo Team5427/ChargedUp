@@ -7,6 +7,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
@@ -90,8 +91,8 @@ public class Arm extends SubsystemBase {
         return (Math.abs(getAngle() - setPoint) < ArmConstants.ARM_CONTROLLER_TOLERANCE_RAD_JANK);
     }
 
-    public boolean atTop() {
-        return (Math.abs(getAngle() - RoutineConstants.DEFAULT_CLAW_STATE.getAngle()) < ArmConstants.ARM_CONTROLLER_TOLERANCE_RAD);
+    public boolean lodged() {
+        return (Math.abs(getAngle() - ArmConstants.LODGED_ARM_VALUE_RAD) < Units.degreesToRadians(1));
     }
 
     public boolean atGoal(double pos) {
@@ -127,7 +128,12 @@ public class Arm extends SubsystemBase {
                 set(0.025);
                 resetPIDs();
             } else {
-                calc = armController.calculate(getAngle());
+                if (lodged()) {
+                    calc = -0.05;
+                    resetPIDs();
+                } else {
+                    calc = armController.calculate(getAngle());
+                }
                 set(calc);    
             }
         }
