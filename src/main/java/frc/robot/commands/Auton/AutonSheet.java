@@ -193,7 +193,7 @@ public class AutonSheet {
                                 new UseClaw()
                             ),
                             new SequentialCommandGroup(
-                                new WaitCommand(.5),
+                                new WaitCommand(.25),
                                 new MoveClawTo(RoutineConstants.CUBE_INTAKE_CLAW_STATE) 
                             )                      
                         ),
@@ -206,7 +206,10 @@ public class AutonSheet {
                 new UseClaw(),
                 new WaitCommand(1)
             ),
-            topDoubleConeEngage2,
+            new ParallelCommandGroup(
+                new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE),
+                topDoubleConeEngage2
+            ),
             new BalanceDoubleP()
         );
     }

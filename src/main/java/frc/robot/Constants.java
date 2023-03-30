@@ -88,8 +88,8 @@ public final class Constants {
         public static final double MAX_PHYSICAL_SPEED_M_PER_SEC = Units.feetToMeters(14.5); // do not touch, unless switching from L2
 
         // AUTON STUFF
-        public static final double MAX_AUTON_ACCEL_M_PER_S2 = 2;
-        public static final double MAX_AUTON_ANGULAR_ACCEL_RAD_PER_S2 = Math.PI * 1;
+        public static final double MAX_AUTON_ACCEL_M_PER_S2 = 2.5;
+        public static final double MAX_AUTON_ANGULAR_ACCEL_RAD_PER_S2 = Math.PI * 2;
         public static final double AUTON_TRANSLATION_P = 3;
         public static final double AUTON_THETA_P = 4.5;
         public static final double MAX_AUTON_SPEED_M_PER_S = 3.5;
@@ -200,9 +200,9 @@ public final class Constants {
         public static final double ROT_THRESH_RAD = Math.PI/4;
         public static final double SCORING_LEVEL_OFFSET_METERS = Units.inchesToMeters(66);
         public static final double TRANSLATION_TOLERANCE_METERS = 0.02;
-        public static final double ROTATION_TOLERANCE_RAD = Units.degreesToRadians(2);
+        public static final double ROTATION_TOLERANCE_RAD = Units.degreesToRadians(1);
 
-        public static final double MOVE_BOT_TO_REPEAT_THRESHOLD_SEC = .8;
+        public static final double MOVE_BOT_TO_REPEAT_THRESHOLD_SEC = 1;
 
         public static final double Y_LEVEL_1_METERS = Units.inchesToMeters(75.34); 
         public static final double Y_LEVEL_2_METERS = Units.inchesToMeters(141.34);
@@ -214,7 +214,7 @@ public final class Constants {
         public static final double BALANCE_ACTIVATION_PITCH_DEG = 8.5;
 
         public static final double BALANCED_TIME = 2;
-        public static final double DEBUG_INTEGRATE_DELAY_TIME = 1;
+        public static final double DEBUG_INTEGRATE_DELAY_TIME = 0.6;
 
         public static final double CLOSE_COMMUNITY_X_METERS = 2.25;
 
@@ -282,7 +282,7 @@ public final class Constants {
         public static final double ARM_CONTROLLER_TOLERANCE_RAD_JANK = Units.degreesToRadians(6);
         public static final double GEARBOX_GEARING = (1.0 / 100.0) * (17.0 / 20.0) * (20.0 / 32.0);
         public static final double MAX_SPEED_RAD_S = Units.rotationsPerMinuteToRadiansPerSecond(MiscConstants.MAX_NEO_SPEED_RPM * GEARBOX_GEARING);
-        public static final double MAX_ACCEL_RAD_S_S = MAX_SPEED_RAD_S * 1.5;
+        public static final double MAX_ACCEL_RAD_S_S = MAX_SPEED_RAD_S * 1.75;
         public static final double MAX_ACCEL_RAD_S_S_EXTENDED = MAX_SPEED_RAD_S;
         public static final double UPPER_LIMIT_RAD = 1.45;
         public static final double LOWER_LIMIT_RAD = -1;
@@ -306,11 +306,11 @@ public final class Constants {
 
         public static final double INTAKE_SPEED_DECIMAL = 0.3;
         public static final double CUBE_INTAKE_EXCESS_TIME_S = 0.15;
-        public static final double OUTTAKE_SPEED_DECIMAL = -.1;
+        public static final double OUTTAKE_SPEED_DECIMAL = -.4;
         public static final double OUTTAKE_SPEED_DECIMAL_SHOOTING = -1.0;
         public static final double CUBE_OUTTAKE_EXCESS_TIME_S = 0.4;
 
-        public static final double PROX_VALUE = 1;
+        public static final double PROX_VALUE = 1.1;
     }
 
     public static final class IntakeConstants{
@@ -321,7 +321,7 @@ public final class Constants {
         public static final int PROX_ID = 0;
 
         public static final double TILT_COEF = .8; //may need to invert
-        public static final double INTAKE_SPEED = .3;
+        public static final double INTAKE_SPEED = .6;
         public static final double OUTTAKE_SPEED = -1;
         public static final double OUTTAKE_SPEED_SLOW = -0.5;
         public static final double STATIC_HOLD_SPEED = 0.05;
@@ -353,7 +353,7 @@ public final class Constants {
     public static final class LedConstants {
 
         public static final int[] PURPLE_CODE = {255, 0, 255};
-        public static final int[] YELLOW_CODE = {255, 80, 0};
+        public static final int[] YELLOW_CODE = {255, 100, 0};
         public static final int[] GREEN_CODE = {0, 155, 0};
         public static final int[] BLUE_CODE = {0, 0, 255};
         public static final int[] RED_CODE = {255, 0, 0};

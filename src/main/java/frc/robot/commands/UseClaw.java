@@ -11,6 +11,7 @@ import frc.robot.Constants.ClawConstants;
 import frc.robot.Constants.JoystickConstants;
 import frc.robot.Constants.RoutineConstants;
 import frc.robot.commands.Routines.MoveClawTo;
+import frc.robot.commands.Routines.BasicMovement.WaitDT;
 import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.Led;
 import frc.robot.util.Logger;
@@ -44,6 +45,7 @@ public class UseClaw extends CommandBase {
 
     @Override
     public void initialize() {
+        System.out.println("STARTED USECLAW");
         isRunning = true;
         timer.reset();
         finish = false;
@@ -82,6 +84,7 @@ public class UseClaw extends CommandBase {
             finish = true;
         } else {
             if (OdometryMath2023.inScoringSpot()) {
+
                 claw.set(ClawConstants.OUTTAKE_SPEED_DECIMAL);
             } else {
                 claw.set(ClawConstants.OUTTAKE_SPEED_DECIMAL_SHOOTING);
@@ -102,9 +105,11 @@ public class UseClaw extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
+        System.out.println("FINISHED USECLAW");
         if(intake){
             led.setState(Led.SCORING);
         } else{
+            
             led.setState(Led.INTAKE);
         }
 

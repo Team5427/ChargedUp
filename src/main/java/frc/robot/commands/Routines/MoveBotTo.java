@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Constants.JoystickConstants;
 import frc.robot.Constants.RoutineConstants;
 import frc.robot.Constants.SwerveConstants;
+import frc.robot.Constants.RoutineConstants.POSITION_TYPE;
 import frc.robot.RobotContainer;
 import frc.robot.commands.Routines.BasicMovement.TiltWheels;
 import frc.robot.commands.Routines.StateTypes.PositionState;
@@ -115,29 +116,52 @@ public class MoveBotTo extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        // if(
-        //     RobotContainer.getJoy().getHID().getPOV() != -1 ||
-        //     RobotContainer.getOperatorJoy1().getHID().getPOV() != -1
-        // ){
-        //     return true;
-        // }
-
-
         if (
             (Math.abs(xController.getPositionError()) < RoutineConstants.TRANSLATION_TOLERANCE_METERS && xController.getSetpoint().equals(xController.getGoal())) && 
             (Math.abs(yController.getPositionError()) < RoutineConstants.TRANSLATION_TOLERANCE_METERS && yController.getSetpoint().equals(yController.getGoal())) && 
             (Math.abs(thetaController.getPositionError()) < RoutineConstants.ROTATION_TOLERANCE_RAD && thetaController.getSetpoint().equals(thetaController.getGoal()))
         ) {
+
             goodToRelease = true;
             lastPositionType = this.setType;
-            // System.out.println("++++++++++++++++++++FINISHED FUCKING THING+++++++++++++++++++++++++");
-            // CommandScheduler.getInstance().schedule(new JoystickSwerve());
-            return true;
-        } else if (RobotContainer.getJoy().getHID().getRawButton(JoystickConstants.CANCEL_ALL_COMMANDS_D)) {
+            
+            if (!(runTime > RoutineConstants.MOVE_BOT_TO_REPEAT_THRESHOLD_SEC)) {
+                return true;
+            } else{
+
+                // OdometryMath2023.reseedOdometry();
+                // swerve.stopMods();
+                runTime = timer.get();
+                timer.stop();
+                timer.reset();
+                isRunning = false;
+                runningSpeed = 0;
+
+                goodToRelease = false;
+                isRunning = true;
+                if (!isJank) {
+                    this.setpoint = PositionState.getPositionPose(type);
+                }
+                initControllers();
+                // runTime = 0;
+                timer.reset();
+                timer.start();
+                timer2.reset();
+                timer2.start();
+                OdometryMath2023.reseedOdometry();
+                xController.setGoal(setpoint.getX());
+                yController.setGoal(setpoint.getY());
+                thetaController.setGoal(setpoint.getRotation().getRadians());
+                return false;
+
+            }
+            
+        } else if (RobotContainer.getJoy().getHID().getRawButton(JoystickConstants.CANCEL_ALL_COMMANDS_D) || RobotContainer.getOperatorJoy1().getHID().getRawButton(JoystickConstants.CANCEL_ALL_COMMANDS_O)) {
             return true;
         } else {
             return false;
         }
+
     }
 
     @Override
@@ -149,11 +173,7 @@ public class MoveBotTo extends CommandBase {
         timer.reset();
         isRunning = false;
         runningSpeed = 0;
-        if (runTime > RoutineConstants.MOVE_BOT_TO_REPEAT_THRESHOLD_SEC) {
-            CommandScheduler.getInstance().schedule(new MoveBotTo(this.type));
-        } else if(DriverStation.isTeleop() || DriverStation.isTeleopEnabled()){
-            CommandScheduler.getInstance().schedule(new TiltWheels(SwerveConstants.FORWARD_WHEEL_ANGLES));
-        }
+        
     }
 
     private void initControllers() {

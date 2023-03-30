@@ -128,12 +128,12 @@ public class Arm extends SubsystemBase {
                 set(0.025);
                 resetPIDs();
             } else {
-                if (lodged()) {
-                    calc = -0.05;
-                    resetPIDs();
-                } else {
+                // if (lodged()) {
+                //     calc = -0.05;
+                //     resetPIDs();
+                // } else {
                     calc = armController.calculate(getAngle());
-                }
+                // }
                 set(calc);    
             }
         }

@@ -38,7 +38,7 @@ public class Claw extends SubsystemBase {
     }
 
     public ClawConstants.GAME_PIECE_STATE getState(boolean isPurple) {
-        if (sensor.getVoltage() > ClawConstants.PROX_VALUE) { //has game piece
+        if (proxCovered()) { //has game piece
             if (isPurple) {
                 return ClawConstants.GAME_PIECE_STATE.CUBE;
             } else {
@@ -84,7 +84,7 @@ public class Claw extends SubsystemBase {
         Logger.post("claw state", getState(RobotContainer.getLed().isPurple()).name());
         Logger.post("claw clamped", getGrabber());
         // Logger.post("debug blue abc", sensor.getBlue());
-        Logger.post("claw debug prox", getProx());
+        Logger.post("claw debug prox voltage", getProx());
 
         // Logger.post("claw sensor average voltage", sensor.getAverageVoltage());
         if (!UseClaw.isRunning && !ManualClaw.isRunning) {

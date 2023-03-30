@@ -34,6 +34,7 @@ public class MoveClawTo extends CommandBase {
 
     @Override
     public void initialize() {
+        System.out.println();
         goodToRelease = false;
         arm.resetPIDs();
         elevator.resetPIDs();
@@ -46,7 +47,7 @@ public class MoveClawTo extends CommandBase {
     public void execute() {
         intake.setRetracted(setPoint.getRetracted());
         arm.setAngle(setPoint.getAngle());
-        if (!arm.lodged()) {
+        // if (!arm.lodged()) {
             if ((RobotContainer.getSwerve().getPose().getX() > Units.feetToMeters(33) && OdometryMath2023.isBlue()) || (RobotContainer.getSwerve().getPose().getX() < Units.feetToMeters(21) && !OdometryMath2023.isBlue())) {
                 if (arm.getAngle() > (Math.PI / 8)) {
                     elevator.setHeight(setPoint.getHeight());
@@ -56,7 +57,7 @@ public class MoveClawTo extends CommandBase {
                     elevator.setHeight(setPoint.getHeight());
                 }
             }    
-        }
+        // }
         arm.extend(setPoint.getExtended());
     }
 

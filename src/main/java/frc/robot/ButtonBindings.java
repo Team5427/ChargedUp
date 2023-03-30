@@ -23,6 +23,7 @@ import frc.robot.commands.Routines.MoveBotTo;
 import frc.robot.commands.Routines.MoveClawTo;
 import frc.robot.commands.Routines.Balancing.BalanceDoubleP;
 import frc.robot.commands.Routines.BasicMovement.TiltWheels;
+import frc.robot.commands.Routines.BasicMovement.Wait;
 import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Led;
@@ -62,14 +63,14 @@ public class ButtonBindings {
         joy.button(JoystickConstants.LOCK_SWERVE).toggleOnTrue(new PartyMode());
 
         joy.button(JoystickConstants.GAMEPIECE_BUTTON).onTrue(new InstantCommand(() -> {
-            if(led.getState() == Led.INTAKE_FLOOR || led.getState() == Led.SCORING_FLOOR || intake.getProxCovered()){
+            if(led.getState() == Led.INTAKE_FLOOR || led.getState() == Led.SCORING_FLOOR){
                 CommandScheduler.getInstance().schedule(new UseIntake());
             } else {
                 CommandScheduler.getInstance().schedule(new UseClaw());
             }
         }));
 
-        joy.button(JoystickConstants.SS).onTrue(SubRoutineSheet.substationIntake);
+        // joy.button(JoystickConstants.SS).onTrue(SubRoutineSheet.substationIntake);
 
         joy.button(JoystickConstants.CLAW_INTAKE).whileTrue(new ManualClaw(ClawConstants.INTAKE_SPEED_DECIMAL));
         joy.button(JoystickConstants.CLAW_OUTTAKE).whileTrue(new ManualClaw(ClawConstants.OUTTAKE_SPEED_DECIMAL));
@@ -81,7 +82,15 @@ public class ButtonBindings {
         }, claw, led));
 
         joy.button(JoystickConstants.SS_CANCEL).onTrue(new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE));
-        joy.button(JoystickConstants.LOCK_FORWARD).onTrue(new ParallelCommandGroup(new UseClaw(), new MoveClawTo(RoutineConstants.SUBSTATION_CLAW_STATE)));
+        joy.button(JoystickConstants.LOCK_FORWARD).onTrue(
+            new ParallelCommandGroup(
+                new MoveClawTo(RoutineConstants.SUBSTATION_CLAW_STATE),
+                new SequentialCommandGroup(
+                    new Wait(0.5),
+                    new UseClaw()
+                )
+            )
+        );
 
 
         operatorJoy1.button(JoystickConstants.CANCEL_ALL_COMMANDS_O).onTrue(new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE));
@@ -100,19 +109,19 @@ public class ButtonBindings {
 
         operatorJoy1.button(JoystickConstants.ARM_RESET).whileTrue(new ManualArm(ArmConstants.MANUAL_ARM_SPEED));
 
-        operatorJoy2.button(JoystickConstants.TOP_LEFT_SCORE).onTrue(new SequentialCommandGroup(
+        operatorJoy2.button(JoystickConstants.TOP_LEFT_SCORE).onTrue(new ParallelCommandGroup(
             new MoveBotTo(POSITION_TYPE.LEFT_CONE),
-            // new SequentialCommandGroup(
-                // new WaitCommand(RoutineConstants.DEBUG_INTEGRATE_DELAY_TIME),
+            new SequentialCommandGroup(
+                new Wait(RoutineConstants.DEBUG_INTEGRATE_DELAY_TIME),
                 new MoveClawTo(RoutineConstants.TOP_CONE_CLAW_STATE)
-            // )
+            )
         ));
-        operatorJoy2.button(JoystickConstants.TOP_RIGHT_SCORE).onTrue(new SequentialCommandGroup(
+        operatorJoy2.button(JoystickConstants.TOP_RIGHT_SCORE).onTrue(new ParallelCommandGroup(
             new MoveBotTo(POSITION_TYPE.RIGHT_CONE),
-            // new SequentialCommandGroup(
-                // new WaitCommand(RoutineConstants.DEBUG_INTEGRATE_DELAY_TIME),
+            new SequentialCommandGroup(
+                new Wait(RoutineConstants.DEBUG_INTEGRATE_DELAY_TIME),
                 new MoveClawTo(RoutineConstants.TOP_CONE_CLAW_STATE)
-            // )
+            )
         ));
         operatorJoy2.button(JoystickConstants.MID_LEFT_SCORE).onTrue(new ParallelCommandGroup(
             new MoveBotTo(POSITION_TYPE.LEFT_CONE),
