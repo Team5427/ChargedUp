@@ -15,7 +15,7 @@ public class BalanceDoubleP extends CommandBase {
     private PIDController strongerPID;
     private Timer timer;
     private static final double WEAKER_P = -0.01;
-    private static final double STRONGER_P = -0.035;
+    private static final double STRONGER_P = -0.03;
     private static final double SWITCH_THRESHHOLD_DEG = 9.5;
     private static final double ERROR_THRESHHOLD_DEG = 5;
     private static final double TIME_AT_GOAL_SEC = 3;

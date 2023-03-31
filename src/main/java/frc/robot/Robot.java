@@ -99,7 +99,7 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
-    if (matchTimer.get() >= 14.75) {
+    if (matchTimer.get() >= 14.5) {
       CommandScheduler.getInstance().schedule(new TiltWheels(SwerveConstants.X_WHEEL_ANGLES));
     }
   }
@@ -108,6 +108,7 @@ public class Robot extends TimedRobot {
   public void teleopInit() {
     RobotContainer.getSwerve().setFieldRelative(true);
     RobotContainer.getLed().setState(Led.INTAKE);
+    RobotContainer.getClaw().grab(true);
     RobotContainer.getSwerve().setBrake(true, true);
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to

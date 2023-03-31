@@ -207,7 +207,6 @@ public class Led extends SubsystemBase{
 
             
         
-        Logger.post("isPurple", isPurple);
 
         // Logger.post("led state", state);
         // Logger.post("rgb", rgb.toString());

@@ -155,11 +155,9 @@ public class Intake extends SubsystemBase{
     }
     
     private void log(){
-        Logger.post("deployed", deployed);
         Logger.post("intake angle", getAngle());
 
         Logger.post("intake Prox", prox.getAverageVoltage());
-        Logger.post("intake erro", error);
         
     }
     

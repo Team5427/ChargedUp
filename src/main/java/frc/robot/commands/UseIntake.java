@@ -50,7 +50,11 @@ public class UseIntake extends CommandBase{
     @Override 
     public boolean isFinished(){
 
-        if (RobotContainer.getJoy().getHID().getRawButton(JoystickConstants.SS_CANCEL)) {
+        if(RobotContainer.getLed().getState() == RobotContainer.getLed().INTAKE || RobotContainer.getLed().getState() == RobotContainer.getLed().SCORING){
+            return true;
+        }
+
+        if (RobotContainer.getJoy().getHID().getRawButton(JoystickConstants.SS_CANCEL)|| RobotContainer.getJoy().getHID().getRawButton(JoystickConstants.CANCEL_ALL_COMMANDS_D)) {
             return true;
         }
 
@@ -68,7 +72,9 @@ public class UseIntake extends CommandBase{
     @Override
     public void end(boolean interrupted){
         isRunning = false;
-        if (!intaking || !intake.getProxCovered()) {
+        if(RobotContainer.getLed().getState() == RobotContainer.getLed().INTAKE || RobotContainer.getLed().getState() == RobotContainer.getLed().SCORING){
+            intake.setDeployed(false);
+        }else if (!intaking || !intake.getProxCovered()) {
             RobotContainer.getLed().setState(Led.INTAKE_FLOOR);
             intake.setDeployed(false);
         } else {

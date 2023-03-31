@@ -11,7 +11,6 @@ import frc.robot.Constants.ClawConstants;
 import frc.robot.Constants.JoystickConstants;
 import frc.robot.Constants.RoutineConstants;
 import frc.robot.commands.Routines.MoveClawTo;
-import frc.robot.commands.Routines.BasicMovement.WaitDT;
 import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.Led;
 import frc.robot.util.Logger;
@@ -45,7 +44,7 @@ public class UseClaw extends CommandBase {
 
     @Override
     public void initialize() {
-        System.out.println("STARTED USECLAW");
+        // System.out.println("STARTED USECLAW");
         isRunning = true;
         timer.reset();
         finish = false;
@@ -57,7 +56,6 @@ public class UseClaw extends CommandBase {
         } else {
             intake = false;
         }
-        Logger.post("Claw finished", false);
 
     }
 
@@ -100,25 +98,29 @@ public class UseClaw extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return (finish || RobotContainer.getJoy().getHID().getRawButtonPressed(JoystickConstants.SS_CANCEL));
+        if(RobotContainer.getLed().getState() == RobotContainer.getLed().INTAKE_FLOOR || RobotContainer.getLed().getState() == RobotContainer.getLed().SCORING_FLOOR){
+            return true;
+        }
+        return (finish || RobotContainer.getJoy().getHID().getRawButton(JoystickConstants.SS_CANCEL) || RobotContainer.getJoy().getHID().getRawButton(JoystickConstants.CANCEL_ALL_COMMANDS_D));
     }
 
     @Override
     public void end(boolean interrupted) {
-        System.out.println("FINISHED USECLAW");
-        if(intake){
-            led.setState(Led.SCORING);
-        } else{
-            
-            led.setState(Led.INTAKE);
+        if(RobotContainer.getLed().getState() != RobotContainer.getLed().INTAKE_FLOOR && RobotContainer.getLed().getState() != RobotContainer.getLed().SCORING_FLOOR){
+            if(intake && finish){
+                led.setState(Led.SCORING
+                );
+            } else{
+                
+                led.setState(Led.INTAKE);
+            }
         }
 
-        if (!DriverStation.isAutonomous()) {
+        if (!DriverStation.isAutonomous() && finish) {
             CommandScheduler.getInstance().schedule(new SequentialCommandGroup(
                 new WaitCommand(.3),
                 new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE)
-
-                ));
+            ));
         }
 
         isRunning = false;

@@ -5,16 +5,12 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Constants.JoystickConstants;
 import frc.robot.Constants.RoutineConstants;
 import frc.robot.Constants.SwerveConstants;
-import frc.robot.Constants.RoutineConstants.POSITION_TYPE;
 import frc.robot.RobotContainer;
-import frc.robot.commands.Routines.BasicMovement.TiltWheels;
 import frc.robot.commands.Routines.StateTypes.PositionState;
 import frc.robot.subsystems.Swerve.SwerveDrive;
 import frc.robot.util.OdometryMath2023;
@@ -128,30 +124,8 @@ public class MoveBotTo extends CommandBase {
             if (!(runTime > RoutineConstants.MOVE_BOT_TO_REPEAT_THRESHOLD_SEC)) {
                 return true;
             } else{
-
-                // OdometryMath2023.reseedOdometry();
-                // swerve.stopMods();
-                runTime = timer.get();
-                timer.stop();
-                timer.reset();
-                isRunning = false;
-                runningSpeed = 0;
-
-                goodToRelease = false;
-                isRunning = true;
-                if (!isJank) {
-                    this.setpoint = PositionState.getPositionPose(type);
-                }
-                initControllers();
-                // runTime = 0;
-                timer.reset();
-                timer.start();
-                timer2.reset();
-                timer2.start();
-                OdometryMath2023.reseedOdometry();
-                xController.setGoal(setpoint.getX());
-                yController.setGoal(setpoint.getY());
-                thetaController.setGoal(setpoint.getRotation().getRadians());
+                end(false);
+                initialize();
                 return false;
 
             }
@@ -173,7 +147,6 @@ public class MoveBotTo extends CommandBase {
         timer.reset();
         isRunning = false;
         runningSpeed = 0;
-        
     }
 
     private void initControllers() {

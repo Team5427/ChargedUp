@@ -198,7 +198,6 @@ public class SwerveDrive extends SubsystemBase {
     }
     private void log() {
         Logger.post("FieldRelative", getFieldRelative());
-        Logger.post("drivetrain heading", getRotation2d().toString());
         Logger.postComplex("Field5427", field);
 
         // Logger.post("Enc front left", frontLeft.getAbsEncRad());

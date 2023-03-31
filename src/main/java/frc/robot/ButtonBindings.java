@@ -70,8 +70,6 @@ public class ButtonBindings {
             }
         }));
 
-        // joy.button(JoystickConstants.SS).onTrue(SubRoutineSheet.substationIntake);
-
         joy.button(JoystickConstants.CLAW_INTAKE).whileTrue(new ManualClaw(ClawConstants.INTAKE_SPEED_DECIMAL));
         joy.button(JoystickConstants.CLAW_OUTTAKE).whileTrue(new ManualClaw(ClawConstants.OUTTAKE_SPEED_DECIMAL));
         joy.button(JoystickConstants.CLAW_CLAMP).onTrue(new InstantCommand(() ->{
@@ -85,10 +83,10 @@ public class ButtonBindings {
         joy.button(JoystickConstants.LOCK_FORWARD).onTrue(
             new ParallelCommandGroup(
                 new MoveClawTo(RoutineConstants.SUBSTATION_CLAW_STATE),
-                new SequentialCommandGroup(
-                    new Wait(0.5),
+                // new SequentialCommandGroup(
+                    // new Wait(0.5),
                     new UseClaw()
-                )
+                // )
             )
         );
 
@@ -101,6 +99,8 @@ public class ButtonBindings {
         operatorJoy1.button(JoystickConstants.FLIP_COLOR).onTrue(new InstantCommand(() -> {
             led.togglePurple();
             led.setState(Led.INTAKE);
+            intake.setDeployed(false);
+
         }));
         operatorJoy1.button(JoystickConstants.SUBSTATION_PRESET).onTrue(new MoveClawTo(RoutineConstants.SUBSTATION_CLAW_STATE));
         operatorJoy1.button(JoystickConstants.FLOOR_INTAKE_PRESET_CUBES).onTrue(new MoveClawTo(RoutineConstants.CUBE_INTAKE_CLAW_STATE));

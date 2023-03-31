@@ -81,8 +81,6 @@ public class Claw extends SubsystemBase {
 
     @Override
     public void periodic() {
-        Logger.post("claw state", getState(RobotContainer.getLed().isPurple()).name());
-        Logger.post("claw clamped", getGrabber());
         // Logger.post("debug blue abc", sensor.getBlue());
         Logger.post("claw debug prox voltage", getProx());
 

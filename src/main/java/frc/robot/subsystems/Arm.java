@@ -128,12 +128,8 @@ public class Arm extends SubsystemBase {
                 set(0.025);
                 resetPIDs();
             } else {
-                // if (lodged()) {
-                //     calc = -0.05;
-                //     resetPIDs();
-                // } else {
+
                     calc = armController.calculate(getAngle());
-                // }
                 set(calc);    
             }
         }
@@ -155,7 +151,6 @@ public class Arm extends SubsystemBase {
         // Logger.post("calculation", this.calc);
         Logger.post("arm angle", getAngle());
         // Logger.post("at goal", atGoal());
-        Logger.post("arm setpoint", this.setPoint);
         // Logger.post("bruh", true);
     }
 }

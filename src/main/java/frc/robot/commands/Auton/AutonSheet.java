@@ -137,7 +137,7 @@ public class AutonSheet {
                                 new WaitCommand(.5),
                                 new UseClaw()        
                             ),
-                            new WaitCommand(5)
+                            new WaitCommand(4)
                         )
                     ),
                     new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE)

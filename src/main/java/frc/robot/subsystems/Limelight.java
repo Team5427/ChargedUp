@@ -24,12 +24,13 @@ public class Limelight extends SubsystemBase {
 
     @Override
     public void periodic() {
-        tag = (int)table_m.getEntry("tid").getDouble(-1);
-        tv = table_m.getEntry("tv").getDouble(0) == 1;
     }
 
 
     public boolean targetVisible() {
+        tag = (int)table_m.getEntry("tid").getDouble(-1);
+        tv = table_m.getEntry("tv").getDouble(0) == 1;
+
         return tv && tag != 4 && tag != 5;
     }
 
@@ -54,6 +55,8 @@ public class Limelight extends SubsystemBase {
     }
 
     public boolean usingTarget() {
+        tv = table_m.getEntry("tv").getDouble(0) == 1;
+
         return tv;
     }
 
