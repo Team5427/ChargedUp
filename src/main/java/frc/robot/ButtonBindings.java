@@ -21,7 +21,6 @@ import frc.robot.commands.PartyMode;
 import frc.robot.commands.UseClaw;
 import frc.robot.commands.UseIntake;
 // import frc.robot.commands.UseIntake;
-import frc.robot.commands.Auton.SubRoutineSheet;
 import frc.robot.commands.Routines.MoveBotTo;
 import frc.robot.commands.Routines.MoveClawTo;
 import frc.robot.commands.Routines.Balancing.BalanceDoubleP;
@@ -77,24 +76,24 @@ public class ButtonBindings {
             new UseIntake(false)
         );
 
-        // joy.button(JoystickConstants.CLAW_INTAKE).whileTrue(new ManualClaw(ClawConstants.INTAKE_SPEED_DECIMAL));
-        // joy.button(JoystickConstants.CLAW_OUTTAKE).whileTrue(new ManualClaw(ClawConstants.OUTTAKE_SPEED_DECIMAL));
-        // joy.button(JoystickConstants.CLAW_CLAMP).onTrue(new InstantCommand(() ->{
-        //     claw.toggleGrabber();
-        //     if(!claw.getGrabber()){
-        //         led.setState(Led.INTAKE);
-        //     }
-        // }, claw, led));
+        joy.button(JoystickConstants.CLAW_INTAKE).whileTrue(new ManualClaw(ClawConstants.INTAKE_SPEED_DECIMAL));
+        joy.button(JoystickConstants.CLAW_OUTTAKE).whileTrue(new ManualClaw(ClawConstants.OUTTAKE_SPEED_DECIMAL));
+        joy.button(JoystickConstants.CLAW_CLAMP).onTrue(new InstantCommand(() ->{
+            claw.toggleGrabber();
+            if(!claw.getGrabber()){
+                led.setState(Led.INTAKE);
+            }
+        }, claw, led));
 
-        joy.button(0).whileTrue(new RunCommand(() -> {
-            intake.intake();
-        }, intake));
-        joy.button(0).whileTrue(new RunCommand(() -> {
-            intake.outtake();
-        }, intake));     
-        joy.button(0).onTrue(new InstantCommand(() ->{
-            intake.setDeployed(!intake.getDeployed());
-        }));
+        // joy.button(0).whileTrue(new RunCommand(() -> {
+        //     intake.intake();
+        // }, intake));
+        // joy.button(0).whileTrue(new RunCommand(() -> {
+        //     intake.outtake();
+        // }, intake));     
+        // joy.button(0).onTrue(new InstantCommand(() ->{
+        //     intake.setDeployed(!intake.getDeployed());
+        // }));
 
         // joy.button(JoystickConstants.SS_CANCEL).onTrue(new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE));
         joy.button(JoystickConstants.LOCK_FORWARD).onTrue(

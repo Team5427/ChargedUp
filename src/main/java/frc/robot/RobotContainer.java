@@ -15,7 +15,6 @@ import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import frc.robot.Constants.JoystickConstants;
 import frc.robot.commands.JoystickSwerve;
 import frc.robot.commands.Auton.AutonSheet;
-import frc.robot.commands.Auton.SubRoutineSheet;
 import frc.robot.pathUtil.SwervePathMaker;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Claw;
@@ -88,7 +87,7 @@ public class RobotContainer {
       "TopDoubleConeEngage2"
     );
     AutonSheet.initAutons();
-    SubRoutineSheet.initSubRoutines();
+    // SubRoutineSheet.initSubRoutines();
 
 
     autonSelector.setDefaultOption("Engage",AutonSheet.topSingleConeIntakeEngage); 
