@@ -159,6 +159,7 @@ public class Intake extends SubsystemBase{
         Logger.post("intake angle", getAngle());
 
         Logger.post("intake Prox", prox.getAverageVoltage());
+        Logger.post("fhksdj", (throughbore.getAbsolutePosition() * Math.PI * 2));
         
     }
     

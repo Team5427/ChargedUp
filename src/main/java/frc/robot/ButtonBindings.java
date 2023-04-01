@@ -72,7 +72,7 @@ public class ButtonBindings {
             }
         }));
 
-        joy.button(JoystickConstants.SS_CANCEL).whileTrue(
+        joy.button(JoystickConstants.SS_CANCEL).onTrue(
             new UseIntake(false)
         );
 
@@ -108,6 +108,7 @@ public class ButtonBindings {
 
 
         operatorJoy1.button(JoystickConstants.CANCEL_ALL_COMMANDS_O).onTrue(new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE));
+        joy.button(JoystickConstants.CANCEL_ALL_COMMANDS_D).onTrue(new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE));
         operatorJoy1.button(JoystickConstants.HIGH_CONE_PRESET).onTrue(new MoveClawTo(RoutineConstants.TOP_CONE_CLAW_STATE));
         operatorJoy1.button(JoystickConstants.MID_CONE_PRESET).onTrue(new MoveClawTo(RoutineConstants.MID_CONE_CLAW_STATE));
         operatorJoy1.button(JoystickConstants.HIGH_CUBE_PRESET).onTrue(new MoveClawTo(RoutineConstants.TOP_CUBE_CLAW_STATE));

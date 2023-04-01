@@ -310,7 +310,7 @@ public final class Constants {
         public static final double OUTTAKE_SPEED_DECIMAL_SHOOTING = -1.0;
         public static final double CUBE_OUTTAKE_EXCESS_TIME_S = 0.4;
 
-        public static final double PROX_VALUE = 1.1;
+        public static final double PROX_VALUE = 1;
     }
 
     public static final class IntakeConstants{
@@ -323,11 +323,11 @@ public final class Constants {
         public static final double TILT_COEF = .8; //may need to invert
         public static final double INTAKE_SPEED = .6;
         public static final double OUTTAKE_SPEED = -1;
-        public static final double OUTTAKE_SPEED_SLOW = -0.5;
+        public static final double OUTTAKE_SPEED_SLOW = -1;
         public static final double STATIC_HOLD_SPEED = 0.05;
 
-        public static final double ENCODER_OFFSET_RAD = 1.985;
-        public static final double DEPLOYED_POS_RAD = -.05;
+        public static final double ENCODER_OFFSET_RAD = 2.085;
+        public static final double DEPLOYED_POS_RAD = -.0;
         public static final double UNDEPLOYED_POS_RAD = 3.121 - ENCODER_OFFSET_RAD;
         public static final double RETRACTED_POS_RAD = 3.915 - ENCODER_OFFSET_RAD;
         public static final double ARM_CLEARANCE_RAD = Math.PI/8;

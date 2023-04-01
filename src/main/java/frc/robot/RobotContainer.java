@@ -95,6 +95,7 @@ public class RobotContainer {
     autonSelector.addOption("2 piece pickup",AutonSheet.topDoubleConeScore);
     autonSelector.addOption("BOTTOM SIDE INTAKE ENGAGE", AutonSheet.bottomSingleConeIntakeEngage);
     autonSelector.addOption("2 piece engage", AutonSheet.topDoubleConeEngage);
+    // autonSelector.addOption("Score 1", AutonSheet.broken);
 
     Logger.postComplex("Auton Paths", autonSelector);
     new ButtonBindings(getJoy(), getOperatorJoy1(), getOperatorJoy2());
@@ -102,6 +103,7 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
     return autonSelector.getSelected();
+    // return null;
   }
 
   public static SwerveDrive getSwerve() {return swerveDrive;}
