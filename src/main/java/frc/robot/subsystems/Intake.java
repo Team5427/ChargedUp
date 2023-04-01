@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.IntakeConstants;
+import frc.robot.commands.UseIntake;
 // import frc.robot.commands.UseIntake;
 import frc.robot.util.Logger;
 import frc.robot.util.OdometryMath2023;
@@ -147,9 +148,9 @@ public class Intake extends SubsystemBase{
             stopTilt();
         }
 
-        // if (!UseIntake.isRunning) {
-        //     intakeMotor.set(IntakeConstants.STATIC_HOLD_SPEED);
-        // }
+        if (!UseIntake.isRunning) {
+            intakeMotor.set(IntakeConstants.STATIC_HOLD_SPEED);
+        }
 
         log();
     }
