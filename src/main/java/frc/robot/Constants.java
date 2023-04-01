@@ -292,7 +292,7 @@ public final class Constants {
     }
 
     public static final class ClawConstants {
-        public static final int PROX_ID = 1; 
+        public static final int PROX_ID = 2; 
         public static final int LEFT_ID = 24;
         public static final int RIGHT_ID = 25;
         public static final int CURRENT_LIMIT_AMPS = 20;

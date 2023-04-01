@@ -101,7 +101,7 @@ public class UseClaw extends CommandBase {
         if(RobotContainer.getLed().getState() == RobotContainer.getLed().INTAKE_FLOOR || RobotContainer.getLed().getState() == RobotContainer.getLed().SCORING_FLOOR){
             return true;
         }
-        return (finish || RobotContainer.getJoy().getHID().getRawButton(JoystickConstants.SS_CANCEL) || RobotContainer.getJoy().getHID().getRawButton(JoystickConstants.CANCEL_ALL_COMMANDS_D));
+        return (finish || RobotContainer.getJoy().getHID().getRawButton(JoystickConstants.CANCEL_ALL_COMMANDS_D));
     }
 
     @Override

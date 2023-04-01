@@ -63,7 +63,7 @@ public class MoveClawTo extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        if (RobotContainer.getJoy().getHID().getRawButton(JoystickConstants.SS_CANCEL)|| RobotContainer.getJoy().getHID().getRawButton(JoystickConstants.CANCEL_ALL_COMMANDS_D)) {
+        if (RobotContainer.getJoy().getHID().getRawButton(JoystickConstants.CANCEL_ALL_COMMANDS_D)) {
             return false;
         } else if (elevator.atGoal(setPoint.getHeight()) && arm.atGoal(setPoint.getAngle())) {
             goodToRelease = true;

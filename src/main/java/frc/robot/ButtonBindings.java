@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.ClawConstants;
 import frc.robot.Constants.JoystickConstants;
@@ -18,6 +19,7 @@ import frc.robot.commands.ManualArm;
 import frc.robot.commands.ManualClaw;
 import frc.robot.commands.PartyMode;
 import frc.robot.commands.UseClaw;
+import frc.robot.commands.UseIntake;
 // import frc.robot.commands.UseIntake;
 import frc.robot.commands.Auton.SubRoutineSheet;
 import frc.robot.commands.Routines.MoveBotTo;
@@ -64,12 +66,16 @@ public class ButtonBindings {
         joy.button(JoystickConstants.LOCK_SWERVE).toggleOnTrue(new PartyMode());
 
         joy.button(JoystickConstants.GAMEPIECE_BUTTON).onTrue(new InstantCommand(() -> {
-            // if(led.getState() == Led.INTAKE_FLOOR || led.getState() == Led.SCORING_FLOOR){
-            //     CommandScheduler.getInstance().schedule(new UseIntake());
-            // } else {
+            if(led.getState() == Led.INTAKE_FLOOR || led.getState() == Led.SCORING_FLOOR){
+                CommandScheduler.getInstance().schedule(new UseIntake(true));
+            } else {
                 CommandScheduler.getInstance().schedule(new UseClaw());
-            // }
+            }
         }));
+
+        joy.button(JoystickConstants.SS_CANCEL).whileTrue(
+            new UseIntake(false)
+        );
 
         // joy.button(JoystickConstants.CLAW_INTAKE).whileTrue(new ManualClaw(ClawConstants.INTAKE_SPEED_DECIMAL));
         // joy.button(JoystickConstants.CLAW_OUTTAKE).whileTrue(new ManualClaw(ClawConstants.OUTTAKE_SPEED_DECIMAL));
@@ -90,7 +96,7 @@ public class ButtonBindings {
             intake.setDeployed(!intake.getDeployed());
         }));
 
-        joy.button(JoystickConstants.SS_CANCEL).onTrue(new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE));
+        // joy.button(JoystickConstants.SS_CANCEL).onTrue(new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE));
         joy.button(JoystickConstants.LOCK_FORWARD).onTrue(
             new ParallelCommandGroup(
                 new MoveClawTo(RoutineConstants.SUBSTATION_CLAW_STATE),
