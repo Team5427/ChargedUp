@@ -5,6 +5,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import frc.robot.Constants.ArmConstants;
@@ -17,7 +18,7 @@ import frc.robot.commands.ManualArm;
 import frc.robot.commands.ManualClaw;
 import frc.robot.commands.PartyMode;
 import frc.robot.commands.UseClaw;
-import frc.robot.commands.UseIntake;
+// import frc.robot.commands.UseIntake;
 import frc.robot.commands.Auton.SubRoutineSheet;
 import frc.robot.commands.Routines.MoveBotTo;
 import frc.robot.commands.Routines.MoveClawTo;
@@ -63,21 +64,31 @@ public class ButtonBindings {
         joy.button(JoystickConstants.LOCK_SWERVE).toggleOnTrue(new PartyMode());
 
         joy.button(JoystickConstants.GAMEPIECE_BUTTON).onTrue(new InstantCommand(() -> {
-            if(led.getState() == Led.INTAKE_FLOOR || led.getState() == Led.SCORING_FLOOR){
-                CommandScheduler.getInstance().schedule(new UseIntake());
-            } else {
+            // if(led.getState() == Led.INTAKE_FLOOR || led.getState() == Led.SCORING_FLOOR){
+            //     CommandScheduler.getInstance().schedule(new UseIntake());
+            // } else {
                 CommandScheduler.getInstance().schedule(new UseClaw());
-            }
+            // }
         }));
 
-        joy.button(JoystickConstants.CLAW_INTAKE).whileTrue(new ManualClaw(ClawConstants.INTAKE_SPEED_DECIMAL));
-        joy.button(JoystickConstants.CLAW_OUTTAKE).whileTrue(new ManualClaw(ClawConstants.OUTTAKE_SPEED_DECIMAL));
-        joy.button(JoystickConstants.CLAW_CLAMP).onTrue(new InstantCommand(() ->{
-            claw.toggleGrabber();
-            if(!claw.getGrabber()){
-                led.setState(Led.INTAKE);
-            }
-        }, claw, led));
+        // joy.button(JoystickConstants.CLAW_INTAKE).whileTrue(new ManualClaw(ClawConstants.INTAKE_SPEED_DECIMAL));
+        // joy.button(JoystickConstants.CLAW_OUTTAKE).whileTrue(new ManualClaw(ClawConstants.OUTTAKE_SPEED_DECIMAL));
+        // joy.button(JoystickConstants.CLAW_CLAMP).onTrue(new InstantCommand(() ->{
+        //     claw.toggleGrabber();
+        //     if(!claw.getGrabber()){
+        //         led.setState(Led.INTAKE);
+        //     }
+        // }, claw, led));
+
+        joy.button(0).whileTrue(new RunCommand(() -> {
+            intake.intake();
+        }, intake));
+        joy.button(0).whileTrue(new RunCommand(() -> {
+            intake.outtake();
+        }, intake));     
+        joy.button(0).onTrue(new InstantCommand(() ->{
+            intake.setDeployed(!intake.getDeployed());
+        }));
 
         joy.button(JoystickConstants.SS_CANCEL).onTrue(new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE));
         joy.button(JoystickConstants.LOCK_FORWARD).onTrue(
@@ -141,7 +152,7 @@ public class ButtonBindings {
             led.setState(Led.INTAKE_FLOOR);
         }));
 
-        operatorJoy2.button(JoystickConstants.INTAKE).onTrue(new UseIntake());
+        // operatorJoy2.button(JoystickConstants.INTAKE).onTrue(new UseIntake());
     
     }
 
