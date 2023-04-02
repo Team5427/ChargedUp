@@ -84,17 +84,17 @@ public class Intake extends SubsystemBase{
         tiltMotorRight.stopMotor();
     }
 
-    public void intake() {
-        intakeMotor.set(IntakeConstants.INTAKE_SPEED);
-    }
+    // public void intake() {
+    //     intakeMotor.set(IntakeConstants.INTAKE_SPEED);
+    // }
 
-    public void outtake() {
-        if (OdometryMath2023.inScoringSpot()) {
-            intakeMotor.set(IntakeConstants.OUTTAKE_SPEED_SLOW);
-        } else {
-            intakeMotor.set(IntakeConstants.OUTTAKE_SPEED);
-        }
-    }
+    // public void outtake() {
+    //     if (OdometryMath2023.inScoringSpot()) {
+    //         intakeMotor.set(IntakeConstants.OUTTAKE_SPEED_SLOW);
+    //     } else {
+    //         intakeMotor.set(IntakeConstants.OUTTAKE_SPEED);
+    //     }
+    // }
 
     public void stopIntake(){
         intakeMotor.stopMotor();
@@ -148,9 +148,9 @@ public class Intake extends SubsystemBase{
             stopTilt();
         }
 
-        if (!UseIntake.isRunning) {
-            intakeMotor.set(IntakeConstants.STATIC_HOLD_SPEED);
-        }
+        // if (!UseIntake.isRunning) {
+        //     intakeMotor.set(IntakeConstants.STATIC_HOLD_SPEED);
+        // }
 
         log();
     }

@@ -48,11 +48,11 @@ public class UseIntake extends CommandBase{
 
     @Override
     public void execute(){
-        if(in){
-            intake.intake();
-        } else if(!in){
-            intake.outtake();
-        }
+        // if(in){
+        //     intake.intake();
+        // } else if(!in){
+        //     // intake.outtake();
+        // }
     }
 
     @Override 

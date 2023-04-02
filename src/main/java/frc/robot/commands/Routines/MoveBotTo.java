@@ -112,6 +112,11 @@ public class MoveBotTo extends CommandBase {
 
     @Override
     public boolean isFinished() {
+
+        if(RobotContainer.getJoy().getHID().getPOV() != -1){
+            return true;
+        }
+        
         if (
             (Math.abs(xController.getPositionError()) < RoutineConstants.TRANSLATION_TOLERANCE_METERS && xController.getSetpoint().equals(xController.getGoal())) && 
             (Math.abs(yController.getPositionError()) < RoutineConstants.TRANSLATION_TOLERANCE_METERS && yController.getSetpoint().equals(yController.getGoal())) && 
