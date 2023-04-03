@@ -44,7 +44,7 @@ public final class Constants {
         public static final int BACK_LEFT_CANCODER = 11;
         public static final int BACK_RIGHT_CANCODER = 12;
 
-        public static final double FRONT_LEFT_OFFSET = 2.192;
+        public static final double FRONT_LEFT_OFFSET = -2.626 + Math.PI;
         public static final double FRONT_RIGHT_OFFSET = -1.5769;
         public static final double BACK_LEFT_OFFSET = 2.325;
         public static final double BACK_RIGHT_OFFSET = -.8590;
@@ -142,7 +142,7 @@ public final class Constants {
         public static final int DRIVER_CONTROLLER = 0;
         public static final int OPERATION_CONTROLLER = 1;
         public static final int OPERATION2_CONTROLLER = 2;
-        public static final int OPERATION3_CONTROLLER = 3;
+        public static final int OPERATION_3_CONTROLLER = 3;
 
         //DRIVER bindings
         
@@ -150,10 +150,9 @@ public final class Constants {
         public static final int RESET_TELEMETRY = 5;
         public static final int CANCEL_ALL_COMMANDS_D = 10;
         public static final int LOCK_SWERVE = 2;
-        public static final int LOCK_FORWARD = 7;
         public static final int DAMPEN = 3;
-        public static final int GAMEPIECE_BUTTON = 1;
-        public static final int SUBSTATION_PRESET = 9;
+        public static final int CLAW_BTN = 1;
+        public static final int SUBSTATION_PRESET = 7;
         public static final int SS_CANCEL = 8;
         public static final int CLAW_INTAKE = 11;
         public static final int CLAW_OUTTAKE = 12;
@@ -173,22 +172,23 @@ public final class Constants {
         public static final int ARM_RESET = 10;
 
         //OPERATION 2 BINDINGS
-        // Buttons not in use:  none
+        // Buttons not in use: 4, 10
         public static final int LOCK_SWERVE_O = 1;
         public static final int UNLOCK_SWERVE_O = 2;
         public static final int SS = 7;
         public static final int BALANCE_BTN = 8;
 
-        public static final int TOP_LEFT_SCORE = 3;
+        public static final int TOP_LEFT_SCORE = 3; //FIXME
+        public static final int TOP_RIGHT_SCORE = 4; //FIXME
+        public static final int MID_LEFT_SCORE = 5; //FIXME
+        public static final int MID_RIGHT_SCORE = 6; //FIXME
 
-        public static final int TOP_RIGHT_SCORE = 4;
-        public static final int MID_LEFT_SCORE = 5;
-        public static final int MID_RIGHT_SCORE = 6;
 
-        public static final int PARTY_MODE = 9;
-        public static final int INTAKE = 10;
 
-        //OPERATION 3 BINDINGS
+        //OPERTATION 3 BINDINGS
+
+        
+
     }
 
     public static final class RoutineConstants {

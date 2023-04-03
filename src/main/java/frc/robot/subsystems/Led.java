@@ -27,9 +27,7 @@ public class Led extends SubsystemBase{
     public static final double APRILTAG_LED_SPEED = 2;
 
     public static final int INTAKE = 0;
-    public static final int INTAKE_FLOOR = 2;
     public static final int SCORING = 1;
-    public static final int SCORING_FLOOR = 3;
 
     private boolean isPurple;
 
@@ -141,10 +139,6 @@ public class Led extends SubsystemBase{
                     setColor(YELLOW);
             } else if (state == SCORING && DriverStation.isEnabled()) {
                 setColor(CYAN);
-            } else if (state == SCORING_FLOOR && DriverStation.isEnabled()) {
-                setColor(PINK);
-            } else if(state == INTAKE_FLOOR && DriverStation.isEnabled()){
-                setColor(ORANGE);
             } else if (!DriverStation.isEnabled()) {
                 setColor(RED);
             }

@@ -1,11 +1,9 @@
 package frc.robot.commands;
 
-import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import frc.robot.RobotContainer;
@@ -19,8 +17,7 @@ public class JoystickSwerve extends CommandBase {
     private CommandJoystick joy;
     private CommandJoystick operatorJoy;
     private SwerveDrive swerve;
-    private SlewRateLimiter translationRateLimiterX, translationRateLimiterY, translationRateLimiterYSlower, rotationRateLimiter;
-    private ProfiledPIDController rotPID;
+    private SlewRateLimiter translationRateLimiterX, translationRateLimiterY, rotationRateLimiter;
 
     public JoystickSwerve () {
         joy = RobotContainer.getJoy();
@@ -29,22 +26,12 @@ public class JoystickSwerve extends CommandBase {
         addRequirements(swerve);
         translationRateLimiterX = new SlewRateLimiter(JoystickConstants.MAX_ACCEL_TELEOP_M_S_S);
         translationRateLimiterY = new SlewRateLimiter(JoystickConstants.MAX_ACCEL_TELEOP_M_S_S);
-        translationRateLimiterYSlower = new SlewRateLimiter(JoystickConstants.MAX_ACCEL_TELEOP_M_S_S/2.5);
         rotationRateLimiter = new SlewRateLimiter(JoystickConstants.MAX_ANGULAR_ACCEL_TELEOP_RAD_S_S);
-        rotPID = new ProfiledPIDController(RoutineConstants.ROTATION_P, 0, 0, 
-            new Constraints(RoutineConstants.ROUTINE_MAX_ROTATION_SPEED_RAD_S, RoutineConstants.ROUTINE_MAX_ROTATION_ACCEL_RAD_S_S)
-        );
     }
 
     @Override
     public void initialize() {
-        translationRateLimiterX.reset(0);
-        translationRateLimiterY.reset(0);
-        rotationRateLimiter.reset(0);
-        rotPID.setTolerance(RoutineConstants.ROTATION_TOLERANCE_RAD);
-        rotPID.enableContinuousInput(-Math.PI, Math.PI);
-        rotPID.reset(swerve.getPose().getRotation().getRadians());
-        rotPID.setGoal(OdometryMath2023.isBlue() ? 0 : Math.PI);
+
     }
 
     @Override
@@ -62,15 +49,6 @@ public class JoystickSwerve extends CommandBase {
     @Override
     public boolean isFinished() {
         return false;
-    }
-
-    private double rotationCalc(double joyRotSpeed, boolean usePID) {
-        if (!usePID) {
-            rotPID.reset(swerve.getRotation2d().getRadians());
-            return joyRotSpeed;
-        } else {
-            return rotPID.calculate(swerve.getRotation2d().getRadians());
-        }
     }
 
     private SwerveModuleState[] joystickCalculations(CommandJoystick joy) {
@@ -97,20 +75,9 @@ public class JoystickSwerve extends CommandBase {
             }
         }
 
-        if(joy.getHID().getRawButton(JoystickConstants.LOCK_FORWARD) && RobotContainer.getClaw().proxCovered() && ySpeed > 0){
-            ySpeed = 0;
-        }
-
-        if (joy.getHID().getRawButton(JoystickConstants.LOCK_FORWARD)) {
-            ySpeed = translationRateLimiterYSlower.calculate(ySpeed * unitsMultiplier[0]);
-            translationRateLimiterY.reset(ySpeed);
-        } else {
-            ySpeed = translationRateLimiterY.calculate(ySpeed * unitsMultiplier[0]);
-            translationRateLimiterYSlower.reset(ySpeed);
-
-        }
-
+        
         xSpeed = translationRateLimiterX.calculate(xSpeed * unitsMultiplier[0]);
+        ySpeed = translationRateLimiterY.calculate(ySpeed * unitsMultiplier[0]);
         x2Speed = rotationRateLimiter.calculate(x2Speed * unitsMultiplier[1]);
 
         Rotation2d rot;
@@ -119,13 +86,9 @@ public class JoystickSwerve extends CommandBase {
         } else {
             rot = swerve.getRotation2d().plus(new Rotation2d(Math.PI));
         }
+        
+        ChassisSpeeds chassisSpeeds = swerve.getFieldRelative() ? ChassisSpeeds.fromFieldRelativeSpeeds(ySpeed, xSpeed, x2Speed, rot) : new ChassisSpeeds(ySpeed, xSpeed, x2Speed);
 
-        
-        
-        ChassisSpeeds chassisSpeeds = swerve.getFieldRelative() ? ChassisSpeeds.fromFieldRelativeSpeeds(ySpeed, xSpeed, rotationCalc(x2Speed, joy.getHID().getRawButton(JoystickConstants.LOCK_FORWARD)), rot) : new ChassisSpeeds(ySpeed, xSpeed, x2Speed);
-
-        
-        
         SwerveModuleState[] states = SwerveConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(chassisSpeeds);
 
         return states;
@@ -134,11 +97,7 @@ public class JoystickSwerve extends CommandBase {
     //[translationSpeed, rotationSpeed]
     private double[] getMultiplier(CommandJoystick joy) {
         if (joy.getHID().getRawButton(JoystickConstants.DAMPEN)) {
-            if (joy.getHID().getRawButton(JoystickConstants.LOCK_FORWARD)){
-                return new double[] {.8, .8};
-            }else {
-                return new double[] {JoystickConstants.DAMPEN_SPEED_M_S, JoystickConstants.DAMPEN_ANGULAR_SPEED_RAD_S};
-            }
+            return new double[] {JoystickConstants.DAMPEN_SPEED_M_S, JoystickConstants.DAMPEN_ANGULAR_SPEED_RAD_S};
         } else {
             return new double[] {JoystickConstants.REGULAR_SPEED_M_S, JoystickConstants.REGULAR_ANGULAR_SPEED_RAD_S};
         }

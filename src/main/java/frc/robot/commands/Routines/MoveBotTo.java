@@ -7,10 +7,12 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Constants.JoystickConstants;
 import frc.robot.Constants.RoutineConstants;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.RobotContainer;
+import frc.robot.commands.JoystickSwerve;
 import frc.robot.commands.Routines.StateTypes.PositionState;
 import frc.robot.subsystems.Swerve.SwerveDrive;
 import frc.robot.util.OdometryMath2023;
@@ -116,7 +118,7 @@ public class MoveBotTo extends CommandBase {
         if(RobotContainer.getJoy().getHID().getPOV() != -1){
             return true;
         }
-        
+
         if (
             (Math.abs(xController.getPositionError()) < RoutineConstants.TRANSLATION_TOLERANCE_METERS && xController.getSetpoint().equals(xController.getGoal())) && 
             (Math.abs(yController.getPositionError()) < RoutineConstants.TRANSLATION_TOLERANCE_METERS && yController.getSetpoint().equals(yController.getGoal())) && 
@@ -127,6 +129,7 @@ public class MoveBotTo extends CommandBase {
             lastPositionType = this.setType;
             
             if (!(runTime > RoutineConstants.MOVE_BOT_TO_REPEAT_THRESHOLD_SEC)) {
+                CommandScheduler.getInstance().schedule(new JoystickSwerve());
                 return true;
             } else{
                 end(false);

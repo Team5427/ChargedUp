@@ -7,13 +7,16 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.Constants.ClawConstants;
 import frc.robot.Constants.RoutineConstants;
 import frc.robot.RobotContainer;
 import frc.robot.commands.UseClaw;
 import frc.robot.commands.Routines.MoveClawTo;
 import frc.robot.commands.Routines.Balancing.BalanceDoubleP;
+import frc.robot.commands.Routines.BasicMovement.Wait;
 import frc.robot.pathUtil.SwervePathMaker;
 
 public class AutonSheet {
@@ -124,15 +127,17 @@ public class AutonSheet {
                 )
             ),
             new ParallelRaceGroup(
-                new UseClaw(),
-                new WaitCommand(1)
+                new RunCommand(() -> {
+                    RobotContainer.getClaw().set(ClawConstants.OUTTAKE_SPEED_DECIMAL);
+                }, RobotContainer.getClaw()),
+                new Wait(ClawConstants.CUBE_OUTTAKE_EXCESS_TIME_S + 0.2)
             ),
             new ParallelCommandGroup(
                 new SequentialCommandGroup(
                     new ParallelCommandGroup(
-                        new MoveClawTo(RoutineConstants.CONE_INTAKE_CLAW_STATE),
+                        new MoveClawTo(RoutineConstants.CUBE_INTAKE_CLAW_STATE),
                         new InstantCommand(()->{
-                            RobotContainer.getLed().setPurple(false);
+                            RobotContainer.getLed().setPurple(true);
                         }),
                         new ParallelRaceGroup(
                             new SequentialCommandGroup(

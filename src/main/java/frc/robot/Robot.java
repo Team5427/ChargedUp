@@ -82,8 +82,8 @@ public class Robot extends TimedRobot {
     RobotContainer.getSwerve().setHeadingRad(Math.PI);
     RobotContainer.getLed().setPurple(false);
     RobotContainer.getClaw().grab(true);
-    RobotContainer.getIntake().setRetracted(false);
-    RobotContainer.getIntake().setDeployed(false);
+    // RobotContainer.getIntake().setRetracted(false);
+    // RobotContainer.getIntake().setDeployed(false);
 
     matchTimer.reset();
     matchTimer.start();

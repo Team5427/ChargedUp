@@ -98,29 +98,19 @@ public class UseClaw extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        if(RobotContainer.getLed().getState() == RobotContainer.getLed().INTAKE_FLOOR || RobotContainer.getLed().getState() == RobotContainer.getLed().SCORING_FLOOR){
-            return true;
-        }
-        return (finish || RobotContainer.getJoy().getHID().getRawButton(JoystickConstants.CANCEL_ALL_COMMANDS_D));
+        return (finish || RobotContainer.getJoy().getHID().getRawButtonPressed(JoystickConstants.SS_CANCEL));
     }
 
     @Override
     public void end(boolean interrupted) {
-        if(RobotContainer.getLed().getState() != RobotContainer.getLed().INTAKE_FLOOR && RobotContainer.getLed().getState() != RobotContainer.getLed().SCORING_FLOOR){
-            if(intake && finish){
-                led.setState(Led.SCORING
-                );
-            } else{
-                
-                led.setState(Led.INTAKE);
-            }
+        
+        if(intake){
+            led.setState(led.SCORING);
+        } else{
+            led.setState(led.INTAKE);
         }
-
-        if (!DriverStation.isAutonomous() && finish) {
-            CommandScheduler.getInstance().schedule(new SequentialCommandGroup(
-                new WaitCommand(.3),
-                new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE)
-            ));
+        if (!DriverStation.isAutonomous()) {
+            CommandScheduler.getInstance().schedule(new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE));
         }
 
         isRunning = false;
