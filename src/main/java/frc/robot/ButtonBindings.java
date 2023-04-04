@@ -101,18 +101,18 @@ public class ButtonBindings {
         ));
         operatorJoy2.button(JoystickConstants.MID_LEFT_SCORE).onTrue(new ParallelCommandGroup(
             new MoveBotTo(POSITION_TYPE.LEFT_CONE),
-            new SequentialCommandGroup(
-                new WaitCommand(RoutineConstants.DEBUG_INTEGRATE_DELAY_TIME),
+            // new SequentialCommandGroup(
+            //     new WaitCommand(RoutineConstants.DEBUG_INTEGRATE_DELAY_TIME),
                 new MoveClawTo(RoutineConstants.MID_CONE_CLAW_STATE)
-            )
+            // )
         ));
 
         operatorJoy2.button(JoystickConstants.MID_RIGHT_SCORE).onTrue(new ParallelCommandGroup(
             new MoveBotTo(POSITION_TYPE.RIGHT_CONE),
-            new SequentialCommandGroup(
-                new WaitCommand(RoutineConstants.DEBUG_INTEGRATE_DELAY_TIME),
+            // new SequentialCommandGroup(
+            //     new WaitCommand(RoutineConstants.DEBUG_INTEGRATE_DELAY_TIME),
                 new MoveClawTo(RoutineConstants.MID_CONE_CLAW_STATE)
-            )
+            // )
         ));
 
     
