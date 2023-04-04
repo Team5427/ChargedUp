@@ -5,7 +5,6 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.ClawConstants;
@@ -15,12 +14,13 @@ import frc.robot.Constants.SwerveConstants;
 import frc.robot.Constants.RoutineConstants.POSITION_TYPE;
 import frc.robot.commands.ManualArm;
 import frc.robot.commands.ManualClaw;
+import frc.robot.commands.PartyMode;
 import frc.robot.commands.UseClaw;
-import frc.robot.commands.Auton.SubRoutineSheet;
 import frc.robot.commands.Routines.MoveBotTo;
 import frc.robot.commands.Routines.MoveClawTo;
 import frc.robot.commands.Routines.Balancing.BalanceLinear;
 import frc.robot.commands.Routines.BasicMovement.TiltWheels;
+import frc.robot.commands.Routines.BasicMovement.Wait;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.Elevator;
@@ -56,9 +56,15 @@ public class ButtonBindings {
         }));
 
         joy.button(JoystickConstants.LOCK_SWERVE).onTrue(new TiltWheels(SwerveConstants.X_WHEEL_ANGLES));
+        joy.button(JoystickConstants.LOCK_SWERVE).toggleOnTrue(new PartyMode());
 
         joy.button(JoystickConstants.CLAW_BTN).onTrue(new UseClaw());
-        joy.button(JoystickConstants.SS).onTrue(SubRoutineSheet.substationIntake);
+        joy.button(JoystickConstants.SS).onTrue(
+            new ParallelCommandGroup(    
+                new MoveClawTo(RoutineConstants.SUBSTATION_CLAW_STATE),
+                new UseClaw()
+            )
+        );
 
         joy.button(JoystickConstants.CLAW_INTAKE).whileTrue(new ManualClaw(ClawConstants.INTAKE_SPEED_DECIMAL));
         joy.button(JoystickConstants.CLAW_OUTTAKE).whileTrue(new ManualClaw(ClawConstants.OUTTAKE_SPEED_DECIMAL));
@@ -76,7 +82,7 @@ public class ButtonBindings {
         operatorJoy1.button(JoystickConstants.MID_CUBE_PRESET).onTrue(new MoveClawTo(RoutineConstants.MID_CUBE_CLAW_STATE));
         operatorJoy1.button(JoystickConstants.FLIP_COLOR).onTrue(new InstantCommand(() -> {
             led.togglePurple();
-            led.setState(led.INTAKE);
+            led.setState(Led.INTAKE);
         }));
         operatorJoy1.button(JoystickConstants.SUBSTATION_PRESET).onTrue(new MoveClawTo(RoutineConstants.SUBSTATION_CLAW_STATE));
         operatorJoy1.button(JoystickConstants.FLOOR_INTAKE_PRESET_CUBES).onTrue(new MoveClawTo(RoutineConstants.CUBE_INTAKE_CLAW_STATE));
@@ -88,31 +94,25 @@ public class ButtonBindings {
         operatorJoy2.button(JoystickConstants.TOP_LEFT_SCORE).onTrue(new ParallelCommandGroup(
             new MoveBotTo(POSITION_TYPE.LEFT_CONE),
             new SequentialCommandGroup(
-                new WaitCommand(RoutineConstants.DEBUG_INTEGRATE_DELAY_TIME),
+                new Wait(RoutineConstants.DEBUG_INTEGRATE_DELAY_TIME),
                 new MoveClawTo(RoutineConstants.TOP_CONE_CLAW_STATE)
             )
         ));
         operatorJoy2.button(JoystickConstants.TOP_RIGHT_SCORE).onTrue(new ParallelCommandGroup(
             new MoveBotTo(POSITION_TYPE.RIGHT_CONE),
             new SequentialCommandGroup(
-                new WaitCommand(RoutineConstants.DEBUG_INTEGRATE_DELAY_TIME),
+                new Wait(RoutineConstants.DEBUG_INTEGRATE_DELAY_TIME),
                 new MoveClawTo(RoutineConstants.TOP_CONE_CLAW_STATE)
             )
         ));
         operatorJoy2.button(JoystickConstants.MID_LEFT_SCORE).onTrue(new ParallelCommandGroup(
             new MoveBotTo(POSITION_TYPE.LEFT_CONE),
-            // new SequentialCommandGroup(
-            //     new WaitCommand(RoutineConstants.DEBUG_INTEGRATE_DELAY_TIME),
-                new MoveClawTo(RoutineConstants.MID_CONE_CLAW_STATE)
-            // )
+            new MoveClawTo(RoutineConstants.MID_CONE_CLAW_STATE)
         ));
 
         operatorJoy2.button(JoystickConstants.MID_RIGHT_SCORE).onTrue(new ParallelCommandGroup(
             new MoveBotTo(POSITION_TYPE.RIGHT_CONE),
-            // new SequentialCommandGroup(
-            //     new WaitCommand(RoutineConstants.DEBUG_INTEGRATE_DELAY_TIME),
-                new MoveClawTo(RoutineConstants.MID_CONE_CLAW_STATE)
-            // )
+            new MoveClawTo(RoutineConstants.MID_CONE_CLAW_STATE)
         ));
 
     

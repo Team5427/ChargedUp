@@ -7,7 +7,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.LedConstants;
 import frc.robot.commands.PartyMode;
-import frc.robot.util.Logger;
 
 public class Led extends SubsystemBase{
 
@@ -131,6 +130,7 @@ public class Led extends SubsystemBase{
 
     @Override
     public void periodic() {  
+        if (!PartyMode.running) {
             if (state == INTAKE && DriverStation.isEnabled()) 
             {
                 if(isPurple)
@@ -197,7 +197,7 @@ public class Led extends SubsystemBase{
                     }
                 }
             }
-
+        }
 
             
         

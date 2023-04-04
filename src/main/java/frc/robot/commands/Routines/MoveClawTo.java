@@ -45,7 +45,7 @@ public class MoveClawTo extends CommandBase {
 
     @Override
     public void execute() {
-        if ((arm.getAngle() < 1.5 || setPoint.equals(RoutineConstants.DEFAULT_CLAW_STATE))) {
+        // if ((arm.getAngle() < 1.5 || setPoint.equals(RoutineConstants.DEFAULT_CLAW_STATE))) {
             // intake.setRetracted(setPoint.getRetracted());
             arm.setAngle(setPoint.getAngle());
             if ((RobotContainer.getSwerve().getPose().getX() > Units.feetToMeters(33) && OdometryMath2023.isBlue()) || (RobotContainer.getSwerve().getPose().getX() < Units.feetToMeters(21) && !OdometryMath2023.isBlue())) {
@@ -58,9 +58,9 @@ public class MoveClawTo extends CommandBase {
                 }
             }
             arm.extend(setPoint.getExtended());  
-        } else {
-            arm.set(-0.1);
-        }
+        // } else {
+        //     arm.set(-0.1);
+        // }
     }
 
     @Override

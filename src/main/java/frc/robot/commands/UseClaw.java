@@ -4,16 +4,13 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
-import frc.robot.RobotContainer;
 import frc.robot.Constants.ClawConstants;
 import frc.robot.Constants.JoystickConstants;
 import frc.robot.Constants.RoutineConstants;
+import frc.robot.RobotContainer;
 import frc.robot.commands.Routines.MoveClawTo;
 import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.Led;
-import frc.robot.util.Logger;
 import frc.robot.util.OdometryMath2023;
 
 public class UseClaw extends CommandBase {
@@ -44,12 +41,10 @@ public class UseClaw extends CommandBase {
 
     @Override
     public void initialize() {
-        // System.out.println("STARTED USECLAW");
         isRunning = true;
         timer.reset();
         finish = false;
         isPurple = led.isPurple();
-        // isPurple = claw.isPurple();
         initState = claw.getState(isPurple);
         if ((initState.equals(ClawConstants.GAME_PIECE_STATE.NO_GP)) || (initState.equals(ClawConstants.GAME_PIECE_STATE.CONE) && !claw.getGrabber())) {
             intake = true;
@@ -103,11 +98,14 @@ public class UseClaw extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
+        if (finish) {
+            System.out.println("USECLAW FINISHED CORRECTLY\nPROX VALUE: " + claw.getProx() + "\nPROX COVERED: " + claw.proxCovered());
+        }
         
         if(intake){
-            led.setState(led.SCORING);
+            led.setState(Led.SCORING);
         } else{
-            led.setState(led.INTAKE);
+            led.setState(Led.INTAKE);
         }
         if (!DriverStation.isAutonomous()) {
             CommandScheduler.getInstance().schedule(new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE));

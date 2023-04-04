@@ -4,8 +4,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -23,8 +21,6 @@ import frc.robot.subsystems.Led;
  */
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
-  private UsbCamera cam;
-
   private RobotContainer m_robotContainer;
   private Timer matchTimer;
 
@@ -38,8 +34,6 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     matchTimer = new Timer();
-    // cam = CameraServer.startAutom?aticCapture();
-    // cam.setFPS(15);
     m_robotContainer = new RobotContainer();
 
   }

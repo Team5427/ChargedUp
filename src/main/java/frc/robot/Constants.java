@@ -125,6 +125,8 @@ public final class Constants {
 
         public static final double[] FORWARD_WHEEL_ANGLES = {0, 0, 0, 0};
         public static final double[] X_WHEEL_ANGLES = {45, -45, -45, 45};
+
+        public static final double SS_SPEED_M_S = 1;
     }
 
     public static final class JoystickConstants {
@@ -172,16 +174,16 @@ public final class Constants {
         public static final int ARM_RESET = 10;
 
         //OPERATION 2 BINDINGS
-        // Buttons not in use: 4, 10
+        // Buttons not in use: 9, 10
         public static final int LOCK_SWERVE_O = 1;
         public static final int UNLOCK_SWERVE_O = 2;
         public static final int SS = 7;
         public static final int BALANCE_BTN = 8;
 
-        public static final int TOP_LEFT_SCORE = 3; //FIXME
-        public static final int TOP_RIGHT_SCORE = 4; //FIXME
-        public static final int MID_LEFT_SCORE = 5; //FIXME
-        public static final int MID_RIGHT_SCORE = 6; //FIXME
+        public static final int TOP_LEFT_SCORE = 3;
+        public static final int TOP_RIGHT_SCORE = 4;
+        public static final int MID_LEFT_SCORE = 5;
+        public static final int MID_RIGHT_SCORE = 6;
 
 
 
