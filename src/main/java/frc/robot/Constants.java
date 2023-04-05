@@ -45,7 +45,7 @@ public final class Constants {
         public static final int BACK_RIGHT_CANCODER = 12;
 
         public static final double FRONT_LEFT_OFFSET = -2.626 + Math.PI;
-        public static final double FRONT_RIGHT_OFFSET = -1.5769;
+        public static final double FRONT_RIGHT_OFFSET = -.0879 - Math.PI;
         public static final double BACK_LEFT_OFFSET = 2.325;
         public static final double BACK_RIGHT_OFFSET = -.8590;
 
@@ -126,7 +126,7 @@ public final class Constants {
         public static final double[] FORWARD_WHEEL_ANGLES = {0, 0, 0, 0};
         public static final double[] X_WHEEL_ANGLES = {45, -45, -45, 45};
 
-        public static final double SS_SPEED_M_S = 1;
+        public static final double SS_SPEED_M_S = 1.25;
     }
 
     public static final class JoystickConstants {
@@ -204,7 +204,7 @@ public final class Constants {
         public static final double TRANSLATION_TOLERANCE_METERS = 0.02;
         public static final double ROTATION_TOLERANCE_RAD = Units.degreesToRadians(1);
 
-        public static final double MOVE_BOT_TO_REPEAT_THRESHOLD_SEC = 1;
+        public static final double MOVE_BOT_TO_REPEAT_THRESHOLD_SEC = 0.5;
 
         public static final double Y_LEVEL_1_METERS = Units.inchesToMeters(75.34); 
         public static final double Y_LEVEL_2_METERS = Units.inchesToMeters(141.34);

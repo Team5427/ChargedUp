@@ -1,6 +1,7 @@
 package frc.robot;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -20,6 +21,7 @@ import frc.robot.commands.Routines.MoveBotTo;
 import frc.robot.commands.Routines.MoveClawTo;
 import frc.robot.commands.Routines.Balancing.BalanceLinear;
 import frc.robot.commands.Routines.BasicMovement.TiltWheels;
+import frc.robot.commands.Routines.BasicMovement.TurnAndTranslate;
 import frc.robot.commands.Routines.BasicMovement.Wait;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Claw;
@@ -92,26 +94,54 @@ public class ButtonBindings {
         operatorJoy1.button(JoystickConstants.ARM_RESET).whileTrue(new ManualArm(ArmConstants.MANUAL_ARM_SPEED));
 
         operatorJoy2.button(JoystickConstants.TOP_LEFT_SCORE).onTrue(new ParallelCommandGroup(
-            new MoveBotTo(POSITION_TYPE.LEFT_CONE),
+            new SequentialCommandGroup(
+                new MoveBotTo(POSITION_TYPE.LEFT_CONE),
+                new TurnAndTranslate(
+                    new Rotation2d(Math.toRadians(180)), 
+                    new Rotation2d(Math.toRadians(180)), 
+                    2, 
+                    1)
+            ),
             new SequentialCommandGroup(
                 new Wait(RoutineConstants.DEBUG_INTEGRATE_DELAY_TIME),
                 new MoveClawTo(RoutineConstants.TOP_CONE_CLAW_STATE)
             )
         ));
         operatorJoy2.button(JoystickConstants.TOP_RIGHT_SCORE).onTrue(new ParallelCommandGroup(
-            new MoveBotTo(POSITION_TYPE.RIGHT_CONE),
+            new SequentialCommandGroup(
+                new MoveBotTo(POSITION_TYPE.RIGHT_CONE),
+                new TurnAndTranslate(
+                    new Rotation2d(Math.toRadians(180)), 
+                    new Rotation2d(Math.toRadians(180)), 
+                    2, 
+                    1)
+            ),
             new SequentialCommandGroup(
                 new Wait(RoutineConstants.DEBUG_INTEGRATE_DELAY_TIME),
                 new MoveClawTo(RoutineConstants.TOP_CONE_CLAW_STATE)
             )
         ));
         operatorJoy2.button(JoystickConstants.MID_LEFT_SCORE).onTrue(new ParallelCommandGroup(
-            new MoveBotTo(POSITION_TYPE.LEFT_CONE),
+            new SequentialCommandGroup(
+                new MoveBotTo(POSITION_TYPE.LEFT_CONE),
+                new TurnAndTranslate(
+                    new Rotation2d(Math.toRadians(180)), 
+                    new Rotation2d(Math.toRadians(180)), 
+                2, 
+                    1)
+            ),
             new MoveClawTo(RoutineConstants.MID_CONE_CLAW_STATE)
         ));
 
         operatorJoy2.button(JoystickConstants.MID_RIGHT_SCORE).onTrue(new ParallelCommandGroup(
-            new MoveBotTo(POSITION_TYPE.RIGHT_CONE),
+            new SequentialCommandGroup(
+                new MoveBotTo(POSITION_TYPE.RIGHT_CONE),
+                new TurnAndTranslate(
+                    new Rotation2d(Math.toRadians(180)), 
+                    new Rotation2d(Math.toRadians(180)), 
+                    2, 
+                    1)
+            ),
             new MoveClawTo(RoutineConstants.MID_CONE_CLAW_STATE)
         ));
 

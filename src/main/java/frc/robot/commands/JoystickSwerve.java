@@ -98,8 +98,8 @@ public class JoystickSwerve extends CommandBase {
         }
 
         if (joy.getHID().getRawButton(JoystickConstants.SS)) {
-            if (RobotContainer.getClaw().proxCovered() && ySpeed > 0) {
-                ySpeed = translationRateLimiterYSlower.calculate(0);
+            if (RobotContainer.getClaw().proxCovered()) {
+                ySpeed = 0;
             } else {
                 ySpeed = translationRateLimiterYSlower.calculate(SwerveConstants.SS_SPEED_M_S);
             }
