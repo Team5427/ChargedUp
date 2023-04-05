@@ -100,15 +100,14 @@ public class UseClaw extends CommandBase {
     public void end(boolean interrupted) {
         if (finish) {
             System.out.println("USECLAW FINISHED CORRECTLY\nPROX VALUE: " + claw.getProx() + "\nPROX COVERED: " + claw.proxCovered());
-        }
-        
-        if(intake){
-            led.setState(Led.SCORING);
-        } else{
-            led.setState(Led.INTAKE);
-        }
-        if (!DriverStation.isAutonomous()) {
-            CommandScheduler.getInstance().schedule(new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE));
+            if(intake){
+                led.setState(Led.SCORING);
+            } else{
+                led.setState(Led.INTAKE);
+            }
+            if (!DriverStation.isAutonomous()) {
+                CommandScheduler.getInstance().schedule(new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE));
+            }    
         }
 
         isRunning = false;

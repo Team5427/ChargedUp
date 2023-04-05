@@ -58,8 +58,8 @@ public class TurnAndTranslate extends CommandBase {
             new Constraints(RoutineConstants.ROUTINE_MAX_ROTATION_SPEED_RAD_S, RoutineConstants.ROUTINE_MAX_ROTATION_ACCEL_RAD_S_S)
         );
 
-        System.out.println("heading: " + headingRadians);
-        System.out.println("holonomic: " + holonomicRotationRadians);
+        // System.out.println("heading: " + headingRadians);
+        // System.out.println("holonomic: " + holonomicRotationRadians);
 
         if (!OdometryMath2023.isBlue()) {
             this.headingRadians = flippedHeadingRadians;

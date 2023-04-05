@@ -45,22 +45,17 @@ public class MoveClawTo extends CommandBase {
 
     @Override
     public void execute() {
-        // if ((arm.getAngle() < 1.5 || setPoint.equals(RoutineConstants.DEFAULT_CLAW_STATE))) {
-            // intake.setRetracted(setPoint.getRetracted());
-            arm.setAngle(setPoint.getAngle());
-            if ((RobotContainer.getSwerve().getPose().getX() > Units.feetToMeters(33) && OdometryMath2023.isBlue()) || (RobotContainer.getSwerve().getPose().getX() < Units.feetToMeters(21) && !OdometryMath2023.isBlue())) {
-                if (arm.getAngle() > (Math.PI / 8)) {
-                    elevator.setHeight(setPoint.getHeight());
-                }    
-            } else {
-                if (arm.getAngle() > -(Math.PI / 6)) {
-                    elevator.setHeight(setPoint.getHeight());
-                }
+        arm.setAngle(setPoint.getAngle());
+        if ((RobotContainer.getSwerve().getPose().getX() > Units.feetToMeters(33) && OdometryMath2023.isBlue()) || (RobotContainer.getSwerve().getPose().getX() < Units.feetToMeters(21) && !OdometryMath2023.isBlue())) {
+            if (arm.getAngle() > (Math.PI / 8)) {
+                elevator.setHeight(setPoint.getHeight());
+            }    
+        } else {
+            if (arm.getAngle() > -(Math.PI / 6)) {
+                elevator.setHeight(setPoint.getHeight());
             }
-            arm.extend(setPoint.getExtended());  
-        // } else {
-        //     arm.set(-0.1);
-        // }
+        }
+        arm.extend(setPoint.getExtended());  
     }
 
     @Override
