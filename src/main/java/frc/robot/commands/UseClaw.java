@@ -46,7 +46,7 @@ public class UseClaw extends CommandBase {
         finish = false;
         isPurple = led.isPurple();
         initState = claw.getState(isPurple);
-        if ((initState.equals(ClawConstants.GAME_PIECE_STATE.NO_GP)) || (initState.equals(ClawConstants.GAME_PIECE_STATE.CONE) && !claw.getGrabber())) {
+        if ((initState.equals(ClawConstants.GAME_PIECE_STATE.NO_GP))) {
             intake = true;
         } else {
             intake = false;
@@ -93,7 +93,7 @@ public class UseClaw extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return (finish || RobotContainer.getJoy().getHID().getRawButtonPressed(JoystickConstants.SS_CANCEL));
+        return (finish || RobotContainer.getJoy().getHID().getRawButton(JoystickConstants.SS_CANCEL));
     }
 
     @Override
@@ -108,6 +108,8 @@ public class UseClaw extends CommandBase {
             if (!DriverStation.isAutonomous()) {
                 CommandScheduler.getInstance().schedule(new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE));
             }    
+        } else {
+            System.out.println("FINISHED INCORRECLTY");
         }
 
         isRunning = false;

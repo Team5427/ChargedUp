@@ -312,7 +312,7 @@ public final class Constants {
         public static final double OUTTAKE_SPEED_DECIMAL_SHOOTING = -1.0;
         public static final double CUBE_OUTTAKE_EXCESS_TIME_S = 0.4;
 
-        public static final double PROX_VALUE = 1;
+        public static final double PROX_VALUE = .8;
     }
 
     public static final class IntakeConstants{

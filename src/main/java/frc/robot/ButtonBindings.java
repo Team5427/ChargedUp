@@ -64,7 +64,14 @@ public class ButtonBindings {
         joy.button(JoystickConstants.SS).onTrue(
             new ParallelCommandGroup(
                 new MoveClawTo(RoutineConstants.SUBSTATION_CLAW_STATE),
-                new UseClaw()
+                new SequentialCommandGroup(
+                    new InstantCommand(() -> {
+                        claw.grab(false);
+                    }),
+                    new Wait(0.5),
+                    new UseClaw()
+                )
+                // new UseClaw()
             )
         );
 

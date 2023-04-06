@@ -131,6 +131,7 @@ public class SwerveDrive extends SubsystemBase {
         if (!OdometryMath2023.isBlue()) {
             rot = OdometryMath2023.flip(rot);
         }
+        gyro.reset();
         gyro.setYaw(rot.getDegrees());
     }
 
