@@ -101,7 +101,7 @@ public class Elevator extends SubsystemBase {
     }
 
     public boolean atLowerLimit(){
-        return limitLeft.get() || limitRight.get();
+        return limitLeft.get() && limitRight.get();
     }
 
     public boolean atUpperLimit() {
@@ -132,6 +132,8 @@ public class Elevator extends SubsystemBase {
 
     private void log() {
         Logger.post("Elevator Encoder", getHeight());
+        Logger.post("left limit", limitLeft.get());
+        Logger.post("Right limit", limitRight.get());
     }
     
 }

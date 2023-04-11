@@ -242,7 +242,7 @@ public final class Constants {
         public static final ClawState DEFAULT_CLAW_STATE = new ClawState(0, ArmConstants.UPPER_LIMIT_RAD);
         public static final ClawState TOP_CONE_CLAW_STATE = new ClawState(ElevatorConstants.UPPER_LIMIT_METERS - .02, Units.degreesToRadians(11.85), true);
         public static final ClawState MID_CONE_CLAW_STATE = new ClawState(.8540754, 0);
-        public static final ClawState TOP_CUBE_CLAW_STATE = new ClawState(0.654, (Math.PI / 6));
+        public static final ClawState TOP_CUBE_CLAW_STATE = new ClawState(0.654, Math.toRadians(20));
         public static final ClawState MID_CUBE_CLAW_STATE = new ClawState(.6540754, 0);
         public static final ClawState SUBSTATION_CLAW_STATE = new ClawState(.7840754, 0);
         public static final ClawState CUBE_INTAKE_CLAW_STATE = new ClawState(0.621, -0.925, false, true);

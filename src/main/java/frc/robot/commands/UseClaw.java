@@ -76,6 +76,7 @@ public class UseClaw extends CommandBase {
             claw.grab(false);
             finish = true;
         } else {
+            claw.grab(false);
             if (OdometryMath2023.inScoringSpot()) {
 
                 claw.set(ClawConstants.OUTTAKE_SPEED_DECIMAL);

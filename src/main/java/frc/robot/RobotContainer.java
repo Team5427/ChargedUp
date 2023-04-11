@@ -92,7 +92,7 @@ public class RobotContainer {
 
 
     autonSelector.setDefaultOption("Engage",AutonSheet.topSingleConeIntakeEngage); 
-    autonSelector.addOption("Pickup NO ENGAGE",AutonSheet.topSingleConeIntake);
+    autonSelector.addOption("Score only",AutonSheet.topSingleConeIntake);
     autonSelector.addOption("2 piece pickup",AutonSheet.topDoubleConeScore);
     autonSelector.addOption("BOTTOM SIDE INTAKE ENGAGE", AutonSheet.bottomSingleConeIntakeEngage);
     autonSelector.addOption("2 piece engage", AutonSheet.topDoubleConeEngage);
