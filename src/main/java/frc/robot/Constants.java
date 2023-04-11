@@ -153,7 +153,7 @@ public final class Constants {
         public static final int CANCEL_ALL_COMMANDS_D = 10;
         public static final int LOCK_SWERVE = 2;
         public static final int DAMPEN = 3;
-        public static final int CLAW_BTN = 1;
+        public static final int GAMEPIECE_BUTTON = 1;
         public static final int SUBSTATION_PRESET = 7;
         public static final int SS_CANCEL = 8;
         public static final int CLAW_INTAKE = 11;

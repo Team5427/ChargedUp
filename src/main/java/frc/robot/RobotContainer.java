@@ -20,6 +20,7 @@ import frc.robot.pathUtil.SwervePathMaker;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.Intake;
 // import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Led;
 import frc.robot.subsystems.Limelight;
@@ -34,7 +35,7 @@ public class RobotContainer {
   private static Arm arm;
   private static Claw claw;
   private static Led led;
-  // private static Intake intake;
+  private static Intake intake;
 
   private static PneumaticHub hub;
 
@@ -64,7 +65,7 @@ public class RobotContainer {
     elevator = new Elevator();
     arm = new Arm();
     claw = new Claw();
-    // intake = new Intake();
+    intake = new Intake();
 
     hub = new PneumaticHub(28);
     hub.enableCompressorDigital();
@@ -120,5 +121,5 @@ public class RobotContainer {
   public static Arm getArm(){return arm;}
   public static Claw getClaw() {return claw;}
   public static Led getLed(){return led;}
-  // public static Intake getIntake(){return intake;}
+  public static Intake getIntake(){return intake;}
 }

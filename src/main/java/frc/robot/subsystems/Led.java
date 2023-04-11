@@ -26,7 +26,9 @@ public class Led extends SubsystemBase{
     public static final double APRILTAG_LED_SPEED = 2;
 
     public static final int INTAKE = 0;
+    public static final int INTAKE_FLOOR = 2;
     public static final int SCORING = 1;
+    public static final int SCORING_FLOOR = 3;
 
     private boolean isPurple;
 
@@ -77,12 +79,7 @@ public class Led extends SubsystemBase{
     }
 
     public void fill(int[] color) {
-        // for (int i = 0; i < ledBuffer.getLength() / 2; i++) {
-        //     ledBuffer.setRGB(i, color[0], color[1], color[2]);
-        //     ledBuffer.setRGB(i + 60, color[0], color[1], color[2]);
-        // }
-        fillRange(0, 120, color);
-        
+        fillRange(0, 120, color);        
     }
 
     public void fillRange(int first, int last, int[] color){
@@ -139,6 +136,10 @@ public class Led extends SubsystemBase{
                     setColor(YELLOW);
             } else if (state == SCORING && DriverStation.isEnabled()) {
                 setColor(CYAN);
+            } else if (state == SCORING_FLOOR && DriverStation.isEnabled()) {
+                setColor(PINK);
+            } else if(state == INTAKE_FLOOR && DriverStation.isEnabled()){
+                setColor(ORANGE);
             } else if (!DriverStation.isEnabled()) {
                 setColor(RED);
             }
@@ -152,25 +153,6 @@ public class Led extends SubsystemBase{
                 ledCount = 0;
             }
 
-            // Cooler LED
-            // ledCount += LED_SPEED;
-            // for(int i = 0; i < 20; i++){
-            //     int ledNum = (60 - Math.abs((int)(i + ledCount) % 60));
-            //     setLed(ledNum, rgb);
-            //     setLed(119 - ledNum, rgb);
-            // }
-
-            // if((int)(ledCount - LED_SPEED) != (int) ledCount){
-            //     if(error){
-            //         setLed((60 - Math.abs((int)(ledCount - LED_SPEED) % 60)), LedConstants.RED_CODE);
-            //         setLed(119 - (60 - Math.abs((int)(ledCount - LED_SPEED) % 60)), LedConstants.RED_CODE);
-            //     } else{
-            //         setLed((60 - Math.abs((int)(ledCount - LED_SPEED) % 60)), LedConstants.WHITE_CODE);
-            //         setLed(119 - (60 - Math.abs((int)(ledCount - LED_SPEED) % 60)), LedConstants.WHITE_CODE);
-            //     }
-            // }
-
-            // cooler led
             ledCount += LED_SPEED;
             for(int j = 0; j < 3; j++){
                 for(int i = 0; i < 8; i++){
@@ -198,12 +180,6 @@ public class Led extends SubsystemBase{
                 }
             }
         }
-
-            
-        
-
-        // Logger.post("led state", state);
-        // Logger.post("rgb", rgb.toString());
 
         led.setData(ledBuffer);
         led.start();

@@ -3,6 +3,7 @@ package frc.robot;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -17,6 +18,7 @@ import frc.robot.commands.ManualArm;
 import frc.robot.commands.ManualClaw;
 import frc.robot.commands.PartyMode;
 import frc.robot.commands.UseClaw;
+import frc.robot.commands.UseIntake;
 import frc.robot.commands.Routines.MoveBotTo;
 import frc.robot.commands.Routines.MoveClawTo;
 import frc.robot.commands.Routines.Balancing.BalanceLinear;
@@ -60,7 +62,14 @@ public class ButtonBindings {
         joy.button(JoystickConstants.LOCK_SWERVE).onTrue(new TiltWheels(SwerveConstants.X_WHEEL_ANGLES));
         joy.button(JoystickConstants.LOCK_SWERVE).toggleOnTrue(new PartyMode());
 
-        joy.button(JoystickConstants.CLAW_BTN).onTrue(new UseClaw());
+        joy.button(JoystickConstants.GAMEPIECE_BUTTON).onTrue(new InstantCommand(() -> {
+            if(led.getState() == Led.INTAKE_FLOOR || led.getState() == Led.SCORING_FLOOR){
+                CommandScheduler.getInstance().schedule(new UseIntake());
+            } else {
+                CommandScheduler.getInstance().schedule(new UseClaw());
+            }
+        }));
+        
         joy.button(JoystickConstants.SS).onTrue(
             new ParallelCommandGroup(
                 new MoveClawTo(RoutineConstants.SUBSTATION_CLAW_STATE),
@@ -68,7 +77,7 @@ public class ButtonBindings {
                     new InstantCommand(() -> {
                         claw.grab(false);
                     }),
-                    new Wait(0.5),
+                    new Wait(0.25),
                     new UseClaw()
                 )
                 // new UseClaw()
