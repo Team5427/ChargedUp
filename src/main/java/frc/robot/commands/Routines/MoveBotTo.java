@@ -129,7 +129,7 @@ public class MoveBotTo extends CommandBase {
             lastPositionType = this.setType;
             
             if (!(runTime > RoutineConstants.MOVE_BOT_TO_REPEAT_THRESHOLD_SEC)) {
-                CommandScheduler.getInstance().schedule(new JoystickSwerve());
+                // CommandScheduler.getInstance().schedule(new JoystickSwerve());
                 return true;
             } else{
                 end(false);

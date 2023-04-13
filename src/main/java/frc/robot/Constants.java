@@ -196,7 +196,7 @@ public final class Constants {
     public static final class RoutineConstants {
         public static final double ROUTINE_MAX_TRANSLATION_SPEED_M_S = 4.0;
         public static final double ROUTINE_MAX_ROTATION_SPEED_RAD_S = Math.PI * 2;
-        public static final double ROUTINE_MAX_TRANSLATION_ACCEL_M_S_S = 2.5;
+        public static final double ROUTINE_MAX_TRANSLATION_ACCEL_M_S_S = 2.0;
         public static final double ROUTINE_MAX_ROTATION_ACCEL_RAD_S_S = Math.PI * 2;
 
         public static final double ROT_THRESH_RAD = Math.PI/4;
@@ -204,7 +204,7 @@ public final class Constants {
         public static final double TRANSLATION_TOLERANCE_METERS = 0.02;
         public static final double ROTATION_TOLERANCE_RAD = Units.degreesToRadians(1);
 
-        public static final double MOVE_BOT_TO_REPEAT_THRESHOLD_SEC = 0.5;
+        public static final double MOVE_BOT_TO_REPEAT_THRESHOLD_SEC = 0.75;
 
         public static final double Y_LEVEL_1_METERS = Units.inchesToMeters(75.34); 
         public static final double Y_LEVEL_2_METERS = Units.inchesToMeters(141.34);
@@ -265,7 +265,7 @@ public final class Constants {
         public static final double kI = 0.0;
         public static final double kD = 0.0;
         public static final double MAX_SPEED_M_S = MiscConstants.MAX_NEO_SPEED_RPM * VELOCITY_CONVERSION_FACTOR_RPM_TO_MPS / 2;
-        public static final double MAX_ACCEL_M_S_S = MAX_SPEED_M_S / 10;
+        public static final double MAX_ACCEL_M_S_S = MAX_SPEED_M_S / 6;
         public static final double GOAL_TOLERANCE_METERS = .03;
         public static final int CURRENT_LIMIT_AMPS = 40;
     }
@@ -284,7 +284,7 @@ public final class Constants {
         public static final double ARM_CONTROLLER_TOLERANCE_RAD_JANK = Units.degreesToRadians(6);
         public static final double GEARBOX_GEARING = (1.0 / 100.0) * (17.0 / 20.0) * (20.0 / 32.0);
         public static final double MAX_SPEED_RAD_S = Units.rotationsPerMinuteToRadiansPerSecond(MiscConstants.MAX_NEO_SPEED_RPM * GEARBOX_GEARING);
-        public static final double MAX_ACCEL_RAD_S_S = MAX_SPEED_RAD_S * 1.75;
+        public static final double MAX_ACCEL_RAD_S_S = MAX_SPEED_RAD_S * 2.2;
         public static final double MAX_ACCEL_RAD_S_S_EXTENDED = MAX_SPEED_RAD_S;
         public static final double UPPER_LIMIT_RAD = 1.45;
         public static final double LOWER_LIMIT_RAD = -1;

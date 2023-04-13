@@ -115,8 +115,8 @@ public class ButtonBindings {
                 new TurnAndTranslate(
                     new Rotation2d(Math.toRadians(180)), 
                     new Rotation2d(Math.toRadians(180)), 
-                    2, 
-                    1)
+                    1.0, 
+                    .2)
             ),
             new SequentialCommandGroup(
                 new Wait(RoutineConstants.DEBUG_INTEGRATE_DELAY_TIME),
@@ -129,8 +129,8 @@ public class ButtonBindings {
                 new TurnAndTranslate(
                     new Rotation2d(Math.toRadians(180)), 
                     new Rotation2d(Math.toRadians(180)), 
-                    2, 
-                    1)
+                    1.0, 
+                    .2)
             ),
             new SequentialCommandGroup(
                 new Wait(RoutineConstants.DEBUG_INTEGRATE_DELAY_TIME),
@@ -143,8 +143,8 @@ public class ButtonBindings {
                 new TurnAndTranslate(
                     new Rotation2d(Math.toRadians(180)), 
                     new Rotation2d(Math.toRadians(180)), 
-                2, 
-                    1)
+                1.0, 
+                    .2)
             ),
             new MoveClawTo(RoutineConstants.MID_CONE_CLAW_STATE)
         ));
@@ -155,8 +155,8 @@ public class ButtonBindings {
                 new TurnAndTranslate(
                     new Rotation2d(Math.toRadians(180)), 
                     new Rotation2d(Math.toRadians(180)), 
-                    2, 
-                    1)
+                    1.0, 
+                    .2)
             ),
             new MoveClawTo(RoutineConstants.MID_CONE_CLAW_STATE)
         ));

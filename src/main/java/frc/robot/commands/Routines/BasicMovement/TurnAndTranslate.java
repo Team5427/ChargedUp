@@ -7,9 +7,11 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Constants.JoystickConstants;
 import frc.robot.Constants.RoutineConstants;
 import frc.robot.Constants.SwerveConstants;
+import frc.robot.commands.JoystickSwerve;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.Swerve.SwerveDrive;
 import frc.robot.util.OdometryMath2023;
@@ -107,6 +109,7 @@ public class TurnAndTranslate extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
+        CommandScheduler.getInstance().schedule(new JoystickSwerve());
         timer.stop();
     }
 
