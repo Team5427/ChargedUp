@@ -114,26 +114,28 @@ public class Elevator extends SubsystemBase {
 
     @Override
     public void periodic() {
-        // if (!DriverStation.isEnabled() || RobotContainer.getOperatorJoy2().getHID().getRawButton(JoystickConstants.ELEVATOR_RESET)) {
-        //     elevatorController.reset(getHeight());
-        //     stop();
-        // } else {
-        //     elevatorController.setGoal(this.setPoint);
-        //     double calc = elevatorController.calculate(getHeight());
-        //     set(calc);
-        // }
-
-        // if (atLowerLimit()) {
-        //     resetEncoder();
-        // }
-
-        if(RobotContainer.getOperatorJoy3().getHID().getRawButton(5)){
-            set(.1);
-        } else if(RobotContainer.getOperatorJoy3().getHID().getRawButton(6)){
-            set(-.1);
-        } else{
-            set(0);
+        if (!DriverStation.isEnabled() || RobotContainer.getOperatorJoy2().getHID().getRawButton(JoystickConstants.ELEVATOR_RESET)) {
+            elevatorController.reset(getHeight());
+            stop();
+        } else {
+            elevatorController.setGoal(this.setPoint);
+            double calc = elevatorController.calculate(getHeight());
+            set(calc);
         }
+
+        if (atLowerLimit()) {
+            resetEncoder();
+        }
+
+
+        // DEBUG CODE: DO NOT DELETE
+        // if(RobotContainer.getOperatorJoy3().getHID().getRawButton(5)){
+        //     set(.1);
+        // } else if(RobotContainer.getOperatorJoy3().getHID().getRawButton(6)){
+        //     set(-.1);
+        // } else{
+        //     set(0);
+        // }
 
         log();
     }

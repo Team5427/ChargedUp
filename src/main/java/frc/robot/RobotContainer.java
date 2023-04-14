@@ -43,7 +43,7 @@ public class RobotContainer {
   private static CommandJoystick joy;
   private static CommandJoystick operatorJoy1;
   private static CommandJoystick operatorJoy2;
-  private static CommandJoystick operatorJoy3;
+  // private static CommandJoystick operatorJoy3;
   private static Limelight limelight_right, limelight_left;
   private static OdometryMath2023 odom;
   private static SendableChooser<SequentialCommandGroup> autonSelector;
@@ -57,7 +57,7 @@ public class RobotContainer {
     joy = new CommandJoystick(Constants.JoystickConstants.DRIVER_CONTROLLER);
     operatorJoy1 = new CommandJoystick(Constants.JoystickConstants.OPERATION_CONTROLLER);
     operatorJoy2 = new CommandJoystick(JoystickConstants.OPERATION2_CONTROLLER);
-    operatorJoy3 = new CommandJoystick(3);
+    // operatorJoy3 = new CommandJoystick(3);
 
     swerveDrive = new SwerveDrive(pigeon);
     swerveDrive.setDefaultCommand(new JoystickSwerve());
@@ -113,7 +113,7 @@ public class RobotContainer {
   public static CommandJoystick getJoy() {return joy;}
   public static CommandJoystick getOperatorJoy1() {return operatorJoy1;}
   public static CommandJoystick getOperatorJoy2() {return operatorJoy2;}
-  public static CommandJoystick getOperatorJoy3() {return operatorJoy3;}
+  // public static CommandJoystick getOperatorJoy3() {return operatorJoy3;}
   public static Limelight getLimelightRight() {return limelight_right;}
   public static Limelight getLimelightLeft() {return limelight_left;}
   public static OdometryMath2023 getOdomInstance() {return odom;}

@@ -7,14 +7,13 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Constants.JoystickConstants;
 import frc.robot.Constants.RoutineConstants;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.RobotContainer;
-import frc.robot.commands.JoystickSwerve;
 import frc.robot.commands.Routines.StateTypes.PositionState;
 import frc.robot.subsystems.Swerve.SwerveDrive;
+import frc.robot.util.Logger;
 import frc.robot.util.OdometryMath2023;
 
 public class MoveBotTo extends CommandBase {
@@ -83,7 +82,10 @@ public class MoveBotTo extends CommandBase {
         double thetaCalc = thetaController.calculate(measurement.getRotation().getRadians());
 
         if(Math.hypot(xCalc, yCalc) < RoutineConstants.RESEED_SPEED_THRESHOLD){
+            Logger.post("reseeding", true);
             OdometryMath2023.reseedOdometry();
+        } else{
+            Logger.post("reseeding", false);
         }
 
         SwerveModuleState[] states;
@@ -136,9 +138,9 @@ public class MoveBotTo extends CommandBase {
                 // CommandScheduler.getInstance().schedule(new JoystickSwerve());
                 return true;
             } else{
-                end(false);
-                initialize();
-                return false;
+                // end(false);
+                // initialize();
+                return true;
 
             }
             

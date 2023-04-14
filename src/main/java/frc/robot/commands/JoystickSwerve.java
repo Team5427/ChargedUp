@@ -65,6 +65,11 @@ public class JoystickSwerve extends CommandBase {
     }
 
     private double rotationCalc(double joyRotSpeed, boolean usePID) {
+        if (OdometryMath2023.onScoringSide()) {
+            rotPID.setGoal(OdometryMath2023.isBlue() ? Math.PI : 0);
+        } else {
+            rotPID.setGoal(OdometryMath2023.isBlue() ? 0 : Math.PI);
+        }
         if (!usePID) {
             rotPID.reset(swerve.getRotation2d().getRadians());
             return joyRotSpeed;
@@ -97,7 +102,7 @@ public class JoystickSwerve extends CommandBase {
             }
         }
 
-        if (joy.getHID().getRawButton(JoystickConstants.SS)) {
+        if (joy.getHID().getRawButton(JoystickConstants.SS) && !OdometryMath2023.onScoringSide()) {
             if (RobotContainer.getClaw().proxCovered()) {
                 ySpeed = 0;
             } else {

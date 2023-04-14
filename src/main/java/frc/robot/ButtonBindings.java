@@ -28,6 +28,7 @@ import frc.robot.commands.Routines.BasicMovement.Wait;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Led;
 import frc.robot.subsystems.Swerve.SwerveDrive;
 import frc.robot.util.OdometryMath2023;
@@ -39,6 +40,7 @@ public class ButtonBindings {
     private static Elevator elevator;
     private static Claw claw;
     private static Led led;
+    private static Intake intake;
 
     public ButtonBindings(CommandJoystick joy, CommandJoystick operatorJoy1, CommandJoystick operatorJoy2) {
         getSubsystems();
@@ -90,10 +92,20 @@ public class ButtonBindings {
             claw.toggleGrabber();
         }, claw));
 
-        joy.button(JoystickConstants.SS_CANCEL).onTrue(new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE));
+        joy.button(JoystickConstants.SS_CANCEL).onTrue(new ParallelCommandGroup(
+            new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE),
+            new InstantCommand(() -> {
+                intake.setDeployed(false);
+            })
+        ));
 
 
-        operatorJoy1.button(JoystickConstants.CANCEL_ALL_COMMANDS_O).onTrue(new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE));
+        operatorJoy1.button(JoystickConstants.CANCEL_ALL_COMMANDS_O).onTrue(new ParallelCommandGroup(
+            new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE),
+            new InstantCommand(() -> {
+                intake.setDeployed(false);
+            })
+        ));
         operatorJoy1.button(JoystickConstants.HIGH_CONE_PRESET).onTrue(new MoveClawTo(RoutineConstants.TOP_CONE_CLAW_STATE));
         operatorJoy1.button(JoystickConstants.MID_CONE_PRESET).onTrue(new MoveClawTo(RoutineConstants.MID_CONE_CLAW_STATE));
         operatorJoy1.button(JoystickConstants.HIGH_CUBE_PRESET).onTrue(new MoveClawTo(RoutineConstants.TOP_CUBE_CLAW_STATE));
@@ -115,8 +127,8 @@ public class ButtonBindings {
                 new TurnAndTranslate(
                     new Rotation2d(Math.toRadians(180)), 
                     new Rotation2d(Math.toRadians(180)), 
-                    1.0, 
-                    .2)
+                    RoutineConstants.BUMP_FORWARD_SPEED, 
+                    RoutineConstants.BUMP_TIME)
             ),
             new SequentialCommandGroup(
                 new Wait(RoutineConstants.DEBUG_INTEGRATE_DELAY_TIME),
@@ -129,8 +141,8 @@ public class ButtonBindings {
                 new TurnAndTranslate(
                     new Rotation2d(Math.toRadians(180)), 
                     new Rotation2d(Math.toRadians(180)), 
-                    1.0, 
-                    .2)
+                    RoutineConstants.BUMP_FORWARD_SPEED, 
+                    RoutineConstants.BUMP_TIME)
             ),
             new SequentialCommandGroup(
                 new Wait(RoutineConstants.DEBUG_INTEGRATE_DELAY_TIME),
@@ -143,8 +155,8 @@ public class ButtonBindings {
                 new TurnAndTranslate(
                     new Rotation2d(Math.toRadians(180)), 
                     new Rotation2d(Math.toRadians(180)), 
-                1.0, 
-                    .2)
+                    RoutineConstants.BUMP_FORWARD_SPEED, 
+                    RoutineConstants.BUMP_TIME)
             ),
             new MoveClawTo(RoutineConstants.MID_CONE_CLAW_STATE)
         ));
@@ -155,11 +167,15 @@ public class ButtonBindings {
                 new TurnAndTranslate(
                     new Rotation2d(Math.toRadians(180)), 
                     new Rotation2d(Math.toRadians(180)), 
-                    1.0, 
-                    .2)
+                    RoutineConstants.BUMP_FORWARD_SPEED, 
+                    RoutineConstants.BUMP_TIME)
             ),
             new MoveClawTo(RoutineConstants.MID_CONE_CLAW_STATE)
         ));
+
+        operatorJoy2.button(JoystickConstants.FLOOR_INTAKE_LED).onTrue(new InstantCommand(() -> {
+            led.setState(led.INTAKE_FLOOR);
+        }));
 
     
     }
@@ -170,6 +186,7 @@ public class ButtonBindings {
         elevator = RobotContainer.getElevator();
         claw = RobotContainer.getClaw();
         led = RobotContainer.getLed();
+        intake = RobotContainer.getIntake();
     }
 
 

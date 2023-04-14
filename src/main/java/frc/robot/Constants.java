@@ -184,6 +184,7 @@ public final class Constants {
         public static final int TOP_RIGHT_SCORE = 4;
         public static final int MID_LEFT_SCORE = 5;
         public static final int MID_RIGHT_SCORE = 6;
+        public static final int FLOOR_INTAKE_LED = 9;
 
 
 
@@ -205,7 +206,7 @@ public final class Constants {
         public static final double ROTATION_TOLERANCE_RAD = Units.degreesToRadians(1);
 
         public static final double MOVE_BOT_TO_REPEAT_THRESHOLD_SEC = 0.75;
-        public static final double RESEED_SPEED_THRESHOLD = 0.5;
+        public static final double RESEED_SPEED_THRESHOLD = 0.4;
 
         public static final double Y_LEVEL_1_METERS = Units.inchesToMeters(75.34); 
         public static final double Y_LEVEL_2_METERS = Units.inchesToMeters(141.34);
@@ -220,8 +221,13 @@ public final class Constants {
         public static final double DEBUG_INTEGRATE_DELAY_TIME = 0.6;
 
         public static final double CLOSE_COMMUNITY_X_METERS = 2.25;
+        public static final double IN_COMMUNITY_X = 5;
+        public static final double IN_COMMUNITY_Y = 5.4;
 
         public static final double MODULE_TILT_SPEED = 0.5;
+
+        public static final double BUMP_FORWARD_SPEED = 0.7;
+        public static final double BUMP_TIME = 0.2;
 
         //PRESETS
         public static final Pose2d BOTTOM_CONE_SCORING_POSE_DEFAULT = new Pose2d(1.85, 0.5, new Rotation2d(Math.PI));
@@ -320,19 +326,19 @@ public final class Constants {
         public static final int TILT_ID_LEFT = 30;
         public static final int TILT_ID_RIGHT = 31;
         public static final int INTAKE_ID = 32;
-        public static final int THROUGHBORE_ID = 8;
+        public static final int THROUGHBORE_ID = 6;
         public static final int PROX_ID = 0;
 
         public static final double TILT_COEF = .8; //may need to invert
         public static final double INTAKE_SPEED = .6;
         public static final double OUTTAKE_SPEED = -1;
-        public static final double OUTTAKE_SPEED_SLOW = -1;
-        public static final double STATIC_HOLD_SPEED = 0.05;
+        public static final double OUTTAKE_SPEED_SLOW = -.2;
+        public static final double STATIC_HOLD_SPEED = 0.025;
 
-        public static final double ENCODER_OFFSET_RAD = 2.085;
-        public static final double DEPLOYED_POS_RAD = -.0;
-        public static final double UNDEPLOYED_POS_RAD = 3.121 - ENCODER_OFFSET_RAD;
-        public static final double RETRACTED_POS_RAD = 3.915 - ENCODER_OFFSET_RAD;
+        public static final double ENCODER_OFFSET_RAD = 5.894;
+        public static final double DEPLOYED_POS_RAD = -0.07;
+        public static final double UNDEPLOYED_POS_RAD = -5.14;
+        public static final double RETRACTED_POS_RAD = -4.30;
         public static final double ARM_CLEARANCE_RAD = Math.PI/8;
         public static final double TOLERANCE_RAD = Units.degreesToRadians(10);
 
@@ -363,7 +369,7 @@ public final class Constants {
         public static final int[] WHITE_CODE = {50, 50, 50};
         public static final int[] CLEAR_CODE = {0, 0, 0};
         public static final int[] ORANGE_CODE = {0, 0, 255};
-        public static final int[] PINK_CODE = {255, 8, 127};
+        public static final int[] PINK_CODE = {255, 100, 127};
     }
 }
 

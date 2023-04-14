@@ -19,7 +19,7 @@ public class OdometryMath2023 extends SubsystemBase {
 
     private static Pose2d robotPose;
     private static final double fieldWidth = Units.feetToMeters(54);
-    // private static final double fieldHeight = Units.feetToMeters(27);
+    private static final double fieldHeight = Units.feetToMeters(27);
     private static final double scoringY1 = RoutineConstants.Y_LEVEL_1_METERS; //FIXME
     private static final double scoringY2 = RoutineConstants.Y_LEVEL_2_METERS; //FIXME
     private static final double scoringY3 = RoutineConstants.Y_LEVEL_3_METERS; //FIXME y of gaurdrail
@@ -129,5 +129,25 @@ public class OdometryMath2023 extends SubsystemBase {
         } else {
             return robotPose.getX() > (fieldWidth - RoutineConstants.CLOSE_COMMUNITY_X_METERS);
         }
+    }
+
+    public static boolean onScoringSide() {
+        if (isBlue()) {
+            return robotPose.getX() < fieldWidth/2;
+        } else {
+            return robotPose.getX() > fieldWidth/2;
+        }
+    }
+
+    public static boolean inCommunity(Pose2d pose) {
+        if (isBlue()) {
+            return pose.getX() < RoutineConstants.IN_COMMUNITY_X && pose.getY() < RoutineConstants.IN_COMMUNITY_Y;
+        } else {
+            return pose.getX() > (fieldWidth - RoutineConstants.IN_COMMUNITY_X) && pose.getY() < RoutineConstants.IN_COMMUNITY_Y;
+        }
+    }
+
+    public static boolean inField(Pose2d pose) {
+        return (pose.getX() < fieldWidth && pose.getX() > 0) && (pose.getY() < fieldHeight && pose.getY() > 0);
     }
 }

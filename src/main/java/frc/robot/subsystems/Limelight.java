@@ -1,25 +1,33 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.math.filter.MedianFilter;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
+import frc.robot.commands.Routines.MoveBotTo;
+import frc.robot.util.OdometryMath2023;
 
 public class Limelight extends SubsystemBase {
     private NetworkTable table_m;
     private boolean tv;
     private int tag;
     private MedianFilter filterx;
+    private LinearFilter linearFilterX;
     private MedianFilter filtery;
+    private LinearFilter linearFilterY;
+    private Pose2d lastPose2d;
 
     private double ledMode;
 
     public Limelight(NetworkTable table) {
         this.table_m = table;
-        filterx = new MedianFilter(20);
-        filtery = new MedianFilter(20);
+        filterx = new MedianFilter(25);
+        linearFilterX = LinearFilter.singlePoleIIR(0.25, 0.02);
+        filtery = new MedianFilter(25);
+        linearFilterY = LinearFilter.singlePoleIIR(0.25, 0.02);
+        lastPose2d = new Pose2d();
     }
 
     @Override
@@ -39,18 +47,31 @@ public class Limelight extends SubsystemBase {
     }
 
     public Pose2d getEstimatedGlobalPose(){
+        Pose2d ret;
         if(usingTarget()){
             double[] botPose = table_m.getEntry("botpose_wpiblue").getDoubleArray(new double[6]);
-            Translation2d translation = new Translation2d(
-                filterx.calculate(botPose[0]),
-                filtery.calculate(botPose[1])
-            );
-
-            return new Pose2d(translation, RobotContainer.getSwerve().getRotation2d());
+            ret = filterPose(new Pose2d(botPose[0], botPose[1], RobotContainer.getSwerve().getRotation2d()));
+            lastPose2d = ret;
         } else {
             filterx.reset();
             filtery.reset();
-            return null;
+            linearFilterX.reset();
+            linearFilterY.reset();
+            ret = null;
+        }
+        return ret;
+    }
+
+    //applies IIR pole filter, and basic kalman filter
+    public Pose2d filterPose(Pose2d pose) {
+        if (!OdometryMath2023.inCommunity(pose) && MoveBotTo.reseed) {
+            return lastPose2d;
+        } else if (!OdometryMath2023.inField(pose)) {
+            return lastPose2d;
+        } else {
+            double x = linearFilterX.calculate(filterx.calculate(pose.getX()));
+            double y = linearFilterY.calculate(filtery.calculate(pose.getY()));
+            return new Pose2d(x, y, pose.getRotation());
         }
     }
 
