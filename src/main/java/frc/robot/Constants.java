@@ -205,6 +205,7 @@ public final class Constants {
         public static final double ROTATION_TOLERANCE_RAD = Units.degreesToRadians(1);
 
         public static final double MOVE_BOT_TO_REPEAT_THRESHOLD_SEC = 0.75;
+        public static final double RESEED_SPEED_THRESHOLD = 0.5;
 
         public static final double Y_LEVEL_1_METERS = Units.inchesToMeters(75.34); 
         public static final double Y_LEVEL_2_METERS = Units.inchesToMeters(141.34);
@@ -250,8 +251,8 @@ public final class Constants {
     }
 
     public static final class ElevatorConstants {
-        public static final int LEFT_MOTOR_ID = 21;
-        public static final int RIGHT_MOTOR_ID = 19;
+        public static final int LEFT_MOTOR_ID = 19;
+        public static final int RIGHT_MOTOR_ID = 21;
         public static final int LEFT_LIMIT_ID = 0;
         public static final int RIGHT_LIMIT_ID = 1;
         public static final int THROUGHBORE_ID_A = 3;

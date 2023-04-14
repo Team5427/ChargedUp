@@ -57,7 +57,7 @@ public class RobotContainer {
     joy = new CommandJoystick(Constants.JoystickConstants.DRIVER_CONTROLLER);
     operatorJoy1 = new CommandJoystick(Constants.JoystickConstants.OPERATION_CONTROLLER);
     operatorJoy2 = new CommandJoystick(JoystickConstants.OPERATION2_CONTROLLER);
-    // operatorJoy3 = new CommandJoystick(JoystickConstants.OPERATION3_CONTROLLER);
+    operatorJoy3 = new CommandJoystick(3);
 
     swerveDrive = new SwerveDrive(pigeon);
     swerveDrive.setDefaultCommand(new JoystickSwerve());

@@ -35,7 +35,7 @@ public class OdometryMath2023 extends SubsystemBase {
         limelightRightPose = RobotContainer.getLimelightRight().getEstimatedGlobalPose();
         robotPose = RobotContainer.getSwerve().getPose();
 
-        if (!DriverStation.isAutonomous() && !MoveBotTo.isRunning) {
+        if (!DriverStation.isAutonomous() && !MoveBotTo.reseed) {
             reseedOdometry();
         }
         log();

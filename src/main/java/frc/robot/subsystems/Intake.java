@@ -125,30 +125,46 @@ public class Intake extends SubsystemBase{
 
     @Override
     public void periodic(){
-        if (retracted) {
-            setPointRad = new Rotation2d(IntakeConstants.RETRACTED_POS_RAD);
-        } else {
-            if (deployed) {
-                setPointRad = new Rotation2d(IntakeConstants.DEPLOYED_POS_RAD);
-            } else {
-                setPointRad = new Rotation2d(IntakeConstants.UNDEPLOYED_POS_RAD);
-            }
+        // if (retracted) {
+        //     setPointRad = new Rotation2d(IntakeConstants.RETRACTED_POS_RAD);
+        // } else {
+        //     if (deployed) {
+        //         setPointRad = new Rotation2d(IntakeConstants.DEPLOYED_POS_RAD);
+        //     } else {
+        //         setPointRad = new Rotation2d(IntakeConstants.UNDEPLOYED_POS_RAD);
+        //     }
+        // }
+        // error = setPointRad.minus(getRotation2d()).getRadians();
+
+
+        // if (Math.abs(RobotContainer.getArm().getAngle()) < IntakeConstants.ARM_CLEARANCE_RAD || RobotContainer.getArm().atJankGoal()) {
+        //     if (Math.abs(error) > IntakeConstants.TOLERANCE_RAD) {
+        //         setTilt(IntakeConstants.TILT_COEF * Math.signum(error));
+        //     } else {
+        //         stopTilt();
+        //     }
+        // } else {
+        //     stopTilt();
+        // }
+
+        // if (!UseIntake.isRunning) {
+        //     intakeMotor.set(IntakeConstants.STATIC_HOLD_SPEED);
+        // }
+
+        if(RobotContainer.getOperatorJoy3().getHID().getRawButton(3)){
+            setTilt(.1);
+        } else if(RobotContainer.getOperatorJoy3().getHID().getRawButton(4)){
+            setTilt(-.1);
+        } else{
+            setTilt(0);
         }
-        error = setPointRad.minus(getRotation2d()).getRadians();
 
-
-        if (Math.abs(RobotContainer.getArm().getAngle()) < IntakeConstants.ARM_CLEARANCE_RAD || RobotContainer.getArm().atJankGoal()) {
-            if (Math.abs(error) > IntakeConstants.TOLERANCE_RAD) {
-                setTilt(IntakeConstants.TILT_COEF * Math.signum(error));
-            } else {
-                stopTilt();
-            }
-        } else {
-            stopTilt();
-        }
-
-        if (!UseIntake.isRunning) {
-            intakeMotor.set(IntakeConstants.STATIC_HOLD_SPEED);
+        if(RobotContainer.getOperatorJoy3().getHID().getRawButton(1)){
+            intake();
+        } else if(RobotContainer.getOperatorJoy3().getHID().getRawButton(8)){
+            outtake();
+        } else{
+            stopIntake();
         }
 
         log();

@@ -22,7 +22,7 @@ public class MoveBotTo extends CommandBase {
     private Pose2d setpoint;
     private Pose2d measurement;
     private SwerveDrive swerve;
-    public static boolean isRunning = false;
+    public static boolean reseed = false;
     public static double runTime = 0;
     public static double runningSpeed = 0;
     private static ProfiledPIDController xController, yController, thetaController;
@@ -43,7 +43,7 @@ public class MoveBotTo extends CommandBase {
         this.type = type;
         // initControllers();
         this.setType = type;
-        isRunning = false;
+        reseed = false;
     }
 
     public MoveBotTo(Pose2d type) {
@@ -53,13 +53,13 @@ public class MoveBotTo extends CommandBase {
         timer2 = new Timer();
         isJank = true;
         this.setpoint = type;
-        isRunning = false;
+        reseed = false;
     }
 
     @Override
     public void initialize() {
         goodToRelease = false;
-        isRunning = true;
+        reseed = true;
         if (!isJank) {
             this.setpoint = PositionState.getPositionPose(type);
         }
@@ -81,6 +81,10 @@ public class MoveBotTo extends CommandBase {
         double xCalc = xController.calculate(measurement.getX());
         double yCalc = yController.calculate(measurement.getY());
         double thetaCalc = thetaController.calculate(measurement.getRotation().getRadians());
+
+        if(Math.hypot(xCalc, yCalc) < RoutineConstants.RESEED_SPEED_THRESHOLD){
+            OdometryMath2023.reseedOdometry();
+        }
 
         SwerveModuleState[] states;
         if (
@@ -153,7 +157,7 @@ public class MoveBotTo extends CommandBase {
         runTime = timer.get();
         timer.stop();
         timer.reset();
-        isRunning = false;
+        reseed = false;
         runningSpeed = 0;
     }
 
