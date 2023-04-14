@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.ClawConstants;
 import frc.robot.Constants.RoutineConstants;
+import frc.robot.Robot;
 import frc.robot.RobotContainer;
 import frc.robot.commands.UseClaw;
 import frc.robot.commands.UseIntake;
@@ -314,7 +315,7 @@ public class AutonSheet {
             new UseClaw(),
             new InstantCommand(() -> {
                 RobotContainer.getLed().setState(Led.INTAKE_FLOOR);
-
+                Robot.specialAuton = true;
             }),
             new ParallelCommandGroup(
                 integratedAuton2,
