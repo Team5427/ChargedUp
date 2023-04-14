@@ -8,8 +8,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.Constants.SwerveConstants;
-import frc.robot.commands.Routines.BasicMovement.TiltWheels;
+import frc.robot.commands.UseIntake;
 import frc.robot.pathUtil.SwervePathMaker;
 import frc.robot.subsystems.Led;
 
@@ -23,6 +22,7 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private RobotContainer m_robotContainer;
   private Timer matchTimer;
+  public static boolean specialAuton;
 
 
   /**
@@ -35,6 +35,7 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     matchTimer = new Timer();
     m_robotContainer = new RobotContainer();
+    specialAuton = false;
 
   }
 
@@ -93,8 +94,9 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
-    if (matchTimer.get() >= 14.5) {
-      CommandScheduler.getInstance().schedule(new TiltWheels(SwerveConstants.X_WHEEL_ANGLES));
+    if (matchTimer.get() >= 14.3 && specialAuton) {
+      // CommandScheduler.getInstance().schedule(new TiltWheels(SwerveConstants.X_WHEEL_ANGLES));
+      CommandScheduler.getInstance().schedule(new UseIntake());
     }
   }
 

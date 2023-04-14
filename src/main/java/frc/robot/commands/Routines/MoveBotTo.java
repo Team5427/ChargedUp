@@ -21,7 +21,7 @@ public class MoveBotTo extends CommandBase {
     private Pose2d setpoint;
     private Pose2d measurement;
     private SwerveDrive swerve;
-    public static boolean reseed = false;
+    public static boolean running = false;
     public static double runTime = 0;
     public static double runningSpeed = 0;
     private static ProfiledPIDController xController, yController, thetaController;
@@ -42,7 +42,7 @@ public class MoveBotTo extends CommandBase {
         this.type = type;
         // initControllers();
         this.setType = type;
-        reseed = false;
+        running = false;
     }
 
     public MoveBotTo(Pose2d type) {
@@ -52,13 +52,13 @@ public class MoveBotTo extends CommandBase {
         timer2 = new Timer();
         isJank = true;
         this.setpoint = type;
-        reseed = false;
+        running = false;
     }
 
     @Override
     public void initialize() {
         goodToRelease = false;
-        reseed = true;
+        running = true;
         if (!isJank) {
             this.setpoint = PositionState.getPositionPose(type);
         }
@@ -159,7 +159,7 @@ public class MoveBotTo extends CommandBase {
         runTime = timer.get();
         timer.stop();
         timer.reset();
-        reseed = false;
+        running = false;
         runningSpeed = 0;
     }
 

@@ -179,12 +179,12 @@ public final class Constants {
         public static final int UNLOCK_SWERVE_O = 2;
         public static final int SS = 7;
         public static final int BALANCE_BTN = 8;
-
         public static final int TOP_LEFT_SCORE = 3;
         public static final int TOP_RIGHT_SCORE = 4;
         public static final int MID_LEFT_SCORE = 5;
         public static final int MID_RIGHT_SCORE = 6;
         public static final int FLOOR_INTAKE_LED = 9;
+        public static final int SINGLE_SS_INTAKE = 10;
 
 
 

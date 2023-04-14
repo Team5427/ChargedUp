@@ -64,7 +64,7 @@ public class Limelight extends SubsystemBase {
 
     //applies IIR pole filter, and basic kalman filter
     public Pose2d filterPose(Pose2d pose) {
-        if (!OdometryMath2023.inCommunity(pose) && MoveBotTo.reseed) {
+        if (!OdometryMath2023.inCommunity(pose) && MoveBotTo.running) {
             return lastPose2d;
         } else if (!OdometryMath2023.inField(pose)) {
             return lastPose2d;

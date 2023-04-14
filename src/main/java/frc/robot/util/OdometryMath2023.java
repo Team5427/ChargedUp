@@ -20,9 +20,9 @@ public class OdometryMath2023 extends SubsystemBase {
     private static Pose2d robotPose;
     private static final double fieldWidth = Units.feetToMeters(54);
     private static final double fieldHeight = Units.feetToMeters(27);
-    private static final double scoringY1 = RoutineConstants.Y_LEVEL_1_METERS; //FIXME
-    private static final double scoringY2 = RoutineConstants.Y_LEVEL_2_METERS; //FIXME
-    private static final double scoringY3 = RoutineConstants.Y_LEVEL_3_METERS; //FIXME y of gaurdrail
+    private static final double scoringY1 = RoutineConstants.Y_LEVEL_1_METERS;
+    private static final double scoringY2 = RoutineConstants.Y_LEVEL_2_METERS;
+    private static final double scoringY3 = RoutineConstants.Y_LEVEL_3_METERS;
     private static Pose2d limelightLeftPose;
     private static Pose2d limelightRightPose;
 
@@ -35,7 +35,7 @@ public class OdometryMath2023 extends SubsystemBase {
         limelightRightPose = RobotContainer.getLimelightRight().getEstimatedGlobalPose();
         robotPose = RobotContainer.getSwerve().getPose();
 
-        if (!DriverStation.isAutonomous() && !MoveBotTo.reseed) {
+        if (!DriverStation.isAutonomous() && !MoveBotTo.running) {
             reseedOdometry();
         }
         log();
