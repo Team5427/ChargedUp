@@ -113,6 +113,7 @@ public class ButtonBindings {
         operatorJoy1.button(JoystickConstants.FLIP_COLOR).onTrue(new InstantCommand(() -> {
             led.togglePurple();
             led.setState(Led.INTAKE);
+            intake.setDeployed(false);
         }));
         operatorJoy1.button(JoystickConstants.SUBSTATION_PRESET).onTrue(new MoveClawTo(RoutineConstants.SUBSTATION_CLAW_STATE));
         operatorJoy1.button(JoystickConstants.FLOOR_INTAKE_PRESET_CUBES).onTrue(new MoveClawTo(RoutineConstants.CUBE_INTAKE_CLAW_STATE));
@@ -176,6 +177,8 @@ public class ButtonBindings {
         operatorJoy2.button(JoystickConstants.FLOOR_INTAKE_LED).onTrue(new InstantCommand(() -> {
             led.setState(led.INTAKE_FLOOR);
         }));
+
+        operatorJoy2.button(JoystickConstants.SINGLE_SS_INTAKE).onTrue(new MoveClawTo(RoutineConstants.SINGLE_SS_CLAW_STATE));
 
     
     }

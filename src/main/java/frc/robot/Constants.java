@@ -254,6 +254,7 @@ public final class Constants {
         public static final ClawState SUBSTATION_CLAW_STATE = new ClawState(.7840754, 0);
         public static final ClawState CUBE_INTAKE_CLAW_STATE = new ClawState(0.621, -0.925, false, true);
         public static final ClawState CONE_INTAKE_CLAW_STATE = new ClawState(0.521, -0.925, false, true);
+        public static final ClawState SINGLE_SS_CLAW_STATE = new ClawState(0, Math.toRadians(50.6));
     }
 
     public static final class ElevatorConstants {
