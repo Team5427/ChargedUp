@@ -72,7 +72,7 @@ public class ButtonBindings {
             }
         }));
         
-        joy.button(JoystickConstants.SS).onTrue(
+        joy.button(JoystickConstants.SUBSTATION_PRESET).onTrue(
             new ParallelCommandGroup(
                 new MoveClawTo(RoutineConstants.SUBSTATION_CLAW_STATE),
                 new SequentialCommandGroup(

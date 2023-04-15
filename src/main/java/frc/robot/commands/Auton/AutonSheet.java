@@ -213,54 +213,28 @@ public class AutonSheet {
             new BalanceDoubleP()
         );
 
-        floorTripleCleanSide = new SequentialCommandGroup(
-            new InstantCommand(() -> {
-                RobotContainer.getLed().setState(Led.INTAKE_FLOOR);
-            }),
-            new ParallelCommandGroup(
-                floorTripleCleanSide1,
-                new ParallelRaceGroup(
-                    new SequentialCommandGroup(
-                        new UseIntake(), //OUTTAKES PRELOAD - MIGHT NOT BE NECESSARY
-                        new WaitCommand(1),
-                        new UseIntake() //INTAKES CUBE 1
-                    ),
-                    new WaitCommand(10) //FIXME    
-                )
-            ),
-            new UseIntake(), //OUTTAKES CUBE 1
-            new ParallelCommandGroup(
-                floorTripleCleanSide2,
-                new ParallelRaceGroup(
-                    new SequentialCommandGroup(
-                        new WaitCommand(1),
-                        new UseIntake() //INTAKES CUBE 2
-                    ),
-                    new WaitCommand(10) //FIXME    
-                )
-            ),
-            new UseIntake() //OUTTAKES CUBE 2
-        );
-
         floorTripleBumpSide = new SequentialCommandGroup(
             new InstantCommand(() -> {
                 RobotContainer.getLed().setState(Led.INTAKE_FLOOR);
             }),
+            new WaitCommand(0.3),
             new ParallelCommandGroup(
                 floorTripleBumpSide1,
                 new ParallelRaceGroup(
                     new SequentialCommandGroup(
-                        new UseIntake(), //OUTTAKES PRELOAD - MIGHT NOT BE NECESSARY
                         new WaitCommand(1),
                         new UseIntake() //INTAKES CUBE 1
                     ),
-                    new WaitCommand(10) //FIXME    
+                    new WaitCommand(5)
                 )
             ),
             new InstantCommand(() -> {
                 OdometryMath2023.reseedOdometry();
             }),
-            new UseIntake(), //OUTTAKES CUBE 1
+            new ParallelRaceGroup(
+                new UseIntake(), //OUTTAKES CUBE 1
+                new WaitCommand(3)
+            ),
             new ParallelCommandGroup(
                 floorTripleBumpSide2,
                 new ParallelRaceGroup(
@@ -268,7 +242,7 @@ public class AutonSheet {
                         new WaitCommand(1),
                         new UseIntake() //INTAKES CUBE 2
                     ),
-                    new WaitCommand(10) //FIXME    
+                    new WaitCommand(5) //FIXME    
                 )
             ),
             new InstantCommand(() -> {
@@ -280,10 +254,11 @@ public class AutonSheet {
         robonautsAuton = new SequentialCommandGroup(
             new MoveClawTo(RoutineConstants.TOP_CONE_CLAW_STATE),
             new UseClaw(),
+            new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE),
             new WaitCommand(1), //Wait for arm to stow
-            new TurnAndTranslate(new Rotation2d(0), new Rotation2d(Math.PI/4), 2.5, 2), //RAMS ONTO CHARGE STATION
-            new TurnAndTranslate(new Rotation2d(0), new Rotation2d(Math.PI/4), 1, 3), //SLOWS DOWN AND GETS OFF
-            new TurnAndTranslate(new Rotation2d(Math.PI), new Rotation2d(Math.PI/4), 2.5, 2), //RAMS BACK ON THE OTHER WAY
+            new TurnAndTranslate(new Rotation2d(3 * Math.PI/4), new Rotation2d(0), 2.5, 2), //RAMS ONTO CHARGE STATION
+            new TurnAndTranslate(new Rotation2d(3 * Math.PI/4), new Rotation2d(0), 1, 3), //SLOWS DOWN AND GETS OFF
+            new TurnAndTranslate(new Rotation2d(3 * Math.PI/4), new Rotation2d(Math.PI), 2.5, 2), //RAMS BACK ON THE OTHER WAY
             new BalanceDoubleP()
         );
 

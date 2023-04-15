@@ -102,7 +102,7 @@ public class JoystickSwerve extends CommandBase {
             }
         }
 
-        if (joy.getHID().getRawButton(JoystickConstants.SS) && !OdometryMath2023.onScoringSide()) {
+        if (joy.getHID().getRawButton(JoystickConstants.SUBSTATION_PRESET) && !OdometryMath2023.onScoringSide()) {
             if (RobotContainer.getClaw().proxCovered()) {
                 ySpeed = 0;
             } else {
@@ -124,7 +124,7 @@ public class JoystickSwerve extends CommandBase {
             rot = swerve.getRotation2d().plus(new Rotation2d(Math.PI));
         }
         
-        ChassisSpeeds chassisSpeeds = swerve.getFieldRelative() ? ChassisSpeeds.fromFieldRelativeSpeeds(ySpeed, xSpeed, rotationCalc(x2Speed, joy.getHID().getRawButton(JoystickConstants.SS)), rot) : new ChassisSpeeds(ySpeed, xSpeed, x2Speed);
+        ChassisSpeeds chassisSpeeds = swerve.getFieldRelative() ? ChassisSpeeds.fromFieldRelativeSpeeds(ySpeed, xSpeed, rotationCalc(x2Speed, joy.getHID().getRawButton(JoystickConstants.SUBSTATION_PRESET)), rot) : new ChassisSpeeds(ySpeed, xSpeed, x2Speed);
 
         SwerveModuleState[] states = SwerveConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(chassisSpeeds);
 
@@ -134,7 +134,7 @@ public class JoystickSwerve extends CommandBase {
     //[translationSpeed, rotationSpeed]
     private double[] getMultiplier(CommandJoystick joy) {
         if (joy.getHID().getRawButton(JoystickConstants.DAMPEN)) {
-            if (joy.getHID().getRawButton(JoystickConstants.SS)){
+            if (joy.getHID().getRawButton(JoystickConstants.SUBSTATION_PRESET)){
                 return new double[] {1.5, 1.5};
             }else {
                 return new double[] {JoystickConstants.DAMPEN_SPEED_M_S, JoystickConstants.DAMPEN_ANGULAR_SPEED_RAD_S};

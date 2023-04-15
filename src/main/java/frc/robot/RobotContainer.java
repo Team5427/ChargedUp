@@ -98,11 +98,13 @@ public class RobotContainer {
     SubRoutineSheet.initSubRoutines();
 
 
-    autonSelector.setDefaultOption("Engage",AutonSheet.topSingleConeIntakeEngage); 
+    // autonSelector.setDefaultOption("Engage",AutonSheet.topSingleConeIntakeEngage); 
     autonSelector.addOption("Score only",AutonSheet.topSingleConeIntake);
-    autonSelector.addOption("2 piece pickup",AutonSheet.topDoubleConeScore);
-    autonSelector.addOption("BOTTOM SIDE INTAKE ENGAGE", AutonSheet.bottomSingleConeIntakeEngage);
+    autonSelector.setDefaultOption("2 piece pickup",AutonSheet.topDoubleConeScore);
+    autonSelector.addOption("BOTTOM SIDE INTAKE", AutonSheet.bottomSingleConeIntakeEngage);
     autonSelector.addOption("2 piece engage", AutonSheet.topDoubleConeEngage);
+    autonSelector.addOption("Middle Auton", AutonSheet.robonautsAuton);
+    autonSelector.addOption("triple bump side", AutonSheet.floorTripleBumpSide);
 
     Logger.postComplex("Auton Paths", autonSelector);
     new ButtonBindings(getJoy(), getOperatorJoy1(), getOperatorJoy2());

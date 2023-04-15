@@ -138,9 +138,9 @@ public class MoveBotTo extends CommandBase {
                 // CommandScheduler.getInstance().schedule(new JoystickSwerve());
                 return true;
             } else{
-                // end(false);
-                // initialize();
-                return true;
+                end(false);
+                initialize();
+                return false;
 
             }
             

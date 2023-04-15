@@ -177,14 +177,14 @@ public final class Constants {
         // Buttons not in use: 9, 10
         public static final int LOCK_SWERVE_O = 1;
         public static final int UNLOCK_SWERVE_O = 2;
-        public static final int SS = 7;
+        // public static final int SS = 7;
         public static final int BALANCE_BTN = 8;
         public static final int TOP_LEFT_SCORE = 3;
         public static final int TOP_RIGHT_SCORE = 4;
         public static final int MID_LEFT_SCORE = 5;
         public static final int MID_RIGHT_SCORE = 6;
         public static final int FLOOR_INTAKE_LED = 9;
-        public static final int SINGLE_SS_INTAKE = 10;
+        public static final int SINGLE_SS_INTAKE = 7;
 
 
 
@@ -205,15 +205,15 @@ public final class Constants {
         public static final double TRANSLATION_TOLERANCE_METERS = 0.02;
         public static final double ROTATION_TOLERANCE_RAD = Units.degreesToRadians(1);
 
-        public static final double MOVE_BOT_TO_REPEAT_THRESHOLD_SEC = 0.75;
+        public static final double MOVE_BOT_TO_REPEAT_THRESHOLD_SEC = 1.75;
         public static final double RESEED_SPEED_THRESHOLD = 0.4;
 
         public static final double Y_LEVEL_1_METERS = Units.inchesToMeters(75.34); 
         public static final double Y_LEVEL_2_METERS = Units.inchesToMeters(141.34);
         public static final double Y_LEVEL_3_METERS = Units.inchesToMeters(216.03);
 
-        public static final double TRANSLATION_P = 3.5;
-        public static final double ROTATION_P = 4.75;
+        public static final double TRANSLATION_P = 3;
+        public static final double ROTATION_P = 4.25;
 
         public static final double BALANCE_ACTIVATION_PITCH_DEG = 8.5;
 
@@ -254,7 +254,7 @@ public final class Constants {
         public static final ClawState SUBSTATION_CLAW_STATE = new ClawState(.7840754, 0);
         public static final ClawState CUBE_INTAKE_CLAW_STATE = new ClawState(0.621, -0.925, false, true);
         public static final ClawState CONE_INTAKE_CLAW_STATE = new ClawState(0.521, -0.925, false, true);
-        public static final ClawState SINGLE_SS_CLAW_STATE = new ClawState(0, Math.toRadians(50.6));
+        public static final ClawState SINGLE_SS_CLAW_STATE = new ClawState(0, Math.toRadians(39.4));
     }
 
     public static final class ElevatorConstants {
