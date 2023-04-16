@@ -147,8 +147,10 @@ public class Intake extends SubsystemBase{
             stopTilt();
         }
 
-        if (!UseIntake.isRunning && deployed) {
+        if (!UseIntake.isRunning && getDeployed()) {
             intakeMotor.set(IntakeConstants.STATIC_HOLD_SPEED);
+        } else if(!UseIntake.isRunning){
+            intakeMotor.stopMotor();
         }
 
 

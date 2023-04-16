@@ -231,24 +231,18 @@ public class AutonSheet {
             new InstantCommand(() -> {
                 OdometryMath2023.reseedOdometry();
             }),
-            new ParallelRaceGroup(
-                new UseIntake(), //OUTTAKES CUBE 1
-                new WaitCommand(3)
-            ),
             new ParallelCommandGroup(
                 floorTripleBumpSide2,
+
                 new ParallelRaceGroup(
                     new SequentialCommandGroup(
-                        new WaitCommand(1),
+                        new UseIntake(), //OUTTAKES CUBE 1
+                        new WaitCommand(1.5),
                         new UseIntake() //INTAKES CUBE 2
                     ),
                     new WaitCommand(5) //FIXME    
                 )
-            ),
-            new InstantCommand(() -> {
-                OdometryMath2023.reseedOdometry();
-            }),
-            new UseIntake() //OUTTAKES CUBE 2
+            )
         );
 
         robonautsAuton = new SequentialCommandGroup(

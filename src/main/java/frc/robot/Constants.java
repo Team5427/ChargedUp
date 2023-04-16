@@ -330,18 +330,18 @@ public final class Constants {
         public static final int THROUGHBORE_ID = 6;
         public static final int PROX_ID = 0;
 
-        public static final double TILT_COEF = .8; //may need to invert
+        public static final double TILT_COEF = .55; //may need to invert
         public static final double INTAKE_SPEED = .6;
         public static final double OUTTAKE_SPEED = -1;
         public static final double OUTTAKE_SPEED_SLOW = -.2;
-        public static final double STATIC_HOLD_SPEED = 0.025;
+        public static final double STATIC_HOLD_SPEED = 0.05;
 
         public static final double ENCODER_OFFSET_RAD = 5.894;
         public static final double DEPLOYED_POS_RAD = -0.07;
         public static final double UNDEPLOYED_POS_RAD = -5.14;
         public static final double RETRACTED_POS_RAD = -4.30;
         public static final double ARM_CLEARANCE_RAD = Math.PI/8;
-        public static final double TOLERANCE_RAD = Units.degreesToRadians(10);
+        public static final double TOLERANCE_RAD = Units.degreesToRadians(5);
 
         public static final double INTAKE_COVERED = 1;
         public static final double OUTTAKE_TIME = .5;
