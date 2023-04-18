@@ -13,7 +13,6 @@ import frc.robot.Constants.SwerveConstants;
 import frc.robot.RobotContainer;
 import frc.robot.commands.Routines.StateTypes.PositionState;
 import frc.robot.subsystems.Swerve.SwerveDrive;
-import frc.robot.util.Logger;
 import frc.robot.util.OdometryMath2023;
 
 public class MoveBotTo extends CommandBase {
@@ -26,7 +25,6 @@ public class MoveBotTo extends CommandBase {
     public static double runningSpeed = 0;
     private static ProfiledPIDController xController, yController, thetaController;
     private Timer timer;
-    private Timer timer2;
     private static RoutineConstants.POSITION_TYPE lastPositionType;
     private RoutineConstants.POSITION_TYPE setType;
     private boolean isJank;
@@ -37,10 +35,8 @@ public class MoveBotTo extends CommandBase {
         swerve = RobotContainer.getSwerve();
         addRequirements(swerve);
         timer = new Timer();
-        timer2 = new Timer();
         isJank = false;
         this.type = type;
-        // initControllers();
         this.setType = type;
         running = false;
     }
@@ -49,7 +45,6 @@ public class MoveBotTo extends CommandBase {
         swerve = RobotContainer.getSwerve();
         addRequirements(swerve);
         timer = new Timer();
-        timer2 = new Timer();
         isJank = true;
         this.setpoint = type;
         running = false;
@@ -66,8 +61,6 @@ public class MoveBotTo extends CommandBase {
         // runTime = 0;
         timer.reset();
         timer.start();
-        timer2.reset();
-        timer2.start();
         OdometryMath2023.reseedOdometry();
         xController.setGoal(setpoint.getX());
         yController.setGoal(setpoint.getY());
@@ -82,9 +75,9 @@ public class MoveBotTo extends CommandBase {
         double yCalc = yController.calculate(measurement.getY());
         double thetaCalc;
         if (
-            Math.hypot(xCalc, yCalc) < 0.5 &&
-            Math.abs(measurement.getRotation().minus(setpoint.getRotation()).getRadians()) < Math.PI / 8 &&
-            runTime > 0.5 && 
+            Math.hypot(xCalc, yCalc) < RoutineConstants.RESEED_SPEED_THRESHOLD &&
+            Math.abs(measurement.getRotation().minus(setpoint.getRotation()).getRadians()) < Math.PI / 6 &&
+            runTime > 0.75 && 
             OdometryMath2023.tagRotation() != null
         ) {
             System.out.println("odometry tag clearance");
@@ -94,11 +87,12 @@ public class MoveBotTo extends CommandBase {
             thetaCalc = thetaController.calculate(measurement.getRotation().getRadians());
         }
 
-        if(Math.hypot(xCalc, yCalc) < RoutineConstants.RESEED_SPEED_THRESHOLD){
-            // Logger.post("reseeding", true);
+        if(
+            Math.hypot(xCalc, yCalc) < RoutineConstants.RESEED_SPEED_THRESHOLD &&
+            runTime > 0.75
+        ){
             OdometryMath2023.reseedOdometry();
         } else{
-            // Logger.post("reseeding", false);
         }
 
         SwerveModuleState[] states;
@@ -168,9 +162,9 @@ public class MoveBotTo extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        // if (OdometryMath2023.tagRotation() != null) {
-        //     swerve.setHeadingRaw(OdometryMath2023.tagRotation().getRadians());
-        // }
+        if (OdometryMath2023.tagRotation() != null) {
+            swerve.setHeadingRaw(OdometryMath2023.tagRotation().getRadians());
+        }
         OdometryMath2023.reseedOdometry();
         swerve.stopMods();
         runTime = timer.get();

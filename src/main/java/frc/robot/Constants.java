@@ -206,7 +206,7 @@ public final class Constants {
         public static final double ROTATION_TOLERANCE_RAD = Units.degreesToRadians(1);
 
         public static final double MOVE_BOT_TO_REPEAT_THRESHOLD_SEC = 1.75;
-        public static final double RESEED_SPEED_THRESHOLD = 0.4;
+        public static final double RESEED_SPEED_THRESHOLD = 1;
 
         public static final double Y_LEVEL_1_METERS = Units.inchesToMeters(75.34); 
         public static final double Y_LEVEL_2_METERS = Units.inchesToMeters(141.34);

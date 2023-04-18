@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import java.util.List;
+
 import com.ctre.phoenix.sensors.WPI_Pigeon2;
 
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -68,8 +70,14 @@ public class RobotContainer {
 
     hub = new PneumaticHub(28);
     hub.enableCompressorDigital();
-    limelight_right = new Limelight(NetworkTableInstance.getDefault().getTable("limelight-right"), 0.0, 0.0);
-    limelight_left = new Limelight(NetworkTableInstance.getDefault().getTable("limelight-left"), 0.0, 0.0);
+    limelight_right = new Limelight(NetworkTableInstance.getDefault().getTable("limelight-right"), 
+      List.of(0.0, 0.0, 0.0), //offset on tags 6, 7, 8 respectively
+      List.of(0.0, 0.0, 0.0) //3, 2, 1
+    );
+    limelight_left = new Limelight(NetworkTableInstance.getDefault().getTable("limelight-left"), 
+      List.of(0.0, 0.0, 0.0), //offset on tags 6, 7, 8 respectively
+      List.of(0.0, 0.0, 0.0) //3, 2, 1
+    );
 
     odom = new OdometryMath2023();
 

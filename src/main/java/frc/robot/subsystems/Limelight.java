@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import java.util.List;
+
 import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.math.filter.MedianFilter;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -18,29 +20,28 @@ public class Limelight extends SubsystemBase {
     private LinearFilter linearFilterX;
     private MedianFilter filtery;
     private LinearFilter linearFilterY;
-    private double redOffset, blueOffset;
+    private List<Double> blueOffsets;
+    private List<Double> redOffsets;
 
     private double ledMode;
 
-    public Limelight(NetworkTable table, double redOffsetRad, double blueOffsetRad) {
+    public Limelight(NetworkTable table, List<Double> blueOffsetRad, List<Double> redOffsetRad) {
         this.table_m = table;
         filterx = new MedianFilter(5);
         linearFilterX = LinearFilter.singlePoleIIR(0.1, 0.02);
         filtery = new MedianFilter(5);
         linearFilterY = LinearFilter.singlePoleIIR(0.1, 0.02);
-        this.redOffset = redOffsetRad;
-        this.blueOffset = blueOffsetRad;
+        this.redOffsets = redOffsetRad;
+        this.blueOffsets = blueOffsetRad;
     }
 
     @Override
     public void periodic() {
-    }
-
-
-    public boolean targetVisible() {
         tag = (int)table_m.getEntry("tid").getDouble(-1);
         tv = table_m.getEntry("tv").getDouble(0) == 1;
+    }
 
+    public boolean targetVisible() {
         return tv && tag != 4 && tag != 5;
     }
 
@@ -70,13 +71,33 @@ public class Limelight extends SubsystemBase {
             double[] botPose = table_m.getEntry("botpose_wpiblue").getDoubleArray(new double[6]);
             double rot = botPose[5];
             // System.out.println(Math.toRadians(rot));
-            if (OdometryMath2023.isBlue()) {
-                return new Rotation2d(Math.toRadians(rot) - blueOffset);    
-            } else {
-                return new Rotation2d(Math.toRadians(rot) - redOffset);
-            }
+            return new Rotation2d(Math.toRadians(rot) + tagBasedOffset());
         } else {
             return null;
+        }
+    }
+
+    public double tagBasedOffset() {
+        if (OdometryMath2023.isBlue()) {
+            if (tag == 6) {
+                return blueOffsets.get(0);
+            } else if (tag == 7) {
+                return blueOffsets.get(1);
+            } else if (tag == 8) {
+                return blueOffsets.get(2);
+            } else {
+                return 0;
+            }
+        } else {
+            if (tag == 3) {
+                return redOffsets.get(0);
+            } else if (tag == 2) {
+                return redOffsets.get(1);
+            } else if (tag == 1) {
+                return redOffsets.get(2);
+            } else {
+                return 0;
+            }
         }
     }
 
@@ -92,7 +113,7 @@ public class Limelight extends SubsystemBase {
             return new Pose2d(x, y, pose.getRotation());
         }
     }
-
+    
     public boolean usingTarget() {
         tv = table_m.getEntry("tv").getDouble(0) == 1;
 
