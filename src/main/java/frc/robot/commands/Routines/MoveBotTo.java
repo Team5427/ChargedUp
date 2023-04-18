@@ -76,16 +76,29 @@ public class MoveBotTo extends CommandBase {
 
     @Override
     public void execute() {
+        runTime = timer.get();
         measurement = swerve.getPose();
         double xCalc = xController.calculate(measurement.getX());
         double yCalc = yController.calculate(measurement.getY());
-        double thetaCalc = thetaController.calculate(measurement.getRotation().getRadians());
+        double thetaCalc;
+        if (
+            Math.hypot(xCalc, yCalc) < 0.5 &&
+            Math.abs(measurement.getRotation().minus(setpoint.getRotation()).getRadians()) < Math.PI / 8 &&
+            runTime > 0.5 && 
+            OdometryMath2023.tagRotation() != null
+        ) {
+            System.out.println("odometry tag clearance");
+            thetaCalc = thetaController.calculate(OdometryMath2023.tagRotation().getRadians());
+            // thetaCalc = thetaController.calculate(measurement.getRotation().getRadians());
+        } else {
+            thetaCalc = thetaController.calculate(measurement.getRotation().getRadians());
+        }
 
         if(Math.hypot(xCalc, yCalc) < RoutineConstants.RESEED_SPEED_THRESHOLD){
-            Logger.post("reseeding", true);
+            // Logger.post("reseeding", true);
             OdometryMath2023.reseedOdometry();
         } else{
-            Logger.post("reseeding", false);
+            // Logger.post("reseeding", false);
         }
 
         SwerveModuleState[] states;
@@ -121,6 +134,7 @@ public class MoveBotTo extends CommandBase {
     @Override
     public boolean isFinished() {
 
+        runTime = timer.get();
         if(RobotContainer.getJoy().getHID().getPOV() != -1){
             return true;
         }
@@ -154,6 +168,9 @@ public class MoveBotTo extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
+        // if (OdometryMath2023.tagRotation() != null) {
+        //     swerve.setHeadingRaw(OdometryMath2023.tagRotation().getRadians());
+        // }
         OdometryMath2023.reseedOdometry();
         swerve.stopMods();
         runTime = timer.get();

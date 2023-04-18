@@ -135,6 +135,12 @@ public class SwerveDrive extends SubsystemBase {
         gyro.setYaw(rot.getDegrees());
     }
 
+    public void setHeadingRaw(double rad) {
+        Rotation2d rot = new Rotation2d(rad);
+        gyro.reset();
+        gyro.setYaw(rot.getDegrees());
+    }
+
     public void resetMods() {
         SwerveModule[] modules = {frontLeft, frontRight, backLeft, backRight};
         for (int i = 0; i < 4; i++) {

@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.math.filter.MedianFilter;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
@@ -17,15 +18,18 @@ public class Limelight extends SubsystemBase {
     private LinearFilter linearFilterX;
     private MedianFilter filtery;
     private LinearFilter linearFilterY;
+    private double redOffset, blueOffset;
 
     private double ledMode;
 
-    public Limelight(NetworkTable table) {
+    public Limelight(NetworkTable table, double redOffsetRad, double blueOffsetRad) {
         this.table_m = table;
         filterx = new MedianFilter(5);
         linearFilterX = LinearFilter.singlePoleIIR(0.1, 0.02);
         filtery = new MedianFilter(5);
         linearFilterY = LinearFilter.singlePoleIIR(0.1, 0.02);
+        this.redOffset = redOffsetRad;
+        this.blueOffset = blueOffsetRad;
     }
 
     @Override
@@ -59,6 +63,21 @@ public class Limelight extends SubsystemBase {
             ret = null;
         }
         return ret;
+    }
+
+    public Rotation2d getTagBasedRotation() {
+        if (usingTarget()) {
+            double[] botPose = table_m.getEntry("botpose_wpiblue").getDoubleArray(new double[6]);
+            double rot = botPose[5];
+            // System.out.println(Math.toRadians(rot));
+            if (OdometryMath2023.isBlue()) {
+                return new Rotation2d(Math.toRadians(rot) - blueOffset);    
+            } else {
+                return new Rotation2d(Math.toRadians(rot) - redOffset);
+            }
+        } else {
+            return null;
+        }
     }
 
     //applies IIR pole filter, and basic kalman filter

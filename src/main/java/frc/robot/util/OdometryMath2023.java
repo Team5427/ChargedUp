@@ -25,14 +25,23 @@ public class OdometryMath2023 extends SubsystemBase {
     private static final double scoringY3 = RoutineConstants.Y_LEVEL_3_METERS;
     private static Pose2d limelightLeftPose;
     private static Pose2d limelightRightPose;
+    private static Rotation2d limelightLeftTagRot;
+    private static Rotation2d limelightRightTagRot;
 
     private void log() {
+        if (tagRotation() != null) {
+            Logger.post("move bot to thing", OdometryMath2023.tagRotation().getRadians());
+            // Logger.post("left move bot to thing", limelightLeftTagRot.getRadians());
+            // Logger.post("right move bot to thing", limelightRightTagRot.getRadians());
+        }
     }
 
     @Override
     public void periodic() {
         limelightLeftPose = RobotContainer.getLimelightLeft().getEstimatedGlobalPose();
         limelightRightPose = RobotContainer.getLimelightRight().getEstimatedGlobalPose();
+        limelightLeftTagRot = RobotContainer.getLimelightLeft().getTagBasedRotation();
+        limelightRightTagRot = RobotContainer.getLimelightRight().getTagBasedRotation();
         robotPose = RobotContainer.getSwerve().getPose();
 
         if (!DriverStation.isAutonomous() && !MoveBotTo.running) {
@@ -50,6 +59,27 @@ public class OdometryMath2023 extends SubsystemBase {
             RobotContainer.getSwerve().updateVision(limelightLeftPose);
         } else {
             return;
+        }
+    }
+
+    public static Rotation2d tagRotation() {
+        if (limelightLeftTagRot != null && limelightRightTagRot != null) {
+            // return new Rotation2d(
+            //     (((limelightLeftTagRot.getRadians() < 0)?(limelightLeftTagRot.getRadians() + (2 * Math.PI)):limelightLeftTagRot.getRadians()) + 
+            //     ((limelightRightTagRot.getRadians() < 0)?(limelightRightTagRot.getRadians() + (2 * Math.PI)):limelightRightTagRot.getRadians())/2)
+            //     );
+            Rotation2d num = limelightLeftTagRot.rotateBy(limelightRightTagRot).div(2);
+            if (Math.abs(robotPose.getRotation().minus(num).getRadians()) > (Math.PI/2)) {
+                return num.rotateBy(new Rotation2d(Math.PI));
+            } else {
+                return num;
+            }
+        } else if ((limelightLeftTagRot == null && limelightRightTagRot != null)) {
+            return limelightRightTagRot;
+        } else if (limelightLeftTagRot != null && limelightRightTagRot == null) {
+            return limelightLeftTagRot;
+        } else {
+            return null;
         }
     }
 

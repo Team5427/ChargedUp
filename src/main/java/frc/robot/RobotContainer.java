@@ -21,7 +21,6 @@ import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Claw;
 import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
-// import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Led;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Swerve.SwerveDrive;
@@ -69,8 +68,8 @@ public class RobotContainer {
 
     hub = new PneumaticHub(28);
     hub.enableCompressorDigital();
-    limelight_right = new Limelight(NetworkTableInstance.getDefault().getTable("limelight-right"));
-    limelight_left = new Limelight(NetworkTableInstance.getDefault().getTable("limelight-left"));
+    limelight_right = new Limelight(NetworkTableInstance.getDefault().getTable("limelight-right"), 0.0, 0.0);
+    limelight_left = new Limelight(NetworkTableInstance.getDefault().getTable("limelight-left"), 0.0, 0.0);
 
     odom = new OdometryMath2023();
 
