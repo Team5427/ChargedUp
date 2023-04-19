@@ -226,8 +226,8 @@ public final class Constants {
 
         public static final double MODULE_TILT_SPEED = 0.5;
 
-        public static final double BUMP_FORWARD_SPEED = 0.7;
-        public static final double BUMP_TIME = 0.2;
+        public static final double BUMP_FORWARD_SPEED = 0.5;
+        public static final double BUMP_TIME = 0.75;
 
         //PRESETS
         public static final Pose2d BOTTOM_CONE_SCORING_POSE_DEFAULT = new Pose2d(1.85, 0.5, new Rotation2d(Math.PI));
@@ -281,7 +281,7 @@ public final class Constants {
     public static final class ArmConstants {
         public static final int TOP_ID = 26;
         public static final int BTM_ID = 27;
-        public static final int SOL_ID = 9;
+        public static final int SOL_ID = 5;
         public static final int THROUGHBORE_ID = 5; //on DIO ports
         public static final double POSITION_OFFSET_RAD = 2.5871;
         public static final int CURRENT_LIMIT_AMPS = 40;
@@ -306,7 +306,7 @@ public final class Constants {
         public static final int LEFT_ID = 24;
         public static final int RIGHT_ID = 25;
         public static final int CURRENT_LIMIT_AMPS = 20;
-        public static final int SOL_ID = 8;
+        public static final int SOL_ID = 4;
 
         public static enum GAME_PIECE_STATE {
             CONE,

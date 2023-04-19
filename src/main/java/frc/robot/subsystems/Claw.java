@@ -34,7 +34,7 @@ public class Claw extends SubsystemBase {
         right.setInverted(true);
         left.setInverted(false);
         sensor = new AnalogInput(ClawConstants.PROX_ID);
-        grabber = new Solenoid(28, PneumaticsModuleType.REVPH, ClawConstants.SOL_ID);
+        grabber = new Solenoid(28, PneumaticsModuleType.CTREPCM, ClawConstants.SOL_ID);
     }
 
     public ClawConstants.GAME_PIECE_STATE getState(boolean isPurple) {

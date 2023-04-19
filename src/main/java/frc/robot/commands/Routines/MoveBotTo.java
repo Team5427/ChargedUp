@@ -80,7 +80,7 @@ public class MoveBotTo extends CommandBase {
             runTime > 0.75 && 
             OdometryMath2023.tagRotation() != null
         ) {
-            System.out.println("odometry tag clearance");
+            System.out.println("thing happening");
             thetaCalc = thetaController.calculate(OdometryMath2023.tagRotation().getRadians());
             // thetaCalc = thetaController.calculate(measurement.getRotation().getRadians());
         } else {

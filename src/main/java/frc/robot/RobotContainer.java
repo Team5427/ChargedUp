@@ -10,6 +10,7 @@ import com.ctre.phoenix.sensors.WPI_Pigeon2;
 
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.PneumaticHub;
+import edu.wpi.first.wpilibj.PneumaticsControlModule;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -38,7 +39,7 @@ public class RobotContainer {
   private static Led led;
   private static Intake intake;
 
-  private static PneumaticHub hub;
+  private static PneumaticsControlModule hub;
 
   private static WPI_Pigeon2 pigeon;
   private static CommandJoystick joy;
@@ -68,14 +69,14 @@ public class RobotContainer {
     claw = new Claw();
     intake = new Intake();
 
-    hub = new PneumaticHub(28);
+    hub = new PneumaticsControlModule(28);
     hub.enableCompressorDigital();
     limelight_right = new Limelight(NetworkTableInstance.getDefault().getTable("limelight-right"), 
-      List.of(0.0, 0.0, 0.0), //offset on tags 6, 7, 8 respectively
+      List.of(Math.toRadians(1.2), Math.toRadians(1.2), Math.toRadians(1.2)), //offset on tags 6, 7, 8 respectively
       List.of(0.0, 0.0, 0.0) //3, 2, 1
     );
     limelight_left = new Limelight(NetworkTableInstance.getDefault().getTable("limelight-left"), 
-      List.of(0.0, 0.0, 0.0), //offset on tags 6, 7, 8 respectively
+      List.of(Math.toRadians(2.5), Math.toRadians(2.5), Math.toRadians(2.5)), //offset on tags 6, 7, 8 respectively
       List.of(0.0, 0.0, 0.0) //3, 2, 1
     );
 
