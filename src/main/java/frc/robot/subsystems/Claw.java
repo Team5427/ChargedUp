@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ClawConstants;
 import frc.robot.Constants.ClawConstants.GAME_PIECE_STATE;
 import frc.robot.RobotContainer;
-import frc.robot.commands.ManualClaw;
 import frc.robot.commands.UseClaw;
 import frc.robot.util.Logger;
 import frc.robot.util.OdometryMath2023;
@@ -86,7 +85,7 @@ public class Claw extends SubsystemBase {
 
         Logger.post("State", getState(RobotContainer.getLed().isPurple()).toString());
         // Logger.post("claw sensor average voltage", sensor.getAverageVoltage());
-        if (!UseClaw.isRunning && !ManualClaw.isRunning) {
+        if (!UseClaw.isRunning) {
             set(0.015);
         }
 

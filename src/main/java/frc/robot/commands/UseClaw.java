@@ -94,7 +94,7 @@ public class UseClaw extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return (finish || RobotContainer.getJoy().getHID().getRawButton(JoystickConstants.SS_CANCEL) || RobotContainer.getOperatorJoy2().getHID().getRawButton(JoystickConstants.FLOOR_INTAKE_LED));
+        return (finish || RobotContainer.getOperatorJoy1().getHID().getRawButton(JoystickConstants.CANCEL_ALL_COMMANDS_O) || RobotContainer.getOperatorJoy2().getHID().getRawButton(JoystickConstants.FLOOR_INTAKE_LED));
     }
 
     @Override

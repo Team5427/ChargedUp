@@ -9,7 +9,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
-import frc.robot.commands.Routines.MoveBotTo;
+// import frc.robot.commands.Routines.MoveBotTo;
 import frc.robot.util.OdometryMath2023;
 
 public class Limelight extends SubsystemBase {
@@ -103,7 +103,7 @@ public class Limelight extends SubsystemBase {
 
     //applies IIR pole filter, and basic kalman filter
     public Pose2d filterPose(Pose2d pose) {
-        if (!OdometryMath2023.inCommunity(pose) && MoveBotTo.running) {
+        if (!OdometryMath2023.inCommunity(pose)) {
             return null;
         } else if (!OdometryMath2023.inField(pose)) {
             return null;

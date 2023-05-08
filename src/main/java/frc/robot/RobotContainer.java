@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.JoystickConstants;
 import frc.robot.commands.JoystickSwerve;
 import frc.robot.commands.Auton.AutonSheet;
@@ -45,6 +46,7 @@ public class RobotContainer {
   private static CommandJoystick joy;
   private static CommandJoystick operatorJoy1;
   private static CommandJoystick operatorJoy2;
+  private static CommandXboxController xboxController;
   // private static CommandJoystick operatorJoy3;
   private static Limelight limelight_right, limelight_left;
   private static OdometryMath2023 odom;
@@ -59,7 +61,7 @@ public class RobotContainer {
     joy = new CommandJoystick(Constants.JoystickConstants.DRIVER_CONTROLLER);
     operatorJoy1 = new CommandJoystick(Constants.JoystickConstants.OPERATION_CONTROLLER);
     operatorJoy2 = new CommandJoystick(JoystickConstants.OPERATION2_CONTROLLER);
-    // operatorJoy3 = new CommandJoystick(3);
+    xboxController = new CommandXboxController(3);
 
     swerveDrive = new SwerveDrive(pigeon);
     swerveDrive.setDefaultCommand(new JoystickSwerve());
@@ -115,7 +117,7 @@ public class RobotContainer {
     autonSelector.addOption("triple bump side", AutonSheet.floorTripleBumpSide);
 
     Logger.postComplex("Auton Paths", autonSelector);
-    new ButtonBindings(getJoy(), getOperatorJoy1(), getOperatorJoy2());
+    new ButtonBindings(getOperatorJoy1(), getOperatorJoy2(), getController());
   }
 
   public Command getAutonomousCommand() {
@@ -125,10 +127,9 @@ public class RobotContainer {
 
   public static SwerveDrive getSwerve() {return swerveDrive;}
   public static WPI_Pigeon2 getPigeon() {return pigeon;}
-  public static CommandJoystick getJoy() {return joy;}
   public static CommandJoystick getOperatorJoy1() {return operatorJoy1;}
   public static CommandJoystick getOperatorJoy2() {return operatorJoy2;}
-  // public static CommandJoystick getOperatorJoy3() {return operatorJoy3;}
+  public static CommandXboxController getController() {return xboxController;}
   public static Limelight getLimelightRight() {return limelight_right;}
   public static Limelight getLimelightLeft() {return limelight_left;}
   public static OdometryMath2023 getOdomInstance() {return odom;}

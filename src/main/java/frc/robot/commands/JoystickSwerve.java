@@ -8,6 +8,7 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.*;
 import frc.robot.subsystems.Swerve.SwerveDrive;
@@ -16,14 +17,14 @@ import frc.robot.util.OdometryMath2023;
 public class JoystickSwerve extends CommandBase {
     
     private SwerveModuleState[] states;
-    private CommandJoystick joy;
+    private CommandXboxController joy;
     private CommandJoystick operatorJoy;
     private SwerveDrive swerve;
     private SlewRateLimiter translationRateLimiterX, translationRateLimiterY, translationRateLimiterYSlower, rotationRateLimiter;
     private ProfiledPIDController rotPID;
 
     public JoystickSwerve () {
-        joy = RobotContainer.getJoy();
+        joy = RobotContainer.getController();
         operatorJoy = RobotContainer.getOperatorJoy1();
         swerve = RobotContainer.getSwerve();
         addRequirements(swerve);
@@ -78,11 +79,11 @@ public class JoystickSwerve extends CommandBase {
         }
     }
 
-    private SwerveModuleState[] joystickCalculations(CommandJoystick joy) {
+    private SwerveModuleState[] joystickCalculations(CommandXboxController joy) {
         double[] unitsMultiplier = getMultiplier(joy);
-        double xSpeed = -joy.getHID().getX();
-        double ySpeed = -joy.getHID().getY();
-        double x2Speed = -joy.getHID().getZ();
+        double xSpeed = -joy.getLeftX(); //FIXME
+        double ySpeed = -joy.getLeftY(); //FIXME
+        double x2Speed = -joy.getRightX(); //FIXME
         x2Speed = Math.copySign(Math.pow(x2Speed, JoystickConstants.CONTROLLER_TURNING_EXPONENT), x2Speed);
         
         xSpeed = Math.abs(xSpeed) > (JoystickConstants.CONTROLLER_DEADBAND) ? xSpeed : 0;
@@ -92,14 +93,6 @@ public class JoystickSwerve extends CommandBase {
         if (joy.getHID().getPOV() != -1) {
             ySpeed = Math.cos(Math.toRadians(360 - joy.getHID().getPOV())) * .05;
             xSpeed = Math.sin(Math.toRadians(360 - joy.getHID().getPOV())) * .05;
-        }
-
-        // ALLOW OPERATOR POV IF DRIVER NOT DRIVING
-        if(x2Speed == 0 && ySpeed == 0 && xSpeed == 0){
-            if (operatorJoy.getHID().getPOV() != -1) {
-                ySpeed = Math.cos(Math.toRadians(360 - operatorJoy.getHID().getPOV())) * .1;
-                xSpeed = Math.sin(Math.toRadians(360 - operatorJoy.getHID().getPOV())) * .1;
-            }
         }
 
         if (joy.getHID().getRawButton(JoystickConstants.SUBSTATION_PRESET) && !OdometryMath2023.onScoringSide()) {
@@ -124,7 +117,7 @@ public class JoystickSwerve extends CommandBase {
             rot = swerve.getRotation2d().plus(new Rotation2d(Math.PI));
         }
         
-        ChassisSpeeds chassisSpeeds = swerve.getFieldRelative() ? ChassisSpeeds.fromFieldRelativeSpeeds(ySpeed, xSpeed, rotationCalc(x2Speed, joy.getHID().getRawButton(JoystickConstants.SUBSTATION_PRESET)), rot) : new ChassisSpeeds(ySpeed, xSpeed, x2Speed);
+        ChassisSpeeds chassisSpeeds = swerve.getFieldRelative() ? ChassisSpeeds.fromFieldRelativeSpeeds(ySpeed, xSpeed, rotationCalc(x2Speed, RobotContainer.getOperatorJoy2().getHID().getRawButton(JoystickConstants.MID_LEFT_SCORE)), rot) : new ChassisSpeeds(ySpeed, xSpeed, x2Speed);
 
         SwerveModuleState[] states = SwerveConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(chassisSpeeds);
 
@@ -132,9 +125,9 @@ public class JoystickSwerve extends CommandBase {
     }   
     
     //[translationSpeed, rotationSpeed]
-    private double[] getMultiplier(CommandJoystick joy) {
+    private double[] getMultiplier(CommandXboxController joy) {
         if (joy.getHID().getRawButton(JoystickConstants.DAMPEN)) {
-            if (joy.getHID().getRawButton(JoystickConstants.SUBSTATION_PRESET)){
+            if (RobotContainer.getOperatorJoy2().getHID().getRawButton(JoystickConstants.MID_LEFT_SCORE)){
                 return new double[] {1.5, 1.5};
             }else {
                 return new double[] {JoystickConstants.DAMPEN_SPEED_M_S, JoystickConstants.DAMPEN_ANGULAR_SPEED_RAD_S};

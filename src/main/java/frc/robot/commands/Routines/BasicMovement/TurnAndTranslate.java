@@ -97,7 +97,7 @@ public class TurnAndTranslate extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        if (RobotContainer.getJoy().getHID().getRawButton(JoystickConstants.SS_CANCEL)
+        if (RobotContainer.getOperatorJoy2().getHID().getRawButton(JoystickConstants.TOP_RIGHT_SCORE)
         ) {
             return true;
         } else if (timer.get() > time && timed) {

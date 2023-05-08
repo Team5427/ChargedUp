@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.ClawConstants;
 import frc.robot.Constants.JoystickConstants;
@@ -15,11 +16,9 @@ import frc.robot.Constants.RoutineConstants;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.Constants.RoutineConstants.POSITION_TYPE;
 import frc.robot.commands.ManualArm;
-import frc.robot.commands.ManualClaw;
 import frc.robot.commands.PartyMode;
 import frc.robot.commands.UseClaw;
 import frc.robot.commands.UseIntake;
-import frc.robot.commands.Routines.MoveBotTo;
 import frc.robot.commands.Routines.MoveClawTo;
 import frc.robot.commands.Routines.Balancing.BalanceLinear;
 import frc.robot.commands.Routines.BasicMovement.TiltWheels;
@@ -42,10 +41,10 @@ public class ButtonBindings {
     private static Led led;
     private static Intake intake;
 
-    public ButtonBindings(CommandJoystick joy, CommandJoystick operatorJoy1, CommandJoystick operatorJoy2) {
+    public ButtonBindings(CommandJoystick operatorJoy1, CommandJoystick operatorJoy2, CommandXboxController xboxController) {
         getSubsystems();
 
-        joy.button(JoystickConstants.RESET_TELEMETRY).onTrue(new InstantCommand(() -> {
+        xboxController.y().onTrue(new InstantCommand(() -> {
             swerve.setHeadingRad(0);
             Translation2d resetTrans = RoutineConstants.BOTTOM_CONE_SCORING_POSE_DEFAULT.getTranslation();
 
@@ -57,49 +56,12 @@ public class ButtonBindings {
             swerve.resetMods();
         }, swerve));
 
-        joy.button(JoystickConstants.TOGGLE_FIELD_OP).onTrue(new InstantCommand(() -> {
+        xboxController.x().onTrue(new InstantCommand(() -> {
             swerve.toggleFieldRelative();
         }));
 
-        joy.button(JoystickConstants.LOCK_SWERVE).onTrue(new TiltWheels(SwerveConstants.X_WHEEL_ANGLES));
-        joy.button(JoystickConstants.LOCK_SWERVE).toggleOnTrue(new PartyMode());
-
-        joy.button(JoystickConstants.GAMEPIECE_BUTTON).onTrue(new InstantCommand(() -> {
-            if(led.getState() == Led.INTAKE_FLOOR || led.getState() == Led.SCORING_FLOOR){
-                CommandScheduler.getInstance().schedule(new UseIntake());
-            } else {
-                CommandScheduler.getInstance().schedule(new UseClaw());
-            }
-        }));
-        
-        joy.button(JoystickConstants.SUBSTATION_PRESET).onTrue(
-            new ParallelCommandGroup(
-                new MoveClawTo(RoutineConstants.SUBSTATION_CLAW_STATE),
-                new SequentialCommandGroup(
-                    new InstantCommand(() -> {
-                        claw.grab(false);
-                    }),
-                    new Wait(0.25),
-                    new UseClaw()
-                )
-                // new UseClaw()
-            )
-        );
-
-        joy.button(JoystickConstants.CLAW_INTAKE).whileTrue(new ManualClaw(ClawConstants.INTAKE_SPEED_DECIMAL));
-        joy.button(JoystickConstants.CLAW_OUTTAKE).whileTrue(new ManualClaw(ClawConstants.OUTTAKE_SPEED_DECIMAL));
-        joy.button(JoystickConstants.CLAW_CLAMP).onTrue(new InstantCommand(() ->{
-            claw.toggleGrabber();
-        }, claw));
-
-        joy.button(JoystickConstants.SS_CANCEL).onTrue(new ParallelCommandGroup(
-            new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE),
-            new InstantCommand(() -> {
-                intake.setDeployed(false);
-            })
-        ));
-
-
+        xboxController.leftBumper().onTrue(new TiltWheels(SwerveConstants.X_WHEEL_ANGLES));
+        xboxController.leftBumper().toggleOnTrue(new PartyMode());
         operatorJoy1.button(JoystickConstants.CANCEL_ALL_COMMANDS_O).onTrue(new ParallelCommandGroup(
             new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE),
             new InstantCommand(() -> {
@@ -122,65 +84,32 @@ public class ButtonBindings {
 
         operatorJoy1.button(JoystickConstants.ARM_RESET).whileTrue(new ManualArm(ArmConstants.MANUAL_ARM_SPEED));
 
-        operatorJoy2.button(JoystickConstants.TOP_LEFT_SCORE).onTrue(new ParallelCommandGroup(
-            new SequentialCommandGroup(
-                new MoveBotTo(POSITION_TYPE.LEFT_CONE),
-                new TurnAndTranslate(
-                    new Rotation2d(Math.toRadians(180)), 
-                    new Rotation2d(Math.toRadians(180)), 
-                    RoutineConstants.BUMP_FORWARD_SPEED, 
-                    RoutineConstants.BUMP_TIME)
-            ),
-            new SequentialCommandGroup(
-                new Wait(RoutineConstants.DEBUG_INTEGRATE_DELAY_TIME),
-                new MoveClawTo(RoutineConstants.TOP_CONE_CLAW_STATE)
-            )
-        ));
-        operatorJoy2.button(JoystickConstants.TOP_RIGHT_SCORE).onTrue(new ParallelCommandGroup(
-            new SequentialCommandGroup(
-                new MoveBotTo(POSITION_TYPE.RIGHT_CONE),
-                new TurnAndTranslate(
-                    new Rotation2d(Math.toRadians(180)), 
-                    new Rotation2d(Math.toRadians(180)), 
-                    RoutineConstants.BUMP_FORWARD_SPEED, 
-                    RoutineConstants.BUMP_TIME)
-            ),
-            new SequentialCommandGroup(
-                new Wait(RoutineConstants.DEBUG_INTEGRATE_DELAY_TIME),
-                new MoveClawTo(RoutineConstants.TOP_CONE_CLAW_STATE)
-            )
-        ));
-        operatorJoy2.button(JoystickConstants.MID_LEFT_SCORE).onTrue(new ParallelCommandGroup(
-            new SequentialCommandGroup(
-                new MoveBotTo(POSITION_TYPE.LEFT_CONE),
-                new TurnAndTranslate(
-                    new Rotation2d(Math.toRadians(180)), 
-                    new Rotation2d(Math.toRadians(180)), 
-                    RoutineConstants.BUMP_FORWARD_SPEED, 
-                    RoutineConstants.BUMP_TIME)
-            ),
-            new MoveClawTo(RoutineConstants.MID_CONE_CLAW_STATE)
-        ));
-
-        operatorJoy2.button(JoystickConstants.MID_RIGHT_SCORE).onTrue(new ParallelCommandGroup(
-            new SequentialCommandGroup(
-                new MoveBotTo(POSITION_TYPE.RIGHT_CONE),
-                new TurnAndTranslate(
-                    new Rotation2d(Math.toRadians(180)), 
-                    new Rotation2d(Math.toRadians(180)), 
-                    RoutineConstants.BUMP_FORWARD_SPEED, 
-                    RoutineConstants.BUMP_TIME)
-            ),
-            new MoveClawTo(RoutineConstants.MID_CONE_CLAW_STATE)
-        ));
-
         operatorJoy2.button(JoystickConstants.FLOOR_INTAKE_LED).onTrue(new InstantCommand(() -> {
             led.setState(Led.INTAKE_FLOOR);
         }));
 
         operatorJoy2.button(JoystickConstants.SINGLE_SS_INTAKE).onTrue(new MoveClawTo(RoutineConstants.SINGLE_SS_CLAW_STATE));
 
-    
+        operatorJoy2.button(JoystickConstants.TOP_LEFT_SCORE).onTrue(new InstantCommand(() -> {
+            if(led.getState() == Led.INTAKE_FLOOR || led.getState() == Led.SCORING_FLOOR){
+                CommandScheduler.getInstance().schedule(new UseIntake());
+            } else {
+                CommandScheduler.getInstance().schedule(new UseClaw());
+            }
+        }));
+
+        operatorJoy2.button(JoystickConstants.MID_LEFT_SCORE).onTrue(
+            new ParallelCommandGroup(
+                new MoveClawTo(RoutineConstants.SUBSTATION_CLAW_STATE),
+                new SequentialCommandGroup(
+                    new InstantCommand(() -> {
+                        claw.grab(false);
+                    }),
+                    new Wait(0.25),
+                    new UseClaw()
+                )
+            )
+        );
     }
 
     private static void getSubsystems() {

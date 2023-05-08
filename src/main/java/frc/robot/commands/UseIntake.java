@@ -54,7 +54,7 @@ public class UseIntake extends CommandBase{
             return true;
         }
 
-        if (RobotContainer.getJoy().getHID().getRawButton(JoystickConstants.SS_CANCEL)|| RobotContainer.getJoy().getHID().getRawButton(JoystickConstants.CANCEL_ALL_COMMANDS_D)) {
+        if (RobotContainer.getOperatorJoy1().getHID().getRawButton(JoystickConstants.CANCEL_ALL_COMMANDS_O)) {
             return true;
         }
 

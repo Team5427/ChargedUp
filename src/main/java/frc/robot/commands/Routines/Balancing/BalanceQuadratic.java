@@ -52,6 +52,6 @@ public class BalanceQuadratic extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return (RobotContainer.getJoy().getHID().getRawButton(JoystickConstants.CANCEL_ALL_COMMANDS_D)) || (timer.get() > RoutineConstants.BALANCED_TIME);
+        return (RobotContainer.getOperatorJoy1().getHID().getRawButton(JoystickConstants.CANCEL_ALL_COMMANDS_O)) || (timer.get() > RoutineConstants.BALANCED_TIME);
     }
 }
