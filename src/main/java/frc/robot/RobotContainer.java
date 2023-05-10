@@ -58,10 +58,10 @@ public class RobotContainer {
 
     pigeon = new WPI_Pigeon2(Constants.SwerveConstants.PIGEON_ID);
     pigeon.configFactoryDefault();
-    joy = new CommandJoystick(Constants.JoystickConstants.DRIVER_CONTROLLER);
+    // joy = new CommandJoystick(Constants.JoystickConstants.DRIVER_CONTROLLER);
     operatorJoy1 = new CommandJoystick(Constants.JoystickConstants.OPERATION_CONTROLLER);
     operatorJoy2 = new CommandJoystick(JoystickConstants.OPERATION2_CONTROLLER);
-    xboxController = new CommandXboxController(3);
+    xboxController = new CommandXboxController(0);
 
     swerveDrive = new SwerveDrive(pigeon);
     swerveDrive.setDefaultCommand(new JoystickSwerve());

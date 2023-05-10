@@ -131,7 +131,7 @@ public final class Constants {
 
     public static final class JoystickConstants {
 
-        public static final double CONTROLLER_DEADBAND = 0.05;
+        public static final double CONTROLLER_DEADBAND = 0.08;
         public static final double CONTROLLER_TURNING_EXPONENT = 2;
         public static final double MAX_ACCEL_TELEOP_M_S_S = 3.5 * 3;
         public static final double MAX_ANGULAR_ACCEL_TELEOP_RAD_S_S = Math.PI * 4;
@@ -251,7 +251,7 @@ public final class Constants {
         public static final ClawState MID_CONE_CLAW_STATE = new ClawState(.8540754, 0);
         public static final ClawState TOP_CUBE_CLAW_STATE = new ClawState(0.654, Math.toRadians(20));
         public static final ClawState MID_CUBE_CLAW_STATE = new ClawState(.6540754, 0);
-        public static final ClawState SUBSTATION_CLAW_STATE = new ClawState(.7840754, 0);
+        public static final ClawState SUBSTATION_CLAW_STATE = new ClawState(.7840754 + 0.02, 0);
         public static final ClawState CUBE_INTAKE_CLAW_STATE = new ClawState(0.621, -0.925, false, true);
         public static final ClawState CONE_INTAKE_CLAW_STATE = new ClawState(0.521, -0.925, false, true);
         public static final ClawState SINGLE_SS_CLAW_STATE = new ClawState(0, Math.toRadians(39.4));

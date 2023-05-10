@@ -15,6 +15,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import frc.robot.Constants.*;
+import frc.robot.util.Logger;
 
 public class SwerveModule {
 
@@ -34,8 +35,10 @@ public class SwerveModule {
     private PIDController speedPID;
     private SimpleMotorFeedforward speedFF;
     private double encoderOffset;
+    private SwerveConstants.SwerveModuleType type;
 
     public SwerveModule (SwerveConstants.SwerveModuleType type) {
+        this.type = type;
         determineIDs(type);
         init();
     }
@@ -80,6 +83,7 @@ public class SwerveModule {
             
             newState = SwerveModuleState.optimize(state, getModState().angle);
             // speedMotor.setVoltage(speedPID.calculate(getDriveSpeed(), state.speedMetersPerSecond) + speedFF.calculate(state.speedMetersPerSecond));
+            // Logger.post("speedMotorError" + type.name(), speedPID.getPositionError());
             speedMotor.set(newState.speedMetersPerSecond / SwerveConstants.MAX_PHYSICAL_SPEED_M_PER_SEC);
             turnMotor.setVoltage(turningPID.calculate(getAbsEncRad(), newState.angle.getRadians()) + turningFF.calculate(turningPID.getSetpoint().velocity));
         }

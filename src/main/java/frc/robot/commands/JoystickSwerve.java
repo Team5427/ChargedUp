@@ -81,9 +81,9 @@ public class JoystickSwerve extends CommandBase {
 
     private SwerveModuleState[] joystickCalculations(CommandXboxController joy) {
         double[] unitsMultiplier = getMultiplier(joy);
-        double xSpeed = -joy.getLeftX(); //FIXME
-        double ySpeed = -joy.getLeftY(); //FIXME
-        double x2Speed = -joy.getRightX(); //FIXME
+        double xSpeed = -joy.getRightX(); //FIXME
+        double ySpeed = -joy.getRightY(); //FIXME
+        double x2Speed = -joy.getLeftX(); //FIXME
         x2Speed = Math.copySign(Math.pow(x2Speed, JoystickConstants.CONTROLLER_TURNING_EXPONENT), x2Speed);
         
         xSpeed = Math.abs(xSpeed) > (JoystickConstants.CONTROLLER_DEADBAND) ? xSpeed : 0;
@@ -95,7 +95,7 @@ public class JoystickSwerve extends CommandBase {
             xSpeed = Math.sin(Math.toRadians(360 - joy.getHID().getPOV())) * .05;
         }
 
-        if (joy.getHID().getRawButton(JoystickConstants.SUBSTATION_PRESET) && !OdometryMath2023.onScoringSide()) {
+        if ((RobotContainer.getOperatorJoy2().getHID().getRawButton(JoystickConstants.MID_LEFT_SCORE) || joy.getHID().getRightBumper()) && !OdometryMath2023.onScoringSide()) {
             if (RobotContainer.getClaw().proxCovered()) {
                 ySpeed = 0;
             } else {
@@ -117,7 +117,7 @@ public class JoystickSwerve extends CommandBase {
             rot = swerve.getRotation2d().plus(new Rotation2d(Math.PI));
         }
         
-        ChassisSpeeds chassisSpeeds = swerve.getFieldRelative() ? ChassisSpeeds.fromFieldRelativeSpeeds(ySpeed, xSpeed, rotationCalc(x2Speed, RobotContainer.getOperatorJoy2().getHID().getRawButton(JoystickConstants.MID_LEFT_SCORE)), rot) : new ChassisSpeeds(ySpeed, xSpeed, x2Speed);
+        ChassisSpeeds chassisSpeeds = swerve.getFieldRelative() ? ChassisSpeeds.fromFieldRelativeSpeeds(ySpeed, xSpeed, rotationCalc(x2Speed, (RobotContainer.getOperatorJoy2().getHID().getRawButton(JoystickConstants.MID_LEFT_SCORE) || joy.getHID().getRightBumper())), rot) : new ChassisSpeeds(ySpeed, xSpeed, x2Speed);
 
         SwerveModuleState[] states = SwerveConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(chassisSpeeds);
 
@@ -126,7 +126,7 @@ public class JoystickSwerve extends CommandBase {
     
     //[translationSpeed, rotationSpeed]
     private double[] getMultiplier(CommandXboxController joy) {
-        if (joy.getHID().getRawButton(JoystickConstants.DAMPEN)) {
+        if (joy.getHID().getLeftBumper()) {
             if (RobotContainer.getOperatorJoy2().getHID().getRawButton(JoystickConstants.MID_LEFT_SCORE)){
                 return new double[] {1.5, 1.5};
             }else {
