@@ -86,7 +86,13 @@ public class Claw extends SubsystemBase {
         Logger.post("State", getState(RobotContainer.getLed().isPurple()).toString());
         // Logger.post("claw sensor average voltage", sensor.getAverageVoltage());
         if (!UseClaw.isRunning) {
-            set(0.015);
+            if (RobotContainer.getController().getRightTriggerAxis() >= 0.15) {
+                set(-RobotContainer.getController().getRightTriggerAxis());
+            } else if (RobotContainer.getController().getLeftTriggerAxis() >= 0.15) {
+                set(RobotContainer.getController().getLeftTriggerAxis());
+            } else {
+                set(0.015);
+            }
         }
 
         if(getProx() == 0.0){

@@ -208,9 +208,9 @@ public class SwerveDrive extends SubsystemBase {
         Logger.postComplex("Field5427", field);
 
         Logger.post("Enc front right", frontRight.getAbsEncRaw());
-        // Logger.post("Enc front right", frontRight.getAbsEncRad());
-        // Logger.post("Enc back left", backLeft.getAbsEncRad());
-        // Logger.post("Enc back right", backRight.getAbsEncRad());
+        Logger.post("Enc front left", frontLeft.getAbsEncRaw());
+        Logger.post("Enc back left", backLeft.getAbsEncRaw());
+        Logger.post("Enc back right", backRight.getAbsEncRaw());
 
         // Logger.post("charge station angle", getRobotTiltGlobalYAxisDeg());
     }

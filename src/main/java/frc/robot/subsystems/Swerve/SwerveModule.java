@@ -85,7 +85,7 @@ public class SwerveModule {
             // speedMotor.setVoltage(speedPID.calculate(getDriveSpeed(), state.speedMetersPerSecond) + speedFF.calculate(state.speedMetersPerSecond));
             // Logger.post("speedMotorError" + type.name(), speedPID.getPositionError());
             speedMotor.set(newState.speedMetersPerSecond / SwerveConstants.MAX_PHYSICAL_SPEED_M_PER_SEC);
-            turnMotor.setVoltage(turningPID.calculate(getAbsEncRad(), newState.angle.getRadians()) + turningFF.calculate(turningPID.getSetpoint().velocity));
+            turnMotor.set(turningPID.calculate(getAbsEncRad(), newState.angle.getRadians()));
         }
     }
 
@@ -94,7 +94,7 @@ public class SwerveModule {
         newState = SwerveModuleState.optimize(state, getModState().angle);
             // speedMotor.setVoltage(speedPID.calculate(getDriveSpeed(), state.speedMetersPerSecond) + speedFF.calculate(state.speedMetersPerSecond));
             speedMotor.set(newState.speedMetersPerSecond / SwerveConstants.MAX_PHYSICAL_SPEED_M_PER_SEC);
-            turnMotor.setVoltage(turningPID.calculate(getAbsEncRad(), newState.angle.getRadians()) + turningFF.calculate(turningPID.getSetpoint().velocity));
+            turnMotor.setVoltage(turningPID.calculate(getAbsEncRad(), newState.angle.getRadians()));
     }
 
     public void stop() {
@@ -153,7 +153,7 @@ public class SwerveModule {
         turnMotor = new CANSparkMax(turnMotorID, MotorType.kBrushless);
         speedMotor.restoreFactoryDefaults();
         turnMotor.restoreFactoryDefaults();
-        speedMotor.setSmartCurrentLimit(37);
+        speedMotor.setSmartCurrentLimit(50);
         turnMotor.setSmartCurrentLimit(20);
         speedMotor.setInverted(speedInv);
         turnMotor.setInverted(turnInv);
@@ -161,7 +161,7 @@ public class SwerveModule {
         turnEnc = turnMotor.getEncoder();
         absEnc = new CANCoder(absEncID);
         setBrake(false, false);
-        turningPID = new ProfiledPIDController(SwerveConstants.TURNING_PID_P, SwerveConstants.TURNING_PID_D, 0, 
+        turningPID = new ProfiledPIDController(SwerveConstants.TURNING_PID_P, 0, 0, 
             new Constraints(SwerveConstants.TURNING_MAX_SPEED_RAD_S, SwerveConstants.TURNING_MAX_ACCEL_RAD_S_S));
         turningPID.enableContinuousInput(-Math.PI, Math.PI);
         turningFF = new SimpleMotorFeedforward(SwerveConstants.TURNING_FF_S, SwerveConstants.TURNING_FF_V, SwerveConstants.TURNING_FF_A);

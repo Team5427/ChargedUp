@@ -79,6 +79,10 @@ public class ButtonBindings {
 
         xboxController.b().onFalse(new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE));
 
+        xboxController.start().onTrue(new InstantCommand(() -> {
+            claw.toggleGrabber();
+        }, claw));
+
         operatorJoy1.button(JoystickConstants.CANCEL_ALL_COMMANDS_O).onTrue(new ParallelCommandGroup(
             new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE),
             new InstantCommand(() -> {

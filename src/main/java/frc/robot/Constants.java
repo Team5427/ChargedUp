@@ -44,10 +44,10 @@ public final class Constants {
         public static final int BACK_LEFT_CANCODER = 11;
         public static final int BACK_RIGHT_CANCODER = 12;
 
-        public static final double FRONT_LEFT_OFFSET = -2.626 + Math.PI;
-        public static final double FRONT_RIGHT_OFFSET = -.0879 - Math.PI;
-        public static final double BACK_LEFT_OFFSET = 2.325;
-        public static final double BACK_RIGHT_OFFSET = -.8590;
+        public static final double FRONT_LEFT_OFFSET = -2.649 + Math.PI;
+        public static final double FRONT_RIGHT_OFFSET = -.0629 - Math.PI;
+        public static final double BACK_LEFT_OFFSET = 2.324;
+        public static final double BACK_RIGHT_OFFSET = 2.27 - Math.PI;
 
         // Inversions
         public static final boolean FRONT_LEFT_TURNING_INVERT = false;
@@ -85,7 +85,7 @@ public final class Constants {
         public static final double SWERVE_CONVERSION_FACTOR_RPM_TO_METER_PER_S = SWERVE_CONVERSION_FACTOR_ROT_TO_METER / 60;
         public static final double SWERVE_CONVERSION_FACTOR_ROT_TO_RAD = 2 * Math.PI * kTurningMotorGearRatio;
         public static final double SWERVE_CONVERSION_FACTOR_RPM_TO_RAD_PER_S = SWERVE_CONVERSION_FACTOR_ROT_TO_RAD / 60;
-        public static final double MAX_PHYSICAL_SPEED_M_PER_SEC = Units.feetToMeters(14.5); // do not touch, unless switching from L2
+        public static final double MAX_PHYSICAL_SPEED_M_PER_SEC = MiscConstants.MAX_NEO_SPEED_RPM * SWERVE_CONVERSION_FACTOR_RPM_TO_METER_PER_S;
 
         // AUTON STUFF
         public static final double MAX_AUTON_ACCEL_M_PER_S2 = 2;
@@ -99,7 +99,7 @@ public final class Constants {
                 MAX_AUTON_ANGULAR_SPEED_RAD_S, MAX_AUTON_ANGULAR_ACCEL_RAD_PER_S2);
 
         // CONTROLLER CONSTANTS MODULES
-        public static final double TURNING_PID_P = 2.9;
+        public static final double TURNING_PID_P = 3.2;
         public static final double TURNING_PID_D = 0.2;
         public static final double TURNING_FF_S = 0.088444;
         public static final double TURNING_FF_V = 0.24913;
@@ -133,12 +133,12 @@ public final class Constants {
 
         public static final double CONTROLLER_DEADBAND = 0.08;
         public static final double CONTROLLER_TURNING_EXPONENT = 2;
-        public static final double MAX_ACCEL_TELEOP_M_S_S = 3.5 * 3;
-        public static final double MAX_ANGULAR_ACCEL_TELEOP_RAD_S_S = Math.PI * 4;
+        public static final double MAX_ACCEL_TELEOP_M_S_S = 3.5 * 4;
+        public static final double MAX_ANGULAR_ACCEL_TELEOP_RAD_S_S = Math.PI * 6;
         public static final double REGULAR_SPEED_M_S = 4.25;
         public static final double REGULAR_ANGULAR_SPEED_RAD_S = Math.PI * 1.5;
-        public static final double DAMPEN_SPEED_M_S = 0.75;
-        public static final double DAMPEN_ANGULAR_SPEED_RAD_S = Math.PI / 4;
+        public static final double DAMPEN_SPEED_M_S = 1.5;
+        public static final double DAMPEN_ANGULAR_SPEED_RAD_S = Math.PI / 6;
 
         //Joystick IDs
         public static final int DRIVER_CONTROLLER = 0;
