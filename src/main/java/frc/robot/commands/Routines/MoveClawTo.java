@@ -35,7 +35,6 @@ public class MoveClawTo extends CommandBase {
 
     @Override
     public void initialize() {
-        System.out.println();
         goodToRelease = false;
         arm.resetPIDs();
         elevator.resetPIDs();

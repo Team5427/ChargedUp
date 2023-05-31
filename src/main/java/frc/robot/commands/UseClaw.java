@@ -100,7 +100,7 @@ public class UseClaw extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         if (finish) {
-            System.out.println("USECLAW FINISHED CORRECTLY\nPROX VALUE: " + claw.getProx() + "\nPROX COVERED: " + claw.proxCovered());
+            // System.out.println("USECLAW FINISHED CORRECTLY\nPROX VALUE: " + claw.getProx() + "\nPROX COVERED: " + claw.proxCovered());
             if(intake){
                 led.setState(Led.SCORING);
             } else{
@@ -110,7 +110,7 @@ public class UseClaw extends CommandBase {
                 CommandScheduler.getInstance().schedule(new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE));
             }    
         } else {
-            System.out.println("FINISHED INCORRECLTY");
+            // System.out.println("FINISHED INCORRECLTY");
         }
 
         isRunning = false;

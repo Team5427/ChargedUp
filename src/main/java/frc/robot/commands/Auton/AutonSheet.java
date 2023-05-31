@@ -245,9 +245,6 @@ public class AutonSheet {
             )
         );
 
-        Object o1 = new Object();
-        System.out.println(o1 instanceof String);
-
         robonautsAuton = new SequentialCommandGroup(
             new MoveClawTo(RoutineConstants.TOP_CONE_CLAW_STATE),
             new UseClaw(),
