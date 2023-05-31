@@ -8,14 +8,11 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import frc.robot.Constants.*;
-import frc.robot.util.Logger;
 
 public class SwerveModule {
 
@@ -30,7 +27,7 @@ public class SwerveModule {
     private RelativeEncoder speedEnc;
     private RelativeEncoder turnEnc;
     private CANCoder absEnc;
-    private ProfiledPIDController turningPID;
+    private PIDController turningPID;
     private SimpleMotorFeedforward turningFF;
     private PIDController speedPID;
     private SimpleMotorFeedforward speedFF;
@@ -47,7 +44,7 @@ public class SwerveModule {
     public CANSparkMax getTurnSpark() {return turnMotor;}
     public PIDController getDrivePID() {return speedPID;}
     public SimpleMotorFeedforward getDriveFF() {return speedFF;}
-    public ProfiledPIDController getTurnPID() {return turningPID;}
+    public PIDController getTurnPID() {return turningPID;}
     public SimpleMotorFeedforward getTurnFF() {return turningFF;}
     public CANCoder getAbsEnc() {return absEnc;}
     public double getDrivePos() {return speedEnc.getPosition();}
@@ -76,16 +73,17 @@ public class SwerveModule {
     }
 
     public void setModState(SwerveModuleState state) {
-        if (Math.abs(state.speedMetersPerSecond) <= 0.02) {
+        if (Math.abs(state.speedMetersPerSecond) <= 0.01) {
             stop();
         } else {
             SwerveModuleState newState;
-            
             newState = SwerveModuleState.optimize(state, getModState().angle);
-            // speedMotor.setVoltage(speedPID.calculate(getDriveSpeed(), state.speedMetersPerSecond) + speedFF.calculate(state.speedMetersPerSecond));
-            // Logger.post("speedMotorError" + type.name(), speedPID.getPositionError());
-            speedMotor.set(newState.speedMetersPerSecond / SwerveConstants.MAX_PHYSICAL_SPEED_M_PER_SEC);
-            turnMotor.set(turningPID.calculate(getAbsEncRad(), newState.angle.getRadians()));
+            if (Math.abs(turningPID.getPositionError()) < Math.toRadians(30)) {
+                speedMotor.set(newState.speedMetersPerSecond / SwerveConstants.MAX_PHYSICAL_SPEED_M_PER_SEC);
+            } else {
+                speedMotor.set((newState.speedMetersPerSecond / SwerveConstants.MAX_PHYSICAL_SPEED_M_PER_SEC)/6);
+            }
+            turnMotor.setVoltage(turningPID.calculate(getAbsEncRad(), newState.angle.getRadians()));
         }
     }
 
@@ -161,8 +159,7 @@ public class SwerveModule {
         turnEnc = turnMotor.getEncoder();
         absEnc = new CANCoder(absEncID);
         setBrake(false, false);
-        turningPID = new ProfiledPIDController(SwerveConstants.TURNING_PID_P, 0, 0, 
-            new Constraints(SwerveConstants.TURNING_MAX_SPEED_RAD_S, SwerveConstants.TURNING_MAX_ACCEL_RAD_S_S));
+        turningPID = new PIDController(SwerveConstants.TURNING_PID_P, 0, SwerveConstants.TURNING_PID_D);
         turningPID.enableContinuousInput(-Math.PI, Math.PI);
         turningFF = new SimpleMotorFeedforward(SwerveConstants.TURNING_FF_S, SwerveConstants.TURNING_FF_V, SwerveConstants.TURNING_FF_A);
         speedPID = new PIDController(SwerveConstants.SPEED_PID_P, 0, 0);

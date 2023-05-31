@@ -46,7 +46,7 @@ public final class Constants {
 
         public static final double FRONT_LEFT_OFFSET = -2.649 + Math.PI;
         public static final double FRONT_RIGHT_OFFSET = -.0629 - Math.PI;
-        public static final double BACK_LEFT_OFFSET = 2.324;
+        public static final double BACK_LEFT_OFFSET = 2.324 - Math.toRadians(0.5);
         public static final double BACK_RIGHT_OFFSET = 2.27 - Math.PI;
 
         // Inversions
@@ -97,17 +97,14 @@ public final class Constants {
 
         public static final TrapezoidProfile.Constraints THETA_CONSTRAINTS = new TrapezoidProfile.Constraints(
                 MAX_AUTON_ANGULAR_SPEED_RAD_S, MAX_AUTON_ANGULAR_ACCEL_RAD_PER_S2);
-
         // CONTROLLER CONSTANTS MODULES
-        public static final double TURNING_PID_P = 3.2;
-        public static final double TURNING_PID_D = 0.2;
+        public static final double TURNING_PID_P = 3.5;
+        public static final double TURNING_PID_D = 0.007; 
         public static final double TURNING_FF_S = 0.088444;
         public static final double TURNING_FF_V = 0.24913;
         public static final double TURNING_FF_A = 0.011425;
         public static final double TURNING_MAX_SPEED_RAD_S = SWERVE_CONVERSION_FACTOR_RPM_TO_RAD_PER_S * MiscConstants.MAX_NEO_SPEED_RPM;
         public static final double TURNING_MAX_ACCEL_RAD_S_S = TURNING_MAX_SPEED_RAD_S * 4;
-
-        public static final double TURNING_P = 0.35;
 
         public static final double SPEED_PID_P = 2.94;
         public static final double SPEED_FF_S = 0.097718;
