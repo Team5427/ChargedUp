@@ -4,8 +4,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.cameraserver.CameraServer;
-import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -25,7 +23,6 @@ public class Robot extends TimedRobot {
   private RobotContainer m_robotContainer;
   private Timer matchTimer;
   public static boolean specialAuton;
-  private UsbCamera cam;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -38,7 +35,6 @@ public class Robot extends TimedRobot {
     matchTimer = new Timer();
     m_robotContainer = new RobotContainer();
     specialAuton = false;
-    CameraServer.startAutomaticCapture();
 
   }
 

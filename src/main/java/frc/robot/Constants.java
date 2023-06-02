@@ -168,7 +168,7 @@ public final class Constants {
         public static final int ELEVATOR_RESET = 7; // BIND
         public static final int FLOOR_INTAKE_PRESET_CUBES = 8;
         public static final int FLOOR_INTAKE_PRESET_CONES = 9;
-        public static final int ARM_RESET = 10;
+        public static final int OPERATOR_SUBSTATION = 10;
 
         //OPERATION 2 BINDINGS
         // Buttons not in use: 9, 10
@@ -182,6 +182,7 @@ public final class Constants {
         public static final int MID_RIGHT_SCORE = 6;
         public static final int FLOOR_INTAKE_LED = 9;
         public static final int SINGLE_SS_INTAKE = 7;
+        public static final int OPERATOR_USE_END_EFF = 10;
 
 
 
@@ -202,7 +203,7 @@ public final class Constants {
         public static final double TRANSLATION_TOLERANCE_METERS = 0.02;
         public static final double ROTATION_TOLERANCE_RAD = Units.degreesToRadians(1);
 
-        public static final double MOVE_BOT_TO_REPEAT_THRESHOLD_SEC = 1.75;
+        public static final double MOVE_BOT_TO_REPEAT_THRESHOLD_SEC = 1;
         public static final double RESEED_SPEED_THRESHOLD = 1;
 
         public static final double Y_LEVEL_1_METERS = Units.inchesToMeters(75.34); 
@@ -227,9 +228,9 @@ public final class Constants {
         public static final double BUMP_TIME = 0.75;
 
         //PRESETS
-        public static final Pose2d BOTTOM_CONE_SCORING_POSE_DEFAULT = new Pose2d(1.85, 0.5, new Rotation2d(Math.PI));
-        public static final Pose2d CUBE_SCORING_POSE_DEFAULT = new Pose2d(1.85, 1.05, new Rotation2d(Math.PI));
-        public static final Pose2d TOP_CONE_SCORING_POSE_DEFAULT = new Pose2d(1.85, 1.63, new Rotation2d(Math.PI));
+        public static final Pose2d BOTTOM_CONE_SCORING_POSE_DEFAULT = new Pose2d(1.83, 0.5, new Rotation2d(Math.PI));
+        public static final Pose2d CUBE_SCORING_POSE_DEFAULT = new Pose2d(1.83, 1.05, new Rotation2d(Math.PI));
+        public static final Pose2d TOP_CONE_SCORING_POSE_DEFAULT = new Pose2d(1.83, 1.63, new Rotation2d(Math.PI));
         public static final Pose2d BOTTOM_SUBSTATION_POSE_DEFAULT = new Pose2d(15.39, 6, new Rotation2d(0));
         public static final Pose2d TOP_SUBSTATION_POSE_DEFAULT = new Pose2d(15.39, 7.5, new Rotation2d(0));
 

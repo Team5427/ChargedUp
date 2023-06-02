@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -11,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.*;
+import frc.robot.subsystems.ExtraLight;
 import frc.robot.subsystems.Swerve.SwerveDrive;
 import frc.robot.util.OdometryMath2023;
 
@@ -22,11 +24,14 @@ public class JoystickSwerve extends CommandBase {
     private SwerveDrive swerve;
     private SlewRateLimiter translationRateLimiterX, translationRateLimiterY, translationRateLimiterYSlower, rotationRateLimiter;
     private ProfiledPIDController rotPID;
+    private PIDController visionPID;
+    private ExtraLight tapeLight;
 
     public JoystickSwerve () {
         joy = RobotContainer.getController();
         operatorJoy = RobotContainer.getOperatorJoy1();
         swerve = RobotContainer.getSwerve();
+        tapeLight = RobotContainer.getLimelightTape();
         addRequirements(swerve);
         translationRateLimiterX = new SlewRateLimiter(JoystickConstants.MAX_ACCEL_TELEOP_M_S_S);
         translationRateLimiterY = new SlewRateLimiter(JoystickConstants.MAX_ACCEL_TELEOP_M_S_S);
@@ -35,6 +40,7 @@ public class JoystickSwerve extends CommandBase {
         rotPID = new ProfiledPIDController(RoutineConstants.ROTATION_P, 0, 0, 
             new Constraints(RoutineConstants.ROUTINE_MAX_ROTATION_SPEED_RAD_S, RoutineConstants.ROUTINE_MAX_ROTATION_ACCEL_RAD_S_S)
         );
+        visionPID = new PIDController(-0.066, 0, 0);
     }
 
     @Override
@@ -116,8 +122,26 @@ public class JoystickSwerve extends CommandBase {
         } else {
             rot = swerve.getRotation2d().plus(new Rotation2d(Math.PI));
         }
+
+        if (
+            OdometryMath2023.inCommunity() && 
+            swerve.getFieldRelative() && 
+            OdometryMath2023.facingForward(10) &&
+            joy.getHID().getLeftBumper()) {
+            x2Speed = tapeLight.getAutoAlignCalc();
+        }
         
-        ChassisSpeeds chassisSpeeds = swerve.getFieldRelative() ? ChassisSpeeds.fromFieldRelativeSpeeds(ySpeed, xSpeed, rotationCalc(x2Speed, (RobotContainer.getOperatorJoy2().getHID().getRawButton(JoystickConstants.MID_LEFT_SCORE) || joy.getHID().getRightBumper())), rot) : new ChassisSpeeds(ySpeed, xSpeed, x2Speed);
+        ChassisSpeeds chassisSpeeds = 
+            swerve.getFieldRelative() ? 
+                ChassisSpeeds.fromFieldRelativeSpeeds(
+                    ySpeed, 
+                    xSpeed, 
+                    rotationCalc(
+                        x2Speed, 
+                        (RobotContainer.getOperatorJoy2().getHID().getRawButton(JoystickConstants.MID_LEFT_SCORE)
+                        || joy.getHID().getRightBumper())), 
+                    rot)
+            : new ChassisSpeeds(ySpeed, xSpeed, x2Speed);
 
         SwerveModuleState[] states = SwerveConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(chassisSpeeds);
 
@@ -129,7 +153,7 @@ public class JoystickSwerve extends CommandBase {
         if (joy.getHID().getLeftBumper()) {
             if (RobotContainer.getOperatorJoy2().getHID().getRawButton(JoystickConstants.MID_LEFT_SCORE)){
                 return new double[] {1.5, 1.5};
-            }else {
+            } else {
                 return new double[] {JoystickConstants.DAMPEN_SPEED_M_S, JoystickConstants.DAMPEN_ANGULAR_SPEED_RAD_S};
             }
         } else {

@@ -13,10 +13,11 @@ import frc.robot.Constants.ArmConstants;
 import frc.robot.Constants.JoystickConstants;
 import frc.robot.Constants.RoutineConstants;
 import frc.robot.Constants.SwerveConstants;
-import frc.robot.commands.ManualArm;
+import frc.robot.Constants.RoutineConstants.POSITION_TYPE;
 import frc.robot.commands.PartyMode;
 import frc.robot.commands.UseClaw;
 import frc.robot.commands.UseIntake;
+import frc.robot.commands.Routines.MoveBotTo;
 import frc.robot.commands.Routines.MoveClawTo;
 import frc.robot.commands.Routines.Balancing.BalanceLinear;
 import frc.robot.commands.Routines.BasicMovement.TiltWheels;
@@ -119,7 +120,7 @@ public class ButtonBindings {
         );       
         operatorJoy2.button(JoystickConstants.BALANCE_BTN).onTrue(new BalanceLinear());
 
-        operatorJoy1.button(JoystickConstants.ARM_RESET).whileTrue(new ManualArm(ArmConstants.MANUAL_ARM_SPEED));
+        // operatorJoy1.button(JoystickConstants.ARM_RESET).whileTrue(new ManualArm(ArmConstants.MANUAL_ARM_SPEED));
 
         operatorJoy2.button(JoystickConstants.FLOOR_INTAKE_LED).onTrue(new InstantCommand(() -> {
             led.setState(Led.INTAKE_FLOOR);
@@ -127,7 +128,7 @@ public class ButtonBindings {
 
         operatorJoy2.button(JoystickConstants.SINGLE_SS_INTAKE).onTrue(new MoveClawTo(RoutineConstants.SINGLE_SS_CLAW_STATE));
 
-        operatorJoy2.button(JoystickConstants.TOP_LEFT_SCORE).onTrue(new InstantCommand(() -> {
+        operatorJoy2.button(JoystickConstants.OPERATOR_USE_END_EFF).onTrue(new InstantCommand(() -> {
             if(led.getState() == Led.INTAKE_FLOOR || led.getState() == Led.SCORING_FLOOR){
                 CommandScheduler.getInstance().schedule(new UseIntake());
             } else {
@@ -135,7 +136,7 @@ public class ButtonBindings {
             }
         }));
 
-        operatorJoy2.button(JoystickConstants.MID_LEFT_SCORE).onTrue(
+        operatorJoy1.button(JoystickConstants.OPERATOR_SUBSTATION).onTrue(
             new ParallelCommandGroup(
                 new MoveClawTo(RoutineConstants.SUBSTATION_CLAW_STATE),
                 new SequentialCommandGroup(
@@ -147,6 +148,30 @@ public class ButtonBindings {
                 )
             )
         );
+
+        operatorJoy2.button(JoystickConstants.TOP_LEFT_SCORE).onTrue(new ParallelCommandGroup(
+            new MoveBotTo(POSITION_TYPE.LEFT_CONE),
+            new SequentialCommandGroup(
+                new Wait(RoutineConstants.DEBUG_INTEGRATE_DELAY_TIME),
+                new MoveClawTo(RoutineConstants.TOP_CONE_CLAW_STATE)
+            )
+        ));
+        operatorJoy2.button(JoystickConstants.TOP_RIGHT_SCORE).onTrue(new ParallelCommandGroup(
+            new MoveBotTo(POSITION_TYPE.RIGHT_CONE),
+            new SequentialCommandGroup(
+                new Wait(RoutineConstants.DEBUG_INTEGRATE_DELAY_TIME),
+                new MoveClawTo(RoutineConstants.TOP_CONE_CLAW_STATE)
+            )
+        ));
+        operatorJoy2.button(JoystickConstants.MID_LEFT_SCORE).onTrue(new ParallelCommandGroup(
+            new MoveBotTo(POSITION_TYPE.LEFT_CONE),
+            new MoveClawTo(RoutineConstants.MID_CONE_CLAW_STATE)
+        ));
+
+        operatorJoy2.button(JoystickConstants.MID_RIGHT_SCORE).onTrue(new ParallelCommandGroup(
+            new MoveBotTo(POSITION_TYPE.RIGHT_CONE),
+            new MoveClawTo(RoutineConstants.MID_CONE_CLAW_STATE)
+        ));
     }
 
     private static void getSubsystems() {

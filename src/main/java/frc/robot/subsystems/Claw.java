@@ -100,7 +100,6 @@ public class Claw extends SubsystemBase {
         } else {
             RobotContainer.getLed().setError(false);
         }
-
         
 
         // Logger.post("sensor connected", sensor.isConnected());

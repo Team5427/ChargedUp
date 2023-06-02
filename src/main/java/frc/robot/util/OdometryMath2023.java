@@ -176,6 +176,23 @@ public class OdometryMath2023 extends SubsystemBase {
         }
     }
 
+    public static boolean inCommunity() {
+        if (isBlue()) {
+            return robotPose.getX() < RoutineConstants.IN_COMMUNITY_X && robotPose.getY() < RoutineConstants.IN_COMMUNITY_Y;
+        } else {
+            return robotPose.getX() > (fieldWidth - RoutineConstants.IN_COMMUNITY_X) && robotPose.getY() < RoutineConstants.IN_COMMUNITY_Y;
+        }
+    }
+
+    public static boolean facingForward(double toleranceDeg) {
+        double toleranceRad = Math.toRadians(toleranceDeg);
+        if (isBlue()) {
+            return Math.abs(robotPose.getRotation().getRadians() - Math.PI) < toleranceRad;
+        } else {
+            return Math.abs(robotPose.getRotation().getRadians()) < toleranceRad;
+        }
+    }
+
     public static boolean inField(Pose2d pose) {
         return (pose.getX() < fieldWidth && pose.getX() > 0) && (pose.getY() < fieldHeight && pose.getY() > 0);
     }

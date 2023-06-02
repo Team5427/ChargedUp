@@ -9,7 +9,6 @@ import java.util.List;
 import com.ctre.phoenix.sensors.WPI_Pigeon2;
 
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.PneumaticHub;
 import edu.wpi.first.wpilibj.PneumaticsControlModule;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -27,6 +26,7 @@ import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Led;
 import frc.robot.subsystems.Limelight;
+import frc.robot.subsystems.ExtraLight;
 import frc.robot.subsystems.Swerve.SwerveDrive;
 import frc.robot.util.Logger;
 import frc.robot.util.OdometryMath2023;
@@ -49,6 +49,7 @@ public class RobotContainer {
   private static CommandXboxController xboxController;
   // private static CommandJoystick operatorJoy3;
   private static Limelight limelight_right, limelight_left;
+  private static ExtraLight tapelight;
   private static OdometryMath2023 odom;
   private static SendableChooser<SequentialCommandGroup> autonSelector;
 
@@ -81,6 +82,8 @@ public class RobotContainer {
       List.of(Math.toRadians(2.5), Math.toRadians(2.5), Math.toRadians(2.5)), //offset on tags 6, 7, 8 respectively
       List.of(0.0, 0.0, 0.0) //3, 2, 1
     );
+
+    tapelight = new ExtraLight(NetworkTableInstance.getDefault().getTable("limelight-front"));
 
     odom = new OdometryMath2023();
 
@@ -132,6 +135,7 @@ public class RobotContainer {
   public static CommandXboxController getController() {return xboxController;}
   public static Limelight getLimelightRight() {return limelight_right;}
   public static Limelight getLimelightLeft() {return limelight_left;}
+  public static ExtraLight getLimelightTape() {return tapelight;}
   public static OdometryMath2023 getOdomInstance() {return odom;}
   public static Elevator getElevator(){return elevator;}
   public static Arm getArm(){return arm;}

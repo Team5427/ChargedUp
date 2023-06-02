@@ -1,0 +1,55 @@
+package frc.robot.subsystems;
+
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
+import frc.robot.commands.Routines.MoveBotTo;
+
+public class ExtraLight extends SubsystemBase {
+    private NetworkTable table_m;
+    private boolean tv;
+    private double ledMode;
+    private PIDController rotPid;
+
+    public ExtraLight(NetworkTable table) {
+        this.table_m = table;
+        rotPid = new PIDController(-0.066, 0, 0);
+        rotPid.setSetpoint(0);
+    }
+
+    @Override
+    public void periodic() {
+        tv = table_m.getEntry("tv").getDouble(0) == 1;
+        if (RobotContainer.getController().getHID().getLeftBumper()) {
+            setLight(true);
+        } else if (MoveBotTo.running) {
+            setLight(true);
+        } else {
+            setLight(false);
+        }
+    }
+
+    public boolean targetVisible() {
+        return tv;
+    }
+
+    public double getTX() {
+        return table_m.getEntry("tx").getDouble(0);
+    }
+
+    public double getAutoAlignCalc() {
+        return rotPid.calculate(getTX());
+    }
+
+    public boolean lightOn() {
+        return ledMode == 0;
+    }
+    public void setLight(boolean on) {
+        if (on) {
+            table_m.getEntry("ledMode").setNumber(0);
+        } else {
+            table_m.getEntry("ledMode").setNumber(1);
+        }
+    }
+}

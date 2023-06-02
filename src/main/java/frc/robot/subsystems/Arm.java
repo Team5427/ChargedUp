@@ -120,9 +120,7 @@ public class Arm extends SubsystemBase {
     public void periodic() {
 
         if (getAngle() == -ArmConstants.POSITION_OFFSET_RAD) {
-            if(!RobotContainer.getOperatorJoy1().getHID().getRawButton(JoystickConstants.ARM_RESET)){
-                set(0.025);
-            }
+            set(0.025);
         } else {
             if (atJankGoal() && (setPoint == ArmConstants.UPPER_LIMIT_RAD)) {
                 set(0.025);
@@ -133,6 +131,7 @@ public class Arm extends SubsystemBase {
                 set(calc);    
             }
         }
+        
         if (DriverStation.isEnabled()) { 
             armController.setGoal(this.setPoint);
         } else {
