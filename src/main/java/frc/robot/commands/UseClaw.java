@@ -88,8 +88,6 @@ public class UseClaw extends CommandBase {
                 finish = true;
             }
         }
-        
-
     }
 
     @Override
@@ -105,6 +103,9 @@ public class UseClaw extends CommandBase {
                 led.setState(Led.SCORING);
             } else{
                 led.setState(Led.INTAKE);
+                if (!isPurple) {
+                    RobotContainer.getSwerve().setHeadingRaw(OdometryMath2023.tagRotation().getRadians());
+                }
             }
             if (!DriverStation.isAutonomous()) {
                 CommandScheduler.getInstance().schedule(new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE));
