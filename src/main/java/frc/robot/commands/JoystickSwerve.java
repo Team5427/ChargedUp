@@ -1,6 +1,5 @@
 package frc.robot.commands;
 
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -24,7 +23,6 @@ public class JoystickSwerve extends CommandBase {
     private SwerveDrive swerve;
     private SlewRateLimiter translationRateLimiterX, translationRateLimiterY, translationRateLimiterYSlower, rotationRateLimiter;
     private ProfiledPIDController rotPID;
-    private PIDController visionPID;
     private ExtraLight tapeLight;
 
     public JoystickSwerve () {
@@ -40,7 +38,6 @@ public class JoystickSwerve extends CommandBase {
         rotPID = new ProfiledPIDController(RoutineConstants.ROTATION_P, 0, 0, 
             new Constraints(RoutineConstants.ROUTINE_MAX_ROTATION_SPEED_RAD_S, RoutineConstants.ROUTINE_MAX_ROTATION_ACCEL_RAD_S_S)
         );
-        visionPID = new PIDController(-0.066, 0, 0);
     }
 
     @Override

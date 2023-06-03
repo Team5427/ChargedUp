@@ -3,8 +3,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.RobotContainer;
-import frc.robot.commands.Routines.MoveBotTo;
+import frc.robot.util.OdometryMath2023;
 
 public class ExtraLight extends SubsystemBase {
     private NetworkTable table_m;
@@ -21,9 +20,7 @@ public class ExtraLight extends SubsystemBase {
     @Override
     public void periodic() {
         tv = table_m.getEntry("tv").getDouble(0) == 1;
-        if (RobotContainer.getController().getHID().getLeftBumper()) {
-            setLight(true);
-        } else if (MoveBotTo.running) {
+        if (OdometryMath2023.inCommunity()) {
             setLight(true);
         } else {
             setLight(false);

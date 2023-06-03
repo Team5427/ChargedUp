@@ -84,6 +84,7 @@ public class MoveBotTo extends CommandBase {
                 OdometryMath2023.tagRotation() != null
             ) {
                 thetaCalc = thetaController.calculate(OdometryMath2023.tagRotation().getRadians());
+                
                 // thetaCalc = thetaController.calculate(measurement.getRotation().getRadians());
             } else {
                 thetaCalc = thetaController.calculate(measurement.getRotation().getRadians());
@@ -161,7 +162,7 @@ public class MoveBotTo extends CommandBase {
 
             lastPositionType = this.setType;
             
-            if (!(runTime > RoutineConstants.MOVE_BOT_TO_REPEAT_THRESHOLD_SEC)) {
+            if ((runTime < RoutineConstants.MOVE_BOT_TO_REPEAT_THRESHOLD_SEC)) {
                 goodToRelease = true;
                 return true;
             } else{

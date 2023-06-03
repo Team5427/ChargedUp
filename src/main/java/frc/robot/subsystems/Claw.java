@@ -12,6 +12,8 @@ import frc.robot.Constants.ClawConstants;
 import frc.robot.Constants.ClawConstants.GAME_PIECE_STATE;
 import frc.robot.RobotContainer;
 import frc.robot.commands.UseClaw;
+import frc.robot.commands.Routines.MoveBotTo;
+import frc.robot.commands.Routines.MoveClawTo;
 import frc.robot.util.Logger;
 import frc.robot.util.OdometryMath2023;
 
@@ -100,8 +102,11 @@ public class Claw extends SubsystemBase {
         } else {
             RobotContainer.getLed().setError(false);
         }
-        
 
-        // Logger.post("sensor connected", sensor.isConnected());
+        if (MoveBotTo.goodToRelease && MoveClawTo.goodToRelease) {
+            grab(false);
+            MoveBotTo.goodToRelease = false;
+            MoveClawTo.goodToRelease = false;
+        }
     }
 }
