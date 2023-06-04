@@ -98,7 +98,7 @@ public class JoystickSwerve extends CommandBase {
             xSpeed = Math.sin(Math.toRadians(360 - joy.getHID().getPOV())) * .05;
         }
 
-        if ((RobotContainer.getOperatorJoy2().getHID().getRawButton(JoystickConstants.MID_LEFT_SCORE) || joy.getHID().getRightBumper()) && !OdometryMath2023.onScoringSide()) {
+        if ((RobotContainer.getOperatorJoy2().getHID().getRawButton(JoystickConstants.SUBSTATION_PRESET) || joy.getHID().getRightBumper()) && !OdometryMath2023.onScoringSide()) {
             if (RobotContainer.getClaw().proxCovered()) {
                 ySpeed = 0;
             } else {
@@ -135,7 +135,7 @@ public class JoystickSwerve extends CommandBase {
                     xSpeed, 
                     rotationCalc(
                         x2Speed, 
-                        (RobotContainer.getOperatorJoy2().getHID().getRawButton(JoystickConstants.MID_LEFT_SCORE)
+                        (RobotContainer.getOperatorJoy2().getHID().getRawButton(JoystickConstants.OPERATOR_SUBSTATION)
                         || joy.getHID().getRightBumper())), 
                     rot)
             : new ChassisSpeeds(ySpeed, xSpeed, x2Speed);
@@ -148,7 +148,7 @@ public class JoystickSwerve extends CommandBase {
     //[translationSpeed, rotationSpeed]
     private double[] getMultiplier(CommandXboxController joy) {
         if (joy.getHID().getLeftBumper()) {
-            if (RobotContainer.getOperatorJoy2().getHID().getRawButton(JoystickConstants.MID_LEFT_SCORE)){
+            if (RobotContainer.getOperatorJoy2().getHID().getRawButton(JoystickConstants.OPERATOR_SUBSTATION)){
                 return new double[] {1.5, 1.5};
             } else {
                 return new double[] {JoystickConstants.DAMPEN_SPEED_M_S, JoystickConstants.DAMPEN_ANGULAR_SPEED_RAD_S};

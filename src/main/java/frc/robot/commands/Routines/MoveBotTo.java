@@ -76,7 +76,7 @@ public class MoveBotTo extends CommandBase {
         double xCalc = xController.calculate(measurement.getX());
         double yCalc = yController.calculate(measurement.getY());
         double thetaCalc;
-        if (!switchToTape) {
+        if ((!switchToTape) || (!OdometryMath2023.facingForward(5))) {
             if (
                 Math.hypot(xCalc, yCalc) < RoutineConstants.RESEED_SPEED_THRESHOLD &&
                 Math.abs(measurement.getRotation().minus(setpoint.getRotation()).getRadians()) < Math.PI / 6 &&
@@ -84,20 +84,27 @@ public class MoveBotTo extends CommandBase {
                 OdometryMath2023.tagRotation() != null
             ) {
                 thetaCalc = thetaController.calculate(OdometryMath2023.tagRotation().getRadians());
-                
-                // thetaCalc = thetaController.calculate(measurement.getRotation().getRadians());
             } else {
                 thetaCalc = thetaController.calculate(measurement.getRotation().getRadians());
             }    
         } else {
             thetaCalc = RobotContainer.getLimelightTape().getAutoAlignCalc();
+            if (
+                Math.hypot(xCalc, yCalc) < RoutineConstants.RESEED_SPEED_THRESHOLD &&
+                Math.abs(measurement.getRotation().minus(setpoint.getRotation()).getRadians()) < Math.PI / 6 &&
+                runTime > 0.75 && 
+                OdometryMath2023.tagRotation() != null
+            ) {
+                thetaController.reset(OdometryMath2023.tagRotation().getRadians());
+            } else {
+                thetaController.reset(measurement.getRotation().getRadians());
+            }
         }
 
         if (
             Math.abs(xController.getPositionError()) < (RoutineConstants.TRANSLATION_TOLERANCE_METERS + 0.02) && 
             Math.abs(yController.getPositionError()) < (RoutineConstants.TRANSLATION_TOLERANCE_METERS + 0.02) &&
-            Math.abs(thetaController.getPositionError()) < RoutineConstants.ROTATION_TOLERANCE_RAD && 
-            thetaController.getSetpoint().equals(thetaController.getGoal())
+            Math.abs(thetaController.getPositionError()) < (RoutineConstants.ROTATION_TOLERANCE_RAD + Math.toRadians(1))
         ) {
             switchToTape = true;
         }

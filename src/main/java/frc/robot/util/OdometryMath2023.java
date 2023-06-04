@@ -187,7 +187,7 @@ public class OdometryMath2023 extends SubsystemBase {
     public static boolean facingForward(double toleranceDeg) {
         double toleranceRad = Math.toRadians(toleranceDeg);
         if (isBlue()) {
-            return Math.abs(robotPose.getRotation().getRadians() - Math.PI) < toleranceRad;
+            return Math.abs(Math.abs(robotPose.getRotation().getRadians()) - Math.PI) < toleranceRad;
         } else {
             return Math.abs(robotPose.getRotation().getRadians()) < toleranceRad;
         }
