@@ -177,10 +177,14 @@ public class OdometryMath2023 extends SubsystemBase {
     }
 
     public static boolean inCommunity() {
-        if (isBlue()) {
-            return robotPose.getX() < RoutineConstants.IN_COMMUNITY_X && robotPose.getY() < RoutineConstants.IN_COMMUNITY_Y;
+        if (robotPose == null) {
+            return false;
         } else {
-            return robotPose.getX() > (fieldWidth - RoutineConstants.IN_COMMUNITY_X) && robotPose.getY() < RoutineConstants.IN_COMMUNITY_Y;
+            if (isBlue()) {
+                return robotPose.getX() < RoutineConstants.IN_COMMUNITY_X && robotPose.getY() < RoutineConstants.IN_COMMUNITY_Y;
+            } else {
+                return robotPose.getX() > (fieldWidth - RoutineConstants.IN_COMMUNITY_X) && robotPose.getY() < RoutineConstants.IN_COMMUNITY_Y;
+            }    
         }
     }
 

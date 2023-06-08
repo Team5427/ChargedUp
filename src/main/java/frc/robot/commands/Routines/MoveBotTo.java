@@ -104,7 +104,7 @@ public class MoveBotTo extends CommandBase {
         if (
             Math.abs(xController.getPositionError()) < (RoutineConstants.TRANSLATION_TOLERANCE_METERS + 0.02) && 
             Math.abs(yController.getPositionError()) < (RoutineConstants.TRANSLATION_TOLERANCE_METERS + 0.02) &&
-            Math.abs(thetaController.getPositionError()) < (RoutineConstants.ROTATION_TOLERANCE_RAD + Math.toRadians(1))
+            Math.abs(thetaController.getPositionError()) < (RoutineConstants.ROTATION_TOLERANCE_RAD + Math.toRadians(3))
         ) {
             switchToTape = true;
         }

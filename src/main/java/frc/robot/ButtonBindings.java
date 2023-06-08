@@ -60,19 +60,6 @@ public class ButtonBindings {
         xboxController.a().onTrue(new TiltWheels(SwerveConstants.X_WHEEL_ANGLES));
         xboxController.a().toggleOnTrue(new PartyMode());
 
-        xboxController.rightBumper().onTrue(
-            new ParallelCommandGroup(
-                new MoveClawTo(RoutineConstants.SUBSTATION_CLAW_STATE),
-                new SequentialCommandGroup(
-                    new InstantCommand(() -> {
-                        claw.grab(false);
-                    }),
-                    new Wait(0.25),
-                    new UseClaw()
-                )
-            )
-        );
-
         xboxController.b().onFalse(new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE));
 
         xboxController.start().onTrue(new InstantCommand(() -> {

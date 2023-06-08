@@ -128,7 +128,7 @@ public final class Constants {
 
     public static final class JoystickConstants {
 
-        public static final double CONTROLLER_DEADBAND = 0.08;
+        public static final double CONTROLLER_DEADBAND = 0.065;
         public static final double CONTROLLER_TURNING_EXPONENT = 2;
         public static final double MAX_ACCEL_TELEOP_M_S_S = 3.5 * 4;
         public static final double MAX_ANGULAR_ACCEL_TELEOP_RAD_S_S = Math.PI * 6;
@@ -228,9 +228,9 @@ public final class Constants {
         public static final double BUMP_TIME = 0.75;
 
         //PRESETS
-        public static final Pose2d BOTTOM_CONE_SCORING_POSE_DEFAULT = new Pose2d(1.83, 0.5, new Rotation2d(Math.PI));
-        public static final Pose2d CUBE_SCORING_POSE_DEFAULT = new Pose2d(1.83, 1.05, new Rotation2d(Math.PI));
-        public static final Pose2d TOP_CONE_SCORING_POSE_DEFAULT = new Pose2d(1.83, 1.63, new Rotation2d(Math.PI));
+        public static final Pose2d BOTTOM_CONE_SCORING_POSE_DEFAULT = new Pose2d(1.77, 0.5, new Rotation2d(Math.PI));
+        public static final Pose2d CUBE_SCORING_POSE_DEFAULT = new Pose2d(1.77, 1.05, new Rotation2d(Math.PI));
+        public static final Pose2d TOP_CONE_SCORING_POSE_DEFAULT = new Pose2d(1.77, 1.63, new Rotation2d(Math.PI));
         public static final Pose2d BOTTOM_SUBSTATION_POSE_DEFAULT = new Pose2d(15.39, 6, new Rotation2d(0));
         public static final Pose2d TOP_SUBSTATION_POSE_DEFAULT = new Pose2d(15.39, 7.5, new Rotation2d(0));
 
@@ -273,7 +273,7 @@ public final class Constants {
         public static final double MAX_SPEED_M_S = MiscConstants.MAX_NEO_SPEED_RPM * VELOCITY_CONVERSION_FACTOR_RPM_TO_MPS / 2;
         public static final double MAX_ACCEL_M_S_S = MAX_SPEED_M_S / 6;
         public static final double GOAL_TOLERANCE_METERS = .03;
-        public static final int CURRENT_LIMIT_AMPS = 40;
+        public static final int CURRENT_LIMIT_AMPS = 65;
     }
     
     public static final class ArmConstants {
@@ -282,7 +282,7 @@ public final class Constants {
         public static final int SOL_ID = 5;
         public static final int THROUGHBORE_ID = 5; //on DIO ports
         public static final double POSITION_OFFSET_RAD = 2.5871;
-        public static final int CURRENT_LIMIT_AMPS = 40;
+        public static final int CURRENT_LIMIT_AMPS = 60;
         public static final double kP = 0.8;
         public static final double kI = 0.0;
         public static final double kD = 0.0;
