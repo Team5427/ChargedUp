@@ -98,7 +98,7 @@ public class JoystickSwerve extends CommandBase {
             xSpeed = Math.sin(Math.toRadians(360 - joy.getHID().getPOV())) * .05;
         }
 
-        if ((RobotContainer.getOperatorJoy1().getHID().getRawButton(10) || joy.getHID().getRightBumper()) && !OdometryMath2023.onScoringSide()) {
+        if ((RobotContainer.getOperatorJoy1().getHID().getRawButton(JoystickConstants.OPERATOR_SUBSTATION)) && !OdometryMath2023.onScoringSide()) {
             if (RobotContainer.getClaw().proxCovered()) {
                 ySpeed = 0;
             } else {
@@ -123,7 +123,7 @@ public class JoystickSwerve extends CommandBase {
         if (
             OdometryMath2023.inCommunity() && 
             swerve.getFieldRelative() && 
-            OdometryMath2023.facingForward(20) &&
+            OdometryMath2023.facingForward(15) &&
             joy.getHID().getLeftBumper()) {
             x2Speed = RobotContainer.getLimelightTape().getAutoAlignCalc();
         }
@@ -136,7 +136,7 @@ public class JoystickSwerve extends CommandBase {
                     rotationCalc(
                         x2Speed, 
                         RobotContainer.getOperatorJoy1().getHID().getRawButton(JoystickConstants.OPERATOR_SUBSTATION)
-                        || (OdometryMath2023.inCommunity() && !joy.getHID().getLeftBumper() && (!joy.getHID().getRightBumper()))),
+                        || (OdometryMath2023.inCommunity() && (!joy.getHID().getLeftBumper() || (joy.getHID().getLeftBumper() && !OdometryMath2023.facingForward(15))) && (!joy.getHID().getRightBumper()) && (RobotContainer.getClaw().proxCovered()) && (Math.hypot(xSpeed, ySpeed) != 0))),
                     rot)
             : new ChassisSpeeds(ySpeed, xSpeed, x2Speed);
 
