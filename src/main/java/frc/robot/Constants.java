@@ -181,7 +181,7 @@ public final class Constants {
         public static final int MID_LEFT_SCORE = 5;
         public static final int MID_RIGHT_SCORE = 6;
         public static final int FLOOR_INTAKE_LED = 9;
-        public static final int SINGLE_SS_INTAKE = 7;
+        public static final int RAMP_PUSH = 7;
         public static final int OPERATOR_USE_END_EFF = 10;
 
 
@@ -345,6 +345,7 @@ public final class Constants {
         public static final double OUTTAKE_TIME = .5;
 
         public static final double ACCEL_PERCENT = 6;
+        public static final double RAMP_PUSHING_SETPOINT_RAD = Math.toRadians(15);
     }
 
     public static final class MiscConstants {

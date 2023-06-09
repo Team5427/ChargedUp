@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.IntakeConstants;
+import frc.robot.commands.PushRamp;
 import frc.robot.commands.UseIntake;
 import frc.robot.util.Logger;
 import frc.robot.util.OdometryMath2023;
@@ -30,6 +31,7 @@ public class Intake extends SubsystemBase{
     public boolean retracted;
     public boolean deployed;
     private double error;
+    private Double manualSetpoint;
 
     public Intake(){
         intakeMotor = new CANSparkMax(IntakeConstants.INTAKE_ID, MotorType.kBrushless);
@@ -58,6 +60,7 @@ public class Intake extends SubsystemBase{
 
         retracted = false;
         deployed = false;
+        manualSetpoint = Double.NaN;
 
         throughbore = new DutyCycleEncoder(IntakeConstants.THROUGHBORE_ID);
         throughbore.reset();
@@ -85,6 +88,10 @@ public class Intake extends SubsystemBase{
 
     public void intake() {
         intakeMotor.set(IntakeConstants.INTAKE_SPEED);
+    }
+
+    public void setManualSetpoint(double setpoint) {
+        this.manualSetpoint = setpoint;
     }
 
     public void outtake() {
@@ -127,15 +134,17 @@ public class Intake extends SubsystemBase{
     public void periodic(){
         if (retracted) {
             setPointRad = new Rotation2d(IntakeConstants.RETRACTED_POS_RAD);
-        } else {
+        } else if (manualSetpoint.isNaN()) {
             if (deployed) {
                 setPointRad = new Rotation2d(IntakeConstants.DEPLOYED_POS_RAD);
             } else {
                 setPointRad = new Rotation2d(IntakeConstants.UNDEPLOYED_POS_RAD);
             }
+        } else {
+            setPointRad = new Rotation2d(manualSetpoint);
         }
-        error = setPointRad.minus(getRotation2d()).getRadians();
 
+        error = setPointRad.minus(getRotation2d()).getRadians();
 
         if (Math.abs(RobotContainer.getArm().getAngle()) < IntakeConstants.ARM_CLEARANCE_RAD || RobotContainer.getArm().atJankGoal()) {
             if (Math.abs(error) > IntakeConstants.TOLERANCE_RAD) {
@@ -147,7 +156,7 @@ public class Intake extends SubsystemBase{
             stopTilt();
         }
 
-        if (!UseIntake.isRunning && getDeployed()) {
+        if (!UseIntake.isRunning && getDeployed() && !PushRamp.isRunning) {
             intakeMotor.set(IntakeConstants.STATIC_HOLD_SPEED);
         } else if(!UseIntake.isRunning){
             intakeMotor.stopMotor();

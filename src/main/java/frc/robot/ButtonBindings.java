@@ -14,6 +14,7 @@ import frc.robot.Constants.RoutineConstants;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.Constants.RoutineConstants.POSITION_TYPE;
 import frc.robot.commands.PartyMode;
+import frc.robot.commands.PushRamp;
 import frc.robot.commands.UseClaw;
 import frc.robot.commands.UseIntake;
 import frc.robot.commands.Routines.MoveBotTo;
@@ -112,8 +113,6 @@ public class ButtonBindings {
             led.setState(Led.INTAKE_FLOOR);
         }));
 
-        operatorJoy2.button(JoystickConstants.SINGLE_SS_INTAKE).onTrue(new MoveClawTo(RoutineConstants.SINGLE_SS_CLAW_STATE));
-
         operatorJoy2.button(JoystickConstants.OPERATOR_USE_END_EFF).onTrue(new InstantCommand(() -> {
             if(led.getState() == Led.INTAKE_FLOOR || led.getState() == Led.SCORING_FLOOR){
                 CommandScheduler.getInstance().schedule(new UseIntake());
@@ -121,6 +120,8 @@ public class ButtonBindings {
                 CommandScheduler.getInstance().schedule(new UseClaw());
             }
         }));
+
+        operatorJoy2.button(JoystickConstants.RAMP_PUSH).whileTrue(new PushRamp());
 
         operatorJoy1.button(JoystickConstants.OPERATOR_SUBSTATION).onTrue(
             new ParallelCommandGroup(
