@@ -6,6 +6,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -33,7 +34,7 @@ public class JoystickSwerve extends CommandBase {
         addRequirements(swerve);
         translationRateLimiterX = new SlewRateLimiter(JoystickConstants.MAX_ACCEL_TELEOP_M_S_S);
         translationRateLimiterY = new SlewRateLimiter(JoystickConstants.MAX_ACCEL_TELEOP_M_S_S);
-        translationRateLimiterYSlower = new SlewRateLimiter(JoystickConstants.MAX_ACCEL_TELEOP_M_S_S/2.5);
+        translationRateLimiterYSlower = new SlewRateLimiter(JoystickConstants.MAX_ACCEL_TELEOP_M_S_S/2);
         rotationRateLimiter = new SlewRateLimiter(JoystickConstants.MAX_ANGULAR_ACCEL_TELEOP_RAD_S_S);
         rotPID = new ProfiledPIDController(RoutineConstants.ROTATION_P, 0, 0, 
             new Constraints(RoutineConstants.ROUTINE_MAX_ROTATION_SPEED_RAD_S, RoutineConstants.ROUTINE_MAX_ROTATION_ACCEL_RAD_S_S)
@@ -136,7 +137,7 @@ public class JoystickSwerve extends CommandBase {
                     rotationCalc(
                         x2Speed, 
                         RobotContainer.getOperatorJoy1().getHID().getRawButton(JoystickConstants.OPERATOR_SUBSTATION)
-                        || (OdometryMath2023.inCommunity() && (!joy.getHID().getLeftBumper() || (joy.getHID().getLeftBumper() && !OdometryMath2023.facingForward(15))) && (!joy.getHID().getRightBumper()) && (RobotContainer.getClaw().proxCovered()) && (Math.hypot(xSpeed, ySpeed) != 0))),
+                        || (OdometryMath2023.inCommunity() && (!joy.getHID().getLeftBumper() || (joy.getHID().getLeftBumper() && !OdometryMath2023.facingForward(15))) && (!joy.getHID().getRightBumper()) && (RobotContainer.getClaw().proxCovered()) && (Math.hypot(xSpeed, ySpeed) != 0) && (DriverStation.isTeleopEnabled()))),
                     rot)
             : new ChassisSpeeds(ySpeed, xSpeed, x2Speed);
 

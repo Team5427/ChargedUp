@@ -3,6 +3,7 @@ package frc.robot.commands.Auton;
 
 
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -117,11 +118,15 @@ public class AutonSheet {
                         ),
                         new WaitCommand(3.5)
                     ),
-                    new MoveClawTo(RoutineConstants.TOP_CUBE_CLAW_STATE)
+                    new MoveClawTo(RoutineConstants.TOP_CUBE_CLAW_STATE),
+                    new InstantCommand(() -> {
+                        System.out.println("null " + Timer.getFPGATimestamp());
+                    })
                 )
             ),
             new ParallelRaceGroup(
                 new RunCommand(() -> {
+                    System.out.println("doing thing " + Timer.getFPGATimestamp());
                     RobotContainer.getClaw().set(ClawConstants.OUTTAKE_SPEED_DECIMAL);
                 }, RobotContainer.getClaw()),
                 new Wait(ClawConstants.CUBE_OUTTAKE_EXCESS_TIME_S + 0.2)

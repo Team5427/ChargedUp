@@ -131,9 +131,9 @@ public final class Constants {
         public static final double CONTROLLER_DEADBAND = 0.065;
         public static final double CONTROLLER_TURNING_EXPONENT = 2;
         public static final double MAX_ACCEL_TELEOP_M_S_S = 3.5 * 4;
-        public static final double MAX_ANGULAR_ACCEL_TELEOP_RAD_S_S = Math.PI * 6;
+        public static final double MAX_ANGULAR_ACCEL_TELEOP_RAD_S_S = Math.PI * 8;
         public static final double REGULAR_SPEED_M_S = 4.25;
-        public static final double REGULAR_ANGULAR_SPEED_RAD_S = Math.PI * 1.5;
+        public static final double REGULAR_ANGULAR_SPEED_RAD_S = Math.PI * 3;
         public static final double DAMPEN_SPEED_M_S = 1.5;
         public static final double DAMPEN_ANGULAR_SPEED_RAD_S = Math.PI / 6;
 
@@ -273,7 +273,7 @@ public final class Constants {
         public static final double MAX_SPEED_M_S = MiscConstants.MAX_NEO_SPEED_RPM * VELOCITY_CONVERSION_FACTOR_RPM_TO_MPS / 2;
         public static final double MAX_ACCEL_M_S_S = MAX_SPEED_M_S / 6;
         public static final double GOAL_TOLERANCE_METERS = .03;
-        public static final int CURRENT_LIMIT_AMPS = 65;
+        public static final int CURRENT_LIMIT_AMPS = 40;
     }
     
     public static final class ArmConstants {
@@ -282,7 +282,7 @@ public final class Constants {
         public static final int SOL_ID = 5;
         public static final int THROUGHBORE_ID = 5; //on DIO ports
         public static final double POSITION_OFFSET_RAD = 2.5871;
-        public static final int CURRENT_LIMIT_AMPS = 60;
+        public static final int CURRENT_LIMIT_AMPS = 35;
         public static final double kP = 0.8;
         public static final double kI = 0.0;
         public static final double kD = 0.0;
@@ -345,7 +345,7 @@ public final class Constants {
         public static final double OUTTAKE_TIME = .5;
 
         public static final double ACCEL_PERCENT = 6;
-        public static final double RAMP_PUSHING_SETPOINT_RAD = Math.toRadians(15);
+        public static final double RAMP_PUSHING_SETPOINT_RAD = -0.36;
     }
 
     public static final class MiscConstants {

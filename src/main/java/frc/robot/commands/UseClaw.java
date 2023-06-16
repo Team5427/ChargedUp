@@ -105,7 +105,9 @@ public class UseClaw extends CommandBase {
                 led.setState(Led.INTAKE);
                 if (!isPurple) {
                     if (OdometryMath2023.tagRotation() != null) {
-                        RobotContainer.getSwerve().setHeadingRaw(OdometryMath2023.tagRotation().getRadians());
+                        if (DriverStation.isTeleop()) {
+                            RobotContainer.getSwerve().setHeadingRaw(OdometryMath2023.tagRotation().getRadians());
+                        }
                     }
                 }
             }
