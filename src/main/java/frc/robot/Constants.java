@@ -85,7 +85,7 @@ public final class Constants {
         public static final double SWERVE_CONVERSION_FACTOR_RPM_TO_METER_PER_S = SWERVE_CONVERSION_FACTOR_ROT_TO_METER / 60;
         public static final double SWERVE_CONVERSION_FACTOR_ROT_TO_RAD = 2 * Math.PI * kTurningMotorGearRatio;
         public static final double SWERVE_CONVERSION_FACTOR_RPM_TO_RAD_PER_S = SWERVE_CONVERSION_FACTOR_ROT_TO_RAD / 60;
-        public static final double MAX_PHYSICAL_SPEED_M_PER_SEC = MiscConstants.MAX_NEO_SPEED_RPM * SWERVE_CONVERSION_FACTOR_RPM_TO_METER_PER_S;
+        public static final double MAX_PHYSICAL_SPEED_M_PER_SEC = Units.feetToMeters(14.5);
 
         // AUTON STUFF
         public static final double MAX_AUTON_ACCEL_M_PER_S2 = 2;

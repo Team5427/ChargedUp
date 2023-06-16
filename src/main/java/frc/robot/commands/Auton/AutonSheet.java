@@ -100,7 +100,12 @@ public class AutonSheet {
             new MoveClawTo(RoutineConstants.TOP_CONE_CLAW_STATE),
             new UseClaw(),
             new ParallelCommandGroup(
-                topDoubleConeScore1,
+                new SequentialCommandGroup(
+                    topDoubleConeScore1,
+                    new InstantCommand(() -> {
+                        System.out.println("path 1 finished " + Timer.getFPGATimestamp());
+                    })
+                ),
                 new SequentialCommandGroup(
                     new InstantCommand(() -> {
                         RobotContainer.getLed().setPurple(true);
@@ -120,7 +125,7 @@ public class AutonSheet {
                     ),
                     new MoveClawTo(RoutineConstants.TOP_CUBE_CLAW_STATE),
                     new InstantCommand(() -> {
-                        System.out.println("null " + Timer.getFPGATimestamp());
+                        System.out.println("claw moved to scoring " + Timer.getFPGATimestamp());
                     })
                 )
             ),
