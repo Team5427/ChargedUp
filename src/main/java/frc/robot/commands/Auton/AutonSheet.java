@@ -131,7 +131,7 @@ public class AutonSheet {
             ),
             new ParallelRaceGroup(
                 new RunCommand(() -> {
-                    System.out.println("doing thing " + Timer.getFPGATimestamp());
+                    // System.out.println("doing thing " + Timer.getFPGATimestamp());
                     RobotContainer.getClaw().set(ClawConstants.OUTTAKE_SPEED_DECIMAL);
                 }, RobotContainer.getClaw()),
                 new Wait(ClawConstants.CUBE_OUTTAKE_EXCESS_TIME_S + 0.2)

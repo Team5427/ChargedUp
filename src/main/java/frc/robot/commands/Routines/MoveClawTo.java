@@ -71,6 +71,8 @@ public class MoveClawTo extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
+        System.out.println("move claw to just finished");
+        
         isRunning = false;
         timer.stop();
         timer.reset();
