@@ -89,7 +89,7 @@ public final class Constants {
 
         // AUTON STUFF
         public static final double MAX_AUTON_ACCEL_M_PER_S2 = 2;
-        public static final double MAX_AUTON_ANGULAR_ACCEL_RAD_PER_S2 = Math.PI * 1;
+        public static final double MAX_AUTON_ANGULAR_ACCEL_RAD_PER_S2 = Math.PI * 0.5;
         public static final double AUTON_TRANSLATION_P = 3;
         public static final double AUTON_THETA_P = 4.5;
         public static final double MAX_AUTON_SPEED_M_PER_S = 3.5;
@@ -286,7 +286,7 @@ public final class Constants {
         public static final double kP = 0.8;
         public static final double kI = 0.0;
         public static final double kD = 0.0;
-        public static final double ARM_CONTROLLER_TOLERANCE_RAD = Units.degreesToRadians(3);
+        public static final double ARM_CONTROLLER_TOLERANCE_RAD = Units.degreesToRadians(4);
         public static final double ARM_CONTROLLER_TOLERANCE_RAD_JANK = Units.degreesToRadians(6);
         public static final double GEARBOX_GEARING = (1.0 / 100.0) * (17.0 / 20.0) * (20.0 / 32.0);
         public static final double MAX_SPEED_RAD_S = Units.rotationsPerMinuteToRadiansPerSecond(MiscConstants.MAX_NEO_SPEED_RPM * GEARBOX_GEARING);

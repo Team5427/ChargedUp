@@ -55,6 +55,14 @@ public class MoveClawTo extends CommandBase {
             }
         }
         arm.extend(setPoint.getExtended());  
+
+        if (elevator.atGoal(setPoint.getHeight())) {
+            System.out.println("elevaotor reached");
+        }
+
+        if (arm.atGoal(setPoint.getAngle())) {
+            System.out.println("aerm reachoefs");
+        }
     }
 
     @Override
