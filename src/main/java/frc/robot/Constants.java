@@ -85,33 +85,16 @@ public final class Constants {
         public static final double SWERVE_CONVERSION_FACTOR_RPM_TO_METER_PER_S = SWERVE_CONVERSION_FACTOR_ROT_TO_METER / 60;
         public static final double SWERVE_CONVERSION_FACTOR_ROT_TO_RAD = 2 * Math.PI * kTurningMotorGearRatio;
         public static final double SWERVE_CONVERSION_FACTOR_RPM_TO_RAD_PER_S = SWERVE_CONVERSION_FACTOR_ROT_TO_RAD / 60;
-        public static final double MAX_PHYSICAL_SPEED_M_PER_SEC = Units.feetToMeters(14.5);
+        public static final double MAX_PHYSICAL_SPEED_M_PER_SEC = MiscConstants.MAX_NEO_SPEED_RPM * SWERVE_CONVERSION_FACTOR_RPM_TO_METER_PER_S;
 
         // AUTON STUFF
         public static final double MAX_AUTON_ACCEL_M_PER_S2 = 2;
-        public static final double MAX_AUTON_ANGULAR_ACCEL_RAD_PER_S2 = Math.PI * 0.5;
         public static final double AUTON_TRANSLATION_P = 3;
         public static final double AUTON_THETA_P = 2.5;
         public static final double MAX_AUTON_SPEED_M_PER_S = 3.5;
-        public static final double MAX_AUTON_ANGULAR_SPEED_RAD_S = Math.PI * 1.75;
 
-        public static final TrapezoidProfile.Constraints THETA_CONSTRAINTS = new TrapezoidProfile.Constraints(
-                MAX_AUTON_ANGULAR_SPEED_RAD_S, MAX_AUTON_ANGULAR_ACCEL_RAD_PER_S2);
-        // CONTROLLER CONSTANTS MODULES
         public static final double TURNING_PID_P = 3.5;
         public static final double TURNING_PID_D = 0.007; 
-        public static final double TURNING_FF_S = 0.088444;
-        public static final double TURNING_FF_V = 0.24913;
-        public static final double TURNING_FF_A = 0.011425;
-        public static final double TURNING_MAX_SPEED_RAD_S = SWERVE_CONVERSION_FACTOR_RPM_TO_RAD_PER_S * MiscConstants.MAX_NEO_SPEED_RPM;
-        public static final double TURNING_MAX_ACCEL_RAD_S_S = TURNING_MAX_SPEED_RAD_S * 4;
-
-        public static final double SPEED_PID_P = 2.94;
-        public static final double SPEED_FF_S = 0.097718;
-        public static final double SPEED_FF_V = 2.5872;
-        public static final double SPEED_FF_A = 0.22077;
-        public static final double SPEED_MAX_SPEED_M_S = SWERVE_CONVERSION_FACTOR_RPM_TO_METER_PER_S * MiscConstants.MAX_NEO_SPEED_RPM;
-        public static final double SPEED_MAX_ACCEL_M_S_S = SPEED_MAX_SPEED_M_S * 3;
 
         public static enum SwerveModuleType {
             FRONT_LEFT,

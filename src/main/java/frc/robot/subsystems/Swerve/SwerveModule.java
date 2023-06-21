@@ -161,9 +161,6 @@ public class SwerveModule {
         setBrake(false, false);
         turningPID = new PIDController(SwerveConstants.TURNING_PID_P, 0, SwerveConstants.TURNING_PID_D);
         turningPID.enableContinuousInput(-Math.PI, Math.PI);
-        turningFF = new SimpleMotorFeedforward(SwerveConstants.TURNING_FF_S, SwerveConstants.TURNING_FF_V, SwerveConstants.TURNING_FF_A);
-        speedPID = new PIDController(SwerveConstants.SPEED_PID_P, 0, 0);
-        speedFF = new SimpleMotorFeedforward(SwerveConstants.SPEED_FF_S, SwerveConstants.SPEED_FF_V, SwerveConstants.SPEED_FF_A);
         speedEnc.setPositionConversionFactor(SwerveConstants.SWERVE_CONVERSION_FACTOR_ROT_TO_METER);
         speedEnc.setVelocityConversionFactor(SwerveConstants.SWERVE_CONVERSION_FACTOR_RPM_TO_METER_PER_S);
         turnEnc.setPositionConversionFactor(SwerveConstants.SWERVE_CONVERSION_FACTOR_ROT_TO_RAD);
