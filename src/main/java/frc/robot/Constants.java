@@ -91,7 +91,7 @@ public final class Constants {
         public static final double MAX_AUTON_ACCEL_M_PER_S2 = 2;
         public static final double MAX_AUTON_ANGULAR_ACCEL_RAD_PER_S2 = Math.PI * 0.5;
         public static final double AUTON_TRANSLATION_P = 3;
-        public static final double AUTON_THETA_P = 4.5;
+        public static final double AUTON_THETA_P = 2.5;
         public static final double MAX_AUTON_SPEED_M_PER_S = 3.5;
         public static final double MAX_AUTON_ANGULAR_SPEED_RAD_S = Math.PI * 1.75;
 
