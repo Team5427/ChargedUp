@@ -114,7 +114,7 @@ public class Elevator extends SubsystemBase {
 
     @Override
     public void periodic() {
-        if (!DriverStation.isEnabled() || RobotContainer.getOperatorJoy2().getHID().getRawButton(JoystickConstants.ELEVATOR_RESET)) {
+        if (!DriverStation.isEnabled()) {
             elevatorController.reset(getHeight());
             stop();
         } else {

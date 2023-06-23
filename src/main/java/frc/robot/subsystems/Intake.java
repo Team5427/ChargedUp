@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.IntakeConstants;
+import frc.robot.Constants.JoystickConstants;
 import frc.robot.commands.PushRamp;
 import frc.robot.commands.UseIntake;
 import frc.robot.util.Logger;
@@ -36,7 +37,7 @@ public class Intake extends SubsystemBase{
     public Intake(){
         intakeMotor = new CANSparkMax(IntakeConstants.INTAKE_ID, MotorType.kBrushless);
         intakeMotor.restoreFactoryDefaults();
-        intakeMotor.setSmartCurrentLimit(50);
+        intakeMotor.setSmartCurrentLimit(15);
         intakeMotor.setInverted(false);
         intakeMotor.setIdleMode(IdleMode.kCoast);
         OdometryMath2023.doPeriodicFrame(intakeMotor);
@@ -48,13 +49,13 @@ public class Intake extends SubsystemBase{
 
         tiltMotorLeft = new CANSparkMax(IntakeConstants.TILT_ID_LEFT, MotorType.kBrushless);
         tiltMotorLeft.restoreFactoryDefaults();
-        tiltMotorLeft.setSmartCurrentLimit(25);
+        tiltMotorLeft.setSmartCurrentLimit(35);
         tiltMotorLeft.setInverted(false);
         tiltMotorLeft.setIdleMode(IdleMode.kBrake);
 
         tiltMotorRight = new CANSparkMax(IntakeConstants.TILT_ID_RIGHT, MotorType.kBrushless);
         tiltMotorRight.restoreFactoryDefaults();
-        tiltMotorRight.setSmartCurrentLimit(25);
+        tiltMotorRight.setSmartCurrentLimit(35);
         tiltMotorRight.setInverted(true);
         tiltMotorRight.setIdleMode(IdleMode.kBrake);
 
@@ -146,11 +147,15 @@ public class Intake extends SubsystemBase{
 
         error = setPointRad.minus(getRotation2d()).getRadians();
 
-        if (Math.abs(RobotContainer.getArm().getAngle()) < IntakeConstants.ARM_CLEARANCE_RAD || RobotContainer.getArm().atJankGoal()) {
+        if (Math.abs(RobotContainer.getArm().getAngle()) < IntakeConstants.ARM_CLEARANCE_RAD || RobotContainer.getArm().atJankGoal() || RobotContainer.getOperatorJoy2().getHID().getRawButton(JoystickConstants.RAMP_PUSH)) {
             if (Math.abs(error) > IntakeConstants.TOLERANCE_RAD) {
                 setTilt(IntakeConstants.TILT_COEF * Math.signum(error));
             } else {
-                stopTilt();
+                if (RobotContainer.getOperatorJoy2().getHID().getRawButton(JoystickConstants.RAMP_PUSH)) {
+                    setTilt(-0.1);
+                } else {
+                    stopTilt();
+                }
             }
         } else {
             stopTilt();

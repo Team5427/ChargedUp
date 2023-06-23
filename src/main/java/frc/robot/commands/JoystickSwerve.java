@@ -103,14 +103,13 @@ public class JoystickSwerve extends CommandBase {
             if (RobotContainer.getClaw().proxCovered()) {
                 ySpeed = 0;
             } else {
-                ySpeed = translationRateLimiterYSlower.calculate(SwerveConstants.SS_SPEED_M_S);
+                ySpeed = SwerveConstants.SS_SPEED_M_S;
             }
-            translationRateLimiterY.reset(ySpeed);
         } else {
-            ySpeed = translationRateLimiterY.calculate(ySpeed * unitsMultiplier[0]);
-            translationRateLimiterYSlower.reset(ySpeed);
+            ySpeed = ySpeed * unitsMultiplier[0];
         }
 
+        ySpeed = translationRateLimiterY.calculate(ySpeed);
         xSpeed = translationRateLimiterX.calculate(xSpeed * unitsMultiplier[0]);
         x2Speed = rotationRateLimiter.calculate(x2Speed * unitsMultiplier[1]);
 

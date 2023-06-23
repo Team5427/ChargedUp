@@ -63,11 +63,6 @@ public class Arm extends SubsystemBase {
         btmMotor.setIdleMode(idle);
     }
 
-    public void setV(double speed) {
-        topMotor.setVoltage(speed);
-        btmMotor.setVoltage(speed);
-    }
-
     public void set(double speed) {
         if (getAngle() == ArmConstants.POSITION_OFFSET_RAD) {
             stopMotors();
@@ -88,10 +83,6 @@ public class Arm extends SubsystemBase {
 
     public boolean atJankGoal() {
         return (Math.abs(getAngle() - setPoint) < ArmConstants.ARM_CONTROLLER_TOLERANCE_RAD_JANK);
-    }
-
-    public boolean lodged() {
-        return (Math.abs(getAngle() - ArmConstants.LODGED_ARM_VALUE_RAD) < Units.degreesToRadians(1));
     }
 
     public boolean atGoal(double pos) {

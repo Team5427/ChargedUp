@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.JoystickConstants;
@@ -83,27 +82,11 @@ public class ButtonBindings {
             intake.setDeployed(false);
         }));
         operatorJoy1.button(JoystickConstants.SUBSTATION_PRESET).onTrue(new MoveClawTo(RoutineConstants.SUBSTATION_CLAW_STATE));
-        operatorJoy1.button(JoystickConstants.FLOOR_INTAKE_PRESET_CUBES).onTrue( new ParallelCommandGroup(
-            new MoveClawTo(RoutineConstants.CUBE_INTAKE_CLAW_STATE),
-            new SequentialCommandGroup(
-                new InstantCommand(() -> {
-                    claw.grab(false);
-                }),
-                new WaitCommand(0.3),
-                new UseClaw()
-            )
-            )
+        operatorJoy1.button(JoystickConstants.FLOOR_INTAKE_PRESET_CUBES).onTrue(
+            new MoveClawTo(RoutineConstants.CUBE_INTAKE_CLAW_STATE)
         );
-        operatorJoy1.button(JoystickConstants.FLOOR_INTAKE_PRESET_CONES).onTrue( new ParallelCommandGroup(
-            new MoveClawTo(RoutineConstants.CONE_INTAKE_CLAW_STATE),
-            new SequentialCommandGroup(
-                new InstantCommand(() -> {
-                    claw.grab(false);
-                }),
-                new WaitCommand(0.3),
-                new UseClaw()
-            )
-            )
+        operatorJoy1.button(JoystickConstants.FLOOR_INTAKE_PRESET_CONES).onTrue(
+            new MoveClawTo(RoutineConstants.CONE_INTAKE_CLAW_STATE)
         );       
         operatorJoy2.button(JoystickConstants.BALANCE_BTN).onTrue(new BalanceLinear());
 

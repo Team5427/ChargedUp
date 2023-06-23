@@ -123,7 +123,7 @@ public class SwerveDrive extends SubsystemBase {
     }
 
     public void updateVision(Pose2d pose) {
-        getEstimator().resetPosition(getRotation2d(), getModulePositions(), new Pose2d(pose.getX(), pose.getY(), getRotation2d()));
+        odometer.resetPosition(getRotation2d(), getModulePositions(), new Pose2d(pose.getX(), pose.getY(), getRotation2d()));
     }
 
     public void setHeadingRad(double rad) {
@@ -160,31 +160,9 @@ public class SwerveDrive extends SubsystemBase {
         return list;
     }
 
-    public SwerveDriveOdometry getEstimator() {
-        return odometer;
-    }
-
     public SwerveModulePosition[] getModulePositions() {
         SwerveModulePosition ret[] = {frontLeft.getModPosition(), frontRight.getModPosition(), backLeft.getModPosition(), backRight.getModPosition()};
         
-        return ret;
-    }
-
-    public SwerveModuleState[] getModuleStates() {
-        SwerveModuleState ret[] = {frontLeft.getModState(), frontRight.getModState(), backLeft.getModState(), backRight.getModState()};
-        
-        return ret;
-    }
-
-    public double[] getAccelerationMPS2() {
-        short[] accelerometerValues = new short[3];
-        double[] mag = new double[3];
-        gyro.getBiasedAccelerometer(accelerometerValues);
-        for (int i = 0; i < 3; i++) {
-            mag[i] = (accelerometerValues[i] / 16384.0) * 9.8;
-        }
-        double hyp = Math.hypot(mag[0], mag[1]);
-        double [] ret = {hyp, OdometryMath2023.smartArcAngle(mag[0], mag[1], hyp)};
         return ret;
     }
 
@@ -207,14 +185,14 @@ public class SwerveDrive extends SubsystemBase {
         Logger.post("FieldRelative", getFieldRelative());
         Logger.postComplex("Field5427", field);
 
-        Logger.post("Enc front right", frontRight.getAbsEncRad());
-        Logger.post("Enc front left", frontLeft.getAbsEncRad());
-        Logger.post("Enc back left", backLeft.getAbsEncRad());
-        Logger.post("Enc back right", backRight.getAbsEncRad());
-        Logger.post("frontRight error", frontRight.getTurnPID().getPositionError());
-        Logger.post("frontLeft error", frontLeft.getTurnPID().getPositionError());
-        Logger.post("backRight error", backRight.getTurnPID().getPositionError());
-        Logger.post("backLeft error", backLeft.getTurnPID().getPositionError());
+        // Logger.post("Enc front right", frontRight.getAbsEncRad());
+        // Logger.post("Enc front left", frontLeft.getAbsEncRad());
+        // Logger.post("Enc back left", backLeft.getAbsEncRad());
+        // Logger.post("Enc back right", backRight.getAbsEncRad());
+        // Logger.post("frontRight error", frontRight.getTurnPID().getPositionError());
+        // Logger.post("frontLeft error", frontLeft.getTurnPID().getPositionError());
+        // Logger.post("backRight error", backRight.getTurnPID().getPositionError());
+        // Logger.post("backLeft error", backLeft.getTurnPID().getPositionError());
 
         // Logger.post("charge station angle", getRobotTiltGlobalYAxisDeg());
     }

@@ -93,30 +93,16 @@ public class RobotContainer {
 
     //NEED TO BE AT END OF CONSTRUCTOR
     SwervePathMaker.initPaths(
-      "TopSingleConeIntakeEngage1", 
-      "TopSingleConeIntake1",
       "TopDoubleConeScore1",
       "TopDoubleConeScore2",
-      "BottomSingleConeIntakeEngage1",
-      "TopDoubleConeEngage1",
-      "TopDoubleConeEngage2",
-      "FloorTripleCleanSide1",
-      "FloorTripleCleanSide2",
       "FloorTripleBumpSide1",
-      "FloorTripleBumpSide2",
-      "IntegratedAuton1",
-      "IntegratedAuton2"
+      "FloorTripleBumpSide2"
     );
     AutonSheet.initAutons();
     SubRoutineSheet.initSubRoutines();
 
 
-    // autonSelector.setDefaultOption("Engage",AutonSheet.topSingleConeIntakeEngage); 
-    autonSelector.addOption("Score only",AutonSheet.topSingleConeIntake);
     autonSelector.setDefaultOption("2 piece pickup",AutonSheet.topDoubleConeScore);
-    autonSelector.addOption("BOTTOM SIDE INTAKE", AutonSheet.bottomSingleConeIntakeEngage);
-    autonSelector.addOption("2 piece engage", AutonSheet.topDoubleConeEngage);
-    autonSelector.addOption("Middle Auton", AutonSheet.robonautsAuton);
     autonSelector.addOption("triple bump side", AutonSheet.floorTripleBumpSide);
 
     Logger.postComplex("Auton Paths", autonSelector);

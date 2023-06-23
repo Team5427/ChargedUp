@@ -8,7 +8,6 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import frc.robot.commands.Routines.StateTypes.ClawState;
 
@@ -68,7 +67,7 @@ public final class Constants {
         public static final int PIGEON_ID = 16;
 
         // Robot Physical Dimensions
-        public static final double DT_WHEEL_DIAMETER_METERS = Units.inchesToMeters(3.88);
+        public static final double DT_WHEEL_DIAMETER_METERS = 0.098552; //3.88
         public static final double DT_TRACKWIDTH = Units.inchesToMeters(19.5);
         public static final double DT_WHEELBASE = Units.inchesToMeters(19.5);
 
@@ -89,9 +88,9 @@ public final class Constants {
 
         // AUTON STUFF
         public static final double MAX_AUTON_ACCEL_M_PER_S2 = 2;
-        public static final double AUTON_TRANSLATION_P = 3;
-        public static final double AUTON_THETA_P = 2.5;
-        public static final double MAX_AUTON_SPEED_M_PER_S = 3.5;
+        public static final double AUTON_TRANSLATION_P = 2.5;
+        public static final double AUTON_THETA_P = 4;
+        public static final double MAX_AUTON_SPEED_M_PER_S = 2.5;
 
         public static final double TURNING_PID_P = 3.5;
         public static final double TURNING_PID_D = 0.007; 
@@ -113,12 +112,12 @@ public final class Constants {
 
         public static final double CONTROLLER_DEADBAND = 0.065;
         public static final double CONTROLLER_TURNING_EXPONENT = 2;
-        public static final double MAX_ACCEL_TELEOP_M_S_S = 3.5 * 4;
-        public static final double MAX_ANGULAR_ACCEL_TELEOP_RAD_S_S = Math.PI * 8;
         public static final double REGULAR_SPEED_M_S = 4.25;
         public static final double REGULAR_ANGULAR_SPEED_RAD_S = Math.PI * 3;
         public static final double DAMPEN_SPEED_M_S = 1.5;
         public static final double DAMPEN_ANGULAR_SPEED_RAD_S = Math.PI / 6;
+        public static final double MAX_ACCEL_TELEOP_M_S_S = REGULAR_SPEED_M_S * 4;
+        public static final double MAX_ANGULAR_ACCEL_TELEOP_RAD_S_S = REGULAR_ANGULAR_SPEED_RAD_S * 4;
 
         //Joystick IDs
         public static final int DRIVER_CONTROLLER = 0;
@@ -265,19 +264,18 @@ public final class Constants {
         public static final int SOL_ID = 5;
         public static final int THROUGHBORE_ID = 5; //on DIO ports
         public static final double POSITION_OFFSET_RAD = 2.5871;
-        public static final int CURRENT_LIMIT_AMPS = 35;
+        public static final int CURRENT_LIMIT_AMPS = 40;
         public static final double kP = 0.8;
         public static final double kI = 0.0;
         public static final double kD = 0.0;
         public static final double ARM_CONTROLLER_TOLERANCE_RAD = Units.degreesToRadians(4);
         public static final double ARM_CONTROLLER_TOLERANCE_RAD_JANK = Units.degreesToRadians(6);
-        public static final double GEARBOX_GEARING = (1.0 / 100.0) * (17.0 / 20.0) * (20.0 / 32.0);
+        public static final double GEARBOX_GEARING = (1.0 / 100.0) * (17.0 / 20.0) * (12.0 / 22.0);
         public static final double MAX_SPEED_RAD_S = Units.rotationsPerMinuteToRadiansPerSecond(MiscConstants.MAX_NEO_SPEED_RPM * GEARBOX_GEARING);
-        public static final double MAX_ACCEL_RAD_S_S = MAX_SPEED_RAD_S * 2.2;
+        public static final double MAX_ACCEL_RAD_S_S = MAX_SPEED_RAD_S * 4;
         public static final double MAX_ACCEL_RAD_S_S_EXTENDED = MAX_SPEED_RAD_S;
         public static final double UPPER_LIMIT_RAD = 1.45;
         public static final double LOWER_LIMIT_RAD = -1;
-        public static final double LODGED_ARM_VALUE_RAD = 1.45; //FIXME
 
         public static final double MANUAL_ARM_SPEED = .2;
     }

@@ -12,6 +12,7 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.wpilibj.DriverStation;
 import frc.robot.Constants.*;
 
 public class SwerveModule {
@@ -78,7 +79,7 @@ public class SwerveModule {
         } else {
             SwerveModuleState newState;
             newState = SwerveModuleState.optimize(state, getModState().angle);
-            if (Math.abs(turningPID.getPositionError()) < Math.toRadians(30)) {
+            if (Math.abs(turningPID.getPositionError()) < Math.toRadians(30) || DriverStation.isAutonomous()) {
                 speedMotor.set(newState.speedMetersPerSecond / SwerveConstants.MAX_PHYSICAL_SPEED_M_PER_SEC);
             } else {
                 speedMotor.set((newState.speedMetersPerSecond / SwerveConstants.MAX_PHYSICAL_SPEED_M_PER_SEC)/6);
