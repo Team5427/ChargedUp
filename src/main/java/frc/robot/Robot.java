@@ -93,10 +93,6 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
-    if (matchTimer.get() >= 14.3 && specialAuton) {
-      // CommandScheduler.getInstance().schedule(new TiltWheels(SwerveConstants.X_WHEEL_ANGLES));
-      CommandScheduler.getInstance().schedule(new UseIntake());
-    }
   }
 
   @Override
