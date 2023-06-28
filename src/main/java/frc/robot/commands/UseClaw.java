@@ -81,7 +81,7 @@ public class UseClaw extends CommandBase {
 
                 claw.set(ClawConstants.OUTTAKE_SPEED_DECIMAL);
             } else {
-                claw.set(ClawConstants.OUTTAKE_SPEED_DECIMAL_SHOOTING);
+                claw.set(ClawConstants.OUTTAKE_SPEED_DECIMAL);
             }
             timer.start();
             if (timer.get() > ClawConstants.CUBE_OUTTAKE_EXCESS_TIME_S) {

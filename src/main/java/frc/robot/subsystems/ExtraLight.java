@@ -13,7 +13,7 @@ public class ExtraLight extends SubsystemBase {
 
     public ExtraLight(NetworkTable table) {
         this.table_m = table;
-        rotPid = new PIDController(0.15, 0, 0);
+        rotPid = new PIDController(0.15, 0.0, 0.000);
         rotPid.setSetpoint(0);
     }
 

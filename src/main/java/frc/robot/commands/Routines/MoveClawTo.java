@@ -54,14 +54,10 @@ public class MoveClawTo extends CommandBase {
                 elevator.setHeight(setPoint.getHeight());
             }
         }
-        arm.extend(setPoint.getExtended());  
-
-        if (elevator.atGoal(setPoint.getHeight())) {
-            System.out.println("elevaotor reached");
-        }
-
-        if (arm.atGoal(setPoint.getAngle())) {
-            System.out.println("aerm reachoefs");
+        if (timer.get() > 0.4 && setPoint.getExtended()) {
+            arm.extend(setPoint.getExtended());  
+        } else if (!setPoint.getExtended()) {
+            arm.extend(setPoint.getExtended());  
         }
     }
 
@@ -79,7 +75,6 @@ public class MoveClawTo extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        System.out.println("move claw to just finished");
         
         isRunning = false;
         timer.stop();
