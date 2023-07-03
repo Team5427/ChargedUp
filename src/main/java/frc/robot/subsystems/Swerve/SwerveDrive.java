@@ -107,9 +107,9 @@ public class SwerveDrive extends SubsystemBase {
     }
 
     public void setChassisSpeeds(ChassisSpeeds speeds) {
-        double xSpeed = xLimiter.calculate(speeds.vxMetersPerSecond);
-        double ySpeed = yLimiter.calculate(speeds.vyMetersPerSecond);
-        double thetaSpeed = thetaLimiter.calculate(speeds.omegaRadiansPerSecond);
+        double xSpeed = speeds.vxMetersPerSecond;
+        double ySpeed = speeds.vyMetersPerSecond;
+        double thetaSpeed = speeds.omegaRadiansPerSecond;
         ChassisSpeeds setSpeeds = new ChassisSpeeds(xSpeed, ySpeed, thetaSpeed);
         setModules(SwerveConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(setSpeeds));
     }

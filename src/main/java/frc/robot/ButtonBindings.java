@@ -104,7 +104,7 @@ public class ButtonBindings {
             }
         }));
 
-        operatorJoy2.button(JoystickConstants.RAMP_PUSH).whileTrue(new PushRamp());
+        operatorJoy2.button(JoystickConstants.RAMP_PUSH).whileTrue(new PushRamp(false, 0.0));
 
         operatorJoy1.button(JoystickConstants.OPERATOR_SUBSTATION).onTrue(
             new ParallelCommandGroup(

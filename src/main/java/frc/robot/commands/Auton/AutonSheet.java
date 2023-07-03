@@ -16,6 +16,7 @@ import frc.robot.Constants.ClawConstants;
 import frc.robot.Constants.RoutineConstants;
 import frc.robot.Constants.SwerveConstants;
 import frc.robot.RobotContainer;
+import frc.robot.commands.PushRamp;
 import frc.robot.commands.UseClaw;
 import frc.robot.commands.UseIntake;
 import frc.robot.commands.Routines.MoveClawTo;
@@ -36,6 +37,7 @@ public class AutonSheet {
     private static Command floorTripleBumpSide1;
     private static Command floorTripleBumpSide2;
     public static SequentialCommandGroup scoreBalanceAuto;
+    public static SequentialCommandGroup turninplace;
 
     public static void initAutons() {
         topDoubleConeScore1 = SwervePathMaker.getCommand("TopDoubleConeScore1");
@@ -143,15 +145,27 @@ public class AutonSheet {
             new ParallelCommandGroup(
                 new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE),
                 new SequentialCommandGroup(
-                    new TimedChassisMove(new Translation2d(-1, 0), 0.25),
+                    new TimedChassisMove(new Translation2d(-0.75, 0), 0.125),
                     new TurnInPlace(new Rotation2d(0)),
-                    new TimedChassisMove(new Translation2d(1, 0), 5),
+                    new ParallelCommandGroup(
+                        new PushRamp(true, 1.75),
+                        new TimedChassisMove(new Translation2d(3.5, 0), 1.5)
+                    ),
+                    new TimedChassisMove(new Translation2d(0.75, 0), 3.5),
                     new TurnInPlace(new Rotation2d(Math.PI)),
-                    new TimedChassisMove(new Translation2d(1, 0), 3)
+                    new Wait(0.25),
+                    new ParallelCommandGroup(
+                        new TimedChassisMove(new Translation2d(3.5, 0), 1.5),
+                        new PushRamp(true, 3)
+                    )
                 )
             ),
             new BalanceLinear(),
             new TiltWheels(SwerveConstants.X_WHEEL_ANGLES)
+        );
+
+        turninplace = new SequentialCommandGroup(
+            new TurnInPlace(new Rotation2d())
         );
     }
 }

@@ -76,6 +76,8 @@ public class Robot extends TimedRobot {
     RobotContainer.getSwerve().setHeadingRad(Math.PI);
     RobotContainer.getLed().setPurple(false);
     RobotContainer.getClaw().grab(true);
+    RobotContainer.getElevator().resetPIDs();
+    RobotContainer.getArm().resetPIDs();
     // RobotContainer.getIntake().setRetracted(false);
     // RobotContainer.getIntake().setDeployed(false);
 

@@ -104,6 +104,8 @@ public class RobotContainer {
 
     autonSelector.setDefaultOption("2 piece pickup",AutonSheet.topDoubleConeScore);
     autonSelector.addOption("triple bump side", AutonSheet.floorTripleBumpSide);
+    autonSelector.addOption("charge auton", AutonSheet.scoreBalanceAuto);
+    autonSelector.addOption("turninplace", AutonSheet.turninplace);
 
     Logger.postComplex("Auton Paths", autonSelector);
     new ButtonBindings(getOperatorJoy1(), getOperatorJoy2(), getController());
