@@ -36,7 +36,7 @@ public class Intake extends SubsystemBase{
     public Intake(){
         intakeMotor = new CANSparkMax(IntakeConstants.INTAKE_ID, MotorType.kBrushless);
         intakeMotor.restoreFactoryDefaults();
-        intakeMotor.setSmartCurrentLimit(15);
+        intakeMotor.setSmartCurrentLimit(45);
         intakeMotor.setInverted(false);
         intakeMotor.setIdleMode(IdleMode.kCoast);
         OdometryMath2023.doPeriodicFrame(intakeMotor);
