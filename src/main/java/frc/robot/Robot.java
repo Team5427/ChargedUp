@@ -95,14 +95,13 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during autonomous. */
   @Override
   public void autonomousPeriodic() {
+    if (matchTimer.get() > 14.5) {
+      RobotContainer.getIntake().outtake(-1.0);
+    }
   }
 
   @Override
   public void teleopInit() {
-    RobotContainer.getSwerve().setFieldRelative(true);
-    RobotContainer.getLed().setState(Led.INTAKE);
-    RobotContainer.getClaw().grab(true);
-    RobotContainer.getSwerve().setBrake(true, true);
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
@@ -110,6 +109,12 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+
+    RobotContainer.getSwerve().setFieldRelative(true);
+    RobotContainer.getLed().setState(Led.INTAKE);
+    RobotContainer.getClaw().grab(true);
+    RobotContainer.getSwerve().setBrake(true, true);
+    RobotContainer.getIntake().stopIntake();
   }
 
   /** This function is called periodically during operator control. */

@@ -29,9 +29,10 @@ public class OdometryMath2023 extends SubsystemBase {
 
     private void log() {
         if (tagRotation() != null) {
-            Logger.post("move bot to thing", OdometryMath2023.tagRotation().getRadians());
+            // Logger.post("move bot to thing", OdometryMath2023.tagRotation().getRadians());
             // Logger.post("left move bot to thing", limelightLeftTagRot.getRadians());
             // Logger.post("right move bot to thing", limelightRightTagRot.getRadians());
+            Logger.post("in scoring spot", inScoringSpot());
         }
     }
 

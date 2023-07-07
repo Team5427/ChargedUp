@@ -103,6 +103,10 @@ public class Intake extends SubsystemBase{
         }
     }
 
+    public void outtake(double speed) {
+        intakeMotor.set(speed);
+    }
+
     public void stopIntake(){
         intakeMotor.stopMotor();
     }
@@ -189,9 +193,9 @@ public class Intake extends SubsystemBase{
     }
     
     private void log(){
-        Logger.post("intake angle", getAngle());
+        // Logger.post("intake angle", getAngle());
 
-        Logger.post("intake Prox", prox.getAverageVoltage());
+        // Logger.post("intake Prox", prox.getAverageVoltage());
         
     }
     

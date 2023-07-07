@@ -138,10 +138,10 @@ public class Arm extends SubsystemBase {
 
     public void log() {
         // Logger.post("calculation", this.calc);
-        Logger.post("arm angle", getAngle());
-        Logger.post(" goal", atJankGoal());
-        Logger.post("arm encoder plugged in", throughbore.isConnected());
-        Logger.post("arm encoder frequency", throughbore.getFrequency());
+        // Logger.post("arm angle", getAngle());
+        // Logger.post(" goal", atJankGoal());
+        // Logger.post("arm encoder plugged in", throughbore.isConnected());
+        // Logger.post("arm encoder frequency", throughbore.getFrequency());
         // Logger.post("bruh", true);
     }
 }
