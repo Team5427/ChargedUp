@@ -312,7 +312,7 @@ public final class Constants {
         public static final double TILT_COEF = .55; //may need to invert
         public static final double INTAKE_SPEED = .85;
         public static final double OUTTAKE_SPEED = -1;
-        public static final double OUTTAKE_SPEED_SLOW = -.2;
+        public static final double OUTTAKE_SPEED_SLOW = -.35;
         public static final double STATIC_HOLD_SPEED = 0.1;
 
         public static final double ENCODER_OFFSET_RAD = 5.894;
@@ -323,7 +323,7 @@ public final class Constants {
         public static final double TOLERANCE_RAD = Units.degreesToRadians(5);
 
         public static final double INTAKE_COVERED = 1;
-        public static final double OUTTAKE_TIME = 2;
+        public static final double OUTTAKE_TIME = 0.75;
 
         public static final double ACCEL_PERCENT = 6;
         public static final double RAMP_PUSHING_SETPOINT_RAD = -0.36;
