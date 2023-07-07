@@ -200,7 +200,7 @@ public final class Constants {
         public static final double BALANCED_TIME = 2;
         public static final double DEBUG_INTEGRATE_DELAY_TIME = 0.6;
 
-        public static final double CLOSE_COMMUNITY_X_METERS = 2.25;
+        public static final double CLOSE_COMMUNITY_X_METERS = 1.9;
         public static final double IN_COMMUNITY_X = 5;
         public static final double IN_COMMUNITY_Y = 5.4;
 
