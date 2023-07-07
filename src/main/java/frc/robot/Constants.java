@@ -313,7 +313,7 @@ public final class Constants {
         public static final double INTAKE_SPEED = .85;
         public static final double OUTTAKE_SPEED = -1;
         public static final double OUTTAKE_SPEED_SLOW = -.35;
-        public static final double STATIC_HOLD_SPEED = 0.1;
+        public static final double STATIC_HOLD_SPEED = 0.05;
 
         public static final double ENCODER_OFFSET_RAD = 5.894;
         public static final double DEPLOYED_POS_RAD = -0.07;
