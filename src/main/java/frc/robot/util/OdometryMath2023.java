@@ -153,6 +153,22 @@ public class OdometryMath2023 extends SubsystemBase {
         }
     }
 
+    public static void doPeriodicFrame(int msZero, CANSparkMax... motor) {
+        for (CANSparkMax m : motor) {
+            m.setPeriodicFramePeriod(PeriodicFrame.kStatus0, msZero);
+        }
+        doPeriodicFrame(motor);
+    }
+
+    public static void doPeriodicFrameLess(CANSparkMax... motor) {
+        for (CANSparkMax m : motor) {
+            m.setPeriodicFramePeriod(PeriodicFrame.kStatus3, MiscConstants.MAX_SMAX_PERIODIC_FRAME_MS);
+            m.setPeriodicFramePeriod(PeriodicFrame.kStatus4, MiscConstants.MAX_SMAX_PERIODIC_FRAME_MS);
+            m.setPeriodicFramePeriod(PeriodicFrame.kStatus5, MiscConstants.MAX_SMAX_PERIODIC_FRAME_MS);
+            m.setPeriodicFramePeriod(PeriodicFrame.kStatus6, MiscConstants.MAX_SMAX_PERIODIC_FRAME_MS);
+        }
+    }
+
     public static boolean inScoringSpot() {
         if (isBlue()) {
             return robotPose.getX() < RoutineConstants.CLOSE_COMMUNITY_X_METERS;

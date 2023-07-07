@@ -14,7 +14,6 @@ import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.JoystickConstants;
 import frc.robot.commands.PushRamp;
 import frc.robot.commands.UseIntake;
-import frc.robot.util.Logger;
 import frc.robot.util.OdometryMath2023;
 
 public class Intake extends SubsystemBase{
@@ -66,6 +65,8 @@ public class Intake extends SubsystemBase{
         throughbore = new DutyCycleEncoder(IntakeConstants.THROUGHBORE_ID);
         throughbore.reset();
         throughbore.setPositionOffset(0);
+
+        OdometryMath2023.doPeriodicFrame(50, intakeMotor, tiltMotorLeft, tiltMotorRight);
     }
     
     public double getAngle() {

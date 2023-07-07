@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.commands.UseIntake;
 import frc.robot.pathUtil.SwervePathMaker;
 import frc.robot.subsystems.Led;
 
@@ -64,7 +63,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void disabledPeriodic() {
-
+    RobotContainer.getArm().resetPIDs();
+    RobotContainer.getElevator().resetPIDs();
   }
 
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
@@ -78,8 +78,6 @@ public class Robot extends TimedRobot {
     RobotContainer.getClaw().grab(true);
     RobotContainer.getElevator().resetPIDs();
     RobotContainer.getArm().resetPIDs();
-    // RobotContainer.getIntake().setRetracted(false);
-    // RobotContainer.getIntake().setDeployed(false);
 
     matchTimer.reset();
     matchTimer.start();

@@ -8,11 +8,11 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.Constants.JoystickConstants;
+import frc.robot.Constants.RoutineConstants;
+import frc.robot.Constants.SwerveConstants;
 import frc.robot.RobotContainer;
-import frc.robot.Constants.*;
-import frc.robot.subsystems.ExtraLight;
 import frc.robot.subsystems.Swerve.SwerveDrive;
 import frc.robot.util.OdometryMath2023;
 
@@ -20,17 +20,13 @@ public class JoystickSwerve extends CommandBase {
     
     private SwerveModuleState[] states;
     private CommandXboxController joy;
-    private CommandJoystick operatorJoy;
     private SwerveDrive swerve;
     private SlewRateLimiter translationRateLimiterX, translationRateLimiterY, rotationRateLimiter;
     private ProfiledPIDController rotPID;
-    private ExtraLight tapeLight;
 
     public JoystickSwerve () {
         joy = RobotContainer.getController();
-        operatorJoy = RobotContainer.getOperatorJoy1();
         swerve = RobotContainer.getSwerve();
-        tapeLight = RobotContainer.getLimelightTape();
         addRequirements(swerve);
         translationRateLimiterX = new SlewRateLimiter(JoystickConstants.MAX_ACCEL_TELEOP_M_S_S);
         translationRateLimiterY = new SlewRateLimiter(JoystickConstants.MAX_ACCEL_TELEOP_M_S_S);

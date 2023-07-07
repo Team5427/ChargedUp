@@ -15,7 +15,6 @@ import frc.robot.RobotContainer;
 import frc.robot.commands.UseClaw;
 import frc.robot.commands.Routines.MoveBotTo;
 import frc.robot.commands.Routines.MoveClawTo;
-import frc.robot.util.Logger;
 import frc.robot.util.OdometryMath2023;
 
 public class Claw extends SubsystemBase {
@@ -96,12 +95,6 @@ public class Claw extends SubsystemBase {
             } else {
                 set(0.015);
             }
-        }
-
-        if(getProx() == 0.0){
-            RobotContainer.getLed().setError(true);
-        } else {
-            RobotContainer.getLed().setError(false);
         }
 
         if (MoveBotTo.goodToRelease && MoveClawTo.goodToRelease) {

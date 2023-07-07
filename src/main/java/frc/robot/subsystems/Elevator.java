@@ -9,13 +9,10 @@ import edu.wpi.first.math.controller.ElevatorFeedforward;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ElevatorConstants;
-import frc.robot.Constants.JoystickConstants;
-import frc.robot.RobotContainer;
-import frc.robot.util.Logger;
+import frc.robot.util.OdometryMath2023;
 
 public class Elevator extends SubsystemBase {
 
@@ -43,11 +40,14 @@ public class Elevator extends SubsystemBase {
         throughbore.setDistancePerPulse(ElevatorConstants.POSITION_CONVERSION_FACTOR_ROT_TO_METERS / 2048);
         limitLeft = new DigitalInput(ElevatorConstants.LEFT_LIMIT_ID);
         limitRight = new DigitalInput(ElevatorConstants.RIGHT_LIMIT_ID);
-        setPoint = 0;
+        this.setPoint = 0.0;
         elevatorController = new ProfiledPIDController(ElevatorConstants.kP, ElevatorConstants.kI, ElevatorConstants.kD, 
             new Constraints(ElevatorConstants.MAX_SPEED_M_S, ElevatorConstants.MAX_ACCEL_M_S_S)
         );
         elevatorController.setTolerance(ElevatorConstants.GOAL_TOLERANCE_METERS);
+        elevatorController.setGoal(this.setPoint);
+
+        OdometryMath2023.doPeriodicFrame(20, leftMotor, rightMotor);
     }
 
     public void resetEncoder() {
@@ -65,6 +65,7 @@ public class Elevator extends SubsystemBase {
     public void setHeight(double s) {
         double clamped = MathUtil.clamp(s, 0, ElevatorConstants.UPPER_LIMIT_METERS);
         this.setPoint = clamped;
+        elevatorController.setGoal(this.setPoint);
     }
 
     public void setBrake(boolean braked) {
@@ -75,11 +76,6 @@ public class Elevator extends SubsystemBase {
 
     public boolean getBraked() {
         return (leftMotor.getIdleMode().equals(IdleMode.kBrake) && rightMotor.getIdleMode().equals(IdleMode.kBrake));
-    }
-
-    public void setV(double value) {
-        leftMotor.setVoltage(value);
-        rightMotor.setVoltage(value);
     }
 
     public void set(double value) {
@@ -114,19 +110,12 @@ public class Elevator extends SubsystemBase {
 
     @Override
     public void periodic() {
-        if (!DriverStation.isEnabled()) {
-            elevatorController.reset(getHeight());
-            stop();
-        } else {
-            elevatorController.setGoal(this.setPoint);
-            double calc = elevatorController.calculate(getHeight());
-            set(calc);
-        }
+        double calc = elevatorController.calculate(getHeight());
+        set(calc);
 
         if (atLowerLimit()) {
             resetEncoder();
         }
-
 
         // DEBUG CODE: DO NOT DELETE
         // if(RobotContainer.getOperatorJoy3().getHID().getRawButton(5)){

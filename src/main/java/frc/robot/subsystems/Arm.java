@@ -7,14 +7,12 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
-import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.*;
-import frc.robot.util.Logger;
+import frc.robot.Constants.ArmConstants;
+import frc.robot.util.OdometryMath2023;
 
 public class Arm extends SubsystemBase {
     
@@ -46,7 +44,10 @@ public class Arm extends SubsystemBase {
         armController.setTolerance(ArmConstants.ARM_CONTROLLER_TOLERANCE_RAD);
         armController.reset(getAngle());
         setPoint = ArmConstants.UPPER_LIMIT_RAD; //arm locks up on robot startup
+        armController.setGoal(this.setPoint);
         sol = new Solenoid(28, PneumaticsModuleType.CTREPCM, ArmConstants.SOL_ID);
+
+        OdometryMath2023.doPeriodicFrame(20, topMotor, btmMotor);
     }
 
     public double getAngle() {
@@ -55,6 +56,7 @@ public class Arm extends SubsystemBase {
 
     public void setAngle(double s) {
         this.setPoint = MathUtil.clamp(s, ArmConstants.LOWER_LIMIT_RAD, ArmConstants.UPPER_LIMIT_RAD);
+        armController.setGoal(this.setPoint);
     }
 
     public void setBrake(boolean braked) {
@@ -95,6 +97,11 @@ public class Arm extends SubsystemBase {
 
     public void extend(boolean extended) {
         sol.set(extended);
+        if (getExtended()) {
+            armController.setConstraints(new Constraints(ArmConstants.MAX_SPEED_RAD_S, ArmConstants.MAX_ACCEL_RAD_S_S_EXTENDED));
+        } else {
+            armController.setConstraints(new Constraints(ArmConstants.MAX_SPEED_RAD_S, ArmConstants.MAX_ACCEL_RAD_S_S));
+        }
     }
 
     public void stop(){
@@ -116,24 +123,12 @@ public class Arm extends SubsystemBase {
                 set(0.025);
                 resetPIDs();
             } else {
-
-                    calc = armController.calculate(getAngle());
+                calc = armController.calculate(getAngle());
                 set(calc);    
             }
         }
         
-        if (DriverStation.isEnabled()) { 
-            armController.setGoal(this.setPoint);
-        } else {
-            armController.setGoal(getAngle());
-        }
         log();
-
-        if (getExtended()) {
-            armController.setConstraints(new Constraints(ArmConstants.MAX_SPEED_RAD_S, ArmConstants.MAX_ACCEL_RAD_S_S_EXTENDED));
-        } else {
-            armController.setConstraints(new Constraints(ArmConstants.MAX_SPEED_RAD_S, ArmConstants.MAX_ACCEL_RAD_S_S));
-        }
     }
 
     public void log() {

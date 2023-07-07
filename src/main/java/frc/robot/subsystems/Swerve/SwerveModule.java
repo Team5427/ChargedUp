@@ -14,6 +14,7 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.DriverStation;
 import frc.robot.Constants.*;
+import frc.robot.util.OdometryMath2023;
 
 public class SwerveModule {
 
@@ -50,8 +51,6 @@ public class SwerveModule {
     public CANCoder getAbsEnc() {return absEnc;}
     public double getDrivePos() {return speedEnc.getPosition();}
     public double getDriveSpeed() {return speedEnc.getVelocity();}
-    public double getTurnPosRad() {return turnEnc.getPosition();}
-    public double getTurnVel() {return turnEnc.getVelocity();}
     public double getAbsEncRaw() {return Math.toRadians(absEnc.getAbsolutePosition());}
     public double getAbsEncRad() {
         double x = getAbsEncRaw();
@@ -152,8 +151,8 @@ public class SwerveModule {
         turnMotor = new CANSparkMax(turnMotorID, MotorType.kBrushless);
         speedMotor.restoreFactoryDefaults();
         turnMotor.restoreFactoryDefaults();
-        speedMotor.setSmartCurrentLimit(40);
-        turnMotor.setSmartCurrentLimit(20);
+        speedMotor.setSmartCurrentLimit(60);
+        turnMotor.setSmartCurrentLimit(25);
         speedMotor.setInverted(speedInv);
         turnMotor.setInverted(turnInv);
         speedEnc = speedMotor.getEncoder();
@@ -170,5 +169,8 @@ public class SwerveModule {
         absEnc.configFactoryDefault();
         absEnc.configAbsoluteSensorRange(AbsoluteSensorRange.Signed_PlusMinus180);
         turnEnc.setPosition(getAbsEncRad());
+
+        OdometryMath2023.doPeriodicFrame(turnMotor);
+        OdometryMath2023.doPeriodicFrameLess(speedMotor);
     }
 }
