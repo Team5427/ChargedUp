@@ -326,7 +326,7 @@ public final class Constants {
         public static final double OUTTAKE_TIME = 0.75;
 
         public static final double ACCEL_PERCENT = 6;
-        public static final double RAMP_PUSHING_SETPOINT_RAD = -0.36;
+        public static final double RAMP_PUSHING_SETPOINT_RAD = -0.6;
     }
 
     public static final class MiscConstants {

@@ -13,6 +13,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Constants.*;
 import frc.robot.util.OdometryMath2023;
 
@@ -27,7 +28,6 @@ public class SwerveModule {
     private CANSparkMax speedMotor;
     private CANSparkMax turnMotor;
     private RelativeEncoder speedEnc;
-    private RelativeEncoder turnEnc;
     private CANCoder absEnc;
     private PIDController turningPID;
     private SimpleMotorFeedforward turningFF;
@@ -150,27 +150,36 @@ public class SwerveModule {
         speedMotor = new CANSparkMax(speedMotorID, MotorType.kBrushless);
         turnMotor = new CANSparkMax(turnMotorID, MotorType.kBrushless);
         speedMotor.restoreFactoryDefaults();
+        Timer.delay(0.02);
         turnMotor.restoreFactoryDefaults();
+        Timer.delay(0.02);
         speedMotor.setSmartCurrentLimit(60);
         turnMotor.setSmartCurrentLimit(25);
         speedMotor.setInverted(speedInv);
         turnMotor.setInverted(turnInv);
         speedEnc = speedMotor.getEncoder();
-        turnEnc = turnMotor.getEncoder();
         absEnc = new CANCoder(absEncID);
         setBrake(false, false);
         turningPID = new PIDController(SwerveConstants.TURNING_PID_P, 0, SwerveConstants.TURNING_PID_D);
         turningPID.enableContinuousInput(-Math.PI, Math.PI);
         speedEnc.setPositionConversionFactor(SwerveConstants.SWERVE_CONVERSION_FACTOR_ROT_TO_METER);
         speedEnc.setVelocityConversionFactor(SwerveConstants.SWERVE_CONVERSION_FACTOR_RPM_TO_METER_PER_S);
-        turnEnc.setPositionConversionFactor(SwerveConstants.SWERVE_CONVERSION_FACTOR_ROT_TO_RAD);
-        turnEnc.setVelocityConversionFactor(SwerveConstants.SWERVE_CONVERSION_FACTOR_RPM_TO_RAD_PER_S);
         speedEnc.setPosition(0);
         absEnc.configFactoryDefault();
         absEnc.configAbsoluteSensorRange(AbsoluteSensorRange.Signed_PlusMinus180);
-        turnEnc.setPosition(getAbsEncRad());
+
+        speedMotor.burnFlash();
+        Timer.delay(0.02);
+        turnMotor.burnFlash();
+        Timer.delay(0.02);
 
         OdometryMath2023.doPeriodicFrame(turnMotor);
         OdometryMath2023.doPeriodicFrameLess(speedMotor);
+
+    }
+
+    public void resetInversions() {
+        speedMotor.setInverted(speedInv);
+        turnMotor.setInverted(turnInv);
     }
 }

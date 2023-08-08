@@ -7,6 +7,7 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ClawConstants;
@@ -26,16 +27,28 @@ public class Claw extends SubsystemBase {
 
     public Claw() {
         left = new CANSparkMax(ClawConstants.LEFT_ID, MotorType.kBrushless);
-        left.setSmartCurrentLimit(ClawConstants.CURRENT_LIMIT_AMPS);
-        left.setIdleMode(IdleMode.kBrake);
         right = new CANSparkMax(ClawConstants.RIGHT_ID, MotorType.kBrushless);
+        left.restoreFactoryDefaults();
+        Timer.delay(0.02);
+        right.restoreFactoryDefaults();
+        Timer.delay(0.02);
+        left.setSmartCurrentLimit(ClawConstants.CURRENT_LIMIT_AMPS);
         right.setSmartCurrentLimit(ClawConstants.CURRENT_LIMIT_AMPS);
+        left.setIdleMode(IdleMode.kBrake);
         right.setIdleMode(IdleMode.kBrake);
-        OdometryMath2023.doPeriodicFrame(left, right);
+
         right.setInverted(true);
         left.setInverted(false);
         sensor = new AnalogInput(ClawConstants.PROX_ID);
         grabber = new Solenoid(28, PneumaticsModuleType.CTREPCM, ClawConstants.SOL_ID);
+
+        left.burnFlash();
+        Timer.delay(0.02);
+        right.burnFlash();
+        Timer.delay(0.02);
+
+        OdometryMath2023.doPeriodicFrame(left, right);
+        
     }
 
     public ClawConstants.GAME_PIECE_STATE getState(boolean isPurple) {

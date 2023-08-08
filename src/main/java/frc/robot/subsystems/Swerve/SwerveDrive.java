@@ -14,6 +14,8 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.RobotContainer;
+import frc.robot.Constants.JoystickConstants;
 import frc.robot.Constants.MiscConstants;
 import frc.robot.Constants.RoutineConstants;
 import frc.robot.Constants.SwerveConstants;
@@ -145,6 +147,7 @@ public class SwerveDrive extends SubsystemBase {
         SwerveModule[] modules = {frontLeft, frontRight, backLeft, backRight};
         for (int i = 0; i < 4; i++) {
             modules[i].getTurnSpark().getEncoder().setPosition(modules[i].getAbsEncRad());
+            modules[i].resetInversions();
         }
     }
 
@@ -152,6 +155,9 @@ public class SwerveDrive extends SubsystemBase {
     public void periodic() {
         odometer.update(getRotation2d(), getModulePositions());
         field.setRobotPose(getPose());
+        if (RobotContainer.getOperatorJoy2().getHID().getRawButton(JoystickConstants.RAMP_PUSH)) {
+            resetMods();
+        }
         log();
     }
 

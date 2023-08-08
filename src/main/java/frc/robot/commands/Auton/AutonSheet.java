@@ -86,22 +86,11 @@ public class AutonSheet {
                 new Wait(ClawConstants.CUBE_OUTTAKE_EXCESS_TIME_S + 0.2)
             ),
             new ParallelCommandGroup(
-                new SequentialCommandGroup(
-                    new ParallelCommandGroup(
-                        new MoveClawTo(RoutineConstants.CUBE_INTAKE_CLAW_STATE),
-                        new InstantCommand(()->{
-                            RobotContainer.getLed().setPurple(true);
-                        }),
-                        new ParallelRaceGroup(
-                            new SequentialCommandGroup(
-                                new WaitCommand(.5),
-                                new UseClaw()        
-                            ),
-                            new WaitCommand(4)
-                        )
-                    ),
-                    new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE)
-
+                new ParallelCommandGroup(
+                    new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE),
+                    new InstantCommand(()->{
+                        RobotContainer.getLed().setPurple(false);
+                    })
                 ),
                 topDoubleConeScore2
             )

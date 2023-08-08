@@ -10,6 +10,7 @@ import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ElevatorConstants;
 import frc.robot.util.OdometryMath2023;
@@ -29,7 +30,9 @@ public class Elevator extends SubsystemBase {
         leftMotor = new CANSparkMax(ElevatorConstants.LEFT_MOTOR_ID, MotorType.kBrushless);
         rightMotor = new CANSparkMax(ElevatorConstants.RIGHT_MOTOR_ID, MotorType.kBrushless);
         leftMotor.restoreFactoryDefaults();
+        Timer.delay(0.02);
         rightMotor.restoreFactoryDefaults();
+        Timer.delay(0.02);
         rightMotor.setInverted(true);
         leftMotor.setInverted(true);
         leftMotor.setSmartCurrentLimit(ElevatorConstants.CURRENT_LIMIT_AMPS);
@@ -46,6 +49,11 @@ public class Elevator extends SubsystemBase {
         );
         elevatorController.setTolerance(ElevatorConstants.GOAL_TOLERANCE_METERS);
         elevatorController.setGoal(this.setPoint);
+
+        rightMotor.burnFlash();
+        Timer.delay(0.02);
+        leftMotor.burnFlash();
+        Timer.delay(0.02);
 
         OdometryMath2023.doPeriodicFrame(20, leftMotor, rightMotor);
     }

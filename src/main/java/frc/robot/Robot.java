@@ -72,6 +72,7 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     RobotContainer.getLed().setState(Led.INTAKE);
     RobotContainer.getSwerve().stopMods();
+    RobotContainer.getSwerve().resetMods();
     RobotContainer.getSwerve().setBrake(true, true);
     RobotContainer.getSwerve().setHeadingRad(Math.PI);
     RobotContainer.getLed().setPurple(false);
@@ -109,6 +110,7 @@ public class Robot extends TimedRobot {
     }
 
     RobotContainer.getSwerve().setFieldRelative(true);
+    RobotContainer.getSwerve().resetMods();
     RobotContainer.getLed().setState(Led.INTAKE);
     RobotContainer.getClaw().grab(true);
     RobotContainer.getSwerve().setBrake(true, true);

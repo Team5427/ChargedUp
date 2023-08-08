@@ -10,6 +10,7 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmConstants;
 import frc.robot.util.OdometryMath2023;
@@ -28,7 +29,9 @@ public class Arm extends SubsystemBase {
         topMotor = new CANSparkMax(ArmConstants.TOP_ID, MotorType.kBrushless);
         btmMotor = new CANSparkMax(ArmConstants.BTM_ID, MotorType.kBrushless);
         topMotor.restoreFactoryDefaults();
+        Timer.delay(0.02);
         btmMotor.restoreFactoryDefaults();
+        Timer.delay(0.02);
         btmMotor.setInverted(false);
         topMotor.setInverted(true);
         topMotor.setSmartCurrentLimit(ArmConstants.CURRENT_LIMIT_AMPS);
@@ -46,6 +49,11 @@ public class Arm extends SubsystemBase {
         setPoint = ArmConstants.UPPER_LIMIT_RAD; //arm locks up on robot startup
         armController.setGoal(this.setPoint);
         sol = new Solenoid(28, PneumaticsModuleType.CTREPCM, ArmConstants.SOL_ID);
+
+        topMotor.burnFlash();
+        Timer.delay(0.02);
+        btmMotor.burnFlash();
+        Timer.delay(0.02);
 
         OdometryMath2023.doPeriodicFrame(20, topMotor, btmMotor);
     }

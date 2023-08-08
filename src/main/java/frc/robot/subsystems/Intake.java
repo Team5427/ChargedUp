@@ -156,11 +156,7 @@ public class Intake extends SubsystemBase{
             if (Math.abs(error) > IntakeConstants.TOLERANCE_RAD) {
                 setTilt(IntakeConstants.TILT_COEF * Math.signum(error));
             } else {
-                if (RobotContainer.getOperatorJoy2().getHID().getRawButton(JoystickConstants.RAMP_PUSH)) {
-                    setTilt(-0.1);
-                } else {
-                    stopTilt();
-                }
+                stopTilt();
             }
         } else {
             stopTilt();
