@@ -156,7 +156,7 @@ public class SwerveDrive extends SubsystemBase {
         odometer.update(getRotation2d(), getModulePositions());
         field.setRobotPose(getPose());
         if (RobotContainer.getOperatorJoy2().getHID().getRawButton(JoystickConstants.RAMP_PUSH)) {
-            resetMods();
+            // resetMods();
         }
         log();
     }

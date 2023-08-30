@@ -227,11 +227,11 @@ public final class Constants {
         }
 
         public static final ClawState DEFAULT_CLAW_STATE = new ClawState(0, ArmConstants.UPPER_LIMIT_RAD);
-        public static final ClawState TOP_CONE_CLAW_STATE = new ClawState(ElevatorConstants.UPPER_LIMIT_METERS - .04, Units.degreesToRadians(10.5), true);
+        public static final ClawState TOP_CONE_CLAW_STATE = new ClawState(ElevatorConstants.UPPER_LIMIT_METERS - .11, Units.degreesToRadians(9.5), true);
         public static final ClawState MID_CONE_CLAW_STATE = new ClawState(.8540754 - 0.1, 0);
         public static final ClawState TOP_CUBE_CLAW_STATE = new ClawState(0.654, Math.toRadians(15));
         public static final ClawState MID_CUBE_CLAW_STATE = new ClawState(.6540754, 0);
-        public static final ClawState SUBSTATION_CLAW_STATE = new ClawState(.7840754, 0);
+        public static final ClawState SUBSTATION_CLAW_STATE = new ClawState(.7840754 + 0.015, 0);
         public static final ClawState CUBE_INTAKE_CLAW_STATE = new ClawState(0.621, -0.925, false, true);
         public static final ClawState CONE_INTAKE_CLAW_STATE = new ClawState(0.521, -0.925, false, true);
         public static final ClawState SINGLE_SS_CLAW_STATE = new ClawState(0, Math.toRadians(39.4));
@@ -299,7 +299,7 @@ public final class Constants {
         public static final double OUTTAKE_SPEED_DECIMAL_SHOOTING = -1.0;
         public static final double CUBE_OUTTAKE_EXCESS_TIME_S = 0.4;
 
-        public static final double PROX_VALUE = .8;
+        public static final double PROX_VALUE = .9;
     }
 
     public static final class IntakeConstants{

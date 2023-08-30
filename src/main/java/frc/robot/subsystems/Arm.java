@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ArmConstants;
+import frc.robot.util.Logger;
 import frc.robot.util.OdometryMath2023;
 
 public class Arm extends SubsystemBase {
@@ -141,9 +142,9 @@ public class Arm extends SubsystemBase {
 
     public void log() {
         // Logger.post("calculation", this.calc);
-        // Logger.post("arm angle", getAngle());
+        Logger.post("arm angle", getAngle());
         // Logger.post(" goal", atJankGoal());
-        // Logger.post("arm encoder plugged in", throughbore.isConnected());
+        Logger.post("arm encoder plugged in", throughbore.isConnected());
         // Logger.post("arm encoder frequency", throughbore.getFrequency());
         // Logger.post("bruh", true);
     }

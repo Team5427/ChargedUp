@@ -103,10 +103,16 @@ public class Claw extends SubsystemBase {
         if (!UseClaw.isRunning) {
             if (RobotContainer.getController().getRightTriggerAxis() >= 0.15) {
                 set(-RobotContainer.getController().getRightTriggerAxis());
-            } else if (RobotContainer.getController().getLeftTriggerAxis() >= 0.15) {
+            } else if (RobotContainer.getController().getLeftTriggerAxis()  >= 0.15) {
                 set(RobotContainer.getController().getLeftTriggerAxis());
             } else {
-                set(0.015);
+                if (!proxCovered()) {
+                    set(0.075);
+                } else if (RobotContainer.getLed().isPurple()) {
+                    set(0.125);
+                } else {
+                    set(0.05);
+                }
             }
         }
 
