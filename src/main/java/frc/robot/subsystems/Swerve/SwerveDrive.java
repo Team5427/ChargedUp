@@ -201,5 +201,7 @@ public class SwerveDrive extends SubsystemBase {
         // Logger.post("backLeft error", backLeft.getTurnPID().getPositionError());
 
         // Logger.post("charge station angle", getRobotTiltGlobalYAxisDeg());
+
+        Logger.post("gyro", getRotation2d().getDegrees());
     }
 }

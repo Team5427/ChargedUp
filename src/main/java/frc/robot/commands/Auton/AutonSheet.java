@@ -154,7 +154,7 @@ public class AutonSheet {
         );
 
         turninplace = new SequentialCommandGroup(
-            new TurnInPlace(new Rotation2d())
+            new TurnInPlace(new Rotation2d(Math.PI))
         );
     }
 }
