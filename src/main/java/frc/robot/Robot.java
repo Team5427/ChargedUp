@@ -4,12 +4,15 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.pathUtil.SwervePathMaker;
 import frc.robot.subsystems.Led;
+import frc.robot.util.OdometryMath2023;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -33,6 +36,7 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     matchTimer = new Timer();
     m_robotContainer = new RobotContainer();
+    RobotContainer.getSwerve().setHeadingRad(Math.PI);
     specialAuton = false;
 
   }
@@ -74,11 +78,18 @@ public class Robot extends TimedRobot {
     RobotContainer.getSwerve().stopMods();
     RobotContainer.getSwerve().resetMods();
     RobotContainer.getSwerve().setBrake(true, true);
-    RobotContainer.getSwerve().setHeadingRad(Math.PI);
+    
     RobotContainer.getLed().setPurple(false);
     RobotContainer.getClaw().grab(true);
     RobotContainer.getElevator().resetPIDs();
     RobotContainer.getArm().resetPIDs();
+
+    Pose2d bluePose = new Pose2d(0, 0, new Rotation2d(Math.PI));
+    if (OdometryMath2023.isBlue()) {
+      RobotContainer.getSwerve().resetOdometry(bluePose);
+    } else {
+      RobotContainer.getSwerve().resetOdometry(OdometryMath2023.flip(bluePose));
+    }
 
     matchTimer.reset();
     matchTimer.start();

@@ -15,6 +15,7 @@ public class BalanceLinear extends CommandBase {
     private Timer timer;
     private final double MULTIPLIER = -0.0287;
     private final double TIMER_TOLERANCE_DEG = 7;
+    private final double BALANCED_TIME = 2.0;
 
     public BalanceLinear() {
         dt = RobotContainer.getSwerve();
@@ -42,8 +43,8 @@ public class BalanceLinear extends CommandBase {
         }
 
         xCalc = MULTIPLIER * pitch;
-        timer.stop();
-        timer.reset();
+        // timer.stop();
+        // timer.reset();
 
         dt.setModules(SwerveConstants.SWERVE_DRIVE_KINEMATICS.toSwerveModuleStates(new ChassisSpeeds(
             xCalc,
@@ -54,6 +55,6 @@ public class BalanceLinear extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return (RobotContainer.getOperatorJoy1().getHID().getRawButton(JoystickConstants.CANCEL_ALL_COMMANDS_O)) || (timer.get() > RoutineConstants.BALANCED_TIME);
+        return (RobotContainer.getOperatorJoy1().getHID().getRawButton(JoystickConstants.CANCEL_ALL_COMMANDS_O)) || (timer.get() > BALANCED_TIME);
     }
 }

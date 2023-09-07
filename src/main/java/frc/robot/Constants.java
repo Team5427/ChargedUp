@@ -194,7 +194,7 @@ public final class Constants {
 
         public static final double TRANSLATION_P = 3;
         // public static final double ROTATION_P = 4.25;
-        public static final double ROTATION_P = 4.25;
+        public static final double ROTATION_P = 12.15;
 
         public static final double BALANCE_ACTIVATION_PITCH_DEG = 8.5;
 

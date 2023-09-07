@@ -24,10 +24,10 @@ public class TurnInPlace extends CommandBase {
     public TurnInPlace(Rotation2d setPoint) {
         this.dt = RobotContainer.getSwerve();
         this.setPoint = setPoint;
-        // controller = new ProfiledPIDController(RoutineConstants.ROTATION_P, 0, 0, 
-        //     new Constraints(RoutineConstants.ROUTINE_MAX_ROTATION_SPEED_RAD_S, RoutineConstants.ROUTINE_MAX_ROTATION_ACCEL_RAD_S_S));
         controller = new ProfiledPIDController(RoutineConstants.ROTATION_P, 0, 0, 
-            new Constraints(Math.PI, Math.PI * 1.5));
+            new Constraints(RoutineConstants.ROUTINE_MAX_ROTATION_SPEED_RAD_S, RoutineConstants.ROUTINE_MAX_ROTATION_ACCEL_RAD_S_S));
+        // controller = new ProfiledPIDController(RoutineConstants.ROTATION_P, 0, 0, 
+        //     new Constraints(Math.PI, Math.PI * 1.5));
         controller.enableContinuousInput(-Math.PI, Math.PI);
         controller.setTolerance(Math.toRadians(3));
         addRequirements(dt);
@@ -44,8 +44,10 @@ public class TurnInPlace extends CommandBase {
         }
         SmartDashboard.putNumber("Setpoint", setPoint.getDegrees());
         controller.reset(dt.getPose().getRotation().getRadians());
+        
         // controller.reset(0.0);
         controller.setGoal(setPoint.getRadians());
+        Timer.delay(0.1);
         
     }
 
