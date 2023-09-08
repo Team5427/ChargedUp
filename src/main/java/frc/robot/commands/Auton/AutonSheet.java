@@ -135,18 +135,18 @@ public class AutonSheet {
                 new MoveClawTo(RoutineConstants.DEFAULT_CLAW_STATE),
                 new SequentialCommandGroup(
                     new Wait(0.1),
-                    new TimedChassisMove(new Translation2d(-1.0, 0), 0.32),
+                    new TimedChassisMove(new Translation2d(-1.0, 0), 0.35),
                     new Wait(0.15),
                     new TurnInPlace(new Rotation2d(0)),
                     new ParallelCommandGroup(
                         new PushRamp(true, 1.75),
                         new TimedChassisMove(new Translation2d(2, 0), 2)
                     ),
-                    new TimedChassisMove(new Translation2d(1.0, 0), 1.5),
+                    new TimedChassisMove(new Translation2d(1.0, 0), 1.54),
                     new TurnInPlace(new Rotation2d(Math.PI)),
-                    new Wait(0.15),
+                    new Wait(0.1),
                     new ParallelCommandGroup(
-                        new TimedChassisMove(new Translation2d(2.1, 0), 1.63),
+                        new TimedChassisMove(new Translation2d(2.3, 0), 1.6),
                         new PushRamp(true, 3)
                     )
                 )

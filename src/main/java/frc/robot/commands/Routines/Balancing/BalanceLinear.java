@@ -13,8 +13,8 @@ public class BalanceLinear extends CommandBase {
 
     private SwerveDrive dt;
     private Timer timer;
-    private final double MULTIPLIER = -0.0287;
-    private final double TIMER_TOLERANCE_DEG = 7;
+    private final double MULTIPLIER = -0.03;
+    private final double TIMER_TOLERANCE_DEG = 8;
     private final double BALANCED_TIME = 2.0;
 
     public BalanceLinear() {
