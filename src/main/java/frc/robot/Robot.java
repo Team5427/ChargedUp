@@ -84,13 +84,6 @@ public class Robot extends TimedRobot {
     RobotContainer.getElevator().resetPIDs();
     RobotContainer.getArm().resetPIDs();
 
-    Pose2d bluePose = new Pose2d(0, 0, new Rotation2d(Math.PI));
-    if (OdometryMath2023.isBlue()) {
-      RobotContainer.getSwerve().resetOdometry(bluePose);
-    } else {
-      RobotContainer.getSwerve().resetOdometry(OdometryMath2023.flip(bluePose));
-    }
-
     matchTimer.reset();
     matchTimer.start();
 

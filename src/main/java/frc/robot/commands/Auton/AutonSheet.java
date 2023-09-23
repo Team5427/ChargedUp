@@ -2,6 +2,7 @@
 package frc.robot.commands.Auton;
 
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Timer;
@@ -129,6 +130,14 @@ public class AutonSheet {
         );
 
         scoreBalanceAuto = new SequentialCommandGroup(
+            new InstantCommand(() -> {
+                Pose2d bluePose = new Pose2d(0, 0, new Rotation2d(Math.PI));
+                if (OdometryMath2023.isBlue()) {
+                  RobotContainer.getSwerve().resetOdometry(bluePose);
+                } else {
+                  RobotContainer.getSwerve().resetOdometry(OdometryMath2023.flip(bluePose));
+                }
+            }),
             new MoveClawTo(RoutineConstants.TOP_CONE_CLAW_STATE),
             new UseClaw(),
             new ParallelCommandGroup(
