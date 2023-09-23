@@ -150,9 +150,9 @@ public class SwerveModule {
         speedMotor = new CANSparkMax(speedMotorID, MotorType.kBrushless);
         turnMotor = new CANSparkMax(turnMotorID, MotorType.kBrushless);
         speedMotor.restoreFactoryDefaults();
-        Timer.delay(0.02);
+        Timer.delay(0.2);
         turnMotor.restoreFactoryDefaults();
-        Timer.delay(0.02);
+        Timer.delay(0.2);
         speedMotor.setSmartCurrentLimit(60);
         turnMotor.setSmartCurrentLimit(25);
         speedMotor.setInverted(speedInv);
@@ -169,9 +169,9 @@ public class SwerveModule {
         absEnc.configAbsoluteSensorRange(AbsoluteSensorRange.Signed_PlusMinus180);
 
         speedMotor.burnFlash();
-        Timer.delay(0.02);
+        Timer.delay(0.2);
         turnMotor.burnFlash();
-        Timer.delay(0.02);
+        Timer.delay(0.2);
 
         OdometryMath2023.doPeriodicFrame(turnMotor);
         OdometryMath2023.doPeriodicFrameLess(speedMotor);

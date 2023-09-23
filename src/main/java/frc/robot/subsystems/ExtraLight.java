@@ -1,7 +1,10 @@
 package frc.robot.subsystems;
 
+import java.sql.Driver;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.util.OdometryMath2023;
 
@@ -20,7 +23,7 @@ public class ExtraLight extends SubsystemBase {
     @Override
     public void periodic() {
         tv = table_m.getEntry("tv").getDouble(0) == 1;
-        if (OdometryMath2023.inCommunity()) {
+        if (OdometryMath2023.inCommunity() && !DriverStation.isDisabled()) {
             setLight(true);
         } else {
             setLight(false);

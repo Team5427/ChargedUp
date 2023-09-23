@@ -7,6 +7,7 @@ import com.ctre.phoenix.sensors.WPI_Pigeon2;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Twist2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
@@ -87,6 +88,25 @@ public class SwerveDrive extends SubsystemBase {
                 Math.signum(x_g) : 
                 Math.signum(y_g);
         return -Math.toDegrees(Math.hypot(x_g, y_g) * sign);
+    }
+
+    public ChassisSpeeds discretize(double vxMetersPerSecond, double vyMetersPerSecond, double omegaRadiansPerSeconds, double dtSeconds) {
+        Pose2d desiredDeltaPose = new Pose2d(
+            vxMetersPerSecond * dtSeconds, 
+            vyMetersPerSecond * dtSeconds, 
+            new Rotation2d(omegaRadiansPerSeconds * dtSeconds)
+        );
+        Twist2d twist = new Pose2d().log(desiredDeltaPose);
+        return new ChassisSpeeds(twist.dx / dtSeconds, twist.dy / dtSeconds, twist.dtheta / dtSeconds);
+    }
+
+    public ChassisSpeeds discretize(ChassisSpeeds continuousSpeeds, double dtSeconds) {
+        return discretize(
+            continuousSpeeds.vxMetersPerSecond, 
+            continuousSpeeds.vyMetersPerSecond,
+            continuousSpeeds.omegaRadiansPerSecond,
+            dtSeconds
+        );
     }
 
     public Rotation2d getRotation2d() {

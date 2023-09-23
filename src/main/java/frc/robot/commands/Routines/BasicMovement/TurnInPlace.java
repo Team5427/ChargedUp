@@ -24,7 +24,7 @@ public class TurnInPlace extends CommandBase {
     public TurnInPlace(Rotation2d setPoint) {
         this.dt = RobotContainer.getSwerve();
         this.setPoint = setPoint;
-        controller = new ProfiledPIDController(RoutineConstants.ROTATION_P, 0, 0, 
+        controller = new ProfiledPIDController(12.15, 0, 0, 
             new Constraints(RoutineConstants.ROUTINE_MAX_ROTATION_SPEED_RAD_S, RoutineConstants.ROUTINE_MAX_ROTATION_ACCEL_RAD_S_S));
         // controller = new ProfiledPIDController(RoutineConstants.ROTATION_P, 0, 0, 
         //     new Constraints(Math.PI, Math.PI * 1.5));
