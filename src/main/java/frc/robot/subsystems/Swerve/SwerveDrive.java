@@ -145,7 +145,7 @@ public class SwerveDrive extends SubsystemBase {
     }
 
     public void updateVision(Pose2d pose) {
-        odometer.resetPosition(getRotation2d(), getModulePositions(), new Pose2d(pose.getX(), pose.getY(), getRotation2d()));
+        odometer.resetPosition(getRotation2d(), getModulePositions(), new Pose2d(pose.getX(), pose.getY(), getPose().getRotation()));
     }
 
     public void setHeadingRad(double rad) {
